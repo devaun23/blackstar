@@ -66,6 +66,22 @@ export const sourceRegistry: SourceRegistrySeed[] = [
     url: 'https://www.nbme.org/item-writing-guide',
     notes: 'Defines NBME question construction standards: single best answer, vignette format, cold chart style.',
   },
+  {
+    category: 'outline',
+    name: 'NBME Medicine Shelf Content Outline — Subsystem Topics',
+    allowed_use: 'scope',
+    priority_rank: 5,
+    url: 'https://www.nbme.org/assessment-products/clinical-science-shelf-exams',
+    notes: 'Detailed topic-level breakdown for Medicine shelf. Maps to 15 IM subsystems used in MedicineNodeSpec.',
+  },
+  {
+    category: 'outline',
+    name: 'USMLE Step 2 CK Physician Task Profiles',
+    allowed_use: 'scope',
+    priority_rank: 6,
+    url: 'https://www.usmle.org/prepare-your-exam',
+    notes: 'Defines physician task distribution across Step 2 CK. Informs task_type weighting in blueprint generation.',
+  },
 
   // --- Truth sources (define correct answers) ---
   {
