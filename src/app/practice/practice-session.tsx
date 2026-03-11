@@ -23,6 +23,9 @@ export interface Question {
   why_wrong_e: string | null;
   high_yield_pearl: string | null;
   reasoning_pathway: string | null;
+  decision_hinge: string | null;
+  competing_differential: string | null;
+  visual_specs: unknown[] | null;
   blueprint_node: { shelf: string; topic: string } | null;
 }
 

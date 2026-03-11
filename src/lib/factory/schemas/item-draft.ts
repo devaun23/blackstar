@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { visualSpecSchema } from './visual-specs';
 
 export const correctAnswerEnum = z.enum(['A', 'B', 'C', 'D', 'E']);
 
@@ -21,6 +22,7 @@ export const itemDraftSchema = z.object({
   reasoning_pathway: z.string().nullable().optional(),
   decision_hinge: z.string().nullable().optional(),
   competing_differential: z.string().nullable().optional(),
+  visual_specs: z.array(visualSpecSchema).nullable().optional(),
 });
 
 // Explanation Writer output (updates existing draft)
@@ -33,6 +35,7 @@ export const explanationOutputSchema = z.object({
   why_wrong_e: z.string().nullable().optional(),
   high_yield_pearl: z.string().min(10),
   reasoning_pathway: z.string().min(10),
+  visual_specs: z.array(visualSpecSchema).nullable().optional(),
 });
 
 export type ItemDraftInput = z.infer<typeof itemDraftSchema>;

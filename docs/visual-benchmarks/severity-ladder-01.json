@@ -1,0 +1,33 @@
+{
+  "type": "severity_ladder",
+  "title": "Acute Pancreatitis Severity",
+  "classification": "Revised Atlanta Classification (2012)",
+  "rungs": [
+    {
+      "level": "Severe",
+      "severity": "critical",
+      "criteria": ["Persistent organ failure (>48h)", "Single or multi-organ"],
+      "management": "ICU admission, aggressive resuscitation",
+      "isPatientHere": false
+    },
+    {
+      "level": "Moderately Severe",
+      "severity": "high",
+      "criteria": ["Transient organ failure (<48h)", "Local/systemic complications"],
+      "management": "Monitored bed, supportive care",
+      "isPatientHere": true
+    },
+    {
+      "level": "Mild",
+      "severity": "low",
+      "criteria": ["No organ failure", "No local complications"],
+      "management": "Floor admission, early feeding"
+    }
+  ],
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Show Revised Atlanta severity classification to explain management choice",
+    "tested_hinge": "Organ failure duration (>48h) distinguishes severe from moderate",
+    "source_refs": ["ACG-AP-R3", "ACG-AP-S2"]
+  }
+}

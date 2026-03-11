@@ -1,6 +1,7 @@
 'use client';
 
 import type { Question } from './practice-session';
+import Badge from '@/app/components/ui/badge';
 
 const CHOICE_KEYS = ['A', 'B', 'C', 'D', 'E'] as const;
 
@@ -21,12 +22,12 @@ export default function QuestionCard({ question, selected, onSelect, showAnswer 
   };
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-6">
+    <div className="rounded-[var(--radius-card)] border border-zinc-800 bg-[var(--color-surface-base)] p-6">
       {/* Vignette */}
-      <p className="text-sm leading-relaxed text-zinc-300">{question.vignette}</p>
+      <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{question.vignette}</p>
 
       {/* Stem */}
-      <p className="mt-4 text-base font-semibold text-white">{question.stem}</p>
+      <p className="mt-4 text-base font-semibold text-[var(--color-text-primary)]">{question.stem}</p>
 
       {/* Choices */}
       <div className="mt-5 space-y-2">
@@ -35,19 +36,23 @@ export default function QuestionCard({ question, selected, onSelect, showAnswer 
           const isCorrect = key === question.correct_answer;
 
           let borderClass = 'border-zinc-800';
-          let bgClass = 'bg-zinc-950';
+          let bgClass = 'bg-[var(--color-surface-base)]';
+          let badgeVariant: 'default' | 'correct' | 'incorrect' | 'accent' = 'default';
 
           if (showAnswer) {
             if (isCorrect) {
-              borderClass = 'border-emerald-500/40';
-              bgClass = 'bg-emerald-500/10';
+              borderClass = 'border-[var(--color-correct-border)]';
+              bgClass = 'bg-[var(--color-correct-bg)]';
+              badgeVariant = 'correct';
             } else if (isSelected && !isCorrect) {
-              borderClass = 'border-red-500/40';
-              bgClass = 'bg-red-500/10';
+              borderClass = 'border-[var(--color-incorrect-border)]';
+              bgClass = 'bg-[var(--color-incorrect-bg)]';
+              badgeVariant = 'incorrect';
             }
           } else if (isSelected) {
-            borderClass = 'border-indigo-500';
-            bgClass = 'bg-indigo-500/10';
+            borderClass = 'border-[var(--color-accent-base)]';
+            bgClass = 'bg-[var(--color-accent-bg)]';
+            badgeVariant = 'accent';
           }
 
           return (
@@ -57,10 +62,10 @@ export default function QuestionCard({ question, selected, onSelect, showAnswer 
               disabled={!onSelect}
               className={`flex w-full items-start gap-3 rounded-lg border px-4 py-3 text-left transition-colors ${borderClass} ${bgClass} ${onSelect ? 'hover:border-zinc-600 cursor-pointer' : 'cursor-default'}`}
             >
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-zinc-600 text-xs font-medium text-zinc-400">
-                {key}
+              <span className="mt-0.5">
+                <Badge label={key} variant={badgeVariant} />
               </span>
-              <span className="text-sm text-zinc-200">{choices[key]}</span>
+              <span className="text-sm text-[var(--color-text-secondary)]">{choices[key]}</span>
             </button>
           );
         })}

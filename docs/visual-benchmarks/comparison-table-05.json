@@ -1,0 +1,18 @@
+{
+  "type": "comparison_table",
+  "title": "DKA vs HHS",
+  "columns": ["Feature", "DKA", "HHS"],
+  "rows": [
+    { "label": "Glucose", "values": ["Glucose", ">250 mg/dL", ">600 mg/dL"], "isDiscriminating": false },
+    { "label": "pH", "values": ["pH", "<7.3", ">7.3"], "isDiscriminating": true },
+    { "label": "Bicarb", "values": ["HCO3", "<18 mEq/L", ">18 mEq/L"], "isDiscriminating": true },
+    { "label": "Ketones", "values": ["Ketones", "Present", "Minimal"], "isDiscriminating": true },
+    { "label": "Osmolality", "values": ["Serum Osm", "Variable", ">320 mOsm/kg"], "isDiscriminating": true },
+    { "label": "Mental Status", "values": ["Mental Status", "Variable", "Altered"], "isDiscriminating": false }
+  ],
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Distinguish DKA from HHS by lab profile to guide initial management",
+    "source_refs": ["ADA-DKA-2009-R1"]
+  }
+}

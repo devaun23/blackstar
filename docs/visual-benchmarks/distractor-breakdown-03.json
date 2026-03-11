@@ -1,0 +1,32 @@
+{
+  "type": "distractor_breakdown",
+  "title": "Why Each Wrong Answer Is Tempting",
+  "distractors": [
+    {
+      "letter": "A",
+      "option": "Emergent colonoscopy",
+      "whyTempting": "Colonoscopy is definitive for lower GI bleed and students want to find the source",
+      "whyWrong": "Emergent colonoscopy requires bowel prep and is not indicated in hemodynamically unstable patients",
+      "cognitiveError": "wrong_priority_sequence"
+    },
+    {
+      "letter": "C",
+      "option": "Tagged RBC scan",
+      "whyTempting": "Nuclear medicine scan can localize occult bleeding and is a recognized diagnostic tool",
+      "whyWrong": "Tagged RBC scan is for slow, ongoing bleeding — not the initial step in acute management",
+      "cognitiveError": "over_testing"
+    },
+    {
+      "letter": "E",
+      "option": "Oral PPI therapy",
+      "whyTempting": "PPIs are first-line for upper GI bleeds and students may apply reflexively",
+      "whyWrong": "IV PPI is indicated for upper GI bleed, and this patient has a lower GI bleed presentation",
+      "cognitiveError": "wrong_algorithm_branch"
+    }
+  ],
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Identify why students choose incorrect GI bleed interventions and the errors driving those choices",
+    "source_refs": ["ACG-GIB-R2", "ACG-GIB-R7"]
+  }
+}

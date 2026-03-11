@@ -116,6 +116,7 @@ export interface ItemDraftRow {
   reasoning_pathway: string | null;
   decision_hinge: string | null;
   competing_differential: string | null;
+  visual_specs: unknown[] | null;
   repair_count: number;
   created_at: string;
   updated_at: string;

@@ -1,0 +1,16 @@
+{
+  "type": "comparison_table",
+  "title": "Upper vs Lower GI Bleed",
+  "columns": ["Feature", "Upper GI Bleed", "Lower GI Bleed"],
+  "rows": [
+    { "label": "Presentation", "values": ["Presentation", "Hematemesis / melena", "Hematochezia"], "isDiscriminating": false },
+    { "label": "BUN:Cr Ratio", "values": ["BUN:Cr", ">20:1", "Normal"], "isDiscriminating": true },
+    { "label": "NG Aspirate", "values": ["NG Aspirate", "Coffee-ground / bloody", "Clear"], "isDiscriminating": true },
+    { "label": "Common Causes", "values": ["Causes", "PUD, varices, Mallory-Weiss", "Diverticulosis, AVM, cancer"], "isDiscriminating": false }
+  ],
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Localize GI bleed source using clinical and lab features",
+    "source_refs": ["ACG-GIB-R2", "ACG-GIB-R5"]
+  }
+}

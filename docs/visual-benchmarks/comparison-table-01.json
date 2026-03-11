@@ -1,0 +1,18 @@
+{
+  "type": "comparison_table",
+  "title": "SBP vs Secondary Peritonitis",
+  "columns": ["Parameter", "SBP", "Secondary Peritonitis"],
+  "rows": [
+    { "label": "PMN Count", "values": ["Parameter", ">250/mm³", ">250/mm³"], "isDiscriminating": false },
+    { "label": "Protein", "values": ["Protein", "<1 g/dL", ">1 g/dL"], "isDiscriminating": true },
+    { "label": "Glucose", "values": ["Glucose", ">50 mg/dL", "<50 mg/dL"], "isDiscriminating": true },
+    { "label": "LDH", "values": ["LDH", "<ULN serum", ">ULN serum"], "isDiscriminating": true },
+    { "label": "Organisms", "values": ["Organisms", "Single", "Polymicrobial"], "isDiscriminating": true }
+  ],
+  "highlightColumn": 1,
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Distinguish SBP from secondary peritonitis using Runyon criteria",
+    "source_refs": ["AASLD-CSBP-R1", "AASLD-CSBP-R4"]
+  }
+}

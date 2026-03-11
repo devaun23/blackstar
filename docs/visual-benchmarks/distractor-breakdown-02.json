@@ -1,0 +1,32 @@
+{
+  "type": "distractor_breakdown",
+  "title": "Why Each Wrong Answer Is Tempting",
+  "distractors": [
+    {
+      "letter": "A",
+      "option": "Broad-spectrum antibiotics",
+      "whyTempting": "SBP is an infection, and students default to broad empiric coverage",
+      "whyWrong": "SBP is treated with cefotaxime (3rd-gen ceph), not broad-spectrum like meropenem",
+      "cognitiveError": "reflex_response_to_finding"
+    },
+    {
+      "letter": "B",
+      "option": "Diagnostic paracentesis",
+      "whyTempting": "Paracentesis is essential for SBP diagnosis and students may want to repeat",
+      "whyWrong": "Diagnosis is already established — PMN >250. Treatment should not be delayed for repeat tap",
+      "cognitiveError": "skipping_required_diagnostic_step"
+    },
+    {
+      "letter": "D",
+      "option": "Surgical consultation",
+      "whyTempting": "Peritonitis typically requires surgical evaluation",
+      "whyWrong": "SBP is medical, not surgical — surgery is for secondary peritonitis with perforation",
+      "cognitiveError": "wrong_algorithm_branch"
+    }
+  ],
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Show why common SBP management errors occur and the cognitive traps behind them",
+    "source_refs": ["AASLD-CSBP-R1", "AASLD-CSBP-R3"]
+  }
+}

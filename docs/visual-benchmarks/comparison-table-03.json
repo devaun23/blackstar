@@ -1,0 +1,16 @@
+{
+  "type": "comparison_table",
+  "title": "Transudate vs Exudate (Light's Criteria)",
+  "columns": ["Parameter", "Transudate", "Exudate"],
+  "rows": [
+    { "label": "Protein ratio", "values": ["Pleural/Serum Protein", "<0.5", ">0.5"], "isDiscriminating": true },
+    { "label": "LDH ratio", "values": ["Pleural/Serum LDH", "<0.6", ">0.6"], "isDiscriminating": true },
+    { "label": "Pleural LDH", "values": ["Pleural LDH", "<2/3 ULN serum", ">2/3 ULN serum"], "isDiscriminating": true },
+    { "label": "Common Causes", "values": ["Causes", "CHF, cirrhosis, nephrotic", "Infection, malignancy, PE"], "isDiscriminating": false }
+  ],
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Apply Light's criteria to distinguish transudative from exudative effusions",
+    "source_refs": ["LIGHT-CRITERIA-1972"]
+  }
+}

@@ -19,6 +19,7 @@ import type {
 import * as agents from './agents';
 import { checkSourceSufficiency } from './source-packs/sufficiency';
 import { topicSourceMap } from './source-packs/topic-source-map';
+import { validateVisualSpecs } from './validators/visual-spec-validator';
 
 const MAX_REPAIR_CYCLES = 3;
 
@@ -330,8 +331,34 @@ export async function runPipeline(config: PipelineConfig): Promise<PipelineResul
             draft: passedDraft as ItemDraftRow,
             card: card as AlgorithmCardRow,
             facts: facts as FactRowRow[],
+            node,
           })
         );
+
+        // Visual spec validation soft gate
+        const { data: draftWithVisuals } = await supabase
+          .from('item_draft')
+          .select('visual_specs, why_correct')
+          .eq('id', draftId)
+          .single();
+
+        if (draftWithVisuals?.visual_specs?.length) {
+          const visualErrors = validateVisualSpecs(
+            draftWithVisuals.visual_specs as unknown[],
+            { why_correct: draftWithVisuals.why_correct }
+          );
+          if (visualErrors.length > 0) {
+            // Strip invalid specs, keep valid ones — never kill the item
+            const invalidIndices = new Set(visualErrors.map(e => e.specIndex));
+            const validSpecs = (draftWithVisuals.visual_specs as unknown[]).filter(
+              (_, i) => !invalidIndices.has(i)
+            );
+            await supabase
+              .from('item_draft')
+              .update({ visual_specs: validSpecs.length > 0 ? validSpecs : null })
+              .eq('id', draftId);
+          }
+        }
 
         // Set final status to published
         await supabase

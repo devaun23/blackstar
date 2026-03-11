@@ -1,0 +1,31 @@
+{
+  "type": "severity_ladder",
+  "title": "Child-Pugh Score",
+  "classification": "Child-Pugh Classification of Cirrhosis Severity",
+  "rungs": [
+    {
+      "level": "Class C (10-15 pts)",
+      "severity": "critical",
+      "criteria": ["Bilirubin >3", "Albumin <2.8", "INR >2.3"],
+      "management": "Transplant evaluation"
+    },
+    {
+      "level": "Class B (7-9 pts)",
+      "severity": "high",
+      "criteria": ["Bilirubin 2-3", "Albumin 2.8-3.5", "INR 1.7-2.3"],
+      "management": "Complication prevention, TIPS if needed",
+      "isPatientHere": true
+    },
+    {
+      "level": "Class A (5-6 pts)",
+      "severity": "low",
+      "criteria": ["Bilirubin <2", "Albumin >3.5", "INR <1.7"],
+      "management": "Surveillance, lifestyle modification"
+    }
+  ],
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Classify cirrhosis severity to guide transplant referral timing",
+    "source_refs": ["AASLD-CSBP-R2"]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "type": "distractor_breakdown",
+  "title": "Why Each Wrong Answer Is Tempting",
+  "distractors": [
+    {
+      "letter": "A",
+      "option": "CT abdomen with IV contrast",
+      "whyTempting": "CT is the standard imaging for pancreatitis complications and is reflexively ordered",
+      "whyWrong": "CT should be reserved for patients not improving at 48-72h, not at initial presentation",
+      "cognitiveError": "over_testing"
+    },
+    {
+      "letter": "C",
+      "option": "Endoscopic retrograde cholangiopancreatography",
+      "whyTempting": "ERCP treats gallstone pancreatitis, and gallstones are the most common cause",
+      "whyWrong": "ERCP is only indicated with concurrent cholangitis or persistent biliary obstruction",
+      "cognitiveError": "wrong_algorithm_branch"
+    },
+    {
+      "letter": "D",
+      "option": "Transfer to ICU",
+      "whyTempting": "Severe pancreatitis requires ICU, and students may overestimate severity",
+      "whyWrong": "Transient organ failure (<48h) is moderately severe, not severe — ICU not required",
+      "cognitiveError": "premature_escalation"
+    }
+  ],
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Expose cognitive errors behind each tempting wrong answer in pancreatitis management",
+    "source_refs": ["ACG-AP-R3", "ACG-AP-S4"]
+  }
+}

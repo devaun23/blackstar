@@ -10,6 +10,64 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* ─── Surfaces ─── */
+  --color-surface-base: #09090b;
+  --color-surface-elevated: #18181b;
+
+  /* ─── Text ─── */
+  --color-text-primary: #f4f4f5;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #71717a;
+
+  /* ─── Semantic: Correct (emerald) ─── */
+  --color-correct-base: #34d399;
+  --color-correct-bg: rgba(52, 211, 153, 0.1);
+  --color-correct-border: rgba(52, 211, 153, 0.2);
+
+  /* ─── Semantic: Incorrect (red) ─── */
+  --color-incorrect-base: #f87171;
+  --color-incorrect-bg: rgba(248, 113, 113, 0.1);
+  --color-incorrect-border: rgba(248, 113, 113, 0.2);
+
+  /* ─── Semantic: Pearl (amber) ─── */
+  --color-pearl-base: #fbbf24;
+  --color-pearl-bg: rgba(251, 191, 36, 0.1);
+  --color-pearl-border: rgba(251, 191, 36, 0.2);
+  --color-pearl-text: #fde68a;
+
+  /* ─── Semantic: Accent (indigo) ─── */
+  --color-accent-base: #6366f1;
+  --color-accent-bg: rgba(99, 102, 241, 0.1);
+  --color-accent-border: rgba(99, 102, 241, 0.4);
+
+  /* ─── Visual Primitives: Severity ─── */
+  --color-severity-critical: #ef4444;
+  --color-severity-high: #f97316;
+  --color-severity-moderate: #eab308;
+  --color-severity-low: #22c55e;
+
+  /* ─── Visual Primitives: Pathways ─── */
+  --color-pathway-active: #6366f1;
+  --color-pathway-inactive: #3f3f46;
+
+  /* ─── Visual Primitives: Comparison ─── */
+  --color-comparison-a: #6366f1;
+  --color-comparison-b: #8b5cf6;
+
+  /* ─── Spacing ─── */
+  --space-card-padding: 1.25rem;
+  --space-section-gap: 1rem;
+  --space-inner-gap: 0.5rem;
+
+  /* ─── Radii ─── */
+  --radius-card: 0.75rem;
+  --radius-button: 0.5rem;
+
+  /* ─── EKG (Phase 6) ─── */
+  --ekg-grid-color: rgba(34, 197, 94, 0.15);
+  --ekg-trace-color: #22c55e;
+  --ekg-trace-width: 1.5px;
 }
 
 @media (prefers-color-scheme: dark) {

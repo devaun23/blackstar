@@ -1,0 +1,16 @@
+{
+  "type": "comparison_table",
+  "title": "ACS: STEMI vs NSTEMI vs Unstable Angina",
+  "columns": ["Feature", "STEMI", "NSTEMI", "Unstable Angina"],
+  "rows": [
+    { "label": "ECG", "values": ["ECG", "ST elevation", "ST depression / T-wave inv", "Normal or nonspecific"], "isDiscriminating": true },
+    { "label": "Troponin", "values": ["Troponin", "Elevated", "Elevated", "Normal"], "isDiscriminating": true },
+    { "label": "Management", "values": ["Tx", "Emergent PCI (<90 min)", "Early invasive (24-72h)", "Risk stratify"], "isDiscriminating": true }
+  ],
+  "highlightColumn": 1,
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Differentiate ACS subtypes by ECG, troponin, and management urgency",
+    "source_refs": ["AHA-ACS-2021-R1"]
+  }
+}

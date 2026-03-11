@@ -10,7 +10,7 @@ export default async function PracticePage() {
 
   const { data: questions } = await supabase
     .from('item_draft')
-    .select('id, vignette, stem, choice_a, choice_b, choice_c, choice_d, choice_e, correct_answer, why_correct, why_wrong_a, why_wrong_b, why_wrong_c, why_wrong_d, why_wrong_e, high_yield_pearl, reasoning_pathway, blueprint_node_id, blueprint_node(shelf, topic)')
+    .select('id, vignette, stem, choice_a, choice_b, choice_c, choice_d, choice_e, correct_answer, why_correct, why_wrong_a, why_wrong_b, why_wrong_c, why_wrong_d, why_wrong_e, high_yield_pearl, reasoning_pathway, decision_hinge, competing_differential, visual_specs, blueprint_node_id, blueprint_node(shelf, topic)')
     .eq('status', 'published')
     .order('created_at', { ascending: false })
     .limit(20);

@@ -12,3 +12,26 @@ export type { ItemDraftInput, ExplanationOutput } from './item-draft';
 
 export { validatorReportSchema, validatorTypeEnum } from './validator-report';
 export type { ValidatorReportInput } from './validator-report';
+
+export {
+  visualSpecSchema,
+  visualContractSchema,
+  comparisonTableSpecSchema,
+  severityLadderSpecSchema,
+  managementAlgorithmSpecSchema,
+  timelineSpecSchema,
+  diagnosticFunnelSpecSchema,
+  distractorBreakdownSpecSchema,
+} from './visual-specs';
+export type {
+  VisualSpec,
+  VisualContract,
+  ComparisonTableSpec,
+  SeverityLadderSpec,
+  ManagementAlgorithmSpec,
+  TimelineSpec,
+  DiagnosticFunnelSpec,
+  DistractorBreakdownSpec,
+  VisualRequirementType,
+  AssetMode,
+} from './visual-specs';

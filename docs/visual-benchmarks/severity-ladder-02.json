@@ -1,0 +1,37 @@
+{
+  "type": "severity_ladder",
+  "title": "Heart Failure Classification",
+  "classification": "NYHA Functional Classification",
+  "rungs": [
+    {
+      "level": "Class IV",
+      "severity": "critical",
+      "criteria": ["Symptoms at rest", "Unable to carry on any physical activity"],
+      "management": "Consider advanced therapies (LVAD, transplant)"
+    },
+    {
+      "level": "Class III",
+      "severity": "high",
+      "criteria": ["Symptoms with less than ordinary activity", "Comfortable only at rest"],
+      "management": "Optimize GDMT, consider CRT/ICD",
+      "isPatientHere": true
+    },
+    {
+      "level": "Class II",
+      "severity": "moderate",
+      "criteria": ["Symptoms with ordinary activity", "Slight limitation"],
+      "management": "Titrate ACEi/ARB, beta-blocker, MRA"
+    },
+    {
+      "level": "Class I",
+      "severity": "low",
+      "criteria": ["No symptoms with ordinary activity", "No limitation"],
+      "management": "Lifestyle modification, monitoring"
+    }
+  ],
+  "visual_contract": {
+    "supports": "explanation",
+    "teaching_goal": "Map NYHA class to symptom threshold and management escalation",
+    "source_refs": ["AHA-HF-2022-R1"]
+  }
+}
