@@ -137,13 +137,15 @@ export async function POST(request: Request) {
       const systemCode = systemToCodeMap[node.system];
       const contentSystemId = systemCode ? codeToId.get(systemCode) : undefined;
 
+      const payload: Record<string, unknown> = { ...node };
+      if (contentSystemId) {
+        payload.content_system_id = contentSystemId;
+      }
+
       const { error } = await supabase
         .from('blueprint_node')
         .upsert(
-          {
-            ...node,
-            content_system_id: contentSystemId ?? null,
-          },
+          payload,
           { onConflict: 'shelf,topic,subtopic,task_type,clinical_setting,age_group' }
         );
       if (error) errors.push(`${node.topic}: ${error.message}`);

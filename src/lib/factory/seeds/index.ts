@@ -13,3 +13,33 @@ export { contentDisciplines } from './content-disciplines';
 export type { ContentDisciplineSeed } from './content-disciplines';
 export { contentTopics } from './content-topics';
 export type { ContentTopicSeed } from './content-topics';
+
+// Exam content specs — spec-layer metadata for Medicine expansion
+export {
+  MEDICINE_NODES,
+  MEDICINE_FUNNELS,
+  computeFrequencyScore,
+  generateNodeId,
+  resetNodeCounters,
+  CARDIOLOGY_DEFAULTS,
+  GI_DEFAULTS,
+  HEPATOLOGY_DEFAULTS,
+  ENDOCRINE_DEFAULTS,
+  PULM_DEFAULTS,
+  NEPH_DEFAULTS,
+  HEME_DEFAULTS,
+  ID_DEFAULTS,
+  RHEUM_DEFAULTS,
+  LYTE_DEFAULTS,
+  NEURO_DEFAULTS,
+  PREV_DEFAULTS,
+  DERM_DEFAULTS,
+  TOX_DEFAULTS,
+  CRIT_DEFAULTS,
+} from './exam-content-specs';
+export type {
+  MedicineNodeSpec,
+  SubsystemDefaults,
+  PresentationFunnel,
+  NegativeSpace,
+} from './exam-content-specs';
