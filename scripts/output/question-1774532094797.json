@@ -1,0 +1,172 @@
+{
+  "topic": "Pulmonary Embolism",
+  "node": {
+    "shelf": "medicine",
+    "system": "Pulmonology",
+    "topic": "Pulmonary Embolism",
+    "subtopic": "Diagnosis and Management",
+    "task_type": "diagnosis",
+    "clinical_setting": "ed",
+    "age_group": "middle_aged",
+    "time_horizon": "immediate",
+    "yield_tier": "tier_1"
+  },
+  "algorithm_card": {
+    "entry_presentation": "Middle-aged patient presenting to ED with acute onset dyspnea, pleuritic chest pain, and/or hemoptysis. May have risk factors including recent surgery, immobilization, cancer, or hormonal therapy.",
+    "competing_paths": [
+      "Pulmonary Embolism - High clinical probability (Wells score ≥4) or moderate probability with positive D-dimer",
+      "Alternative diagnoses - Low clinical probability (Wells score <2) with normal D-dimer, or clear alternative explanation for symptoms",
+      "Pneumonia/Pneumothorax - Fever, productive cough, unilateral chest findings on examination"
+    ],
+    "hinge_feature": "Wells Clinical Prediction Score combined with D-dimer level - patients with Wells score ≥4 require immediate imaging regardless of D-dimer; patients with Wells score <4 and normal age-adjusted D-dimer can safely exclude PE",
+    "correct_action": "For high probability or moderate probability with elevated D-dimer: obtain CTPA (CT pulmonary angiogram) as first-line imaging. If CTPA contraindicated, perform V/Q scan. Initiate anticoagulation if no contraindications while awaiting imaging results.",
+    "contraindications": [
+      "Do not rely on D-dimer alone in high clinical probability patients",
+      "Avoid delaying anticoagulation in hemodynamically unstable patients while pursuing diagnostics",
+      "Do not use D-dimer in patients with high pre-test probability as it does not rule out PE"
+    ],
+    "source_citations": [
+      "American College of Chest Physicians Evidence-Based Clinical Practice Guidelines (CHEST 2016)",
+      "ESC Guidelines on Pulmonary Embolism (2019)",
+      "Wells PE Clinical Prediction Rule validation studies"
+    ]
+  },
+  "facts": [
+    {
+      "fact_type": "threshold",
+      "fact_text": "Wells score ≥4 indicates high clinical probability requiring immediate imaging regardless of D-dimer result",
+      "threshold_value": "4",
+      "source_name": "CHEST 2016 Antithrombotic Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "Age-adjusted D-dimer cutoff (age × 10 ng/mL for patients >50 years) improves specificity without losing sensitivity",
+      "threshold_value": null,
+      "source_name": "Journal of Thrombosis and Haemostasis 2014",
+      "source_tier": "B",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "CTPA has 95% sensitivity and 98% specificity for PE diagnosis and is first-line imaging modality",
+      "threshold_value": null,
+      "source_name": "ESC Guidelines on Pulmonary Embolism 2019",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "management_step",
+      "fact_text": "Anticoagulation should be initiated within 4 hours of presentation in patients with intermediate to high probability PE",
+      "threshold_value": "4 hours",
+      "source_name": "CHEST 2016 Antithrombotic Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "PESI score >85 or sPESI ≥1 identifies high-risk patients requiring inpatient management",
+      "threshold_value": "85",
+      "source_name": "ESC Guidelines on Pulmonary Embolism 2019",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "contraindication",
+      "fact_text": "Active bleeding or high bleeding risk (major surgery within 14 days) are absolute contraindications to full anticoagulation",
+      "threshold_value": "14 days",
+      "source_name": "CHEST 2016 Antithrombotic Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    }
+  ],
+  "case_plan": {
+    "target_cognitive_error": "reflex_response_to_finding",
+    "target_hinge_clue_type": "lab_pattern",
+    "target_action_class": "diagnose_emergent",
+    "ambiguity_level": 4,
+    "distractor_strength": 4,
+    "clinical_complexity": 3,
+    "ambiguity_strategy": "Present a patient with moderate Wells score and elevated D-dimer where the reflex response would be to immediately order CTPA, but the D-dimer elevation is explained by a concurrent condition (recent surgery) and the actual Wells score calculation reveals borderline probability requiring careful consideration of age-adjusted D-dimer threshold",
+    "distractor_design": {
+      "Order CTPA immediately": "Tempting because D-dimer is elevated and patient has dyspnea - this is the reflex response to elevated D-dimer without proper Wells score calculation",
+      "Start anticoagulation and order CTPA": "Attractive because it seems comprehensive and addresses treatment while pursuing diagnosis, but premature given borderline probability",
+      "Repeat D-dimer in 6 hours": "Appeals to those who recognize D-dimer may be falsely elevated but misses that serial D-dimers are not validated for PE exclusion",
+      "Order chest X-ray first": "Seems logical as initial imaging but delays definitive testing when moderate probability exists"
+    },
+    "final_decisive_clue": "Patient is 67 years old with D-dimer of 650 ng/mL, but age-adjusted D-dimer threshold should be 670 ng/mL (67 × 10), making the D-dimer actually normal for her age",
+    "explanation_teaching_goal": "Teach learners to resist the reflex response to any elevated D-dimer and instead use age-adjusted thresholds in conjunction with proper Wells score calculation to avoid unnecessary imaging in older patients where D-dimer naturally increases with age"
+  },
+  "skeleton": {
+    "case_summary": "A 67-year-old woman presents to the ED with acute dyspnea and pleuritic chest pain 5 days after knee replacement surgery. Wells score is 3 (surgery within 4 weeks, PE as likely as alternative diagnosis). D-dimer is 650 ng/mL.",
+    "hidden_target": "Proper application of age-adjusted D-dimer thresholds to avoid unnecessary imaging in elderly patients with borderline clinical probability",
+    "correct_action": "No further testing needed for PE - D-dimer is normal using age-adjusted threshold (670 ng/mL for 67-year-old)",
+    "wrong_option_archetypes": [
+      {
+        "letter": "B",
+        "archetype": "Order CTPA immediately",
+        "cognitive_error": "reflex_response_to_finding"
+      },
+      {
+        "letter": "C",
+        "archetype": "Start anticoagulation and order CTPA",
+        "cognitive_error": "overcompensation_bias"
+      },
+      {
+        "letter": "D",
+        "archetype": "Repeat D-dimer in 6 hours",
+        "cognitive_error": "pseudodiagnostic_reasoning"
+      },
+      {
+        "letter": "E",
+        "archetype": "Order chest X-ray first",
+        "cognitive_error": "sequential_diagnostic_bias"
+      }
+    ],
+    "error_mapping": {
+      "B": "reflex_response_to_finding",
+      "C": "overcompensation_bias",
+      "D": "pseudodiagnostic_reasoning",
+      "E": "sequential_diagnostic_bias"
+    },
+    "hinge_placement": "Near the end of the vignette when D-dimer result and patient age are both provided",
+    "hinge_description": "Age-adjusted D-dimer threshold (67 × 10 = 670 ng/mL) makes the reported D-dimer of 650 ng/mL actually normal, negating the need for imaging in this moderate probability patient"
+  },
+  "item_plan": {
+    "target_hinge": "Age-adjusted D-dimer threshold (67 × 10 = 670 ng/mL) makes the reported D-dimer of 650 ng/mL actually normal, negating the need for imaging in this moderate probability patient",
+    "competing_options": [
+      "No further testing needed for PE - discharge with outpatient follow-up",
+      "Order CTPA immediately",
+      "Start anticoagulation and order CTPA",
+      "Repeat D-dimer in 6 hours",
+      "Order chest X-ray first, then reassess"
+    ],
+    "target_cognitive_error": "reflex_response_to_finding",
+    "noise_elements": [
+      "Patient reports mild calf tenderness on examination",
+      "Vital signs show heart rate 98 bpm, oxygen saturation 96% on room air",
+      "Patient takes atorvastatin and metformin for comorbid conditions"
+    ],
+    "option_class": "next management steps",
+    "distractor_rationale": "Option B (CTPA immediately) appears correct because D-dimer seems elevated using standard 500 ng/mL cutoff, triggering reflex ordering of imaging without considering age-adjusted threshold. Option C (anticoagulation + CTPA) seems appropriate for moderate probability PE with 'elevated' D-dimer. Option D (repeat D-dimer) appears reasonable to confirm borderline result. Option E (chest X-ray first) follows traditional stepwise approach to chest pain workup.",
+    "lead_in": "What is the most appropriate next step in management?"
+  },
+  "question": {
+    "vignette": "A 67-year-old woman presents to the ED with acute dyspnea and right-sided pleuritic chest pain that began 2 hours ago. She underwent total knee replacement surgery 5 days earlier. She reports mild calf tenderness on the operative side. Medical history includes type 2 diabetes and hyperlipidemia. Medications include atorvastatin and metformin. Temperature 37.1°C (98.8°F), pulse 98/min, respirations 22/min, blood pressure 132/84 mmHg, oxygen saturation 96% on room air. Physical examination shows normal heart sounds, clear lungs bilaterally, and mild edema of the right lower extremity. Wells clinical prediction score is 3. D-dimer level is 650 ng/mL.",
+    "stem": "What is the most appropriate next step in management?",
+    "choice_a": "No further testing needed for PE - discharge with outpatient follow-up",
+    "choice_b": "Order CTPA immediately",
+    "choice_c": "Start anticoagulation and order CTPA",
+    "choice_d": "Repeat D-dimer in 6 hours",
+    "choice_e": "Order chest X-ray first, then reassess",
+    "correct_answer": "A",
+    "why_correct": "With a Wells score of 3 (moderate probability) and D-dimer of 650 ng/mL, the age-adjusted D-dimer threshold for this 67-year-old patient is 670 ng/mL (67 × 10). Since her D-dimer is below this threshold, PE is effectively ruled out and no further testing is needed.",
+    "decision_hinge": "Age-adjusted D-dimer threshold (67 × 10 = 670 ng/mL) makes the reported D-dimer of 650 ng/mL actually normal, negating the need for imaging in this moderate probability patient",
+    "competing_differential": "Pulmonary embolism versus postoperative pain and mild deconditioning following recent knee surgery"
+  },
+  "meta": {
+    "totalTokens": 18615,
+    "totalMs": 73882
+  }
+}

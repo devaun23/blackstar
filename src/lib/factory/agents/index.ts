@@ -10,3 +10,8 @@ export * as explanationValidator from './explanation-validator';
 export * as examTranslationValidator from './exam-translation-validator';
 export * as repairAgent from './repair-agent';
 export * as explanationWriter from './explanation-writer';
+
+// v2 pipeline agents
+export * as casePlanner from './case-planner';
+export * as skeletonWriter from './skeleton-writer';
+export * as skeletonValidator from './skeleton-validator';

@@ -1,0 +1,183 @@
+{
+  "topic": "Sepsis",
+  "node": {
+    "shelf": "medicine",
+    "system": "Infectious Disease",
+    "topic": "Sepsis",
+    "subtopic": "Initial Resuscitation",
+    "task_type": "next_step",
+    "clinical_setting": "ed",
+    "age_group": "elderly",
+    "time_horizon": "immediate",
+    "yield_tier": "tier_1"
+  },
+  "algorithm_card": {
+    "entry_presentation": "Elderly patient presenting to ED with fever or hypothermia, altered mental status, tachycardia, tachypnea, and evidence of organ dysfunction (hypotension, oliguria, elevated lactate)",
+    "competing_paths": [
+      "Septic shock requiring immediate fluid resuscitation - hypotension (MAP <65 mmHg) or elevated lactate >2 mmol/L",
+      "Sepsis without shock requiring monitoring and antibiotics - SOFA score ≥2 with infection but MAP ≥65 mmHg and lactate ≤2 mmol/L",
+      "Non-infectious SIRS requiring alternative workup - SIRS criteria met but no clear infectious source identified"
+    ],
+    "hinge_feature": "Mean arterial pressure <65 mmHg or serum lactate >2 mmol/L indicates septic shock requiring immediate aggressive resuscitation",
+    "correct_action": "Administer 30 mL/kg crystalloid fluid bolus within first 3 hours, obtain blood cultures before antibiotics, start broad-spectrum antibiotics within 1 hour, and measure lactate",
+    "contraindications": [
+      "Delaying antibiotic administration beyond 1 hour from recognition",
+      "Using colloids as first-line resuscitation fluid",
+      "Withholding fluids in elderly patients due to age alone without evidence of fluid overload"
+    ],
+    "source_citations": [
+      "Surviving Sepsis Campaign Guidelines 2021",
+      "SCCM/ESICM Sepsis-3 Consensus Definitions 2016",
+      "ACS TQIP Best Practices Guidelines 2019"
+    ]
+  },
+  "facts": [
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "Sepsis-3 criteria require suspected infection plus SOFA score increase of 2 or more points",
+      "threshold_value": "2",
+      "source_name": "JAMA Sepsis-3 Consensus",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "management_step",
+      "fact_text": "Blood cultures must be obtained before antibiotic administration, but should not delay antibiotics beyond 45 minutes",
+      "threshold_value": "45 minutes",
+      "source_name": "Surviving Sepsis Campaign 2021",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "Initial fluid resuscitation should be 30 mL/kg of crystalloid within the first 3 hours",
+      "threshold_value": "30 mL/kg",
+      "source_name": "Surviving Sepsis Campaign 2021",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "Lactate levels >2 mmol/L indicate tissue hypoperfusion and need for aggressive resuscitation",
+      "threshold_value": "2 mmol/L",
+      "source_name": "Surviving Sepsis Campaign 2021",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "Mean arterial pressure should be maintained at ≥65 mmHg during initial resuscitation",
+      "threshold_value": "65 mmHg",
+      "source_name": "Surviving Sepsis Campaign 2021",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "management_step",
+      "fact_text": "Broad-spectrum antibiotics should be administered within 1 hour of sepsis recognition",
+      "threshold_value": "1 hour",
+      "source_name": "Surviving Sepsis Campaign 2021",
+      "source_tier": "A",
+      "confidence": "high"
+    }
+  ],
+  "case_plan": {
+    "target_cognitive_error": "misreading_hemodynamic_status",
+    "target_hinge_clue_type": "instability_clue",
+    "target_action_class": "stabilize",
+    "ambiguity_level": 4,
+    "distractor_strength": 4,
+    "clinical_complexity": 4,
+    "ambiguity_strategy": "Present an elderly patient with sepsis who appears relatively stable on surface vitals but has subtle hemodynamic compromise. Initial BP appears adequate but MAP calculation reveals hypotension. Patient has compensated tachycardia masking severity. Lactate elevation suggests tissue hypoperfusion despite seemingly stable appearance.",
+    "distractor_design": {
+      "obtain_blood_cultures_and_start_antibiotics": "Tempting because infection management is clearly needed and cultures should precede antibiotics, but ignores the hemodynamic instability requiring immediate fluid resuscitation",
+      "order_chest_xray_and_urinalysis": "Appeals to diagnostic reasoning to find infection source, but delays critical resuscitation when patient already shows signs of shock",
+      "admit_to_medical_floor_for_monitoring": "Seems reasonable for stable sepsis patient, but misses the hemodynamic compromise requiring ICU-level aggressive resuscitation",
+      "start_vasopressors_immediately": "Premature escalation - fluids must be attempted first per guidelines, and patient hasn't failed initial resuscitation yet"
+    },
+    "final_decisive_clue": "Mean arterial pressure of 62 mmHg despite systolic BP of 110 mmHg, combined with lactate of 2.4 mmol/L indicating tissue hypoperfusion",
+    "explanation_teaching_goal": "Teach recognition of septic shock based on MAP <65 mmHg or lactate >2 mmol/L rather than relying on systolic BP alone. Emphasize that elderly patients can maintain systolic pressure through compensatory mechanisms while having inadequate organ perfusion, requiring immediate aggressive fluid resuscitation per Surviving Sepsis Campaign guidelines."
+  },
+  "skeleton": {
+    "case_summary": "An 82-year-old patient presents to the ED with fever, confusion, and tachycardia, appearing relatively stable with systolic BP 110 mmHg but calculated MAP 62 mmHg and lactate 2.4 mmol/L.",
+    "hidden_target": "Recognition of septic shock based on MAP <65 mmHg and lactate >2 mmol/L requiring immediate aggressive fluid resuscitation despite seemingly stable systolic blood pressure",
+    "correct_action": "Administer 30 mL/kg crystalloid fluid bolus immediately and obtain blood cultures before starting broad-spectrum antibiotics",
+    "wrong_option_archetypes": [
+      {
+        "letter": "B",
+        "archetype": "Obtain blood cultures and start broad-spectrum antibiotics",
+        "cognitive_error": "anchoring_on_infection_management"
+      },
+      {
+        "letter": "C",
+        "archetype": "Order chest X-ray and urinalysis to identify infection source",
+        "cognitive_error": "premature_diagnostic_closure"
+      },
+      {
+        "letter": "D",
+        "archetype": "Admit to medical floor for monitoring and supportive care",
+        "cognitive_error": "misreading_hemodynamic_status"
+      },
+      {
+        "letter": "E",
+        "archetype": "Start norepinephrine for hypotension",
+        "cognitive_error": "premature_escalation"
+      }
+    ],
+    "error_mapping": {
+      "B": "anchoring_on_infection_management",
+      "C": "premature_diagnostic_closure",
+      "D": "misreading_hemodynamic_status",
+      "E": "premature_escalation"
+    },
+    "hinge_placement": "Vital signs section with calculated MAP and laboratory results showing lactate level",
+    "hinge_description": "Mean arterial pressure of 62 mmHg (calculated from systolic 110, diastolic 88) combined with lactate 2.4 mmol/L definitively establishes septic shock requiring immediate fluid resuscitation, despite the misleadingly stable systolic pressure"
+  },
+  "item_plan": {
+    "target_hinge": "Mean arterial pressure 62 mmHg and serum lactate 2.4 mmol/L indicate septic shock requiring immediate aggressive fluid resuscitation",
+    "competing_options": [
+      "Administer 30 mL/kg crystalloid bolus",
+      "Obtain blood cultures and start antibiotics",
+      "Order chest radiograph and urinalysis",
+      "Start continuous cardiac monitoring",
+      "Begin norepinephrine infusion"
+    ],
+    "target_cognitive_error": "misreading_hemodynamic_status",
+    "noise_elements": [
+      "White blood cell count 14,000/μL with 12% bands",
+      "Creatinine 1.4 mg/dL (baseline 1.1 mg/dL)",
+      "Temperature 101.8°F (38.8°C)"
+    ],
+    "option_class": "immediate_management_actions",
+    "distractor_rationale": "Students will anchor on the seemingly stable systolic BP of 110 mmHg and miss that MAP <65 mmHg plus lactate >2 mmol/L defines septic shock. They'll choose infection workup (B,C), routine monitoring (D), or jump to vasopressors (E) without recognizing that aggressive fluid resuscitation must come first in septic shock.",
+    "lead_in": "What is the most appropriate immediate next step in management?"
+  },
+  "question": {
+    "vignette": "An 82-year-old woman is brought to the emergency department by her daughter for confusion that began 2 days ago. The patient has a history of diabetes and hypertension. She appears lethargic but responds to verbal stimuli. Physical examination shows dry mucous membranes and decreased skin turgor. Laboratory studies show white blood cell count 14,000/μL with 12% bands and creatinine 1.4 mg/dL (baseline 1.1 mg/dL). Temperature is 101.8°F (38.8°C), pulse is 118/min, respirations are 24/min, and blood pressure is 90/50 mmHg. The calculated mean arterial pressure is 63 mmHg, and serum lactate is 3.2 mmol/L.",
+    "stem": "What is the most appropriate next step in management?",
+    "choice_a": "Administer crystalloid fluid bolus",
+    "choice_b": "Administer broad-spectrum antibiotics",
+    "choice_c": "Obtain chest radiograph and urinalysis",
+    "choice_d": "Initiate cardiac monitoring",
+    "choice_e": "Administer vasopressor therapy",
+    "correct_answer": "A",
+    "why_correct": "This patient presents with septic shock, evidenced by suspected infection (fever, leukocytosis with left shift), organ dysfunction (altered mental status, acute kidney injury), and hemodynamic compromise (MAP 63 mmHg <65 and lactate 3.2 mmol/L >2). In septic shock, distributive pathophysiology causes massive vasodilation and capillary leak, leading to relative and absolute hypovolemia. Immediate crystalloid fluid resuscitation (30 mL/kg) is the priority because it restores intravascular volume and perfusion pressure, creating the hemodynamic foundation necessary for antibiotics to effectively reach infected tissues. Without adequate tissue perfusion, even appropriately chosen antibiotics cannot penetrate infected sites effectively.",
+    "why_wrong_b": "While broad-spectrum antibiotics are equally time-critical and must be administered within 1 hour of sepsis recognition, this patient's severe hemodynamic compromise (MAP 63 mmHg, lactate 3.2 mmol/L) represents distributive shock requiring immediate correction. The pathophysiology demands restoring circulation first - without adequate perfusion pressure from fluid resuscitation, antibiotics cannot effectively reach infected tissues. Both interventions should ideally occur simultaneously, but when resources are limited or hemodynamic instability is severe, fluid resuscitation takes precedence to restore the vascular foundation needed for antibiotic efficacy.",
+    "why_wrong_c": "Obtaining diagnostic studies like chest X-ray and urinalysis for source identification is important in sepsis management, but these studies should never delay immediate life-saving interventions in established septic shock. This patient already meets septic shock criteria with clear hemodynamic compromise - the priority is stabilizing circulation and starting empiric treatment rather than spending precious time on diagnostic workup that won't change the immediate management of addressing distributive shock.",
+    "why_wrong_d": "Cardiac monitoring is appropriate supportive care and will be needed for ongoing management, but it's a monitoring intervention rather than a therapeutic one. This patient has distributive shock from sepsis requiring immediate hemodynamic intervention to restore tissue perfusion. Monitoring alone doesn't address the underlying pathophysiology of massive vasodilation and capillary leak that requires volume resuscitation to restore adequate circulation.",
+    "why_wrong_e": "Vasopressors are indicated in septic shock only after adequate fluid resuscitation has been attempted (typically 30 mL/kg crystalloid) and hypotension persists. Starting vasopressors before fluid resuscitation is counterproductive because it increases afterload in a patient who is volume-depleted, potentially worsening tissue perfusion. The distributive shock pathophysiology requires volume replacement first to fill the dilated vascular space before adding vasoconstriction to maintain pressure.",
+    "high_yield_pearl": "In septic shock with MAP <65 mmHg or lactate >2 mmol/L, prioritize fluid resuscitation over antibiotics - circulation must be restored first for antibiotics to reach infected tissues effectively.",
+    "reasoning_pathway": "Recognize infection from fever, leukocytosis with left shift → Identify organ dysfunction from altered mental status and acute kidney injury → Calculate MAP 63 mmHg (<65) and note lactate 3.2 mmol/L (>2) confirming septic shock → Apply distributive shock pathophysiology requiring immediate volume resuscitation → Prioritize fluid bolus to restore perfusion pressure needed for subsequent antibiotic efficacy → Plan concurrent antibiotic administration within 1-hour window.",
+    "decision_hinge": "MAP of 63 mmHg (<65) plus lactate of 3.2 mmol/L (>2) defines septic shock with severe hemodynamic compromise. The pathophysiology of distributive shock requires immediate correction of perfusion pressure through fluid resuscitation to restore the circulation needed for antibiotics to reach tissues.",
+    "competing_differential": "Students may prioritize antibiotics based on the infectious etiology, but in septic shock with severe hypotension, the distributive shock pathophysiology must be addressed first. Without adequate perfusion pressure, antibiotics cannot reach infected tissues effectively, making fluid resuscitation the immediate priority to restore circulation, even though both interventions are part of the 1-hour bundle.",
+    "why_wrong_a": null,
+    "explanation_decision_logic": "The decision hinges on recognizing that septic shock with severe hemodynamic compromise (MAP <65 mmHg, lactate >2 mmol/L) requires immediate correction of the underlying distributive pathophysiology through fluid resuscitation before antibiotics can be effective. This represents a circulation-before-antibiotics priority when hemodynamic instability is severe, even though both are part of the 1-hour sepsis bundle.",
+    "explanation_transfer_rule": "In any shock state, address the underlying pathophysiology first - distributive shock requires volume replacement, cardiogenic shock may need inotropes or afterload reduction, and obstructive shock needs relief of obstruction. The specific etiology determines the therapeutic priority, but circulation always precedes other interventions when hemodynamically unstable.",
+    "explanation_teaching_pearl": "Students often prioritize antibiotics in sepsis because infection is the underlying cause, but this represents a cognitive error of treating the etiology rather than the immediate life-threatening pathophysiology. In septic shock, think 'circulation first' - the distributive pathophysiology must be corrected to create the hemodynamic foundation that allows antibiotics to work effectively."
+  },
+  "meta": {
+    "totalTokens": 72387,
+    "totalMs": 184274,
+    "timestamp": "2026-04-02T18:55:25.916Z"
+  }
+}

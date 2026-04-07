@@ -45,11 +45,10 @@ export default async function DashboardPage() {
     .map(([shelf, { total, correct }]) => ({ shelf, total, correct }))
     .sort((a, b) => b.total - a.total);
 
-  // Count available published questions
+  // Count available questions (MVP question bank)
   const { count: availableQuestions } = await supabase
-    .from('item_draft')
-    .select('id', { count: 'exact', head: true })
-    .eq('status', 'published');
+    .from('questions')
+    .select('id', { count: 'exact', head: true });
 
   const displayName = profile?.full_name ?? user.email?.split('@')[0] ?? 'Student';
 
@@ -108,10 +107,10 @@ export default async function DashboardPage() {
 
         {/* CTA */}
         <Link
-          href="/practice"
+          href="/study"
           className="inline-flex items-center rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-black"
         >
-          Start Practice
+          Start Studying
         </Link>
       </main>
     </div>

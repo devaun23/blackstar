@@ -1,12 +1,13 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import type { ValidatorReportInput } from '@/lib/factory/schemas';
 import type { AgentContext, AgentOutput } from '@/lib/types/factory';
-import type { ItemDraftRow, BlueprintNodeRow } from '@/lib/types/database';
+import type { ItemDraftRow, BlueprintNodeRow, CasePlanRow } from '@/lib/types/database';
 import { runValidator } from './validator-base';
 
 interface BlueprintValidatorInput {
   draft: ItemDraftRow;
   node: BlueprintNodeRow;
+  casePlan?: CasePlanRow; // v2: verify case_plan targets match blueprint
 }
 
 /**
@@ -57,10 +58,16 @@ export async function run(
     validatorType: 'blueprint',
     context,
     itemDraftId: input.draft.id,
-    buildTemplateVars: () => ({
-      item_draft: JSON.stringify(input.draft, null, 2),
-      blueprint_node: JSON.stringify(input.node, null, 2) + systemContext,
-      valid_topics: validTopicsList,
-    }),
+    buildTemplateVars: () => {
+      const vars: Record<string, string> = {
+        item_draft: JSON.stringify(input.draft, null, 2),
+        blueprint_node: JSON.stringify(input.node, null, 2) + systemContext,
+        valid_topics: validTopicsList,
+      };
+      if (input.casePlan) {
+        vars.case_plan = JSON.stringify(input.casePlan, null, 2);
+      }
+      return vars;
+    },
   });
 }

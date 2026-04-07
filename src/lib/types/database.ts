@@ -11,9 +11,13 @@ export type FactType = 'threshold' | 'drug_choice' | 'contraindication' | 'diagn
 export type ConfidenceLevel = 'high' | 'moderate' | 'low';
 export type ItemStatus = 'draft' | 'validating' | 'passed' | 'failed' | 'repaired' | 'published' | 'killed';
 export type ValidatorType = 'medical' | 'blueprint' | 'nbme_quality' | 'option_symmetry' | 'explanation_quality' | 'exam_translation';
-export type AgentType = 'blueprint_selector' | 'algorithm_extractor' | 'item_planner' | 'vignette_writer' | 'medical_validator' | 'nbme_quality_validator' | 'blueprint_validator' | 'option_symmetry_validator' | 'explanation_validator' | 'exam_translation_validator' | 'repair_agent' | 'explanation_writer';
+export type AgentType = 'blueprint_selector' | 'algorithm_extractor' | 'item_planner' | 'vignette_writer' | 'medical_validator' | 'nbme_quality_validator' | 'blueprint_validator' | 'option_symmetry_validator' | 'explanation_validator' | 'exam_translation_validator' | 'repair_agent' | 'explanation_writer' | 'case_planner' | 'skeleton_writer' | 'skeleton_validator';
+export type DimensionType = 'topic' | 'transfer_rule' | 'confusion_set' | 'cognitive_error' | 'action_class' | 'hinge_clue_type';
+export type RepairAction = 'advance' | 'reinforce' | 'contrast' | 'remediate' | 'transfer_test';
 export type CardStatus = 'draft' | 'truth_verified' | 'translation_verified' | 'generation_ready' | 'retired';
 export type PipelineStatus = 'running' | 'completed' | 'failed' | 'killed';
+export type SessionMode = 'retention' | 'training' | 'assessment';
+export type SessionStatus = 'active' | 'completed' | 'abandoned';
 export type UserRole = 'student' | 'admin';
 export type SourceUse = 'scope' | 'truth' | 'inspiration';
 export type CorrectAnswer = 'A' | 'B' | 'C' | 'D' | 'E';
@@ -117,6 +121,15 @@ export interface ItemDraftRow {
   decision_hinge: string | null;
   competing_differential: string | null;
   visual_specs: unknown[] | null;
+  // v8 FKs
+  case_plan_id: string | null;
+  question_skeleton_id: string | null;
+  // v9 5-component explanation
+  explanation_decision_logic: string | null;
+  explanation_hinge_id: string | null;
+  explanation_error_diagnosis: Record<string, unknown> | null;
+  explanation_transfer_rule: string | null;
+  explanation_teaching_pearl: string | null;
   repair_count: number;
   created_at: string;
   updated_at: string;
@@ -140,6 +153,11 @@ export interface ErrorTaxonomyRow {
   definition: string;
   explanation_template: string;
   example_scenario: string | null;
+  // v7 structured fields
+  category: string | null;
+  frequency_rank: number | null;
+  detection_prompt: string | null;
+  repair_strategy: string | null;
   created_at: string;
 }
 
@@ -185,6 +203,7 @@ export interface PipelineRunRow {
   agent_log: AgentLogEntry[];
   total_tokens_used: number;
   error_message: string | null;
+  validator_summary: Record<string, { score: number | null; passed: boolean }> | null;
   started_at: string;
   completed_at: string | null;
 }
@@ -251,5 +270,215 @@ export interface UserResponseRow {
   selected_answer: CorrectAnswer;
   is_correct: boolean;
   time_spent_seconds: number | null;
+  created_at: string;
+}
+
+// --- v7 Reasoning Ontology row types ---
+
+export interface HingeClueTypeRow {
+  id: string;
+  name: string;
+  description: string;
+  example: string | null;
+  sort_order: number;
+  created_at: string;
+}
+
+export interface AlternateTerminologyRow {
+  id: string;
+  nbme_phrasing: string;
+  clinical_concept: string;
+  context: string | null;
+  created_at: string;
+}
+
+export interface ActionClassRow {
+  id: string;
+  name: string;
+  priority_rank: number;
+  description: string;
+  example_actions: string[] | null;
+  created_at: string;
+}
+
+export interface ConfusionSetRow {
+  id: string;
+  name: string;
+  conditions: unknown; // JSONB: string[]
+  discriminating_clues: unknown; // JSONB: { condition, clue, clue_type }[]
+  common_traps: string[];
+  created_at: string;
+}
+
+export interface TransferRuleRow {
+  id: string;
+  rule_text: string;
+  category: string;
+  times_violated: number;
+  times_mastered: number;
+  trigger_pattern: string | null;
+  action_priority: string | null;
+  suppressions: string[] | null;
+  wrong_pathways: unknown | null; // JSONB
+  topic: string | null;
+  source_citation: string | null;
+  created_at: string;
+}
+
+export interface PatternFamilyRow {
+  id: string;
+  name: string;
+  display_name: string;
+  description: string;
+  structure: string;
+  hinge_type: string;
+  cognitive_trap: string;
+  frequency: 'high' | 'medium';
+  examples: unknown; // JSONB
+  reverse_pattern: string | null;
+  created_at: string;
+}
+
+export interface CognitiveErrorTagRow {
+  id: string;
+  error_taxonomy_id: string;
+  item_draft_id: string | null;
+  question_id: string | null;
+  option_letter: CorrectAnswer;
+  is_correct_answer: boolean;
+  notes: string | null;
+  created_at: string;
+}
+
+// --- v8 Case Plan + Skeleton row types ---
+
+export type CognitiveOperationType =
+  | 'rule_application'
+  | 'threshold_recognition'
+  | 'diagnosis_disambiguation'
+  | 'management_sequencing'
+  | 'risk_stratification';
+
+export type HingeDepth = 'surface' | 'moderate' | 'deep';
+
+export type DecisionForkType =
+  | 'competing_diagnoses'
+  | 'management_tradeoff'
+  | 'contraindication'
+  | 'timing_decision'
+  | 'severity_ambiguity';
+
+export interface CasePlanRow {
+  id: string;
+  blueprint_node_id: string;
+  algorithm_card_id: string;
+  // Structured generation fields (REQUIRED)
+  cognitive_operation_type: CognitiveOperationType;
+  transfer_rule_text: string;
+  hinge_depth_target: HingeDepth;
+  decision_fork_type: DecisionForkType;
+  decision_fork_description: string;
+  option_action_class: string;
+  // Pre-specified option frames — answer semantics are system-controlled
+  option_frames: Array<{ id: string; class: string; meaning: string }>;
+  correct_option_frame_id: string;
+  distractor_rationale_by_frame?: Record<string, string>;
+  forbidden_option_classes?: string[];
+  // Ontology targets
+  target_transfer_rule_id: string | null;
+  target_confusion_set_id: string | null;
+  target_cognitive_error_id: string;  // REQUIRED
+  target_hinge_clue_type_id: string | null;
+  target_action_class_id: string | null;
+  // Difficulty
+  ambiguity_level: number;
+  distractor_strength: number;
+  clinical_complexity: number;
+  // Strategy
+  ambiguity_strategy: string | null;
+  distractor_design: Record<string, unknown> | null;
+  final_decisive_clue: string | null;
+  explanation_teaching_goal: string | null;
+  created_at: string;
+}
+
+export interface QuestionSkeletonRow {
+  id: string;
+  case_plan_id: string;
+  case_summary: string;
+  hidden_target: string;
+  correct_action: string;
+  correct_action_class_id: string | null;
+  option_action_class: string;
+  option_frames: Array<{
+    id: string;
+    class: string;
+    meaning: string;
+    cognitive_error_id: string | null;
+    action_class_id?: string | null;
+    rendered_text?: string | null;
+  }>;
+  correct_option_frame_id: string;
+  error_mapping: Record<string, unknown> | null;
+  hinge_placement: string;
+  hinge_description: string;
+  hinge_depth: HingeDepth;
+  hinge_buried_by: string;
+  skeleton_validated: boolean;
+  created_at: string;
+}
+
+// --- v10 Learner Model row types ---
+
+export interface LearnerModelRow {
+  id: string;
+  user_id: string;
+  dimension_type: DimensionType;
+  dimension_id: string;
+  dimension_label: string;
+  mastery_level: number;
+  total_attempts: number;
+  correct_count: number;
+  consecutive_correct: number;
+  next_review_due: string;
+  avg_time_ms: number | null;
+  error_frequency: Record<string, number> | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AttemptV2Row {
+  id: string;
+  user_id: string;
+  item_draft_id: string | null;
+  question_id: string | null;
+  selected_answer: CorrectAnswer;
+  is_correct: boolean;
+  time_spent_ms: number | null;
+  confidence_pre: number | null;
+  diagnosed_cognitive_error_id: string | null;
+  diagnosed_hinge_miss: boolean;
+  diagnosed_action_class_confusion: boolean;
+  repair_action: RepairAction | null;
+  session_id: string | null;
+  session_mode: SessionMode | null;
+  confidence_post: number | null;
+  self_labeled_error: string | null;
+  created_at: string;
+}
+
+export interface LearningSessionRow {
+  id: string;
+  user_id: string;
+  mode: SessionMode;
+  status: SessionStatus;
+  target_count: number;
+  completed_count: number;
+  correct_count: number;
+  target_dimension_type: DimensionType | null;
+  target_dimension_id: string | null;
+  time_limit_seconds: number | null;
+  started_at: string;
+  completed_at: string | null;
   created_at: string;
 }

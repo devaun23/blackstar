@@ -10,6 +10,9 @@ import {
   contentDisciplines,
   contentTopics,
   systemToCodeMap,
+  hingeClueTypes,
+  actionClasses,
+  alternateTerminology,
 } from '@/lib/factory/seeds';
 
 /**
@@ -194,6 +197,48 @@ export async function POST(request: Request) {
       else upserted++;
     }
     results.agent_prompts = { upserted, errors };
+  }
+
+  // 9. Seed hinge clue types
+  {
+    const errors: string[] = [];
+    let upserted = 0;
+    for (const entry of hingeClueTypes) {
+      const { error } = await supabase
+        .from('hinge_clue_type')
+        .upsert(entry, { onConflict: 'name' });
+      if (error) errors.push(`${entry.name}: ${error.message}`);
+      else upserted++;
+    }
+    results.hinge_clue_types = { upserted, errors };
+  }
+
+  // 10. Seed action classes
+  {
+    const errors: string[] = [];
+    let upserted = 0;
+    for (const entry of actionClasses) {
+      const { error } = await supabase
+        .from('action_class')
+        .upsert(entry, { onConflict: 'name' });
+      if (error) errors.push(`${entry.name}: ${error.message}`);
+      else upserted++;
+    }
+    results.action_classes = { upserted, errors };
+  }
+
+  // 11. Seed alternate terminology
+  {
+    const errors: string[] = [];
+    let upserted = 0;
+    for (const entry of alternateTerminology) {
+      const { error } = await supabase
+        .from('alternate_terminology')
+        .upsert(entry, { onConflict: 'nbme_phrasing,clinical_concept' });
+      if (error) errors.push(`${entry.nbme_phrasing}: ${error.message}`);
+      else upserted++;
+    }
+    results.alternate_terminology = { upserted, errors };
   }
 
   const hasErrors = Object.values(results).some((r) => r.errors.length > 0);

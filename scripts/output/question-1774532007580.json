@@ -1,0 +1,171 @@
+{
+  "topic": "Acute Coronary Syndrome",
+  "node": {
+    "shelf": "medicine",
+    "system": "Cardiology",
+    "topic": "Acute Coronary Syndrome",
+    "subtopic": "STEMI",
+    "task_type": "next_step",
+    "clinical_setting": "ed",
+    "age_group": "middle_aged",
+    "time_horizon": "immediate",
+    "yield_tier": "tier_1"
+  },
+  "algorithm_card": {
+    "entry_presentation": "Middle-aged patient presenting to ED with acute chest pain, diaphoresis, nausea, and ST-segment elevations ≥1mm in two contiguous leads on ECG",
+    "competing_paths": [
+      "Primary PCI pathway: Patient presents within 12 hours of symptom onset with PCI-capable facility available",
+      "Fibrinolytic therapy pathway: Patient presents within 12 hours but PCI not available within 120 minutes",
+      "Medical management pathway: Patient presents >12 hours after symptom onset or has contraindications to reperfusion"
+    ],
+    "hinge_feature": "Time from symptom onset and availability of primary PCI within 120 minutes of first medical contact",
+    "correct_action": "If PCI available within 120 minutes: proceed with primary PCI. If PCI not available within 120 minutes and <12 hours from onset: administer fibrinolytic therapy",
+    "contraindications": [
+      "Fibrinolytics contraindicated if: active bleeding, history of hemorrhagic stroke, ischemic stroke within 3 months, intracranial neoplasm, suspected aortic dissection",
+      "PCI contraindicated if: severe contrast allergy without premedication, active major bleeding"
+    ],
+    "source_citations": [
+      "2013 ACCF/AHA Guideline for the Management of ST-Elevation Myocardial Infarction",
+      "2017 ESC Guidelines for STEMI",
+      "AHA/ACC 2014 NSTE-ACS Guidelines"
+    ]
+  },
+  "facts": [
+    {
+      "fact_type": "threshold",
+      "fact_text": "Primary PCI should be performed within 90 minutes of first medical contact for STEMI patients presenting directly to PCI-capable hospitals",
+      "threshold_value": "90 minutes",
+      "source_name": "2013 ACCF/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "For STEMI patients presenting to non-PCI capable hospitals, transfer for primary PCI is preferred if it can be accomplished within 120 minutes of first medical contact",
+      "threshold_value": "120 minutes",
+      "source_name": "2013 ACCF/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "STEMI diagnosis requires ST elevation ≥1mm in two contiguous leads, or new left bundle branch block, or posterior MI equivalent",
+      "threshold_value": "1mm",
+      "source_name": "Fourth Universal Definition of Myocardial Infarction",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "drug_choice",
+      "fact_text": "Dual antiplatelet therapy with aspirin 162-325mg and P2Y12 inhibitor should be initiated immediately in STEMI patients without contraindications",
+      "threshold_value": null,
+      "source_name": "2013 ACCF/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "contraindication",
+      "fact_text": "Absolute contraindications to fibrinolytic therapy include any prior intracranial hemorrhage, ischemic stroke within 3 months, or active bleeding",
+      "threshold_value": null,
+      "source_name": "2013 ACCF/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "Fibrinolytic therapy should be administered within 30 minutes of hospital arrival when primary PCI is not available",
+      "threshold_value": "30 minutes",
+      "source_name": "2013 ACCF/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    }
+  ],
+  "case_plan": {
+    "target_cognitive_error": "wrong_algorithm_branch",
+    "target_hinge_clue_type": "temporal_progression",
+    "target_action_class": "treat_emergent",
+    "ambiguity_level": 4,
+    "distractor_strength": 4,
+    "clinical_complexity": 3,
+    "ambiguity_strategy": "Present a STEMI patient where the symptom onset time creates ambiguity about whether primary PCI or fibrinolytic therapy is appropriate, with transport logistics making the decision borderline",
+    "distractor_design": {
+      "Primary PCI": "Tempting because this is generally preferred for STEMI, but the 120-minute window may be exceeded given transport time",
+      "Serial troponins and observation": "Tempting because it seems cautious, but inappropriate for confirmed STEMI requiring immediate reperfusion",
+      "Medical management only": "Tempting if misinterpreting the timing as too late for reperfusion therapy",
+      "Emergency cardiac catheterization": "Tempting as it sounds urgent and appropriate, but differs subtly from immediate fibrinolytics when PCI delay exceeds guidelines"
+    },
+    "final_decisive_clue": "Symptom onset 8 hours ago with estimated 140-minute transport time to PCI-capable facility",
+    "explanation_teaching_goal": "When primary PCI cannot be performed within 120 minutes of first medical contact for STEMI patients, fibrinolytic therapy should be administered if within 12 hours of symptom onset and no contraindications exist"
+  },
+  "skeleton": {
+    "case_summary": "52-year-old patient presents to rural ED with 8-hour history of severe chest pain, diaphoresis, and nausea. ECG shows 3mm ST elevations in leads II, III, and aVF. Nearest PCI-capable facility is 140 minutes away by ambulance transfer.",
+    "hidden_target": "Recognition that fibrinolytic therapy is indicated when primary PCI cannot be performed within 120 minutes of first medical contact in STEMI patients presenting within 12 hours of symptom onset",
+    "correct_action": "Administer fibrinolytic therapy immediately",
+    "wrong_option_archetypes": [
+      {
+        "letter": "B",
+        "archetype": "Transfer for primary PCI despite exceeding time window",
+        "cognitive_error": "wrong_algorithm_branch"
+      },
+      {
+        "letter": "C",
+        "archetype": "Serial cardiac biomarkers and observation",
+        "cognitive_error": "inappropriate_wait_and_see"
+      },
+      {
+        "letter": "D",
+        "archetype": "Medical management only without reperfusion",
+        "cognitive_error": "missed_time_window_misinterpretation"
+      },
+      {
+        "letter": "E",
+        "archetype": "Heparin and antiplatelet therapy alone",
+        "cognitive_error": "incomplete_treatment_approach"
+      }
+    ],
+    "error_mapping": {
+      "B": "wrong_algorithm_branch",
+      "C": "inappropriate_wait_and_see",
+      "D": "missed_time_window_misinterpretation",
+      "E": "incomplete_treatment_approach"
+    },
+    "hinge_placement": "In the logistics details about transport time and facility capabilities",
+    "hinge_description": "The 140-minute transport time to PCI facility exceeds the 120-minute guideline threshold, making fibrinolytic therapy the appropriate choice since the patient is still within 12 hours of symptom onset with clear STEMI"
+  },
+  "item_plan": {
+    "target_hinge": "Nearest PCI-capable facility is 140 minutes away by ambulance transfer, exceeding the 120-minute guideline threshold for primary PCI",
+    "competing_options": [
+      "Administer fibrinolytic therapy immediately",
+      "Transfer for primary PCI despite transport time",
+      "Obtain serial cardiac biomarkers and observe",
+      "Initiate medical management without reperfusion therapy",
+      "Start heparin and dual antiplatelet therapy only"
+    ],
+    "target_cognitive_error": "wrong_algorithm_branch",
+    "noise_elements": [
+      "Patient's age of 52 years",
+      "Blood pressure 150/95 mmHg on arrival",
+      "Initial troponin I level of 2.1 ng/mL"
+    ],
+    "option_class": "immediate management strategies",
+    "distractor_rationale": "Transfer for PCI seems correct because it's the gold standard for STEMI, but students miss that the 140-minute transport time exceeds guidelines. Medical management alone appeals to those who think the time window has passed. Serial biomarkers attracts those who want more diagnostic confirmation despite clear STEMI criteria. Antiplatelet therapy alone seems reasonable as supportive care but misses the need for reperfusion.",
+    "lead_in": "What is the most appropriate immediate management?"
+  },
+  "question": {
+    "vignette": "A 52-year-old man presents to the ED with 8-hour history of severe substernal chest pain, diaphoresis, and nausea. Pain began at rest and radiates to left arm. Vital signs: BP 150/95 mmHg, HR 88/min, RR 18/min, O2 sat 98% on room air. Physical examination shows diaphoresis and mild distress but is otherwise unremarkable. ECG shows 3mm ST elevations in leads II, III, and aVF. Troponin I is 2.1 ng/mL (normal <0.04). The nearest PCI-capable facility is 140 minutes away by ambulance transfer. No contraindications to fibrinolytic therapy are identified.",
+    "stem": "What is the most appropriate immediate management?",
+    "choice_a": "Administer fibrinolytic therapy immediately",
+    "choice_b": "Transfer for primary PCI despite transport time",
+    "choice_c": "Obtain serial cardiac biomarkers and observe",
+    "choice_d": "Initiate medical management without reperfusion therapy",
+    "choice_e": "Start heparin and dual antiplatelet therapy only",
+    "correct_answer": "A",
+    "why_correct": "The patient has STEMI presenting within 12 hours of symptom onset. Since the nearest PCI-capable facility is 140 minutes away (exceeding the 120-minute guideline threshold), fibrinolytic therapy should be administered immediately rather than transferring for delayed primary PCI.",
+    "decision_hinge": "The 140-minute transport time to the nearest PCI-capable facility exceeds the 120-minute guideline threshold for primary PCI in STEMI patients.",
+    "competing_differential": "Transfer for primary PCI would be correct if the facility were accessible within 120 minutes, but the extended transport time makes fibrinolytic therapy the preferred reperfusion strategy for this time-sensitive STEMI."
+  },
+  "meta": {
+    "totalTokens": 16694,
+    "totalMs": 60265
+  }
+}

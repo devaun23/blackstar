@@ -1,0 +1,176 @@
+{
+  "topic": "Pulmonary Embolism",
+  "node": {
+    "shelf": "medicine",
+    "system": "Pulmonology",
+    "topic": "Pulmonary Embolism",
+    "subtopic": "Diagnosis and Management",
+    "task_type": "diagnosis",
+    "clinical_setting": "ed",
+    "age_group": "middle_aged",
+    "time_horizon": "immediate",
+    "yield_tier": "tier_1"
+  },
+  "algorithm_card": {
+    "entry_presentation": "Middle-aged patient presenting to ED with acute dyspnea, chest pain (often pleuritic), and/or hemoptysis with risk factors for thromboembolism (recent surgery, immobilization, malignancy, OCP use, prior VTE)",
+    "competing_paths": [
+      "Pulmonary Embolism: Wells score ≥4 OR Wells score <4 with elevated D-dimer - proceed to CT pulmonary angiogram",
+      "Low probability PE: Wells score <4 AND normal D-dimer - pursue alternative diagnoses (pneumonia, pneumothorax, MI, anxiety)"
+    ],
+    "hinge_feature": "Wells Score combined with D-dimer result - Wells ≥4 requires imaging regardless of D-dimer; Wells <4 with normal D-dimer excludes PE",
+    "correct_action": "If PE confirmed on imaging: anticoagulate immediately with heparin or DOAC unless contraindicated; consider thrombolysis for massive PE with hemodynamic instability",
+    "contraindications": [
+      "Do not use D-dimer alone to rule out PE in high-risk patients (Wells ≥4)",
+      "Do not delay anticoagulation while awaiting imaging in high-risk patients",
+      "Avoid thrombolysis in patients with recent surgery, active bleeding, or stroke"
+    ],
+    "source_citations": [
+      "American College of Chest Physicians Evidence-Based Clinical Practice Guidelines (CHEST 2016)",
+      "ESC Guidelines on Pulmonary Embolism 2019",
+      "Wells PE Clinical Decision Rule - validated algorithm"
+    ]
+  },
+  "facts": [
+    {
+      "fact_type": "threshold",
+      "fact_text": "Wells score ≥4 indicates high probability PE requiring immediate imaging regardless of D-dimer result",
+      "threshold_value": "4",
+      "source_name": "CHEST Guidelines 2016",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "D-dimer <500 ng/mL combined with Wells score <4 has 99.5% negative predictive value for PE",
+      "threshold_value": "500 ng/mL",
+      "source_name": "Cochrane Systematic Review 2021",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "management_step",
+      "fact_text": "Anticoagulation should be initiated within 4 hours of PE diagnosis to reduce mortality",
+      "threshold_value": "4 hours",
+      "source_name": "ESC PE Guidelines 2019",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "Massive PE with systolic BP <90 mmHg requires immediate thrombolysis consideration",
+      "threshold_value": "90 mmHg",
+      "source_name": "AHA PE Management Statement 2020",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "CTPA is first-line imaging for PE diagnosis with 96% sensitivity and 95% specificity",
+      "threshold_value": null,
+      "source_name": "PIOPED III Study",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "Age-adjusted D-dimer threshold (age × 10 ng/mL) should be used in patients >50 years to improve specificity",
+      "threshold_value": "50 years",
+      "source_name": "Journal of Thrombosis and Haemostasis 2014",
+      "source_tier": "B",
+      "confidence": "moderate"
+    }
+  ],
+  "case_plan": {
+    "target_cognitive_error": "reflex_response_to_finding",
+    "target_hinge_clue_type": "contraindication",
+    "target_action_class": "treat_standard",
+    "ambiguity_level": 3,
+    "distractor_strength": 4,
+    "clinical_complexity": 3,
+    "ambiguity_strategy": "Present a patient with confirmed PE where anticoagulation seems straightforward, but embed a recent major surgery contraindication that requires alternative management approach",
+    "distractor_design": {
+      "Start heparin immediately": "Reflexive response to PE diagnosis - seems obviously correct since anticoagulation is standard PE treatment",
+      "Start warfarin with heparin bridge": "Standard anticoagulation protocol that students memorize, ignores bleeding risk context",
+      "Order repeat CTPA in 24 hours": "Appears cautious and thorough, but misses that diagnosis is already confirmed",
+      "Place IVC filter only": "Correct recognition of anticoagulation contraindication but incomplete - doesn't address need for anticoagulation when bleeding risk resolves"
+    },
+    "final_decisive_clue": "Recent major abdominal surgery within 72 hours with ongoing surgical site bleeding risk",
+    "explanation_teaching_goal": "Teach that confirmed PE diagnosis doesn't automatically trigger standard anticoagulation - bleeding risk assessment must override reflexive treatment protocols, requiring IVC filter as bridge until surgical bleeding risk diminishes, then transition to anticoagulation"
+  },
+  "skeleton": {
+    "case_summary": "A 52-year-old woman presents to ED with acute dyspnea and pleuritic chest pain; CTPA confirms segmental pulmonary embolism, but she underwent major abdominal surgery 48 hours ago with ongoing concern for surgical site bleeding.",
+    "hidden_target": "Recognition that confirmed PE with recent major surgery and bleeding risk requires IVC filter placement rather than immediate anticoagulation",
+    "correct_action": "Place inferior vena cava filter and delay anticoagulation until bleeding risk resolves",
+    "wrong_option_archetypes": [
+      {
+        "letter": "B",
+        "archetype": "Start heparin immediately",
+        "cognitive_error": "reflex_response_to_finding"
+      },
+      {
+        "letter": "C",
+        "archetype": "Start warfarin with heparin bridge",
+        "cognitive_error": "protocol_adherence_bias"
+      },
+      {
+        "letter": "D",
+        "archetype": "Order repeat CTPA in 24 hours",
+        "cognitive_error": "unnecessary_confirmation"
+      }
+    ],
+    "error_mapping": {
+      "B": "reflex_response_to_finding",
+      "C": "protocol_adherence_bias",
+      "D": "unnecessary_confirmation"
+    },
+    "hinge_placement": "After presenting the confirmed PE diagnosis, the surgical history and current bleeding risk assessment",
+    "hinge_description": "The recent major abdominal surgery within 72 hours with ongoing surgical site bleeding concern represents an absolute contraindication to anticoagulation, requiring alternative management despite confirmed PE diagnosis"
+  },
+  "item_plan": {
+    "target_hinge": "Recent major abdominal surgery within 72 hours with ongoing surgical site bleeding concern represents an absolute contraindication to anticoagulation, requiring alternative management despite confirmed PE diagnosis",
+    "competing_options": [
+      "Place inferior vena cava filter",
+      "Start enoxaparin immediately",
+      "Start rivaroxaban immediately",
+      "Start unfractionated heparin",
+      "Start warfarin with heparin bridge"
+    ],
+    "target_cognitive_error": "reflex_response_to_finding",
+    "noise_elements": [
+      "Heart rate 98 bpm, blood pressure 128/82 mmHg",
+      "Oxygen saturation 94% on room air",
+      "No family history of thrombophilia"
+    ],
+    "option_class": "management_interventions",
+    "distractor_rationale": "Options B-E all represent standard anticoagulation approaches that would be correct for confirmed PE without bleeding contraindications. Students will reflexively want to anticoagulate immediately upon seeing confirmed PE on imaging, missing the critical contraindication of recent major surgery with active bleeding risk that mandates IVC filter placement instead.",
+    "lead_in": "What is the most appropriate next step in management?"
+  },
+  "question": {
+    "vignette": "A 52-year-old woman comes to the emergency department because of acute dyspnea and left-sided pleuritic chest pain for 2 hours. She has no significant medical history and takes no medications. Her temperature is 37.2°C (99.0°F), pulse is 98/min, respirations are 22/min, and blood pressure is 128/82 mmHg. Oxygen saturation is 94% on room air. Physical examination shows tachypnea but is otherwise unremarkable. No family history of thrombophilia. CT pulmonary angiogram shows segmental pulmonary embolism in the left lower lobe. She underwent major abdominal surgery 48 hours ago for bowel obstruction. The surgical team reports concern for ongoing bleeding at the surgical site with serosanguinous drainage.",
+    "stem": "What is the most appropriate next step in management?",
+    "choice_a": "Place inferior vena cava filter",
+    "choice_b": "Start enoxaparin immediately",
+    "choice_c": "Start rivaroxaban immediately",
+    "choice_d": "Start unfractionated heparin",
+    "choice_e": "Start warfarin with heparin bridge",
+    "correct_answer": "A",
+    "why_correct": "This patient has confirmed pulmonary embolism but major abdominal surgery 48 hours ago with ongoing surgical site bleeding creates an absolute contraindication to anticoagulation. IVC filter placement is the only option that prevents further embolic events while avoiding catastrophic bleeding complications. The recent surgery timeline (<72 hours) combined with active bleeding concern makes any form of anticoagulation extremely high-risk, leaving mechanical prevention as the only safe intervention.",
+    "decision_hinge": "Recent major abdominal surgery 48 hours ago with ongoing surgical site bleeding concern represents absolute contraindication to anticoagulation despite confirmed PE",
+    "competing_differential": "Standard anticoagulation with heparin, DOAC, or warfarin would be appropriate for confirmed PE without bleeding contraindications",
+    "why_wrong_a": null,
+    "why_wrong_b": "Enoxaparin is tempting as the standard anticoagulant for PE treatment, but recent major surgery with bleeding risk creates an absolute contraindication. Starting anticoagulation could precipitate life-threatening surgical site hemorrhage, making the bleeding risk outweigh the embolic protection benefit in this immediate post-operative period.",
+    "why_wrong_c": "Rivaroxaban appears attractive as an oral anticoagulant with potentially easier reversal, but any anticoagulation is contraindicated given recent major surgery and bleeding concerns. DOACs still carry significant bleeding risk in the immediate post-operative period and would not be safer than heparin in this scenario.",
+    "why_wrong_d": "Unfractionated heparin seems logical since it's easily reversible with protamine, but even reversible anticoagulation is contraindicated when there's active bleeding risk from recent surgery. The bleeding complications could be immediately life-threatening, making even 'safer' anticoagulants inappropriate.",
+    "why_wrong_e": "Warfarin with heparin bridge is the classic approach for PE but represents dual anticoagulation in a patient with absolute bleeding contraindications. The combination would create even higher bleeding risk than single-agent therapy, making this the most dangerous option in this post-operative bleeding scenario.",
+    "high_yield_pearl": "IVC filter is indicated for confirmed PE when anticoagulation is absolutely contraindicated by recent surgery or active bleeding.",
+    "reasoning_pathway": "Confirmed PE on CTPA → Standard treatment is immediate anticoagulation → Recent major surgery (48h) + bleeding concerns = absolute anticoagulation contraindication → IVC filter prevents further emboli without bleeding risk → Most appropriate next step until bleeding risk resolves.",
+    "explanation_decision_logic": "The core decision rule tests recognition that bleeding contraindications to anticoagulation require mechanical prevention rather than pharmacologic treatment, even with confirmed life-threatening PE.",
+    "explanation_transfer_rule": "When anticoagulation is contraindicated in confirmed VTE, mechanical prevention (IVC filter) is preferred over risking catastrophic bleeding complications.",
+    "explanation_teaching_pearl": "Always assess bleeding risk before anticoagulating PE - recent surgery, active bleeding, or high bleeding risk may require IVC filter instead of standard anticoagulation."
+  },
+  "meta": {
+    "totalTokens": 26114,
+    "totalMs": 78910,
+    "timestamp": "2026-04-02T18:53:44.874Z"
+  }
+}

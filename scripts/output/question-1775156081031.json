@@ -1,0 +1,177 @@
+{
+  "topic": "Acute Coronary Syndrome",
+  "node": {
+    "shelf": "medicine",
+    "system": "Cardiology",
+    "topic": "Acute Coronary Syndrome",
+    "subtopic": "STEMI",
+    "task_type": "next_step",
+    "clinical_setting": "ed",
+    "age_group": "middle_aged",
+    "time_horizon": "immediate",
+    "yield_tier": "tier_1"
+  },
+  "algorithm_card": {
+    "entry_presentation": "Middle-aged patient presenting to ED with severe chest pain lasting >20 minutes, often described as crushing or pressure-like, may radiate to left arm, jaw, or back. Associated with diaphoresis, nausea, or shortness of breath.",
+    "competing_paths": [
+      "STEMI requiring immediate reperfusion - ST elevation ≥1mm in ≥2 contiguous leads, new LBBB, or posterior STEMI equivalents",
+      "NSTEMI/Unstable Angina - ST depression, T-wave inversions, or normal ECG with positive cardiac biomarkers",
+      "Non-cardiac chest pain - Normal ECG, negative cardiac biomarkers, atypical pain characteristics"
+    ],
+    "hinge_feature": "ST elevation ≥1mm in ≥2 contiguous leads on 12-lead ECG obtained within 10 minutes of arrival",
+    "correct_action": "Activate cardiac catheterization lab immediately for primary PCI if door-to-balloon time can be achieved within 90 minutes, otherwise administer fibrinolytic therapy within 30 minutes if no contraindications",
+    "contraindications": [
+      "Delaying reperfusion therapy for additional cardiac biomarkers or imaging",
+      "Administering fibrinolytics if primary PCI available within 90 minutes",
+      "Giving fibrinolytics with contraindications: recent surgery, active bleeding, stroke history, uncontrolled hypertension >180/110"
+    ],
+    "source_citations": [
+      "2013 ACCF/AHA Guideline for the Management of STEMI",
+      "2017 ESC Guidelines for STEMI Management",
+      "AHA/ACC 2014 NSTE-ACS Guidelines"
+    ]
+  },
+  "facts": [
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "STEMI diagnosis requires ST elevation ≥1mm in ≥2 contiguous limb leads or ≥2mm in ≥2 contiguous precordial leads",
+      "threshold_value": "1mm limb, 2mm precordial",
+      "source_name": "2013 ACCF/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "Door-to-balloon time for primary PCI should be ≤90 minutes for optimal outcomes in STEMI patients",
+      "threshold_value": "90 minutes",
+      "source_name": "ACC/AHA Performance Measures",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "Door-to-needle time for fibrinolytic therapy should be ≤30 minutes when PCI is not available",
+      "threshold_value": "30 minutes",
+      "source_name": "2013 ACCF/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "contraindication",
+      "fact_text": "Fibrinolytic therapy is contraindicated with systolic BP >180 mmHg or diastolic BP >110 mmHg",
+      "threshold_value": "180/110 mmHg",
+      "source_name": "ACC/AHA Fibrinolytic Contraindications",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "12-lead ECG must be obtained and interpreted within 10 minutes of ED arrival for suspected ACS patients",
+      "threshold_value": "10 minutes",
+      "source_name": "AHA/ACC ACS Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "Posterior STEMI presents as ST depression in V1-V3 with tall R waves and should be treated as STEMI equivalent",
+      "threshold_value": null,
+      "source_name": "AHA Scientific Statement on Posterior MI",
+      "source_tier": "B",
+      "confidence": "high"
+    }
+  ],
+  "case_plan": {
+    "target_cognitive_error": "over_testing",
+    "target_hinge_clue_type": "contraindication",
+    "target_action_class": "treat_emergent",
+    "ambiguity_level": 3,
+    "distractor_strength": 4,
+    "clinical_complexity": 3,
+    "ambiguity_strategy": "Present clear STEMI with obvious reperfusion indication, but include a patient factor that creates contraindication to fibrinolytics while PCI remains unavailable, forcing judgment about competing treatment risks versus benefits",
+    "distractor_design": {
+      "Wait for cardiac biomarkers before deciding treatment": "Appears prudent and evidence-based, exploiting over-testing error by suggesting biomarkers are needed to confirm STEMI despite clear ECG changes",
+      "Administer fibrinolytic therapy immediately": "Follows standard STEMI protocol and appears appropriately urgent, but ignores contraindication that makes this harmful",
+      "Transfer to tertiary center for PCI": "Seems like optimal care seeking best available intervention, but ignores time constraints that make this impractical",
+      "Start dual antiplatelet therapy and observe": "Conservative approach that acknowledges bleeding risk, but inappropriately delays definitive reperfusion therapy"
+    },
+    "final_decisive_clue": "Recent major surgery within 2 weeks creating absolute contraindication to fibrinolytic therapy while cardiac catheterization lab is unavailable",
+    "explanation_teaching_goal": "Teach that when standard reperfusion therapy is contraindicated, clinical judgment must weigh competing risks - the harm of delayed reperfusion versus absolute contraindications to available treatments, emphasizing that clear STEMI diagnosis doesn't automatically dictate treatment choice when patient factors create safety concerns"
+  },
+  "skeleton": {
+    "case_summary": "A 52-year-old man presents to the ED with crushing chest pain for 45 minutes, and his 12-lead ECG shows ST elevation ≥2mm in leads V2-V5, but he underwent major abdominal surgery 10 days ago and the cardiac catheterization lab is currently unavailable.",
+    "hidden_target": "Recognition that absolute contraindications to fibrinolytic therapy may necessitate medical management despite clear STEMI indication when primary PCI is unavailable",
+    "correct_action": "Initiate medical management with dual antiplatelet therapy, anticoagulation, and arrange urgent transfer for primary PCI",
+    "wrong_option_archetypes": [
+      {
+        "letter": "B",
+        "archetype": "Wait for cardiac biomarkers to confirm STEMI before deciding treatment approach",
+        "cognitive_error": "over_testing"
+      },
+      {
+        "letter": "C",
+        "archetype": "Administer fibrinolytic therapy immediately given clear STEMI presentation",
+        "cognitive_error": "pattern_matching"
+      },
+      {
+        "letter": "D",
+        "archetype": "Transfer immediately to tertiary center for primary PCI without medical stabilization",
+        "cognitive_error": "outcome_bias"
+      }
+    ],
+    "error_mapping": {
+      "B": "over_testing",
+      "C": "pattern_matching",
+      "D": "outcome_bias"
+    },
+    "hinge_placement": "Patient history section revealing recent major surgery",
+    "hinge_description": "Recent major abdominal surgery within 10 days creates absolute contraindication to fibrinolytic therapy, forcing choice between medical management versus high-risk fibrinolysis despite clear STEMI indication"
+  },
+  "item_plan": {
+    "target_hinge": "Recent major abdominal surgery within 10 days creates absolute contraindication to fibrinolytic therapy despite clear STEMI presentation",
+    "competing_options": [
+      "Administer aspirin and clopidogrel with heparin anticoagulation",
+      "Obtain serial cardiac biomarkers before treatment decisions",
+      "Start fibrinolytic therapy with alteplase immediately",
+      "Schedule elective cardiac catheterization within 24 hours",
+      "Transfer to tertiary center without medical intervention"
+    ],
+    "target_cognitive_error": "reflex_response_to_finding",
+    "noise_elements": [
+      "Patient's blood pressure of 142/88 mmHg",
+      "Diaphoresis and nausea accompanying chest pain",
+      "Pain radiating to left arm and jaw"
+    ],
+    "option_class": "immediate_management_actions",
+    "distractor_rationale": "Option C (fibrinolytic therapy) appears correct based on clear STEMI pattern but ignores absolute contraindication from recent surgery. Option B delays necessary treatment. Option D bypasses needed stabilization. Option E offers no immediate intervention despite urgent need.",
+    "lead_in": "What is the most appropriate immediate management?"
+  },
+  "question": {
+    "vignette": "A 52-year-old man comes to the ED with severe crushing chest pain for 45 minutes. The pain radiates to his left arm and jaw and is accompanied by diaphoresis and nausea. He has a history of hypertension and smoking. Vital signs show blood pressure 142/88 mmHg, pulse 98/min, and respirations 20/min. Physical examination reveals diaphoresis and mild distress but is otherwise unremarkable. A 12-lead ECG shows ST elevation of 3 mm in leads V2-V5. Primary PCI is not immediately available and transfer time is estimated at 2 hours. He underwent major abdominal surgery 3 days ago.",
+    "stem": "What is the most appropriate immediate management?",
+    "choice_a": "Administer aspirin and initiate emergency transfer",
+    "choice_b": "Obtain serial cardiac biomarkers before treatment",
+    "choice_c": "Initiate fibrinolytic therapy with alteplase",
+    "choice_d": "Schedule cardiac catheterization within 12 hours",
+    "choice_e": "Administer morphine and heparin therapy",
+    "correct_answer": "A",
+    "why_correct": "This patient presents with classic STEMI based on typical chest pain and 3mm ST elevation in contiguous precordial leads V2-V5. The key decision point is choosing the appropriate reperfusion strategy given that primary PCI is not immediately available with a 2-hour transfer time. Although this exceeds the ideal 90-minute door-to-balloon time, the recent major abdominal surgery 3 days ago creates an absolute contraindication to fibrinolytic therapy due to catastrophic bleeding risk. When fibrinolytics are contraindicated, primary PCI remains the preferred reperfusion strategy regardless of transfer time. Aspirin should be administered immediately as it provides mortality benefit and has minimal bleeding risk even in post-surgical patients.",
+    "why_wrong_a": null,
+    "why_wrong_b": "This represents a common cognitive error of over-testing in the face of clear diagnosis. The ECG shows definitive STEMI criteria with 3mm ST elevation in contiguous precordial leads, making additional biomarkers unnecessary for diagnosis. Serial troponins would delay life-saving reperfusion therapy - time is myocardium in STEMI. The 'time is muscle' principle dictates that every minute of delay increases infarct size and mortality risk.",
+    "why_wrong_c": "This option seems logical given the STEMI presentation and unavailable primary PCI, but fails to recognize the absolute contraindication. Major surgery within 7 days carries extremely high risk of life-threatening hemorrhage at the surgical site when fibrinolytics are administered. The 3-day post-operative status makes this choice potentially fatal, as the risk of catastrophic bleeding outweighs the benefit of reperfusion via fibrinolysis.",
+    "why_wrong_d": "This represents dangerous delay in the management of acute coronary occlusion. STEMI requires emergency reperfusion within minutes to hours, not elective scheduling within 12 hours. Every hour of delay results in progressive myocardial necrosis - the classic teaching is that 50% of the final infarct size occurs within the first 2 hours. Scheduling catheterization rather than emergently arranging it would result in preventable myocardial death.",
+    "why_wrong_e": "While morphine provides symptom relief and heparin offers anticoagulation benefit, neither addresses the fundamental pathophysiology of total coronary occlusion requiring immediate mechanical or pharmacologic reperfusion. These are supportive measures that should accompany, not replace, definitive reperfusion therapy. The cognitive trap here is treating symptoms rather than the underlying emergency.",
+    "high_yield_pearl": "Recent major surgery within 7 days is an absolute contraindication to fibrinolytic therapy; when primary PCI is unavailable, patients should still receive aspirin and emergency transfer for PCI rather than fibrinolytics.",
+    "reasoning_pathway": "1) Recognize STEMI from classic presentation plus diagnostic ECG changes (3mm ST elevation V2-V5), 2) Identify need for immediate reperfusion therapy, 3) Consider available options: primary PCI (delayed) vs fibrinolytic therapy, 4) Recognize absolute contraindication to fibrinolytics (major surgery 3 days ago), 5) Choose emergency transfer for primary PCI with aspirin administration as the only viable reperfusion strategy despite prolonged transfer time.",
+    "decision_hinge": "Recent major abdominal surgery 3 days ago creating absolute contraindication to fibrinolytic therapy, making immediate transfer for primary PCI the only viable reperfusion option despite prolonged transfer time",
+    "competing_differential": "STEMI requiring immediate reperfusion versus bleeding risk from very recent major surgery, where transfer for primary PCI becomes the only safe reperfusion strategy",
+    "explanation_decision_logic": "The core decision rule being tested is the hierarchy of reperfusion strategies in STEMI when contraindications exist: Primary PCI is always preferred when fibrinolytics are contraindicated, regardless of delay, because delayed reperfusion is superior to no reperfusion when bleeding risk prohibits pharmacologic intervention.",
+    "explanation_transfer_rule": "When the preferred reperfusion strategy (primary PCI within 90 minutes) is unavailable, evaluate contraindications to alternative strategies (fibrinolytics) before defaulting to the alternative - absolute contraindications to fibrinolytics make delayed primary PCI the only viable option.",
+    "explanation_teaching_pearl": "Students should memorize that major surgery within 7 days creates absolute contraindication to fibrinolytics, and that in STEMI, some reperfusion (delayed PCI) is always better than no reperfusion when bleeding risk prohibits fibrinolytic therapy - never abandon reperfusion entirely due to logistical delays when contraindications exist."
+  },
+  "meta": {
+    "totalTokens": 68127,
+    "totalMs": 148239,
+    "timestamp": "2026-04-02T18:54:41.030Z"
+  }
+}

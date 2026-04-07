@@ -13,6 +13,12 @@ export type { ItemDraftInput, ExplanationOutput } from './item-draft';
 export { validatorReportSchema, validatorTypeEnum } from './validator-report';
 export type { ValidatorReportInput } from './validator-report';
 
+export { casePlanSchema, optionFrameSchema, cognitiveOperationEnum, hingeDepthEnum, decisionForkTypeEnum } from './case-plan';
+export type { CasePlanInput, OptionFrame } from './case-plan';
+
+export { questionSkeletonSchema, skeletonValidatorOutputSchema } from './question-skeleton';
+export type { QuestionSkeletonInput, SkeletonValidatorOutput } from './question-skeleton';
+
 export {
   visualSpecSchema,
   visualContractSchema,
