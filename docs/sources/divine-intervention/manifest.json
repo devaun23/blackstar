@@ -2,7 +2,7 @@
   "source": "Divine Intervention Podcast Notes",
   "description": "USMLE board review podcast notes. Raw storage for future pipeline integration.",
   "total_episodes": 108,
-  "uploaded": 63,
+  "uploaded": 69,
   "episodes": [
     {
       "ep": 17,
@@ -856,10 +856,20 @@
       "ep": 141,
       "title": "Rapid Review Series 13 IM",
       "file": "ep-141-rapid-review-13-im.md",
-      "status": "pending",
+      "status": "uploaded",
       "shelf": "medicine",
       "topics": [
-        "internal-medicine"
+        "internal-medicine",
+        "gi",
+        "surgical-abdomen",
+        "hematology",
+        "pulmonology",
+        "infectious-disease",
+        "toxicology",
+        "pharmacology",
+        "diarrhea",
+        "coagulation",
+        "effusions"
       ],
       "page": 0
     },
@@ -867,10 +877,17 @@
       "ep": 143,
       "title": "Biostats Review",
       "file": "ep-143-biostats.md",
-      "status": "pending",
+      "status": "uploaded",
       "shelf": "biostats",
       "topics": [
-        "biostatistics"
+        "biostatistics",
+        "sensitivity",
+        "specificity",
+        "ppv-npv",
+        "study-design",
+        "statistical-tests",
+        "screening",
+        "epidemiology"
       ],
       "page": 0
     },
@@ -878,10 +895,20 @@
       "ep": 145,
       "title": "Rapid Review Series 14 Surgery",
       "file": "ep-145-rapid-review-14-surgery.md",
-      "status": "pending",
+      "status": "uploaded",
       "shelf": "surgery",
       "topics": [
-        "surgery"
+        "surgery",
+        "gi",
+        "endocrinology",
+        "thyroid",
+        "pulmonology",
+        "oncology",
+        "neurology",
+        "neurosurgery",
+        "volvulus",
+        "lung-cancer",
+        "men-syndromes"
       ],
       "page": 0
     },
@@ -889,10 +916,19 @@
       "ep": 159,
       "title": "Rapid Review Series 18 IM",
       "file": "ep-159-rapid-review-18-im.md",
-      "status": "pending",
+      "status": "uploaded",
       "shelf": "medicine",
       "topics": [
-        "internal-medicine"
+        "internal-medicine",
+        "oncology",
+        "urology",
+        "psychiatry",
+        "pharmacology",
+        "pulmonology",
+        "endocrinology",
+        "thyroid",
+        "ethics",
+        "nephrology"
       ],
       "page": 0
     },
@@ -900,10 +936,19 @@
       "ep": 161,
       "title": "The Clutch Antibody Podcast",
       "file": "ep-161-clutch-antibodies.md",
-      "status": "pending",
+      "status": "uploaded",
       "shelf": "medicine",
       "topics": [
-        "immunology"
+        "immunology",
+        "rheumatology",
+        "autoantibodies",
+        "dermatology",
+        "nephrology",
+        "neurology",
+        "endocrinology",
+        "hematology",
+        "hla-associations",
+        "autoimmune"
       ],
       "page": 0
     },
@@ -911,11 +956,19 @@
       "ep": 163,
       "title": "Rapid Review Series 19 Surgery Abdomen",
       "file": "ep-163-rapid-review-19-surgery-abdomen.md",
-      "status": "pending",
+      "status": "uploaded",
       "shelf": "surgery",
       "topics": [
         "surgery",
-        "gi"
+        "trauma",
+        "gi",
+        "vascular",
+        "gynecology",
+        "hepatobiliary",
+        "urology",
+        "critical-care",
+        "acute-abdomen",
+        "pancreas"
       ],
       "page": 0
     },
@@ -1049,10 +1102,21 @@
       "ep": 181,
       "title": "Comprehensive NBME Emergency Medicine Shelf Review Series 1",
       "file": "ep-181-em-shelf-1.md",
-      "status": "pending",
+      "status": "uploaded",
       "shelf": "emergency-medicine",
       "topics": [
-        "emergency-medicine"
+        "emergency-medicine",
+        "pulmonary-embolism",
+        "cardiology",
+        "arrhythmias",
+        "electrolytes",
+        "acs",
+        "valvular-disease",
+        "heart-failure",
+        "hypertensive-emergencies",
+        "endocrinology",
+        "aortic-dissection",
+        "endocarditis"
       ],
       "page": 0
     },
@@ -1060,10 +1124,18 @@
       "ep": 182,
       "title": "Comprehensive NBME Emergency Medicine Shelf Review Series 2",
       "file": "ep-182-em-shelf-2.md",
-      "status": "pending",
+      "status": "uploaded",
       "shelf": "emergency-medicine",
       "topics": [
-        "emergency-medicine"
+        "emergency-medicine",
+        "endocrinology",
+        "dka",
+        "hhs",
+        "adrenal-crisis",
+        "thyroid-storm",
+        "myxedema",
+        "pituitary",
+        "hypoglycemia"
       ],
       "page": 0
     },
@@ -1071,10 +1143,20 @@
       "ep": 183,
       "title": "Comprehensive NBME Emergency Medicine Shelf Review Series 3",
       "file": "ep-183-em-shelf-3.md",
-      "status": "pending",
+      "status": "uploaded",
       "shelf": "emergency-medicine",
       "topics": [
-        "emergency-medicine"
+        "emergency-medicine",
+        "infectious-disease",
+        "stds",
+        "sepsis",
+        "skin-soft-tissue",
+        "hiv",
+        "tropical-medicine",
+        "parasitology",
+        "bioterrorism",
+        "transplant",
+        "tick-borne-disease"
       ],
       "page": 0
     },
@@ -1082,11 +1164,16 @@
       "ep": 184,
       "title": "NBME Weird",
       "file": "ep-184-nbme-weird.md",
-      "status": "pending",
+      "status": "uploaded",
       "shelf": "mixed",
       "topics": [
         "high-yield",
-        "nbme-patterns"
+        "nbme-patterns",
+        "most-common",
+        "prognostic-factors",
+        "complications",
+        "risk-factors",
+        "clinical-reasoning"
       ],
       "page": 0
     },
