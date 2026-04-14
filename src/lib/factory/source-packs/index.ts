@@ -12,6 +12,13 @@ const PACK_REGISTRY: Record<string, () => Promise<SourcePack>> = {
     import('./acg-gi-bleeding').then((m) => m.pack),
   'PACK.SSC.SEPSIS.2021': () =>
     import('./surviving-sepsis-2021').then((m) => m.pack),
+  // Phase 1 source packs (P4 evidence grounding)
+  'PACK.AHA.ACS.2023': () =>
+    import('./aha-acs').then((m) => m.PACK_AHA_ACS_2023),
+  'PACK.AHA.PE.2024': () =>
+    import('./aha-pe').then((m) => m.PACK_AHA_PE_2024),
+  'PACK.KDIGO.AKI.2024': () =>
+    import('./kdigo-aki').then((m) => m.PACK_KDIGO_AKI_2024),
 };
 
 /** Load a pack by ID. Returns null if not registered or not active. */

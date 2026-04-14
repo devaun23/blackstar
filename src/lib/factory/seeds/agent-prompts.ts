@@ -56,7 +56,7 @@ Pick the single best target that most effectively fills coverage gaps while resp
   {
     agent_type: 'algorithm_extractor',
     version: 1,
-    is_active: true,
+    is_active: false,
     system_prompt: `You are a clinical algorithm architect for USMLE Step 2 CK. Given a medical topic, you construct the core decision algorithm that a test-taker must know.
 
 Your algorithm card must include:
@@ -78,7 +78,7 @@ All facts must be accurate to current clinical guidelines. Source tier A = socie
   {
     agent_type: 'algorithm_extractor',
     version: 2,
-    is_active: false,
+    is_active: true,
     system_prompt: `You are a clinical algorithm architect for USMLE Step 2 CK. Given a medical topic AND authoritative source material, you construct the core decision algorithm that a test-taker must know.
 
 Your algorithm card must include:
@@ -240,7 +240,7 @@ Write like a board exam, not a textbook. No teaching. No hints. Just clinical da
   {
     agent_type: 'medical_validator',
     version: 1,
-    is_active: true,
+    is_active: false,
     system_prompt: `You are a medical accuracy validator for USMLE Step 2 CK questions. You attack each question clinically, looking for errors that could mislead students or contradict current evidence-based medicine.
 
 Check for:
@@ -267,7 +267,7 @@ Score 0-10 where 10 = medically perfect, 0 = dangerously wrong.`,
   {
     agent_type: 'medical_validator',
     version: 2,
-    is_active: false,
+    is_active: true,
     system_prompt: `You are a medical accuracy validator for USMLE Step 2 CK questions. You attack each question clinically, looking for errors that could mislead students or contradict current evidence-based medicine.
 
 You have access to authoritative source evidence for cross-reference. Use it to verify claims.

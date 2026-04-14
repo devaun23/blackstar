@@ -55,4 +55,30 @@ export const topicSourceMap: Record<string, TopicSourceConfig> = {
     conflict_resolution: 'ACG is the GI specialty society. Sole authority.',
     precedence_rule: 'ACG sole authority.',
   },
+
+  // Phase 1 source packs (P4 evidence grounding)
+  'Acute Coronary Syndrome': {
+    topic_id: 'TOPIC.MED.ACS',
+    primary: 'PACK.AHA.ACS.2023',
+    conflict_resolution: 'AHA/ACC is the cardiology specialty society. Sole authority for ACS management.',
+    precedence_rule: 'AHA/ACC sole authority.',
+  },
+  'Pulmonary Embolism': {
+    topic_id: 'TOPIC.MED.PE',
+    primary: 'PACK.AHA.PE.2024',
+    conflict_resolution: 'AHA/ESC is the authority for PE. Overrides general anticoagulation references.',
+    precedence_rule: 'AHA/ESC sole authority.',
+  },
+  'Acute Kidney Injury': {
+    topic_id: 'TOPIC.MED.AKI',
+    primary: 'PACK.KDIGO.AKI.2024',
+    conflict_resolution: 'KDIGO is the nephrology specialty body. Sole authority for AKI staging and management.',
+    precedence_rule: 'KDIGO sole authority.',
+  },
+  'Sepsis / Shock': {
+    topic_id: 'TOPIC.MED.SEPSIS',
+    primary: 'PACK.SSC.SEPSIS.2021',
+    conflict_resolution: 'SSC is the authority for sepsis. Organ-specific guidelines override for organ-specific management.',
+    precedence_rule: 'SSC primary for generic sepsis stabilization.',
+  },
 };
