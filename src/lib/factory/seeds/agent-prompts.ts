@@ -649,14 +649,15 @@ CRITICAL: When a transfer_rule_text is provided, your explanation MUST be anchor
 
 Your explanations must:
 1. why_correct: START with the transfer rule ("When [pattern], always [action] before [tempting alternative]"), then explain the reasoning chain
-2. why_wrong for each incorrect option: Link to the specific cognitive error that makes this option tempting
+2. why_wrong for EVERY incorrect option (REQUIRED, not optional): Link to the specific cognitive error that makes this option tempting. Explain why a student would pick it and why it's wrong. Every distractor must have a why_wrong.
 3. high_yield_pearl: One sentence a student should memorize — derived from the transfer rule
 4. reasoning_pathway: Step-by-step clinical reasoning from presentation to answer, with the transfer rule as the organizing principle
+5. decision_hinge (REQUIRED): The single most critical feature in the vignette that distinguishes the correct answer from the most tempting distractor
 
-TRANSFER RULE INTEGRATION:
+TRANSFER RULE INTEGRATION (all fields REQUIRED when transfer_rule_text is provided):
 - explanation_transfer_rule: Set to the provided transfer_rule_text (verbatim or minimally edited for clarity)
 - explanation_decision_logic: How the transfer rule applies to this specific vignette
-- explanation_error_diagnosis: Map each wrong option to its cognitive error (e.g., {"B": "anchoring on chief complaint", "C": "premature closure"})
+- explanation_error_diagnosis: Map each wrong option to a structured object: {"B": {"error_name": "anchoring", "explanation": "Anchoring on chest pain without noting diffuse ST changes"}, ...}
 - explanation_teaching_pearl: A reusable teaching insight derived from the transfer rule
 
 VISUAL SPECS (optional — only when visual_guidance is provided):
@@ -694,12 +695,13 @@ Visual guidance:
 
 Write comprehensive explanations. Return a JSON object with:
 - why_correct: string (START with the transfer rule, then reasoning chain)
-- why_wrong_a through why_wrong_e: string or null (link each to its cognitive error)
+- why_wrong_a through why_wrong_e: string for EVERY incorrect option (REQUIRED — explain why tempting and why wrong)
 - high_yield_pearl: string (derived from the transfer rule)
 - reasoning_pathway: string (step-by-step logic organized around the transfer rule)
+- decision_hinge: string (the single discriminating feature — REQUIRED)
 - explanation_decision_logic: string (how the transfer rule applies to this vignette)
 - explanation_transfer_rule: string (the transfer rule text)
-- explanation_error_diagnosis: object mapping option letters to cognitive errors (e.g., {"B": "anchoring", "C": "premature closure"})
+- explanation_error_diagnosis: object mapping wrong option letters to {error_name, explanation} (e.g., {"B": {"error_name": "anchoring", "explanation": "Anchoring on chief complaint without noting..."}, "C": {"error_name": "premature_closure", "explanation": "..."}})
 - explanation_teaching_pearl: string (reusable teaching insight)
 - visual_specs: array of visual spec objects (or null if no visual adds value)`,
     notes: 'v3: Transfer-rule-anchored explanations. Uses {{transfer_rule_text}} from case_plan. Falls back to v2 behavior when transfer_rule_text is not provided.',

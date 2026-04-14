@@ -14,9 +14,10 @@ export async function runValidator(options: {
   validatorType: ValidatorType;
   context: AgentContext;
   itemDraftId: string;
+  model?: string;
   buildTemplateVars: () => Record<string, string> | Promise<Record<string, string>>;
 }): Promise<AgentOutput<ValidatorReportInput & { reportId: string }>> {
-  const { agentType, validatorType, context, itemDraftId, buildTemplateVars } = options;
+  const { agentType, validatorType, context, itemDraftId, buildTemplateVars, model } = options;
 
   const result = await runAgent({
     agentType,
@@ -24,6 +25,7 @@ export async function runValidator(options: {
     input: await buildTemplateVars(),
     outputSchema: validatorReportSchema,
     buildUserMessage: (vars) => vars,
+    ...(model ? { model } : {}),
   });
 
   if (!result.success) {

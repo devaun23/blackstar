@@ -65,6 +65,9 @@ const blueprintNodeId = getArg('node-id');
 const compareRunId = getArg('compare');
 const skipExplanation = hasFlag('skip-explain');
 const maxRepairs = parseInt(getArg('max-repairs') ?? '3', 10);
+const targetYield = getArg('target-yield') ? parseInt(getArg('target-yield')!, 10) : undefined;
+const systems = getArg('systems')?.split(',').map((s) => s.trim());
+const juryEnabled = hasFlag('jury');
 
 if (hasFlag('help')) {
   console.log(`
@@ -74,7 +77,7 @@ Usage:
   npx tsx --env-file .env.local scripts/harness/run-harness.ts [options]
 
 Options:
-  --count N          Number of items to generate (default: 5)
+  --count N          Number of items to generate / hard cap (default: 5)
   --concurrency N    Parallel pipeline runs (default: 3)
   --tag STRING       Label for this run (default: "run")
   --shelf SHELF      Filter blueprint selection by shelf
@@ -83,6 +86,9 @@ Options:
   --compare RUN_ID   Generate comparison against a previous run
   --skip-explain     Skip explanation writing (faster iteration)
   --max-repairs N    Override max repair cycles (default: 3)
+  --target-yield N   Stop after N items PASS (count becomes hard cap)
+  --systems LIST     Comma-separated body systems (e.g., cardiology,pulmonology,renal)
+  --jury             Enable multi-model jury on medical + exam_translation
   --list-runs        List all previous harness runs
   --help             Show this help
 
@@ -101,6 +107,9 @@ const config: HarnessConfig = {
   compareRunId,
   skipExplanation,
   maxRepairs,
+  targetYield,
+  systems,
+  juryEnabled,
 };
 
 // ─── Run ID ─────────────────────────────────────────────────────
@@ -117,10 +126,12 @@ async function main() {
   console.log(`║  Question Iteration Harness                      ║`);
   console.log(`╚══════════════════════════════════════════════════╝\n`);
   console.log(`  Run ID:       ${runId}`);
-  console.log(`  Items:        ${count}`);
+  console.log(`  Items:        ${count}${targetYield ? ` (hard cap, targeting ${targetYield} passes)` : ''}`);
   console.log(`  Concurrency:  ${concurrency}`);
   console.log(`  Shelf:        ${shelf ?? 'any'}`);
   console.log(`  Tier:         ${yieldTier ?? 'any'}`);
+  console.log(`  Systems:      ${systems?.join(', ') ?? 'any'}`);
+  console.log(`  Jury:         ${juryEnabled ? 'enabled' : 'disabled'}`);
   console.log(`  Skip explain: ${skipExplanation}`);
   if (compareRunId) console.log(`  Compare with: ${compareRunId}`);
   console.log('');

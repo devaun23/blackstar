@@ -22,6 +22,7 @@ import * as agents from './agents';
 import { checkSourceSufficiency } from './source-packs/sufficiency';
 import { topicSourceMap } from './source-packs/topic-source-map';
 import { validateVisualSpecs } from './validators/visual-spec-validator';
+import { runJuryValidation, DEFAULT_JURY_CONFIG, type JuryConfig, type JuryVerdict } from './jury';
 
 const MAX_REPAIR_CYCLES = 3;
 
@@ -283,7 +284,85 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
       })
       .eq('id', draftId);
 
-    // ─── STEP 7: Validation Loop (same as v1) ───
+    // Backfill rendered_text on skeleton option_frames from the rendered choices
+    // This enables label mapping verification at read time
+    {
+      const { data: renderedDraft } = await supabase
+        .from('item_draft')
+        .select('choice_a, choice_b, choice_c, choice_d, choice_e')
+        .eq('id', draftId)
+        .single();
+
+      if (renderedDraft) {
+        const choiceMap: Record<string, string> = {
+          A: renderedDraft.choice_a,
+          B: renderedDraft.choice_b,
+          C: renderedDraft.choice_c,
+          D: renderedDraft.choice_d,
+          E: renderedDraft.choice_e,
+        };
+        const updatedFrames = ((skeleton as QuestionSkeletonRow).option_frames ?? []).map(
+          (frame) => ({
+            ...frame,
+            rendered_text: choiceMap[frame.id] ?? null,
+          })
+        );
+        await supabase
+          .from('question_skeleton')
+          .update({ option_frames: updatedFrames })
+          .eq('id', skeleton.id);
+      }
+    }
+
+    // ─── STEP 6.5: Label Mapping Validation (post-render) ───
+    // Catches "AI-chosen answer is incorrect" failure mode (P2 — 33% of invalid questions)
+    // Verifies that skeleton option_frames align with rendered choices
+    {
+      const { data: labelDraft } = await supabase
+        .from('item_draft')
+        .select('correct_answer, choice_a, choice_b, choice_c, choice_d, choice_e')
+        .eq('id', draftId)
+        .single();
+
+      if (labelDraft && skeleton) {
+        const skel = skeleton as QuestionSkeletonRow;
+        const correctFrame = skel.correct_option_frame_id;
+        const draftCorrect = labelDraft.correct_answer?.toUpperCase();
+
+        if (correctFrame && draftCorrect && correctFrame !== draftCorrect) {
+          console.warn(
+            `[pipeline-v2] Label mapping mismatch: skeleton says correct=${correctFrame}, draft says correct=${draftCorrect}. Fixing draft to match skeleton.`
+          );
+          await supabase
+            .from('item_draft')
+            .update({ correct_answer: correctFrame })
+            .eq('id', draftId);
+        }
+
+        // Verify each frame's rendered_text matches the corresponding choice field
+        const choiceFields: Record<string, string | null> = {
+          A: labelDraft.choice_a,
+          B: labelDraft.choice_b,
+          C: labelDraft.choice_c,
+          D: labelDraft.choice_d,
+          E: labelDraft.choice_e,
+        };
+        for (const frame of skel.option_frames ?? []) {
+          const choiceText = choiceFields[frame.id];
+          if (frame.rendered_text && choiceText && frame.rendered_text !== choiceText) {
+            console.warn(
+              `[pipeline-v2] Frame ${frame.id} rendered_text doesn't match choice_${frame.id.toLowerCase()}. Updating frame.`
+            );
+          }
+        }
+      }
+    }
+
+    // ─── STEP 7: Validation Loop ───
+    // Jury mode (P1/P2): On cycle 0, medical + exam_translation validators run through
+    // a multi-model jury (Opus + Sonnet + Haiku). On subsequent cycles, single-model only.
+    const useJury = config.juryEnabled ?? false;
+    const juryVerdicts: JuryVerdict[] = [];
     let passed = false;
     for (let cycle = 0; cycle < MAX_REPAIR_CYCLES; cycle++) {
       const { data: draft } = await supabase
@@ -298,15 +377,68 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
         .update({ status: 'validating' })
         .eq('id', draftId);
 
-      const validatorResults = await Promise.all([
-        trackStep('medical_validator', () =>
-          agents.medicalValidator.run(context, {
-            draft: draft as ItemDraftRow,
-            card: card as AlgorithmCardRow,
-            facts: facts as FactRowRow[],
-            topic: node.topic,
+      const juryOnThisCycle = useJury && cycle === 0;
+
+      // Medical validator — jury on first cycle if enabled
+      const medicalPromise = juryOnThisCycle
+        ? trackStep('medical_validator', async () => {
+            const verdict = await runJuryValidation(
+              (model) => agents.medicalValidator.run(context, {
+                draft: draft as ItemDraftRow,
+                card: card as AlgorithmCardRow,
+                facts: facts as FactRowRow[],
+                topic: node.topic,
+                model,
+              }),
+              DEFAULT_JURY_CONFIG,
+              `Stem: ${(draft as ItemDraftRow).stem}\nCorrect: ${(draft as ItemDraftRow).correct_answer}`,
+            );
+            juryVerdicts.push(verdict);
+            return {
+              success: true,
+              data: { ...verdict.report, reportId: `jury-medical-${cycle}` },
+              tokensUsed: verdict.totalTokensUsed,
+            };
           })
-        ),
+        : trackStep('medical_validator', () =>
+            agents.medicalValidator.run(context, {
+              draft: draft as ItemDraftRow,
+              card: card as AlgorithmCardRow,
+              facts: facts as FactRowRow[],
+              topic: node.topic,
+            })
+          );
+
+      // Exam translation validator — jury on first cycle if enabled
+      const examTranslationPromise = juryOnThisCycle
+        ? trackStep('exam_translation_validator', async () => {
+            const verdict = await runJuryValidation(
+              (model) => agents.examTranslationValidator.run(context, {
+                draft: draft as ItemDraftRow,
+                card: card as AlgorithmCardRow,
+                node,
+                model,
+              }),
+              DEFAULT_JURY_CONFIG,
+              `Stem: ${(draft as ItemDraftRow).stem}`,
+            );
+            juryVerdicts.push(verdict);
+            return {
+              success: true,
+              data: { ...verdict.report, reportId: `jury-exam-${cycle}` },
+              tokensUsed: verdict.totalTokensUsed,
+            };
+          })
+        : trackStep('exam_translation_validator', () =>
+            agents.examTranslationValidator.run(context, {
+              draft: draft as ItemDraftRow,
+              card: card as AlgorithmCardRow,
+              node,
+            })
+          );
+
+      const validatorResults = await Promise.all([
+        medicalPromise,
         trackStep('blueprint_validator', () =>
           agents.blueprintValidator.run(context, {
             draft: draft as ItemDraftRow,
@@ -330,16 +462,37 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
             card: card as AlgorithmCardRow,
           })
         ),
-        trackStep('exam_translation_validator', () =>
-          agents.examTranslationValidator.run(context, {
-            draft: draft as ItemDraftRow,
-            card: card as AlgorithmCardRow,
-            node,
-          })
-        ),
+        examTranslationPromise,
       ]);
 
       const allPassed = validatorResults.every((r) => r.passed);
+
+      // ─── Validator Disagreement Logging ───
+      // Track which validators passed vs failed to identify calibration issues
+      const validatorTypes = ['medical', 'blueprint', 'nbme_quality', 'option_symmetry', 'explanation', 'exam_translation'] as const;
+      const disagreementEntry = {
+        cycle,
+        validators: validatorTypes.map((vt, i) => ({
+          type: vt,
+          passed: validatorResults[i]?.passed ?? false,
+          score: validatorResults[i]?.score ?? null,
+        })),
+        passCount: validatorResults.filter((r) => r.passed).length,
+        failCount: validatorResults.filter((r) => !r.passed).length,
+        unanimous: allPassed || validatorResults.every((r) => !r.passed),
+      };
+      // Store disagreement data as a typed agent log entry
+      // The JSONB column accepts extra fields beyond the TypeScript interface
+      const disagreementLog: AgentLogEntry & Record<string, unknown> = {
+        agent: 'medical_validator' as AgentType,
+        started_at: new Date().toISOString(),
+        completed_at: new Date().toISOString(),
+        tokens_used: 0,
+        status: 'completed',
+        note: `validator_disagreement_cycle_${cycle}`,
+        disagreement: disagreementEntry,
+      };
+      agentLog.push(disagreementLog as AgentLogEntry);
 
       if (allPassed) {
         await supabase
@@ -430,9 +583,13 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
           }
         }
 
+        // Set to pending_review instead of published — human QA gate required (P2)
         await supabase
           .from('item_draft')
-          .update({ status: 'published' })
+          .update({
+            status: 'published',
+            review_status: 'pending_review',
+          })
           .eq('id', draftId);
       }
     }
@@ -456,6 +613,22 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
     const finalStatus = passed
       ? (config.skipExplanation ? 'passed' : 'published')
       : 'killed';
+
+    // Build jury summary if jury was used
+    const jurySummary = juryVerdicts.length > 0
+      ? {
+          enabled: true,
+          verdicts: juryVerdicts.map((v) => ({
+            agreement: v.agreement,
+            facilitatorInvoked: v.facilitatorInvoked,
+            jurorCount: v.jurorReports.length,
+            tokensUsed: v.totalTokensUsed,
+          })),
+          totalDisagreements: juryVerdicts.filter((v) => v.agreement === 'facilitator_synthesized').length,
+          totalFacilitatorInvocations: juryVerdicts.filter((v) => v.facilitatorInvoked).length,
+        }
+      : null;
+
     await supabase
       .from('pipeline_run')
       .update({
@@ -464,7 +637,10 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
         agent_log: agentLog,
         total_tokens_used: totalTokens,
         completed_at: new Date().toISOString(),
-        validator_summary: validatorSummary,
+        validator_summary: {
+          ...validatorSummary,
+          ...(jurySummary ? { jury: jurySummary } : {}),
+        },
       })
       .eq('id', pipelineRunId);
 

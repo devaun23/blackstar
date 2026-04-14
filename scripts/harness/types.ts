@@ -137,6 +137,12 @@ export interface HarnessConfig {
   compareRunId?: string;
   skipExplanation: boolean;
   maxRepairs: number;
+  /** Generate until this many items PASS (overrides count as a hard cap) */
+  targetYield?: number;
+  /** Filter to specific body systems (e.g., ['cardiology', 'pulmonology', 'renal']) */
+  systems?: string[];
+  /** Enable multi-model jury on medical + exam_translation validators */
+  juryEnabled?: boolean;
 }
 
 // ─── Cost Constants ─────────────────────────────────────────────

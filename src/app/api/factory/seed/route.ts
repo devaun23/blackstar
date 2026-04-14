@@ -13,6 +13,8 @@ import {
   hingeClueTypes,
   actionClasses,
   alternateTerminology,
+  confusionSets,
+  transferRules,
 } from '@/lib/factory/seeds';
 
 /**
@@ -239,6 +241,54 @@ export async function POST(request: Request) {
       else upserted++;
     }
     results.alternate_terminology = { upserted, errors };
+  }
+
+  // 12. Seed confusion sets
+  {
+    const errors: string[] = [];
+    let upserted = 0;
+    for (const cs of confusionSets) {
+      const { error } = await supabase
+        .from('confusion_sets')
+        .upsert(
+          {
+            name: cs.name,
+            conditions: cs.conditions,
+            discriminating_clues: cs.discriminating_clues,
+            common_traps: cs.common_traps,
+          },
+          { onConflict: 'name' }
+        );
+      if (error) errors.push(`${cs.name}: ${error.message}`);
+      else upserted++;
+    }
+    results.confusion_sets = { upserted, errors };
+  }
+
+  // 13. Seed transfer rules
+  {
+    const errors: string[] = [];
+    let upserted = 0;
+    for (const tr of transferRules) {
+      const { error } = await supabase
+        .from('transfer_rules')
+        .upsert(
+          {
+            rule_text: tr.rule_text,
+            category: tr.category,
+            trigger_pattern: tr.trigger_pattern,
+            action_priority: tr.action_priority,
+            suppressions: tr.suppressions,
+            wrong_pathways: tr.wrong_pathways,
+            topic: tr.contexts[0]?.topic ?? null,
+            source_citation: tr.source_citation,
+          },
+          { onConflict: 'rule_text' }
+        );
+      if (error) errors.push(`${tr.rule_text.slice(0, 40)}: ${error.message}`);
+      else upserted++;
+    }
+    results.transfer_rules = { upserted, errors };
   }
 
   const hasErrors = Object.values(results).some((r) => r.errors.length > 0);

@@ -1,5 +1,13 @@
 import { z } from 'zod';
 
+// Accept any UUID-shaped string (Claude sometimes generates fake UUIDs with version 0)
+// We validate against the actual DB rows downstream, not at schema level
+const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const nullableUuid = z.preprocess(
+  (val) => (typeof val === 'string' && !uuidPattern.test(val) ? null : val),
+  z.string().regex(uuidPattern).nullable()
+);
+
 // What cognitive operation this question tests
 export const cognitiveOperationEnum = z.enum([
   'rule_application',           // Apply a known rule to a new scenario
@@ -58,11 +66,12 @@ export const casePlanSchema = z.object({
   forbidden_option_classes: z.array(z.string()).optional(), // classes the writer must never introduce
 
   // Ontology target IDs (resolved by the case_planner agent from names/labels)
-  target_transfer_rule_id: z.string().uuid().nullable().optional(),
-  target_confusion_set_id: z.string().uuid().nullable().optional(),
-  target_cognitive_error_id: z.string().uuid(),  // REQUIRED — every question targets a named error
-  target_hinge_clue_type_id: z.string().uuid().nullable().optional(),
-  target_action_class_id: z.string().uuid().nullable().optional(),
+  // Uses nullableUuid to tolerate Claude outputting names instead of UUIDs
+  target_transfer_rule_id: nullableUuid.optional(),
+  target_confusion_set_id: nullableUuid.optional(),
+  target_cognitive_error_id: nullableUuid,  // Should be set, but tolerate null if Claude can't resolve
+  target_hinge_clue_type_id: nullableUuid.optional(),
+  target_action_class_id: nullableUuid.optional(),
 
   // Difficulty decomposition (1-5 each)
   ambiguity_level: z.number().int().min(1).max(5),

@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { casePlanSchema } from '@/lib/factory/schemas';
 import type { CasePlanInput } from '@/lib/factory/schemas';
@@ -26,11 +27,48 @@ export async function run(
   context: AgentContext,
   input: CasePlannerInput
 ): Promise<AgentOutput<CasePlanInput & { casePlanId: string }>> {
+  // Build lookup maps so we can resolve names→UUIDs if Claude outputs names instead of IDs
+  const errorNameToId = new Map(input.errors.map(e => [e.error_name.toLowerCase(), e.id]));
+  const confusionNameToId = new Map((input.confusionSets ?? []).map(c => [c.name.toLowerCase(), c.id]));
+  const transferTextToId = new Map((input.transferRules ?? []).map(t => [t.rule_text.slice(0, 50).toLowerCase(), t.id]));
+  const hingeNameToId = new Map((input.hingeClueTypes ?? []).map(h => [h.name.toLowerCase(), h.id]));
+  const actionNameToId = new Map((input.actionClasses ?? []).map(a => [a.name.toLowerCase(), a.id]));
+
+  function resolveId(val: unknown, lookups: Map<string, string>[]): string | null {
+    if (!val || typeof val !== 'string') return null;
+    if (/^[0-9a-f]{8}-/i.test(val)) return val; // already UUID
+    const lower = val.toLowerCase();
+    for (const lookup of lookups) {
+      // Exact match
+      const exact = lookup.get(lower);
+      if (exact) return exact;
+      // Partial match
+      for (const [key, id] of lookup.entries()) {
+        if (key.includes(lower) || lower.includes(key.slice(0, 20))) return id;
+      }
+    }
+    return null;
+  }
+
+  // Schema that preprocesses the entire object to resolve names→UUIDs before validation
+  const resolvedSchema = z.preprocess((raw) => {
+    if (!raw || typeof raw !== 'object') return raw;
+    const obj = raw as Record<string, unknown>;
+    return {
+      ...obj,
+      target_cognitive_error_id: resolveId(obj.target_cognitive_error_id, [errorNameToId]),
+      target_confusion_set_id: resolveId(obj.target_confusion_set_id, [confusionNameToId]),
+      target_transfer_rule_id: resolveId(obj.target_transfer_rule_id, [transferTextToId]),
+      target_hinge_clue_type_id: resolveId(obj.target_hinge_clue_type_id, [hingeNameToId]),
+      target_action_class_id: resolveId(obj.target_action_class_id, [actionNameToId]),
+    };
+  }, casePlanSchema);
+
   const result = await runAgent({
     agentType: 'case_planner',
     context,
     input,
-    outputSchema: casePlanSchema,
+    outputSchema: resolvedSchema,
     buildUserMessage: (data) => ({
       blueprint_node: JSON.stringify(data.node, null, 2),
       algorithm_card: JSON.stringify(data.card, null, 2),

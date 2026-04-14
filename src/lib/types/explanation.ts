@@ -9,6 +9,38 @@ export interface PerOptionExplanation {
   cognitiveError: string | null;  // error_name from taxonomy if this distractor maps to one
 }
 
+// ─── 3-Layer Explanation Architecture ───
+// Layer 3 (Fix)  — shown first: what went wrong + how to fix it
+// Layer 2 (Breakdown) — how to think through this question
+// Layer 1 (Medicine)  — the clinical content behind it
+
+export interface FixLayer {
+  errorDiagnosis: Record<string, { error_name: string; explanation: string }> | null;
+  transferRule: string | null;
+  errorTemplate: string | null;
+}
+
+export interface BreakdownLayer {
+  whyCorrect: string;
+  reasoningPathway: string | null;
+  decisionHinge: string | null;
+  competingDifferential: string | null;
+  options: PerOptionExplanation[];
+}
+
+export interface MedicineLayer {
+  decisionLogic: string | null;
+  highYieldPearl: string | null;
+  teachingPearl: string | null;
+  visualSpecs: VisualSpec[] | null;
+}
+
+export interface ExplanationLayers {
+  fix: FixLayer;
+  breakdown: BreakdownLayer;
+  medicine: MedicineLayer;
+}
+
 // ─── Rich Explanation (unified across question types) ───
 export interface RichExplanation {
   // Core — always present
@@ -34,4 +66,7 @@ export interface RichExplanation {
 
   // Hydrated error template (filled from error_taxonomy.explanation_template)
   errorTemplate: string | null;
+
+  // Grouped view for progressive disclosure UI
+  layers: ExplanationLayers;
 }

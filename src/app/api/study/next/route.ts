@@ -82,6 +82,7 @@ export async function GET(req: NextRequest) {
 
   // Build error_map from skeleton option_frames + error_taxonomy
   let errorMap: Record<string, { error_id: string; error_name: string; meaning: string }> = {};
+  let errorTaxonomyRows: { id: string; error_name: string; explanation_template: string }[] = [];
   let transferRuleText: string | null = null;
 
   if (draft.question_skeleton_id) {
@@ -96,7 +97,55 @@ export async function GET(req: NextRequest) {
         id: string;
         meaning: string;
         cognitive_error_id: string | null;
+        rendered_text?: string | null;
       }>;
+
+      // Build frame→letter mapping: use frame.id (A-E) as the key,
+      // but verify consistency by checking rendered_text against actual choices
+      const choiceByLetter: Record<string, string> = {
+        A: draft.choice_a, B: draft.choice_b, C: draft.choice_c,
+        D: draft.choice_d, E: draft.choice_e,
+      };
+
+      // If rendered_text is populated, verify frame positions match rendered choices.
+      // If they don't, build a corrected mapping from rendered_text → actual letter.
+      let frameIdToLetter: Record<string, string> = {};
+      let positionMismatch = false;
+
+      for (const frame of frames) {
+        if (frame.rendered_text && choiceByLetter[frame.id]) {
+          // Normalize for comparison (trim whitespace)
+          const rendered = frame.rendered_text.trim().toLowerCase();
+          const actual = choiceByLetter[frame.id].trim().toLowerCase();
+          if (!actual.startsWith(rendered.slice(0, 20)) && !rendered.startsWith(actual.slice(0, 20))) {
+            positionMismatch = true;
+          }
+        }
+        // Default: frame.id maps to itself (frame A → letter A)
+        frameIdToLetter[frame.id] = frame.id;
+      }
+
+      // If mismatch detected, try to remap by matching rendered_text to actual choices
+      if (positionMismatch) {
+        console.warn(`[study/next] Frame position mismatch for draft ${draft.id} — remapping by content`);
+        frameIdToLetter = {};
+        for (const frame of frames) {
+          if (frame.rendered_text) {
+            const rendered = frame.rendered_text.trim().toLowerCase();
+            for (const [letter, choiceText] of Object.entries(choiceByLetter)) {
+              const actual = choiceText.trim().toLowerCase();
+              if (actual.startsWith(rendered.slice(0, 30)) || rendered.startsWith(actual.slice(0, 30))) {
+                frameIdToLetter[frame.id] = letter;
+                break;
+              }
+            }
+          }
+          // Fallback: identity mapping
+          if (!frameIdToLetter[frame.id]) {
+            frameIdToLetter[frame.id] = frame.id;
+          }
+        }
+      }
 
       // Fetch error names for distractor cognitive_error_ids
       const errorIds = frames
@@ -106,16 +155,23 @@ export async function GET(req: NextRequest) {
       if (errorIds.length > 0) {
         const { data: errors } = await supabase
           .from('error_taxonomy')
-          .select('id, error_name')
+          .select('id, error_name, explanation_template')
           .in('id', errorIds);
 
+        errorTaxonomyRows = (errors ?? []).map((e) => ({
+          id: e.id,
+          error_name: e.error_name,
+          explanation_template: e.explanation_template,
+        }));
         const errorNameMap = new Map(
-          (errors ?? []).map((e) => [e.id, e.error_name])
+          errorTaxonomyRows.map((e) => [e.id, e.error_name])
         );
 
+        // Map error to the ACTUAL rendered letter position
         for (const frame of frames) {
           if (frame.cognitive_error_id) {
-            errorMap[frame.id] = {
+            const actualLetter = frameIdToLetter[frame.id] ?? frame.id;
+            errorMap[actualLetter] = {
               error_id: frame.cognitive_error_id,
               error_name: errorNameMap.get(frame.cognitive_error_id) ?? 'unknown',
               meaning: frame.meaning,
@@ -143,6 +199,14 @@ export async function GET(req: NextRequest) {
     }
   }
 
+  // Build rich explanation from all available structured data
+  const richExplanation = normalizeItemDraftExplanation({
+    draft,
+    transferRuleText,
+    errorMap,
+    errorTaxonomyRows,
+  });
+
   // Normalize field names: choice_* → option_* for study UI compatibility
   const normalizedQuestion = {
     id: draft.id,
@@ -154,17 +218,23 @@ export async function GET(req: NextRequest) {
     option_d: draft.choice_d,
     option_e: draft.choice_e,
     correct_answer: draft.correct_answer,
-    why_correct: draft.why_correct,
-    why_wrong_a: draft.why_wrong_a,
-    why_wrong_b: draft.why_wrong_b,
-    why_wrong_c: draft.why_wrong_c,
-    why_wrong_d: draft.why_wrong_d,
-    why_wrong_e: draft.why_wrong_e,
-    high_yield_pearl: draft.high_yield_pearl,
-    reasoning_pathway: draft.reasoning_pathway,
-    decision_hinge: draft.decision_hinge,
     error_map: errorMap,
     transfer_rule_text: transferRuleText,
+    // Flat fields kept for backward compat
+    explanation_decision: draft.why_correct,
+    explanation_options: [
+      draft.why_wrong_a && `A: ${draft.why_wrong_a}`,
+      draft.why_wrong_b && `B: ${draft.why_wrong_b}`,
+      draft.why_wrong_c && `C: ${draft.why_wrong_c}`,
+      draft.why_wrong_d && `D: ${draft.why_wrong_d}`,
+      draft.why_wrong_e && `E: ${draft.why_wrong_e}`,
+    ].filter(Boolean).join('\n'),
+    explanation_summary: draft.high_yield_pearl ?? '',
+    system_topic: '',
+    error_bucket: '',
+    difficulty: '',
+    // Rich explanation payload
+    richExplanation,
     // Contrast loop metadata — client sends these back on next attempt
     confusion_set_id: confusionSetId,
     correct_option_frame_id: correctOptionFrameId,

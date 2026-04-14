@@ -92,6 +92,16 @@ export async function callClaude<T extends z.ZodType>(
       return { data: result.data, tokensUsed };
     }
 
+    // Debug: log the problematic fields so we can see what Claude actually output
+    for (const issue of result.error.issues) {
+      const path = issue.path.join('.');
+      let val: unknown = parsed;
+      for (const key of issue.path) {
+        val = (val as Record<string | number, unknown>)?.[key as string | number];
+      }
+      console.error(`[callClaude] Validation failed at ${path}: value=${JSON.stringify(val)} (${issue.message})`);
+    }
+
     lastError = JSON.stringify(result.error.issues, null, 2);
     if (attempt === 1) {
       throw new Error(`Claude output failed schema validation after 2 attempts:\n${lastError}`);

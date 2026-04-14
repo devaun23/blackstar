@@ -8,6 +8,7 @@ interface ExamTranslationValidatorInput {
   card: AlgorithmCardRow;
   node: BlueprintNodeRow;
   alternateTerminology?: AlternateTerminologyRow[]; // v2: cross-reference NBME phrasing
+  model?: string;
 }
 
 /**
@@ -27,6 +28,7 @@ export async function run(
     validatorType: 'exam_translation',
     context,
     itemDraftId: input.draft.id,
+    ...(input.model ? { model: input.model } : {}),
     buildTemplateVars: () => {
       const vars: Record<string, string> = {
         item_draft: JSON.stringify(input.draft, null, 2),

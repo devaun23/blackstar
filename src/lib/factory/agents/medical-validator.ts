@@ -10,6 +10,7 @@ interface MedicalValidatorInput {
   facts: FactRowRow[];
   topic?: string;
   skeleton?: QuestionSkeletonRow; // v2: skeleton-aware consistency checks
+  model?: string;
 }
 
 export async function run(
@@ -21,6 +22,7 @@ export async function run(
     validatorType: 'medical',
     context,
     itemDraftId: input.draft.id,
+    ...(input.model ? { model: input.model } : {}),
     buildTemplateVars: async () => {
       const vars: Record<string, string> = {
         item_draft: JSON.stringify(input.draft, null, 2),

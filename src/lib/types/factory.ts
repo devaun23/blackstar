@@ -44,6 +44,7 @@ export interface PipelineConfig {
   yieldTier?: string;        // Filter for selector
   mockMode?: boolean;        // Use mock responses
   skipExplanation?: boolean; // Skip explanation writing + publish (harness mode)
+  juryEnabled?: boolean;     // Enable multi-model jury on high-stakes validators
 }
 
 export interface AgentStepResult {

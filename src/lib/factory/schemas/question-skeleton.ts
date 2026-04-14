@@ -3,12 +3,19 @@ import { hingeDepthEnum } from './case-plan';
 
 // Frame-anchored option — each slot inherits from case_plan.option_frames
 // The skeleton writer fills cognitive_error_id per distractor; the vignette writer fills rendered_text
+// Accept any UUID-shaped string (Claude may generate version-0 UUIDs)
+const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const nullableUuid = z.preprocess(
+  (val) => (typeof val === 'string' && !uuidPattern.test(val) ? null : val),
+  z.string().regex(uuidPattern).nullable()
+);
+
 const skeletonOptionFrameSchema = z.object({
   id: z.enum(['A', 'B', 'C', 'D', 'E']),
   class: z.string().min(1),                               // must match option_action_class
   meaning: z.string().min(5),                              // clinical meaning (from case_plan)
-  cognitive_error_id: z.string().uuid().nullable(),        // null for the correct option
-  action_class_id: z.string().uuid().nullable().optional(),
+  cognitive_error_id: nullableUuid,                        // null for the correct option
+  action_class_id: nullableUuid.optional(),
   rendered_text: z.string().nullable().optional(),         // NBME-polished wording (vignette_writer fills this)
 });
 
@@ -16,7 +23,7 @@ export const questionSkeletonSchema = z.object({
   case_summary: z.string().min(10),
   hidden_target: z.string().min(1),
   correct_action: z.string().min(1),
-  correct_action_class_id: z.string().uuid().nullable().optional(),
+  correct_action_class_id: nullableUuid.optional(),
 
   // Option action class — ALL options (correct + wrong) must be from this class
   option_action_class: z.string().min(1),  // e.g., "management_steps", "diagnostic_tests", "medications"

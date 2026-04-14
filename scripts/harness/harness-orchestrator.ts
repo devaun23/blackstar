@@ -13,6 +13,7 @@ import type { PipelineResult } from '../../src/lib/types/factory';
 import type { HarnessConfig, HarnessItemResult } from './types';
 import { estimateCostUsd } from './types';
 import { classifyFailures, countRepairCycles } from './failure-classifier';
+import { assertPreflight } from './preflight';
 
 const API_BASE = 'http://localhost:3000';
 
@@ -37,6 +38,7 @@ async function runSinglePipeline(config: HarnessConfig): Promise<PipelineResult>
   if (config.shelf) body.shelf = config.shelf;
   if (config.yieldTier) body.yieldTier = config.yieldTier;
   if (config.skipExplanation) body.skipExplanation = true;
+  if (config.juryEnabled) body.juryEnabled = true;
 
   const res = await fetch(`${API_BASE}/api/factory/run-v2`, {
     method: 'POST',
@@ -195,6 +197,11 @@ async function processResult(
 /**
  * Run a batch of pipeline executions with bounded concurrency.
  *
+ * Supports two modes:
+ * - Fixed count: generate exactly `config.count` items (classic mode)
+ * - Yield targeting: generate until `config.targetYield` items PASS,
+ *   with `config.count` as a hard cap to prevent runaway costs.
+ *
  * @param config - Harness configuration
  * @param onItemComplete - Callback for streaming results (e.g., writing JSONL)
  */
@@ -204,7 +211,9 @@ export async function runBatch(
 ): Promise<HarnessItemResult[]> {
   const results: HarnessItemResult[] = [];
   let nextIndex = 0;
-  let activeCount = 0;
+
+  // Preflight: verify ontology tables are populated
+  await assertPreflight();
 
   // Check dev server is running
   try {
@@ -215,17 +224,48 @@ export async function runBatch(
     );
   }
 
+  // Yield targeting: track how many items have passed
+  const targetYield = config.targetYield;
+  const hardCap = config.count;
+  let passedCount = 0;
+
+  // Coverage tracking by system (for even distribution)
+  const systemCoverage = new Map<string, number>();
+
   return new Promise((resolve, reject) => {
     let completed = 0;
-    const total = config.count;
+    let activeCount = 0;
+    let stoppedLaunching = false;
+
+    function shouldContinue(): boolean {
+      if (stoppedLaunching) return false;
+      if (nextIndex >= hardCap) return false;
+      if (targetYield && passedCount >= targetYield) return false;
+      return true;
+    }
+
+    function logProgress(itemResult: HarnessItemResult) {
+      const icon = itemResult.status === 'published' ? '✓' : itemResult.status === 'killed' ? '✗' : '!';
+      const yieldInfo = targetYield
+        ? ` [yield: ${passedCount}/${targetYield}]`
+        : '';
+      console.log(
+        `  [${completed}/${hardCap}] ${icon} ${itemResult.topic} (${itemResult.system}) — ${itemResult.status}` +
+        ` (${itemResult.total_tokens} tokens, ${(itemResult.duration_ms / 1000).toFixed(1)}s)` +
+        yieldInfo
+      );
+    }
 
     function startNext() {
-      if (nextIndex >= total) return;
+      if (!shouldContinue()) return;
 
       const index = nextIndex++;
       activeCount++;
 
-      console.log(`  [${index + 1}/${total}] Starting pipeline run...`);
+      const label = targetYield
+        ? `[${index + 1}/${hardCap} cap, ${passedCount}/${targetYield} yield]`
+        : `[${index + 1}/${hardCap}]`;
+      console.log(`  ${label} Starting pipeline run...`);
 
       runSinglePipeline(config)
         .then((pipelineResult) => processResult(index, pipelineResult))
@@ -234,15 +274,29 @@ export async function runBatch(
           completed++;
           activeCount--;
 
-          const icon = itemResult.status === 'published' ? '✓' : itemResult.status === 'killed' ? '✗' : '!';
-          console.log(
-            `  [${completed}/${total}] ${icon} ${itemResult.topic} — ${itemResult.status}` +
-            ` (${itemResult.total_tokens} tokens, ${(itemResult.duration_ms / 1000).toFixed(1)}s)`
-          );
+          if (itemResult.status === 'published') {
+            passedCount++;
+            // Track coverage by system
+            const sys = itemResult.system;
+            systemCoverage.set(sys, (systemCoverage.get(sys) ?? 0) + 1);
+          }
 
+          logProgress(itemResult);
           if (onItemComplete) onItemComplete(itemResult);
 
-          if (completed === total) {
+          // Check if we're done
+          if (targetYield && passedCount >= targetYield) {
+            stoppedLaunching = true;
+            if (activeCount === 0) {
+              logCoverageSummary(systemCoverage);
+              resolve(results);
+            }
+            // else: wait for active runs to finish
+          } else if (completed >= hardCap) {
+            logCoverageSummary(systemCoverage);
+            resolve(results);
+          } else if (!shouldContinue() && activeCount === 0) {
+            logCoverageSummary(systemCoverage);
             resolve(results);
           } else {
             startNext();
@@ -279,11 +333,11 @@ export async function runBatch(
           };
 
           results.push(errorResult);
-          console.log(`  [${completed}/${total}] ! ERROR — ${errorResult.error_message}`);
-
+          logProgress(errorResult);
           if (onItemComplete) onItemComplete(errorResult);
 
-          if (completed === total) {
+          if (completed >= hardCap || (!shouldContinue() && activeCount === 0)) {
+            logCoverageSummary(systemCoverage);
             resolve(results);
           } else {
             startNext();
@@ -292,9 +346,17 @@ export async function runBatch(
     }
 
     // Start initial batch up to concurrency limit
-    const initialBatch = Math.min(config.concurrency, total);
+    const initialBatch = Math.min(config.concurrency, hardCap);
     for (let i = 0; i < initialBatch; i++) {
       startNext();
     }
   });
+}
+
+function logCoverageSummary(coverage: Map<string, number>) {
+  if (coverage.size === 0) return;
+  console.log('\n  Coverage by system:');
+  for (const [system, count] of Array.from(coverage.entries()).sort()) {
+    console.log(`    ${system}: ${count} passed`);
+  }
 }

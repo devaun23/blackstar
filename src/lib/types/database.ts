@@ -21,6 +21,7 @@ export type SessionStatus = 'active' | 'completed' | 'abandoned';
 export type UserRole = 'student' | 'admin';
 export type SourceUse = 'scope' | 'truth' | 'inspiration';
 export type CorrectAnswer = 'A' | 'B' | 'C' | 'D' | 'E';
+export type ReviewStatus = 'pending_review' | 'approved' | 'rejected' | 'needs_revision';
 
 // --- Row types ---
 
@@ -131,6 +132,11 @@ export interface ItemDraftRow {
   explanation_transfer_rule: string | null;
   explanation_teaching_pearl: string | null;
   repair_count: number;
+  // v15: Human review queue
+  review_status: ReviewStatus | null;
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  review_notes: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -307,6 +313,7 @@ export interface ConfusionSetRow {
   conditions: unknown; // JSONB: string[]
   discriminating_clues: unknown; // JSONB: { condition, clue, clue_type }[]
   common_traps: string[];
+  shelf: string | null;
   created_at: string;
 }
 
@@ -387,7 +394,7 @@ export interface CasePlanRow {
   // Ontology targets
   target_transfer_rule_id: string | null;
   target_confusion_set_id: string | null;
-  target_cognitive_error_id: string;  // REQUIRED
+  target_cognitive_error_id: string | null;
   target_hinge_clue_type_id: string | null;
   target_action_class_id: string | null;
   // Difficulty
@@ -464,6 +471,10 @@ export interface AttemptV2Row {
   session_mode: SessionMode | null;
   confidence_post: number | null;
   self_labeled_error: string | null;
+  // Phase 1 instrumentation
+  is_contrast_question: boolean;
+  contrast_success: boolean | null;
+  confusion_set_id: string | null;
   created_at: string;
 }
 

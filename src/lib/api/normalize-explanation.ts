@@ -1,4 +1,4 @@
-import type { RichExplanation, PerOptionExplanation } from '@/lib/types/explanation';
+import type { RichExplanation, PerOptionExplanation, ExplanationLayers } from '@/lib/types/explanation';
 import type { VisualSpec } from '@/lib/factory/schemas/visual-specs';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'] as const;
@@ -43,9 +43,9 @@ interface NormalizeDraftOptions {
 }
 
 function getOptionText(draft: ItemDraftFields, letter: string): string {
-  const key = letter.toLowerCase();
-  return (draft as Record<string, unknown>)[`choice_${key}`] as string
-    ?? (draft as Record<string, unknown>)[`option_${key}`] as string
+  const key = letter.toLowerCase() as 'a' | 'b' | 'c' | 'd' | 'e';
+  return draft[`choice_${key}` as keyof ItemDraftFields] as string
+    ?? draft[`option_${key}` as keyof ItemDraftFields] as string
     ?? '';
 }
 
@@ -117,9 +117,32 @@ export function normalizeItemDraftExplanation({
     }
   }
 
+  const transferRule = draft.explanation_transfer_rule ?? transferRuleText ?? null;
+
+  const layers: ExplanationLayers = {
+    fix: {
+      errorDiagnosis,
+      transferRule,
+      errorTemplate,
+    },
+    breakdown: {
+      whyCorrect: draft.why_correct,
+      reasoningPathway: draft.reasoning_pathway ?? null,
+      decisionHinge: draft.decision_hinge ?? null,
+      competingDifferential: draft.competing_differential ?? null,
+      options,
+    },
+    medicine: {
+      decisionLogic: draft.explanation_decision_logic ?? null,
+      highYieldPearl: draft.high_yield_pearl ?? null,
+      teachingPearl: draft.explanation_teaching_pearl ?? null,
+      visualSpecs: draft.visual_specs ?? null,
+    },
+  };
+
   return {
     whyCorrect: draft.why_correct,
-    transferRule: draft.explanation_transfer_rule ?? transferRuleText ?? null,
+    transferRule,
     options,
     reasoningPathway: draft.reasoning_pathway ?? null,
     decisionHinge: draft.decision_hinge ?? null,
@@ -130,6 +153,7 @@ export function normalizeItemDraftExplanation({
     errorDiagnosis,
     teachingPearl: draft.explanation_teaching_pearl ?? null,
     errorTemplate,
+    layers,
   };
 }
 
@@ -166,9 +190,33 @@ export function normalizeQuestionExplanation(
     };
   });
 
+  const transferRule = question.transfer_rule_text ?? null;
+  const whyCorrect = question.explanation_decision ?? '';
+
+  const layers: ExplanationLayers = {
+    fix: {
+      errorDiagnosis: null,
+      transferRule,
+      errorTemplate: null,
+    },
+    breakdown: {
+      whyCorrect,
+      reasoningPathway: null,
+      decisionHinge: null,
+      competingDifferential: null,
+      options,
+    },
+    medicine: {
+      decisionLogic: null,
+      highYieldPearl: null,
+      teachingPearl: null,
+      visualSpecs: null,
+    },
+  };
+
   return {
-    whyCorrect: question.explanation_decision ?? '',
-    transferRule: question.transfer_rule_text ?? null,
+    whyCorrect,
+    transferRule,
     options,
     reasoningPathway: null,
     decisionHinge: null,
@@ -179,5 +227,6 @@ export function normalizeQuestionExplanation(
     errorDiagnosis: null,
     teachingPearl: null,
     errorTemplate: null,
+    layers,
   };
 }

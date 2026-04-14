@@ -15,6 +15,8 @@ const attemptV2Schema = z.object({
   confidence_pre: z.number().int().min(1).max(5).optional(),
   session_id: z.string().uuid().optional(),
   session_mode: z.enum(['retention', 'training', 'assessment']).optional(),
+  // Contrast loop instrumentation — client reports if this was a contrast question
+  is_contrast_question: z.boolean().optional(),
 });
 
 /**
@@ -31,6 +33,7 @@ export async function POST(req: NextRequest) {
   const {
     user_id, question_type, question_id, selected_answer,
     time_spent_ms, confidence_pre, session_id, session_mode,
+    is_contrast_question,
   } = parsed.data;
 
   const supabase = createAdminClient();
@@ -84,6 +87,7 @@ export async function POST(req: NextRequest) {
 
     // Update confusion set dimension if linked
     if (question.confusion_set_id) {
+      confusionSetId = question.confusion_set_id;
       dimensionUpdates.push({ type: 'confusion_set', id: question.confusion_set_id, label: question.confusion_set_id });
     }
 
@@ -175,7 +179,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Insert attempt
+  // Insert attempt with Phase 1 instrumentation
+  const isContrastQ = is_contrast_question ?? false;
   const { data: attempt, error: insertErr } = await supabase
     .from('attempt_v2')
     .insert({
@@ -191,6 +196,10 @@ export async function POST(req: NextRequest) {
       diagnosed_action_class_confusion: diagnosedActionClassConfusion,
       session_id: session_id ?? null,
       session_mode: (session_mode as SessionMode) ?? null,
+      // Phase 1 instrumentation
+      is_contrast_question: isContrastQ,
+      contrast_success: isContrastQ ? isCorrect : null,
+      confusion_set_id: confusionSetId,
     })
     .select('id')
     .single();
@@ -236,6 +245,8 @@ export async function POST(req: NextRequest) {
     diagnosedActionClassConfusion,
     errorRepeatCount,
     dimensionMastery,
+    confusionSetId,
+    lastCorrectOptionFrameId: correctOptionFrameId,
   });
 
   // Update attempt with repair action
@@ -255,17 +266,36 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Resolve error name for the diagnosed cognitive error (for UI display)
+  let diagnosedErrorName: string | null = null;
+  if (diagnosedCognitiveErrorId) {
+    if (errorName) {
+      diagnosedErrorName = errorName;
+    } else {
+      const { data: errorRow } = await supabase
+        .from('error_taxonomy')
+        .select('error_name')
+        .eq('id', diagnosedCognitiveErrorId)
+        .single();
+      diagnosedErrorName = errorRow?.error_name ?? null;
+    }
+  }
+
   return NextResponse.json({
     attemptId: attempt.id,
     isCorrect,
     diagnosedCognitiveErrorId,
+    diagnosedErrorName,
     diagnosedHingeMiss,
     diagnosedActionClassConfusion,
+    errorRepeatCount,
     dimensionsUpdated: dimensionUpdates.map(d => `${d.type}:${d.id}`),
     repairAction: repairDecision.action,
     repairReason: repairDecision.reason,
     repairTargetDimensionType: repairDecision.targetDimensionType,
     repairTargetDimensionId: repairDecision.targetDimensionId,
+    // Contrast loop metadata — client passes these to /study/next for contrast selection
+    lastCorrectOptionFrameId: correctOptionFrameId,
     sessionComplete,
   });
 }
