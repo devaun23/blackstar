@@ -208,4 +208,12 @@ export const sourceRegistry: SourceRegistrySeed[] = [
     url: null,
     notes: 'Style reference for explanation structure and clinical reasoning emphasis. Cannot define scope or truth.',
   },
+  {
+    category: 'reference',
+    name: 'Divine Intervention Podcast Notes',
+    allowed_use: 'inspiration',
+    priority_rank: 52,
+    url: 'https://divineinterventionpodcasts.com',
+    notes: 'Board review podcast notes (100+ episodes). Raw storage for future pipeline integration. Covers IM, peds, neuro, OB/GYN, surgery, pharm, and more.',
+  },
 ];

@@ -1,0 +1,1770 @@
+{
+  "source": "Divine Intervention Podcast Notes",
+  "description": "USMLE board review podcast notes. Raw storage for future pipeline integration.",
+  "total_episodes": 108,
+  "uploaded": 63,
+  "episodes": [
+    {
+      "ep": 17,
+      "title": "Peds Diseases of The Pediatric Population Part 1",
+      "file": "ep-017-peds-part1.md",
+      "status": "uploaded",
+      "shelf": "pediatrics",
+      "topics": [
+        "pediatrics",
+        "genetics",
+        "gi",
+        "chromosomal-disorders"
+      ],
+      "page": 4
+    },
+    {
+      "ep": 19,
+      "title": "Neurology Shelf Review Part 1",
+      "file": "ep-019-neuro-shelf-part1.md",
+      "status": "uploaded",
+      "shelf": "neurology",
+      "topics": [
+        "neurology",
+        "neuro-oncology",
+        "vestibular",
+        "neuromuscular",
+        "stroke",
+        "movement-disorders",
+        "brainstem-syndromes"
+      ],
+      "page": 7
+    },
+    {
+      "ep": 21,
+      "title": "Comprehensive Pediatric 3rd Year Shelf Review",
+      "file": "ep-021-peds-shelf-review.md",
+      "status": "uploaded",
+      "shelf": "pediatrics",
+      "topics": [
+        "pediatrics",
+        "pulmonology",
+        "neurology",
+        "seizures",
+        "neonatology",
+        "infectious-disease",
+        "ent",
+        "genetics",
+        "glycogen-storage-diseases",
+        "lymphadenopathy",
+        "cardiology",
+        "congenital-heart-disease"
+      ],
+      "page": 13
+    },
+    {
+      "ep": 22,
+      "title": "OBGYN Shelf Review",
+      "file": "ep-022-obgyn-shelf-review.md",
+      "status": "uploaded",
+      "shelf": "obgyn",
+      "topics": [
+        "obgyn",
+        "contraception",
+        "postpartum",
+        "pregnancy-physiology",
+        "preeclampsia",
+        "teratogens",
+        "breast",
+        "fetal-monitoring",
+        "placental-disorders",
+        "prenatal-testing",
+        "ectopic",
+        "spontaneous-abortion",
+        "torch-infections",
+        "ovarian-tumors",
+        "sexual-development",
+        "amenorrhea",
+        "PCOS",
+        "menorrhagia",
+        "molar-pregnancy"
+      ],
+      "page": 17
+    },
+    {
+      "ep": 26,
+      "title": "USMLE Radiology",
+      "file": "ep-026-radiology.md",
+      "status": "uploaded",
+      "shelf": "radiology",
+      "topics": [
+        "radiology",
+        "imaging-signs",
+        "musculoskeletal",
+        "pulmonology",
+        "cardiology",
+        "gi",
+        "pediatrics",
+        "oncology"
+      ],
+      "page": 34
+    },
+    {
+      "ep": 29,
+      "title": "Comprehensive Medicine Shelf Review Session 1",
+      "file": "ep-029-medicine-shelf-1.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "internal-medicine",
+        "cardiology",
+        "hematology",
+        "nephrology",
+        "gi",
+        "infectious-disease",
+        "endocrinology",
+        "dermatology",
+        "pulmonology",
+        "toxicology",
+        "rheumatology"
+      ],
+      "page": 36
+    },
+    {
+      "ep": 30,
+      "title": "Comprehensive Medicine Shelf Review Session 2",
+      "file": "ep-030-medicine-shelf-2.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "endocrinology",
+        "hematology",
+        "nephrology",
+        "pulmonology",
+        "cardiology",
+        "infectious-disease",
+        "rheumatology",
+        "dermatology",
+        "gi",
+        "pharmacology"
+      ],
+      "page": 49
+    },
+    {
+      "ep": 31,
+      "title": "Comprehensive Medicine Shelf Review Session 3",
+      "file": "ep-031-medicine-shelf-3.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "internal-medicine",
+        "oncology",
+        "nephrology",
+        "endocrinology",
+        "gi",
+        "hematology",
+        "cardiology",
+        "infectious-disease",
+        "dermatology",
+        "pulmonology",
+        "rheumatology",
+        "pharmacology",
+        "neurology",
+        "toxicology",
+        "electrolytes",
+        "hepatology"
+      ],
+      "page": 77
+    },
+    {
+      "ep": 32,
+      "title": "Comprehensive Medicine Shelf Review Session 4",
+      "file": "ep-032-medicine-shelf-4.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "endocrinology",
+        "nephrology",
+        "electrolytes",
+        "acid-base",
+        "cardiology",
+        "pulmonology",
+        "infectious-disease",
+        "hematology-oncology",
+        "pharmacology",
+        "rheumatology",
+        "gi",
+        "hepatology",
+        "neurology",
+        "orthopedics"
+      ],
+      "page": 114
+    },
+    {
+      "ep": 36,
+      "title": "Ophthalmology",
+      "file": "ep-036-ophthalmology.md",
+      "status": "uploaded",
+      "shelf": "surgery",
+      "topics": [
+        "ophthalmology",
+        "glaucoma",
+        "retinal-disease",
+        "cataracts",
+        "conjunctivitis",
+        "uveitis",
+        "neuro-ophthalmology"
+      ],
+      "page": 163
+    },
+    {
+      "ep": 37,
+      "title": "Risk Factors",
+      "file": "ep-037-risk-factors.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "risk-factors",
+        "preventive-medicine",
+        "screening",
+        "cancer-screening",
+        "obstetric-risk-factors",
+        "cardiovascular"
+      ],
+      "page": 167
+    },
+    {
+      "ep": 41,
+      "title": "Antibiotics Guide",
+      "file": "ep-041-antibiotics-guide.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "infectious-disease",
+        "pharmacology",
+        "meningitis",
+        "hiv",
+        "fungal-infections",
+        "syphilis",
+        "uti",
+        "pna",
+        "dermatology",
+        "antibiotic-resistance"
+      ],
+      "page": 169
+    },
+    {
+      "ep": 45,
+      "title": "Neurology Clerkship Shelf Review Part 2",
+      "file": "ep-045-neuro-shelf-part2.md",
+      "status": "uploaded",
+      "shelf": "neurology",
+      "topics": [
+        "neurology",
+        "meningitis",
+        "seizures",
+        "electrolytes",
+        "sleep-disorders",
+        "headache",
+        "movement-disorders",
+        "intracranial-hypertension",
+        "neurodegenerative",
+        "vascular"
+      ],
+      "page": 180
+    },
+    {
+      "ep": 46,
+      "title": "Neurology Clerkship Shelf Review Part 3",
+      "file": "ep-046-neuro-shelf-part3.md",
+      "status": "uploaded",
+      "shelf": "neurology",
+      "topics": [
+        "neurology",
+        "seizures",
+        "vestibular",
+        "trauma",
+        "hyperthermia",
+        "neuropharmacology",
+        "neural-tube-defects",
+        "neurocutaneous",
+        "demyelination"
+      ],
+      "page": 186
+    },
+    {
+      "ep": 47,
+      "title": "Neurology Clerkship Shelf Review Part 4",
+      "file": "ep-047-neuro-shelf-part4.md",
+      "status": "uploaded",
+      "shelf": "neurology",
+      "topics": [
+        "neurology",
+        "spinal-cord",
+        "meningitis",
+        "demyelination",
+        "neuromuscular",
+        "paraneoplastic",
+        "hepatic-encephalopathy",
+        "seizures",
+        "peripheral-nerve"
+      ],
+      "page": 190
+    },
+    {
+      "ep": 48,
+      "title": "Neurology Clerkship Shelf Review Part 5",
+      "file": "ep-048-neuro-shelf-part5.md",
+      "status": "uploaded",
+      "shelf": "neurology",
+      "topics": [
+        "neurology",
+        "neuromuscular",
+        "toxicology",
+        "motor-neuron-disease",
+        "myopathy",
+        "paraneoplastic",
+        "hepatic-encephalopathy",
+        "seizures",
+        "hearing",
+        "infectious-disease"
+      ],
+      "page": 193
+    },
+    {
+      "ep": 49,
+      "title": "Neurology Clerkship Shelf Review Part 6",
+      "file": "ep-049-neuro-shelf-part6.md",
+      "status": "uploaded",
+      "shelf": "neurology",
+      "topics": [
+        "neurology",
+        "demyelination",
+        "cranial-nerves",
+        "stroke-localization",
+        "neuro-oncology",
+        "peripheral-nerve",
+        "neuromuscular",
+        "trauma"
+      ],
+      "page": 198
+    },
+    {
+      "ep": 58,
+      "title": "Neurology Clerkship Shelf Review Part 7",
+      "file": "ep-058-neuro-shelf-part7.md",
+      "status": "uploaded",
+      "shelf": "neurology",
+      "topics": [
+        "neurology",
+        "neuroanatomy",
+        "stroke",
+        "neuro-ophthalmology",
+        "spinal-cord",
+        "cranial-nerves",
+        "seizures",
+        "vascular-malformations"
+      ],
+      "page": 207
+    },
+    {
+      "ep": 59,
+      "title": "Neurology Clerkship Shelf Review Part 8",
+      "file": "ep-059-neuro-shelf-part8.md",
+      "status": "uploaded",
+      "shelf": "neurology",
+      "topics": [
+        "neurology",
+        "vitamin-deficiency",
+        "seizures",
+        "dementia",
+        "muscular-dystrophy",
+        "myopathy",
+        "toxicology",
+        "electrolytes",
+        "movement-disorders"
+      ],
+      "page": 217
+    },
+    {
+      "ep": 65,
+      "title": "Ventilator Physiology for the USMLEs",
+      "file": "ep-065-ventilator-physiology.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "pulmonology",
+        "critical-care",
+        "ventilator-management",
+        "acid-base",
+        "oxygenation"
+      ],
+      "page": 224
+    },
+    {
+      "ep": 94,
+      "title": "Rapid Review Series 1 Peds",
+      "file": "ep-094-rapid-review-1-peds.md",
+      "status": "uploaded",
+      "shelf": "pediatrics",
+      "topics": [
+        "pediatrics",
+        "rheumatology",
+        "orthopedics",
+        "pulmonology",
+        "asthma",
+        "infectious-disease"
+      ],
+      "page": 225
+    },
+    {
+      "ep": 95,
+      "title": "Rapid Review Series 2 Peds",
+      "file": "ep-095-rapid-review-2-peds.md",
+      "status": "uploaded",
+      "shelf": "pediatrics",
+      "topics": [
+        "pediatrics",
+        "cystic-fibrosis",
+        "neurology",
+        "seizures",
+        "genetics",
+        "nephrology",
+        "oncology"
+      ],
+      "page": 227
+    },
+    {
+      "ep": 97,
+      "title": "Most Important",
+      "file": "ep-097-most-important.md",
+      "status": "uploaded",
+      "shelf": "mixed",
+      "topics": [
+        "high-yield",
+        "prognostic-factors",
+        "risk-factors",
+        "screening",
+        "oncology"
+      ],
+      "page": 229
+    },
+    {
+      "ep": 100,
+      "title": "The Clutch Micro",
+      "file": "ep-100-clutch-micro.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "microbiology",
+        "infectious-disease",
+        "parasitology",
+        "mycology",
+        "virology",
+        "bacteriology",
+        "stds",
+        "pneumonia",
+        "diarrhea",
+        "endocarditis",
+        "meningitis"
+      ],
+      "page": 231
+    },
+    {
+      "ep": 102,
+      "title": "The Clutch Cancer Podcast",
+      "file": "ep-102-clutch-cancer.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "oncology",
+        "hematology",
+        "neuro-oncology",
+        "dermatology",
+        "endocrinology",
+        "gynecologic-oncology",
+        "gi-oncology",
+        "pulmonology",
+        "genetics",
+        "paraneoplastic-syndromes"
+      ],
+      "page": 235
+    },
+    {
+      "ep": 104,
+      "title": "ACLS Arrhythmias and HY Cardiac Pharm",
+      "file": "ep-104-acls-arrhythmias-cardiac-pharm.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "cardiology",
+        "pharmacology",
+        "arrhythmias",
+        "acls",
+        "heart-failure",
+        "antihypertensives"
+      ],
+      "page": 248
+    },
+    {
+      "ep": 111,
+      "title": "The Clutch Pharmacology Podcast Round 1",
+      "file": "ep-111-clutch-pharm-1.md",
+      "status": "uploaded",
+      "shelf": "pharmacology",
+      "topics": [
+        "pharmacology",
+        "cardiology",
+        "nephrology",
+        "endocrinology",
+        "psychiatry",
+        "oncology",
+        "infectious-disease",
+        "hematology",
+        "anti-epileptics",
+        "diabetes-medications"
+      ],
+      "page": 251
+    },
+    {
+      "ep": 112,
+      "title": "The Clutch Pharmacology Podcast Round 2",
+      "file": "ep-112-clutch-pharm-2.md",
+      "status": "uploaded",
+      "shelf": "pharmacology",
+      "topics": [
+        "pharmacology",
+        "autonomic",
+        "neurology",
+        "psychiatry",
+        "cardiology",
+        "oncology",
+        "nephrology",
+        "hematology",
+        "infectious-disease",
+        "endocrinology",
+        "pulmonology",
+        "anticoagulation",
+        "antineoplastics",
+        "antibiotics"
+      ],
+      "page": 263
+    },
+    {
+      "ep": 118,
+      "title": "Confusing Breast Pathologies",
+      "file": "ep-118-breast-pathologies.md",
+      "status": "uploaded",
+      "shelf": "surgery",
+      "topics": [
+        "breast-pathology",
+        "postpartum",
+        "oncology",
+        "infectious-disease"
+      ],
+      "page": 278
+    },
+    {
+      "ep": 119,
+      "title": "Rapid Review Series 3 IM",
+      "file": "ep-119-rapid-review-3-im.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "internal-medicine",
+        "infectious-disease",
+        "endocrinology",
+        "nephrology",
+        "hematology",
+        "oncology",
+        "immunology",
+        "cardiology"
+      ],
+      "page": 279
+    },
+    {
+      "ep": 120,
+      "title": "Rapid Review Series 4 IM/Peds",
+      "file": "ep-120-rapid-review-4-im-peds.md",
+      "status": "uploaded",
+      "shelf": "mixed",
+      "topics": [
+        "internal-medicine",
+        "pediatrics",
+        "cardiology",
+        "endocrinology",
+        "neurology",
+        "connective-tissue",
+        "genetics",
+        "gi"
+      ],
+      "page": 281
+    },
+    {
+      "ep": 121,
+      "title": "Rapid Review Series 5 IM/Peds",
+      "file": "ep-121-rapid-review-5-im-peds.md",
+      "status": "uploaded",
+      "shelf": "mixed",
+      "topics": [
+        "internal-medicine",
+        "pediatrics",
+        "infectious-disease",
+        "nephrology",
+        "immunology",
+        "neurology",
+        "vascular",
+        "orthopedics"
+      ],
+      "page": 283
+    },
+    {
+      "ep": 123,
+      "title": "Ethics I",
+      "file": "ep-123-ethics-1.md",
+      "status": "uploaded",
+      "shelf": "ethics",
+      "topics": [
+        "ethics",
+        "social-sciences",
+        "autonomy",
+        "capacity",
+        "pediatric-ethics",
+        "confidentiality",
+        "suicide-assessment"
+      ],
+      "page": 285
+    },
+    {
+      "ep": 125,
+      "title": "Rapid Review Series 6 IM",
+      "file": "ep-125-rapid-review-6-im.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "internal-medicine",
+        "infectious-disease",
+        "neurology",
+        "dermatology",
+        "nephrology",
+        "endocrinology",
+        "immunology",
+        "pulmonology"
+      ],
+      "page": 286
+    },
+    {
+      "ep": 126,
+      "title": "Rapid Review Series 7 IM",
+      "file": "ep-126-rapid-review-7-im.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "internal-medicine",
+        "oncology",
+        "hematology",
+        "orthopedics",
+        "infectious-disease",
+        "rheumatology",
+        "pulmonology",
+        "hepatology",
+        "nephrology",
+        "cardiology"
+      ],
+      "page": 288
+    },
+    {
+      "ep": 127,
+      "title": "Rapid Review Series 8 OB/GYN",
+      "file": "ep-127-rapid-review-8-obgyn.md",
+      "status": "uploaded",
+      "shelf": "obgyn",
+      "topics": [
+        "obgyn",
+        "infectious-disease",
+        "gynecology",
+        "cervical-cancer",
+        "reproductive",
+        "urology",
+        "cardiology",
+        "pharmacology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 128,
+      "title": "Rapid Review Series 9 IM",
+      "file": "ep-128-rapid-review-9-im.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "internal-medicine",
+        "hematology",
+        "oncology",
+        "hepatology",
+        "rheumatology",
+        "nephrology",
+        "cardiology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 129,
+      "title": "Targeted Pulmonary Review",
+      "file": "ep-129-pulmonary-review.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "pulmonology",
+        "pft",
+        "gas-exchange",
+        "oncology",
+        "oxygenation",
+        "acid-base",
+        "critical-care"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 130,
+      "title": "Rapid Review Series 10 Peds",
+      "file": "ep-130-rapid-review-10-peds.md",
+      "status": "uploaded",
+      "shelf": "pediatrics",
+      "topics": [
+        "pediatrics",
+        "pulmonology",
+        "gi",
+        "nephrology",
+        "immunology",
+        "infectious-disease",
+        "neonatology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 131,
+      "title": "Rapid Review Series 11 OB/Psych/IM/Neuro",
+      "file": "ep-131-rapid-review-11-mixed.md",
+      "status": "uploaded",
+      "shelf": "mixed",
+      "topics": [
+        "obgyn",
+        "psychiatry",
+        "internal-medicine",
+        "neurology",
+        "hematology",
+        "pediatrics",
+        "infectious-disease",
+        "rheumatology",
+        "endocrinology",
+        "contraception",
+        "immunology",
+        "cardiology",
+        "hepatology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 132,
+      "title": "Weird Topics of Social Sciences",
+      "file": "ep-132-social-sciences.md",
+      "status": "uploaded",
+      "shelf": "ethics",
+      "topics": [
+        "ethics",
+        "social-sciences",
+        "palliative-care",
+        "hospice",
+        "quality-improvement",
+        "diagnostic-errors",
+        "screening",
+        "vaccines",
+        "substance-abuse",
+        "decision-making-capacity"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 134,
+      "title": "Rapid Review Series 12 IM/Cardiology",
+      "file": "ep-134-rapid-review-12-cardio.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "cardiology",
+        "post-MI-complications",
+        "cardiogenic-shock",
+        "hemodynamics",
+        "pericarditis"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 135,
+      "title": "The Clutch Electrolytes",
+      "file": "ep-135-clutch-electrolytes.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "nephrology",
+        "electrolytes",
+        "calcium",
+        "potassium",
+        "sodium",
+        "magnesium",
+        "endocrinology",
+        "acid-base"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 137,
+      "title": "Next Best Step In Management Series 1",
+      "file": "ep-137-next-best-step-1.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "clinical-reasoning",
+        "neurology",
+        "rheumatology",
+        "pulmonology",
+        "gi",
+        "psychiatry",
+        "cardiology",
+        "infectious-disease",
+        "endocrinology",
+        "obgyn"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 138,
+      "title": "The Clutch Genetic Disease",
+      "file": "ep-138-clutch-genetics.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "genetics",
+        "chromosomal-disorders",
+        "lysosomal-storage-diseases",
+        "glycogen-storage-diseases",
+        "autosomal-recessive",
+        "autosomal-dominant",
+        "x-linked",
+        "trinucleotide-repeat",
+        "immunodeficiency"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 141,
+      "title": "Rapid Review Series 13 IM",
+      "file": "ep-141-rapid-review-13-im.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "internal-medicine"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 143,
+      "title": "Biostats Review",
+      "file": "ep-143-biostats.md",
+      "status": "pending",
+      "shelf": "biostats",
+      "topics": [
+        "biostatistics"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 145,
+      "title": "Rapid Review Series 14 Surgery",
+      "file": "ep-145-rapid-review-14-surgery.md",
+      "status": "pending",
+      "shelf": "surgery",
+      "topics": [
+        "surgery"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 159,
+      "title": "Rapid Review Series 18 IM",
+      "file": "ep-159-rapid-review-18-im.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "internal-medicine"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 161,
+      "title": "The Clutch Antibody Podcast",
+      "file": "ep-161-clutch-antibodies.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "immunology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 163,
+      "title": "Rapid Review Series 19 Surgery Abdomen",
+      "file": "ep-163-rapid-review-19-surgery-abdomen.md",
+      "status": "pending",
+      "shelf": "surgery",
+      "topics": [
+        "surgery",
+        "gi"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 164,
+      "title": "The Clutch Toxicology Podcast",
+      "file": "ep-164-clutch-toxicology.md",
+      "status": "uploaded",
+      "shelf": "emergency-medicine",
+      "topics": [
+        "toxicology",
+        "pharmacology",
+        "overdose",
+        "withdrawal",
+        "toxidromes",
+        "antidotes",
+        "chemotherapy-toxicity",
+        "reversal-agents"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 167,
+      "title": "Rapid Review Series 21 Cardio",
+      "file": "ep-167-rapid-review-21-cardio.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "cardiology",
+        "valvular-heart-disease",
+        "murmurs",
+        "aortic-dissection",
+        "endocarditis",
+        "peripheral-vascular",
+        "coronary-artery-disease",
+        "arrhythmias",
+        "venous-disease"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 173,
+      "title": "The Clutch Immunodeficiency Diseases Podcast",
+      "file": "ep-173-clutch-immunodeficiency.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "immunology",
+        "immunodeficiency",
+        "pediatrics",
+        "genetics",
+        "infectious-disease",
+        "hematology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 174,
+      "title": "Rapid Review Series 22 IM",
+      "file": "ep-174-rapid-review-22-im.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "internal-medicine",
+        "infectious-disease",
+        "rheumatology",
+        "gi",
+        "pulmonology",
+        "hematology",
+        "oncology",
+        "immunology",
+        "hypersensitivity"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 175,
+      "title": "Rapid Review Series 23 Psych",
+      "file": "ep-175-rapid-review-23-psych.md",
+      "status": "uploaded",
+      "shelf": "psychiatry",
+      "topics": [
+        "psychiatry",
+        "eating-disorders",
+        "substance-abuse",
+        "toxicology",
+        "movement-disorders",
+        "neurodegenerative",
+        "pharmacology",
+        "mood-disorders",
+        "anxiety"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 177,
+      "title": "Rapid Review Series 24 OBGYN",
+      "file": "ep-177-rapid-review-24-obgyn.md",
+      "status": "uploaded",
+      "shelf": "obgyn",
+      "topics": [
+        "obgyn",
+        "PCOS",
+        "cervical-cancer",
+        "screening",
+        "uti",
+        "pregnancy",
+        "prenatal-testing",
+        "infectious-disease"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 180,
+      "title": "Hematology",
+      "file": "ep-180-hematology.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "hematology",
+        "anemia",
+        "coagulopathy",
+        "thrombophilia",
+        "hemolytic-anemia",
+        "platelet-disorders",
+        "sickle-cell"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 181,
+      "title": "Comprehensive NBME Emergency Medicine Shelf Review Series 1",
+      "file": "ep-181-em-shelf-1.md",
+      "status": "pending",
+      "shelf": "emergency-medicine",
+      "topics": [
+        "emergency-medicine"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 182,
+      "title": "Comprehensive NBME Emergency Medicine Shelf Review Series 2",
+      "file": "ep-182-em-shelf-2.md",
+      "status": "pending",
+      "shelf": "emergency-medicine",
+      "topics": [
+        "emergency-medicine"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 183,
+      "title": "Comprehensive NBME Emergency Medicine Shelf Review Series 3",
+      "file": "ep-183-em-shelf-3.md",
+      "status": "pending",
+      "shelf": "emergency-medicine",
+      "topics": [
+        "emergency-medicine"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 184,
+      "title": "NBME Weird",
+      "file": "ep-184-nbme-weird.md",
+      "status": "pending",
+      "shelf": "mixed",
+      "topics": [
+        "high-yield",
+        "nbme-patterns"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 187,
+      "title": "Rapid Review Series 25",
+      "file": "ep-187-rapid-review-25.md",
+      "status": "uploaded",
+      "shelf": "mixed",
+      "topics": [
+        "immunodeficiency",
+        "genetics",
+        "cardiology",
+        "heart-failure",
+        "psychiatry",
+        "pharmacology",
+        "paraneoplastic-syndromes"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 189,
+      "title": "Rapid Review Series 26",
+      "file": "ep-189-rapid-review-26.md",
+      "status": "uploaded",
+      "shelf": "mixed",
+      "topics": [
+        "gi",
+        "hepatology",
+        "surgery",
+        "dermatology",
+        "cardiology",
+        "hemodynamics",
+        "oncology",
+        "obgyn",
+        "preeclampsia",
+        "infectious-disease",
+        "orthopedics"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 195,
+      "title": "Rapid Review Series 27",
+      "file": "ep-195-rapid-review-27.md",
+      "status": "uploaded",
+      "shelf": "mixed",
+      "topics": [
+        "biostatistics",
+        "infectious-disease",
+        "endocarditis-prophylaxis",
+        "urology",
+        "incontinence",
+        "obgyn",
+        "rheumatology",
+        "hematology",
+        "anemia"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 196,
+      "title": "Rapid Review Series 28",
+      "file": "ep-196-rapid-review-28.md",
+      "status": "uploaded",
+      "shelf": "mixed",
+      "topics": [
+        "biostatistics",
+        "cardiology",
+        "aortic-dissection",
+        "psychiatry",
+        "pulmonology",
+        "hematology",
+        "infectious-disease"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 197,
+      "title": "Bias in Biostatistics",
+      "file": "ep-197-biostats-bias.md",
+      "status": "uploaded",
+      "shelf": "biostats",
+      "topics": [
+        "biostatistics",
+        "bias",
+        "study-design",
+        "confounding",
+        "effect-modification"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 198,
+      "title": "Clutch Hypertensive Integrations",
+      "file": "ep-198-clutch-hypertension.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "cardiology",
+        "hypertension",
+        "pharmacology",
+        "nephrology",
+        "heart-failure",
+        "endocrinology",
+        "toxicology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 199,
+      "title": "Rapid Review Series 29",
+      "file": "ep-199-rapid-review-29.md",
+      "status": "uploaded",
+      "shelf": "mixed",
+      "topics": [
+        "nutrition",
+        "obgyn",
+        "contraception",
+        "infectious-disease",
+        "neuromuscular",
+        "genetics",
+        "nephrology",
+        "electrolytes",
+        "endocrinology",
+        "pulmonology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 202,
+      "title": "Rapid Review Series 30",
+      "file": "ep-202-rapid-review-30.md",
+      "status": "uploaded",
+      "shelf": "mixed",
+      "topics": [
+        "infectious-disease",
+        "congenital-infections",
+        "neurology",
+        "stroke",
+        "hematology",
+        "transfusion-reactions",
+        "genetics",
+        "trinucleotide-repeat",
+        "toxicology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 203,
+      "title": "Leukemia and Lymphoma",
+      "file": "ep-203-leukemia-lymphoma.md",
+      "status": "uploaded",
+      "shelf": "medicine",
+      "topics": [
+        "hematology",
+        "oncology",
+        "leukemia",
+        "lymphoma",
+        "multiple-myeloma",
+        "myeloproliferative-disorders"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 204,
+      "title": "Military Part 1",
+      "file": "ep-204-military-1.md",
+      "status": "uploaded",
+      "shelf": "military",
+      "topics": [
+        "trauma",
+        "tbi",
+        "psychiatry",
+        "ptsd",
+        "military-medicine",
+        "neurology",
+        "critical-care"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 206,
+      "title": "Family Medicine Shelf Review Series 1",
+      "file": "ep-206-family-med-1.md",
+      "status": "uploaded",
+      "shelf": "family-medicine",
+      "topics": [
+        "endocrinology",
+        "thyroid",
+        "MEN-syndromes",
+        "lipids",
+        "vitamin-deficiency",
+        "nutrition",
+        "preventive-medicine"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 207,
+      "title": "Geriatrics",
+      "file": "ep-207-geriatrics.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "geriatrics"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 208,
+      "title": "Transfusion Reactions",
+      "file": "ep-208-transfusion-reactions.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "hematology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 209,
+      "title": "Family Medicine Shelf Review Series 2",
+      "file": "ep-209-family-med-2.md",
+      "status": "pending",
+      "shelf": "family-medicine",
+      "topics": [
+        "family-medicine"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 210,
+      "title": "Rapid Review Series 31",
+      "file": "ep-210-rapid-review-31.md",
+      "status": "pending",
+      "shelf": "mixed",
+      "topics": [
+        "mixed"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 211,
+      "title": "Rapid Review Series 32",
+      "file": "ep-211-rapid-review-32.md",
+      "status": "pending",
+      "shelf": "mixed",
+      "topics": [
+        "mixed"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 212,
+      "title": "Family Medicine Shelf Review Series 3 GI",
+      "file": "ep-212-family-med-3-gi.md",
+      "status": "pending",
+      "shelf": "family-medicine",
+      "topics": [
+        "family-medicine",
+        "gi"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 213,
+      "title": "Family Medicine Shelf Review Series 4 GI",
+      "file": "ep-213-family-med-4-gi.md",
+      "status": "pending",
+      "shelf": "family-medicine",
+      "topics": [
+        "family-medicine",
+        "gi"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 214,
+      "title": "Family Medicine Shelf Review Series 5 GI",
+      "file": "ep-214-family-med-5-gi.md",
+      "status": "pending",
+      "shelf": "family-medicine",
+      "topics": [
+        "family-medicine",
+        "gi"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 217,
+      "title": "Family Medicine Shelf Review Series 6 Pulm",
+      "file": "ep-217-family-med-6-pulm.md",
+      "status": "pending",
+      "shelf": "family-medicine",
+      "topics": [
+        "family-medicine",
+        "pulmonology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 226,
+      "title": "Iron Labs",
+      "file": "ep-226-iron-labs.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "hematology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 228,
+      "title": "CLEAN-SP 1 Palliative",
+      "file": "ep-228-clean-sp-1-palliative.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "palliative-care"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 230,
+      "title": "CLEAN-SP 2 Quality/Safety",
+      "file": "ep-230-clean-sp-2-quality-safety.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "quality-improvement",
+        "patient-safety"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 231,
+      "title": "Military Part 2",
+      "file": "ep-231-military-2.md",
+      "status": "pending",
+      "shelf": "military",
+      "topics": [
+        "military-medicine"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 234,
+      "title": "CLEAN-SP 2 Medication/Transition of Care",
+      "file": "ep-234-clean-sp-medication-transitions.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "patient-safety",
+        "transitions-of-care"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 239,
+      "title": "Ob/Gyn Risk Factors",
+      "file": "ep-239-obgyn-risk-factors.md",
+      "status": "pending",
+      "shelf": "obgyn",
+      "topics": [
+        "obgyn",
+        "risk-factors"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 242,
+      "title": "Dermatology Part 1 of 3",
+      "file": "ep-242-derm-part1.md",
+      "status": "pending",
+      "shelf": "dermatology",
+      "topics": [
+        "dermatology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 243,
+      "title": "Water Soluble Vitamins",
+      "file": "ep-243-water-soluble-vitamins.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "nutrition",
+        "biochemistry"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 244,
+      "title": "Cardiac Valvular Disorders",
+      "file": "ep-244-cardiac-valvular.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "cardiology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 245,
+      "title": "Rapid Review Series 39",
+      "file": "ep-245-rapid-review-39.md",
+      "status": "pending",
+      "shelf": "mixed",
+      "topics": [
+        "mixed"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 246,
+      "title": "Derm Part 2 of 3",
+      "file": "ep-246-derm-part2.md",
+      "status": "pending",
+      "shelf": "dermatology",
+      "topics": [
+        "dermatology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 247,
+      "title": "Rapid Review Series 40",
+      "file": "ep-247-rapid-review-40.md",
+      "status": "pending",
+      "shelf": "mixed",
+      "topics": [
+        "mixed"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 248,
+      "title": "New Free 120 Q1-10 2020",
+      "file": "ep-248-free-120-q1-10.md",
+      "status": "pending",
+      "shelf": "mixed",
+      "topics": [
+        "nbme-patterns"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 249,
+      "title": "Blood Oxygen Content and the USMLEs",
+      "file": "ep-249-blood-oxygen-content.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "pulmonology",
+        "physiology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 250,
+      "title": "HY Vaccine",
+      "file": "ep-250-hy-vaccine.md",
+      "status": "pending",
+      "shelf": "pediatrics",
+      "topics": [
+        "vaccines",
+        "preventive-medicine"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 251,
+      "title": "The HY Thyroid Podcast",
+      "file": "ep-251-hy-thyroid.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "endocrinology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 252,
+      "title": "Post Exposure Prophylaxis and the NBMEs",
+      "file": "ep-252-post-exposure-prophylaxis.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "infectious-disease",
+        "preventive-medicine"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 255,
+      "title": "Legendary Step 2CK/3 Pharmacology",
+      "file": "ep-255-step2ck-pharmacology.md",
+      "status": "pending",
+      "shelf": "pharmacology",
+      "topics": [
+        "pharmacology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 256,
+      "title": "Rapid Review Series 41",
+      "file": "ep-256-rapid-review-41.md",
+      "status": "pending",
+      "shelf": "mixed",
+      "topics": [
+        "mixed"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 257,
+      "title": "Clutch Bilirubin Podcast",
+      "file": "ep-257-clutch-bilirubin.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "gi",
+        "hepatology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 258,
+      "title": "Rapid Review Series 42",
+      "file": "ep-258-rapid-review-42.md",
+      "status": "pending",
+      "shelf": "mixed",
+      "topics": [
+        "mixed"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 259,
+      "title": "Clutch Incontinence Podcast",
+      "file": "ep-259-clutch-incontinence.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "urology",
+        "obgyn"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 261,
+      "title": "USMLE Derm Part 3 of 3",
+      "file": "ep-261-derm-part3.md",
+      "status": "pending",
+      "shelf": "dermatology",
+      "topics": [
+        "dermatology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 262,
+      "title": "Clutch TB",
+      "file": "ep-262-clutch-tb.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "infectious-disease",
+        "pulmonology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 263,
+      "title": "Clutch CNS Infection",
+      "file": "ep-263-clutch-cns-infection.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "infectious-disease",
+        "neurology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 265,
+      "title": "Male Reproductive Pathologies and the USMLEs",
+      "file": "ep-265-male-reproductive.md",
+      "status": "pending",
+      "shelf": "surgery",
+      "topics": [
+        "urology"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 267,
+      "title": "USMLE and Normal Changes in the Elderly",
+      "file": "ep-267-elderly-changes.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "geriatrics"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 268,
+      "title": "Clean SP 4 Palliative Care 2",
+      "file": "ep-268-clean-sp-4-palliative-2.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "palliative-care"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 270,
+      "title": "Rapid Review Series 43",
+      "file": "ep-270-rapid-review-43.md",
+      "status": "pending",
+      "shelf": "mixed",
+      "topics": [
+        "mixed"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 275,
+      "title": "USMLE Nov 2020 Changes Series 5 Diagnostic Errors",
+      "file": "ep-275-diagnostic-errors.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "patient-safety",
+        "diagnostic-reasoning"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 276,
+      "title": "USMLE Nov 2020 Changes Series 6 Professionalism/Ethics",
+      "file": "ep-276-professionalism-ethics.md",
+      "status": "pending",
+      "shelf": "ethics",
+      "topics": [
+        "ethics",
+        "professionalism"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 277,
+      "title": "USMLE Nov 2020 Changes Series 7 Infection Prevention and Control",
+      "file": "ep-277-infection-prevention.md",
+      "status": "pending",
+      "shelf": "medicine",
+      "topics": [
+        "infectious-disease",
+        "patient-safety"
+      ],
+      "page": 0
+    },
+    {
+      "ep": 325,
+      "title": "Extremely HY Screening Guidelines",
+      "file": "ep-325-hy-screening-guidelines.md",
+      "status": "pending",
+      "shelf": "preventive-medicine",
+      "topics": [
+        "screening",
+        "preventive-medicine"
+      ],
+      "page": 0
+    }
+  ]
+}
