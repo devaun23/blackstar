@@ -83,10 +83,11 @@ export async function selectAssessmentQuestion(
     (served ?? []).map(a => (a as { question_id: string | null; item_draft_id: string | null }).item_draft_id).filter(Boolean)
   );
 
-  // Try MVP questions first
+  // Try MVP questions (only those wired to a confusion set)
   const { data: questions } = await supabase
     .from('questions')
     .select('id')
+    .not('confusion_set_id', 'is', null)
     .limit(100);
 
   if (questions) {
@@ -470,10 +471,11 @@ async function selectFallback(
   _userId: string,
   servedIds?: Set<string>,
 ): Promise<SelectedQuestion | null> {
-  // Try MVP questions first
+  // Try MVP questions (only those wired to a confusion set)
   const { data: questions } = await supabase
     .from('questions')
     .select('id')
+    .not('confusion_set_id', 'is', null)
     .limit(20);
 
   if (questions && questions.length > 0) {
