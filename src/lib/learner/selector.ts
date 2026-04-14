@@ -124,6 +124,27 @@ export async function selectAssessmentQuestion(
 }
 
 /**
+ * Gets the set of question/draft IDs already served in a session.
+ */
+async function getServedIds(
+  supabase: ReturnType<typeof createAdminClient>,
+  sessionId: string | null | undefined,
+): Promise<Set<string>> {
+  if (!sessionId) return new Set();
+  const { data: served } = await supabase
+    .from('attempt_v2')
+    .select('question_id, item_draft_id')
+    .eq('session_id', sessionId);
+
+  const ids = new Set<string>();
+  for (const a of served ?? []) {
+    if (a.question_id) ids.add(a.question_id);
+    if (a.item_draft_id) ids.add(a.item_draft_id);
+  }
+  return ids;
+}
+
+/**
  * Selects the next question for adaptive delivery.
  *
  * Strategy:
@@ -131,6 +152,8 @@ export async function selectAssessmentQuestion(
  *    - contrast: DETERMINISTIC — same confusion_set, different correct answer
  * 2. Otherwise, find weakest dimension → find a question targeting it
  * 3. Fallback: serve due-for-review questions, then random
+ *
+ * ALL paths filter out questions already served in this session.
  */
 export async function selectNextQuestion(
   userId: string,
@@ -141,6 +164,7 @@ export async function selectNextQuestion(
   opts?: SelectionOpts,
 ): Promise<SelectedQuestion | null> {
   const supabase = createAdminClient();
+  const servedIds = await getServedIds(supabase, opts?.sessionId);
 
   // Mode-specific dispatch
   if (opts?.sessionMode === 'retention') {
@@ -157,7 +181,8 @@ export async function selectNextQuestion(
       supabase,
       opts.forceDimension.type,
       opts.forceDimension.id,
-      'forced_training'
+      'forced_training',
+      servedIds,
     );
     if (result) return result;
     // Fall through to general selection if no match for forced dimension
@@ -166,7 +191,7 @@ export async function selectNextQuestion(
   // 1. If we have a repair action from the last attempt, follow it
   if (lastRepairAction && lastDimensionType && lastDimensionId) {
     const repairResult = await selectForRepair(
-      supabase, lastRepairAction, lastDimensionType, lastDimensionId, lastCorrectOptionFrameId
+      supabase, lastRepairAction, lastDimensionType, lastDimensionId, lastCorrectOptionFrameId, servedIds
     );
     if (repairResult) return repairResult;
   }
@@ -174,12 +199,12 @@ export async function selectNextQuestion(
   // 2. Find weakest dimensions across all types
   const weakest = await getWeakestDimensions(userId, 3);
   if (weakest.length > 0) {
-    const result = await selectForDimension(supabase, weakest[0]);
+    const result = await selectForDimension(supabase, weakest[0], servedIds);
     if (result) return result;
   }
 
   // 3. Fallback: any published item_draft or question not recently served
-  return selectFallback(supabase, userId);
+  return selectFallback(supabase, userId, servedIds);
 }
 
 /**
@@ -191,28 +216,29 @@ async function selectForRepair(
   dimensionType: DimensionType,
   dimensionId: string,
   lastCorrectOptionFrameId?: string | null,
+  servedIds?: Set<string>,
 ): Promise<SelectedQuestion | null> {
   // Map repair action to the right query strategy
   switch (repairAction) {
     case 'reinforce':
-      return selectByDimensionMatch(supabase, dimensionType, dimensionId, 'reinforce');
+      return selectByDimensionMatch(supabase, dimensionType, dimensionId, 'reinforce', servedIds);
 
     case 'contrast':
       // DETERMINISTIC: same confusion_set, different correct answer.
       // This is the core learning mechanism — bypasses scheduler entirely.
       if (dimensionType === 'confusion_set') {
-        return selectContrastQuestion(supabase, dimensionId, lastCorrectOptionFrameId ?? null);
+        return selectContrastQuestion(supabase, dimensionId, lastCorrectOptionFrameId ?? null, servedIds);
       }
       // Fallback if somehow contrast was called without confusion_set dimension
-      return selectByDimensionMatch(supabase, dimensionType, dimensionId, 'contrast');
+      return selectByDimensionMatch(supabase, dimensionType, dimensionId, 'contrast', servedIds);
 
     case 'remediate':
       // Same cognitive error, lower difficulty
-      return selectByDimensionMatch(supabase, dimensionType, dimensionId, 'remediate');
+      return selectByDimensionMatch(supabase, dimensionType, dimensionId, 'remediate', servedIds);
 
     case 'transfer_test':
       // Same transfer rule, different clinical setting
-      return selectByDimensionMatch(supabase, dimensionType, dimensionId, 'transfer_test');
+      return selectByDimensionMatch(supabase, dimensionType, dimensionId, 'transfer_test', servedIds);
 
     case 'advance':
     default:
@@ -229,6 +255,7 @@ async function selectContrastQuestion(
   supabase: ReturnType<typeof createAdminClient>,
   confusionSetId: string,
   excludeCorrectOptionFrameId: string | null,
+  servedIds?: Set<string>,
 ): Promise<SelectedQuestion | null> {
   // Strategy 1: item_draft via case_plan with different correct_option_frame_id
   if (excludeCorrectOptionFrameId) {
@@ -238,15 +265,18 @@ async function selectContrastQuestion(
       .eq('status', 'published')
       .eq('case_plan.target_confusion_set_id', confusionSetId)
       .neq('case_plan.correct_option_frame_id', excludeCorrectOptionFrameId)
-      .limit(5);
+      .limit(10);
 
     if (drafts && drafts.length > 0) {
-      const pick = drafts[Math.floor(Math.random() * drafts.length)];
-      return {
-        questionId: pick.id,
-        questionType: 'item_draft',
-        strategy: { dimensionType: 'confusion_set', dimensionId: confusionSetId, reason: 'contrast_different_correct' },
-      };
+      const available = servedIds ? drafts.filter(d => !servedIds.has(d.id)) : drafts;
+      if (available.length > 0) {
+        const pick = available[Math.floor(Math.random() * available.length)];
+        return {
+          questionId: pick.id,
+          questionType: 'item_draft',
+          strategy: { dimensionType: 'confusion_set', dimensionId: confusionSetId, reason: 'contrast_different_correct' },
+        };
+      }
     }
   }
 
@@ -255,15 +285,18 @@ async function selectContrastQuestion(
     .from('questions')
     .select('id')
     .eq('confusion_set_id', confusionSetId)
-    .limit(5);
+    .limit(10);
 
   if (sameCsQuestions && sameCsQuestions.length > 0) {
-    const pick = sameCsQuestions[Math.floor(Math.random() * sameCsQuestions.length)];
-    return {
-      questionId: pick.id,
-      questionType: 'question',
-      strategy: { dimensionType: 'confusion_set', dimensionId: confusionSetId, reason: 'contrast_same_set' },
-    };
+    const available = servedIds ? sameCsQuestions.filter(q => !servedIds.has(q.id)) : sameCsQuestions;
+    if (available.length > 0) {
+      const pick = available[Math.floor(Math.random() * available.length)];
+      return {
+        questionId: pick.id,
+        questionType: 'question',
+        strategy: { dimensionType: 'confusion_set', dimensionId: confusionSetId, reason: 'contrast_same_set' },
+      };
+    }
   }
 
   // Strategy 3: any item_draft from same confusion set (without correct answer filter)
@@ -272,15 +305,18 @@ async function selectContrastQuestion(
     .select('id, case_plan!inner(target_confusion_set_id)')
     .eq('status', 'published')
     .eq('case_plan.target_confusion_set_id', confusionSetId)
-    .limit(5);
+    .limit(10);
 
   if (anyDrafts && anyDrafts.length > 0) {
-    const pick = anyDrafts[Math.floor(Math.random() * anyDrafts.length)];
-    return {
-      questionId: pick.id,
-      questionType: 'item_draft',
-      strategy: { dimensionType: 'confusion_set', dimensionId: confusionSetId, reason: 'contrast_same_set_fallback' },
-    };
+    const available = servedIds ? anyDrafts.filter(d => !servedIds.has(d.id)) : anyDrafts;
+    if (available.length > 0) {
+      const pick = available[Math.floor(Math.random() * available.length)];
+      return {
+        questionId: pick.id,
+        questionType: 'item_draft',
+        strategy: { dimensionType: 'confusion_set', dimensionId: confusionSetId, reason: 'contrast_same_set_fallback' },
+      };
+    }
   }
 
   // No contrast available — return null (caller falls through to normal selection)
@@ -288,14 +324,27 @@ async function selectContrastQuestion(
 }
 
 /**
- * Finds a question that matches a specific dimension.
+ * Finds a question that matches a specific dimension, excluding already-served IDs.
  */
 async function selectByDimensionMatch(
   supabase: ReturnType<typeof createAdminClient>,
   dimensionType: DimensionType,
   dimensionId: string,
   reason: string,
+  servedIds?: Set<string>,
 ): Promise<SelectedQuestion | null> {
+  // Helper: pick a random unserved item from a list
+  function pickUnserved(items: { id: string }[], type: 'item_draft' | 'question'): SelectedQuestion | null {
+    const available = servedIds ? items.filter(i => !servedIds.has(i.id)) : items;
+    if (available.length === 0) return null;
+    const pick = available[Math.floor(Math.random() * available.length)];
+    return {
+      questionId: pick.id,
+      questionType: type,
+      strategy: { dimensionType, dimensionId, reason },
+    };
+  }
+
   // Try item_draft (v2 pipeline) first via case_plan linkages
   if (dimensionType === 'cognitive_error') {
     const { data } = await supabase
@@ -303,31 +352,22 @@ async function selectByDimensionMatch(
       .select('id, case_plan!inner(target_cognitive_error_id)')
       .eq('status', 'published')
       .eq('case_plan.target_cognitive_error_id', dimensionId)
-      .limit(1)
-      .single();
-    if (data) {
-      return {
-        questionId: data.id,
-        questionType: 'item_draft',
-        strategy: { dimensionType, dimensionId, reason },
-      };
+      .limit(10);
+    if (data && data.length > 0) {
+      const result = pickUnserved(data, 'item_draft');
+      if (result) return result;
     }
   }
 
   if (dimensionType === 'confusion_set') {
-    // Try MVP questions table (has confusion_set_id)
     const { data } = await supabase
       .from('questions')
       .select('id')
       .eq('confusion_set_id', dimensionId)
-      .limit(1)
-      .single();
-    if (data) {
-      return {
-        questionId: data.id,
-        questionType: 'question',
-        strategy: { dimensionType, dimensionId, reason },
-      };
+      .limit(10);
+    if (data && data.length > 0) {
+      const result = pickUnserved(data, 'question');
+      if (result) return result;
     }
   }
 
@@ -336,14 +376,10 @@ async function selectByDimensionMatch(
       .from('questions')
       .select('id')
       .eq('transfer_rule_id', dimensionId)
-      .limit(1)
-      .single();
-    if (data) {
-      return {
-        questionId: data.id,
-        questionType: 'question',
-        strategy: { dimensionType, dimensionId, reason },
-      };
+      .limit(10);
+    if (data && data.length > 0) {
+      const result = pickUnserved(data, 'question');
+      if (result) return result;
     }
   }
 
@@ -352,14 +388,10 @@ async function selectByDimensionMatch(
       .from('questions')
       .select('id')
       .eq('system_topic', dimensionId)
-      .limit(1)
-      .single();
-    if (data) {
-      return {
-        questionId: data.id,
-        questionType: 'question',
-        strategy: { dimensionType, dimensionId, reason },
-      };
+      .limit(10);
+    if (data && data.length > 0) {
+      const result = pickUnserved(data, 'question');
+      if (result) return result;
     }
   }
 
@@ -369,14 +401,10 @@ async function selectByDimensionMatch(
       .select('id, case_plan!inner(target_action_class_id)')
       .eq('status', 'published')
       .eq('case_plan.target_action_class_id', dimensionId)
-      .limit(1)
-      .single();
-    if (data) {
-      return {
-        questionId: data.id,
-        questionType: 'item_draft',
-        strategy: { dimensionType, dimensionId, reason },
-      };
+      .limit(10);
+    if (data && data.length > 0) {
+      const result = pickUnserved(data, 'item_draft');
+      if (result) return result;
     }
   }
 
@@ -401,6 +429,7 @@ function getDifficultyBracket(masteryLevel: number): { min: number; max: number 
 async function selectForDimension(
   supabase: ReturnType<typeof createAdminClient>,
   dim: DimensionMastery,
+  servedIds?: Set<string>,
 ): Promise<SelectedQuestion | null> {
   const bracket = getDifficultyBracket(dim.masteryLevel);
 
@@ -411,23 +440,26 @@ async function selectForDimension(
     .eq('status', 'published')
     .gte('case_plan.clinical_complexity', bracket.min)
     .lte('case_plan.clinical_complexity', bracket.max)
-    .limit(5);
+    .limit(10);
 
   if (filtered && filtered.length > 0) {
-    const pick = filtered[Math.floor(Math.random() * filtered.length)];
-    return {
-      questionId: pick.id,
-      questionType: 'item_draft',
-      strategy: {
-        dimensionType: dim.dimensionType,
-        dimensionId: dim.dimensionId,
-        reason: `difficulty_matched_${bracket.min}-${bracket.max}`,
-      },
-    };
+    const available = servedIds ? filtered.filter(d => !servedIds.has(d.id)) : filtered;
+    if (available.length > 0) {
+      const pick = available[Math.floor(Math.random() * available.length)];
+      return {
+        questionId: pick.id,
+        questionType: 'item_draft',
+        strategy: {
+          dimensionType: dim.dimensionType,
+          dimensionId: dim.dimensionId,
+          reason: `difficulty_matched_${bracket.min}-${bracket.max}`,
+        },
+      };
+    }
   }
 
   // Fallback: unfiltered dimension match
-  return selectByDimensionMatch(supabase, dim.dimensionType, dim.dimensionId, 'weakest_dimension');
+  return selectByDimensionMatch(supabase, dim.dimensionType, dim.dimensionId, 'weakest_dimension', servedIds);
 }
 
 /**
@@ -436,36 +468,43 @@ async function selectForDimension(
 async function selectFallback(
   supabase: ReturnType<typeof createAdminClient>,
   _userId: string,
+  servedIds?: Set<string>,
 ): Promise<SelectedQuestion | null> {
-  // Try MVP questions first (more likely to have content)
-  const { data: question } = await supabase
+  // Try MVP questions first
+  const { data: questions } = await supabase
     .from('questions')
     .select('id')
-    .limit(1)
-    .single();
+    .limit(20);
 
-  if (question) {
-    return {
-      questionId: question.id,
-      questionType: 'question',
-      strategy: { dimensionType: 'topic', dimensionId: 'fallback', reason: 'no_targeting_available' },
-    };
+  if (questions && questions.length > 0) {
+    const available = servedIds ? questions.filter(q => !servedIds.has(q.id)) : questions;
+    if (available.length > 0) {
+      const pick = available[Math.floor(Math.random() * available.length)];
+      return {
+        questionId: pick.id,
+        questionType: 'question',
+        strategy: { dimensionType: 'topic', dimensionId: 'fallback', reason: 'no_targeting_available' },
+      };
+    }
   }
 
   // Try published item_drafts
-  const { data: draft } = await supabase
+  const { data: drafts } = await supabase
     .from('item_draft')
     .select('id')
     .eq('status', 'published')
-    .limit(1)
-    .single();
+    .limit(20);
 
-  if (draft) {
-    return {
-      questionId: draft.id,
-      questionType: 'item_draft',
-      strategy: { dimensionType: 'topic', dimensionId: 'fallback', reason: 'no_targeting_available' },
-    };
+  if (drafts && drafts.length > 0) {
+    const available = servedIds ? drafts.filter(d => !servedIds.has(d.id)) : drafts;
+    if (available.length > 0) {
+      const pick = available[Math.floor(Math.random() * available.length)];
+      return {
+        questionId: pick.id,
+        questionType: 'item_draft',
+        strategy: { dimensionType: 'topic', dimensionId: 'fallback', reason: 'no_targeting_available' },
+      };
+    }
   }
 
   return null;

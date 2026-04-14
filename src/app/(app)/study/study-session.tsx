@@ -71,7 +71,6 @@ interface StudySessionProps {
 }
 
 const CHOICE_KEYS = ['A', 'B', 'C', 'D', 'E'] as const;
-const CONFIDENCE_LEVELS = [1, 2, 3, 4, 5] as const;
 
 const MODE_LABELS: Record<SessionMode, string> = {
   retention: 'Retention Review',
@@ -94,7 +93,6 @@ export default function StudySession({
   const [questionType, setQuestionType] = useState<'question' | 'item_draft'>('question');
   const [strategy, setStrategy] = useState<SelectionStrategy | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
-  const [confidence, setConfidence] = useState<number | null>(null);
   const [attempts, setAttempts] = useState<AttemptRecord[]>([]);
   const [lastRepair, setLastRepair] = useState<RepairInfo | null>(null);
   const [empty, setEmpty] = useState(false);
@@ -125,7 +123,7 @@ export default function StudySession({
           setSelected(answerMap[e.key]);
         }
         // Enter to submit
-        if (e.key === 'Enter' && selected && confidence) {
+        if (e.key === 'Enter' && selected) {
           e.preventDefault();
           handleSubmitRef.current();
         }
@@ -133,12 +131,11 @@ export default function StudySession({
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [phase, selected, confidence]);
+  }, [phase, selected]);
 
   const fetchNext = useCallback(async () => {
     setPhase('loading');
     setSelected(null);
-    setConfidence(null);
 
     const params = new URLSearchParams({ userId, sessionMode, sessionId });
 
@@ -177,7 +174,7 @@ export default function StudySession({
   }, []);
 
   const handleSubmit = async () => {
-    if (!selected || !confidence || !current) return;
+    if (!selected || !current) return;
     setSubmitting(true);
 
     const timeMs = Date.now() - startTime.current;
@@ -195,7 +192,6 @@ export default function StudySession({
         question_id: current.id,
         selected_answer: selected,
         time_spent_ms: timeMs,
-        confidence_pre: confidence,
         session_id: sessionId,
         session_mode: sessionMode,
       }),
@@ -251,9 +247,9 @@ export default function StudySession({
 
   handleSubmitRef.current = handleSubmit;
 
-  const handleNext = async (metacognitive?: { confidencePost?: number; selfLabeledError?: string }) => {
-    // Send metacognitive data for the last attempt if provided
-    if (metacognitive && attempts.length > 0) {
+  const handleNext = async (metacognitive?: { selfLabeledError?: string }) => {
+    // Send self-labeled error for wrong answers
+    if (metacognitive?.selfLabeledError && attempts.length > 0) {
       const lastAttempt = attempts[attempts.length - 1];
       await fetch('/api/study/attempt-v2/metacognitive', {
         method: 'PATCH',
@@ -261,7 +257,6 @@ export default function StudySession({
         body: JSON.stringify({
           session_id: sessionId,
           question_id: lastAttempt.questionId,
-          confidence_post: metacognitive.confidencePost,
           self_labeled_error: metacognitive.selfLabeledError,
         }),
       }).catch(() => {}); // non-blocking
@@ -525,31 +520,12 @@ export default function StudySession({
           </div>
         </div>
 
-        {/* Confidence selector + Submit */}
+        {/* Submit button */}
         {phase === 'answering' && (
-          <div className="mt-6 space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-zinc-500">How confident are you?</span>
-              <div className="flex gap-2">
-                {CONFIDENCE_LEVELS.map(level => (
-                  <button
-                    key={level}
-                    onClick={() => setConfidence(level)}
-                    className={`flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold transition-colors ${
-                      confidence === level
-                        ? 'border-[var(--color-accent-base)] bg-[var(--color-accent-base)] text-white'
-                        : 'border-zinc-700 text-zinc-500 hover:border-zinc-500'
-                    }`}
-                  >
-                    {level}
-                  </button>
-                ))}
-              </div>
-            </div>
-
+          <div className="mt-6">
             <button
               onClick={handleSubmit}
-              disabled={!selected || !confidence || submitting}
+              disabled={!selected || submitting}
               className="w-full rounded-[var(--radius-button)] bg-[var(--color-accent-base)] py-3 text-sm font-semibold text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {submitting ? 'Submitting...' : 'Submit Answer'}

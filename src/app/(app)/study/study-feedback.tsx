@@ -26,7 +26,7 @@ interface RepairInfo {
 interface StudyFeedbackProps {
   question: StudyQuestion;
   selectedAnswer: string;
-  onNext: (metacognitive?: { confidencePost?: number; selfLabeledError?: string }) => void;
+  onNext: (metacognitive?: { selfLabeledError?: string }) => void;
   repairInfo?: RepairInfo | null;
   errorRepeatCount?: number;
 }
