@@ -1,0 +1,194 @@
+{
+  "topic": "Acute Coronary Syndrome",
+  "node": {
+    "shelf": "medicine",
+    "system": "Cardiology",
+    "topic": "Acute Coronary Syndrome",
+    "subtopic": "STEMI",
+    "task_type": "next_step",
+    "clinical_setting": "ed",
+    "age_group": "middle_aged",
+    "time_horizon": "immediate",
+    "yield_tier": "tier_1"
+  },
+  "algorithm_card": {
+    "entry_presentation": "Substernal chest pain/pressure, often with radiation to jaw/left arm, diaphoresis, nausea. May be atypical in elderly, women, diabetics (dyspnea, fatigue, epigastric pain).",
+    "competing_paths": [
+      "STEMI → emergent reperfusion (PCI or fibrinolytics)",
+      "NSTEMI → anticoagulation + early invasive strategy (within 24-72h)",
+      "Unstable Angina → risk stratification + medical management",
+      "Aortic Dissection → emergent surgical consultation, NO anticoagulation",
+      "Pericarditis → NSAIDs + colchicine"
+    ],
+    "hinge_feature": "ECG findings + troponin determine the ACS subtype: ST elevation = STEMI (emergent PCI). Troponin+ without ST elevation = NSTEMI. Troponin- with ischemic symptoms = UA.",
+    "correct_action": "STEMI: emergent PCI if door-to-balloon <90min, else fibrinolytics within 30min. NSTEMI: dual antiplatelet + anticoagulation + early invasive strategy. UA: risk stratify with TIMI/HEART score.",
+    "contraindications": [
+      "Fibrinolytics absolutely contraindicated if: active bleeding, prior hemorrhagic stroke, ischemic stroke <3mo, intracranial neoplasm, suspected aortic dissection, recent major surgery <3wk",
+      "MUST rule out aortic dissection before starting anticoagulation — tearing pain + BP differential + widened mediastinum"
+    ],
+    "source_citations": [
+      "2021 ACC/AHA Chest Pain Guideline",
+      "2013 ACC/AHA STEMI Guidelines (updated 2022)",
+      "2014 ACC/AHA NSTE-ACS Guidelines (updated 2022)",
+      "UpToDate: Overview of ACS (2024)"
+    ]
+  },
+  "facts": [
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "STEMI criteria: new ST elevation ≥1mm in 2 contiguous leads (≥2mm in V2-V3 for men, ≥1.5mm in V2-V3 for women), or new LBBB with ischemic symptoms",
+      "threshold_value": "≥1mm (≥2mm in V2-V3 men)",
+      "source_name": "2013 ACC/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "management_step",
+      "fact_text": "STEMI reperfusion targets: door-to-balloon (PCI) <90 minutes; door-to-needle (fibrinolytics) <30 minutes. If PCI not available within 120min of first medical contact, give fibrinolytics.",
+      "threshold_value": "PCI <90min, lytic <30min",
+      "source_name": "2013 ACC/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "drug_choice",
+      "fact_text": "All ACS: aspirin 325mg (chewed) + P2Y12 inhibitor (ticagrelor 180mg or clopidogrel 600mg loading). Add heparin (UFH or enoxaparin). Beta-blocker within 24h if no contraindication.",
+      "threshold_value": null,
+      "source_name": "2014 ACC/AHA NSTE-ACS Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "contraindication",
+      "fact_text": "MUST exclude aortic dissection before anticoagulation/antiplatelet therapy. Tearing pain + BP differential + widened mediastinum = dissection until proven otherwise. Dissection + anticoagulation = catastrophic.",
+      "threshold_value": null,
+      "source_name": "2021 ACC/AHA Chest Pain Guideline",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "Serial troponins (high-sensitivity): 0h and 3h (or 0/1h algorithm). Rise and/or fall pattern distinguishes acute MI from chronic troponin elevation.",
+      "threshold_value": ">99th percentile URL with rise/fall",
+      "source_name": "2021 ESC NSTE-ACS Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "management_step",
+      "fact_text": "NSTEMI early invasive strategy (within 24h) recommended if: GRACE score >140, dynamic ST changes, elevated troponin, diabetes, renal insufficiency, LVEF <40%, early post-infarct angina",
+      "threshold_value": "GRACE >140",
+      "source_name": "2014 ACC/AHA NSTE-ACS Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    }
+  ],
+  "case_plan": {
+    "cognitive_operation_type": "management_sequencing",
+    "transfer_rule_text": "When ECG shows ST elevation with chest pain, always initiate reperfusion therapy before waiting for troponin results",
+    "hinge_depth_target": "moderate",
+    "decision_fork_type": "timing_decision",
+    "decision_fork_description": "Patient presents with chest pain and ST elevation on ECG, but troponin is still pending. Question is whether to wait for lab confirmation or proceed immediately with reperfusion therapy.",
+    "option_action_class": "treat_emergent",
+    "target_cognitive_error": "skipping_required_diagnostic_step",
+    "target_hinge_clue_type": "temporal_progression",
+    "target_action_class": "treat_emergent",
+    "ambiguity_level": 3,
+    "distractor_strength": 4,
+    "clinical_complexity": 3,
+    "ambiguity_strategy": "Present clear STEMI criteria on ECG but emphasize that troponin is 'still pending' to create false sense that confirmation is needed",
+    "distractor_design": {
+      "wait_for_troponin": "Seems prudent to confirm diagnosis with biomarker before invasive procedure",
+      "repeat_ecg": "Reasonable to confirm ST elevation pattern before proceeding",
+      "echo_first": "Logical to assess wall motion abnormalities to confirm acute MI",
+      "serial_troponins": "Standard practice often includes serial cardiac enzymes for diagnosis"
+    },
+    "final_decisive_clue": "Symptom onset was 45 minutes ago and ECG shows 3mm ST elevation in leads II, III, aVF",
+    "explanation_teaching_goal": "Reinforce that ECG with ST elevation IS the diagnosis for STEMI and reperfusion should not be delayed for troponin results - time is myocardium"
+  },
+  "skeleton": {
+    "case_summary": "55-year-old male with acute substernal chest pain radiating to left arm, diaphoresis, nausea. ECG shows 3mm ST elevation in leads II, III, aVF with reciprocal changes. Troponin pending. Symptom onset 45 minutes ago.",
+    "hidden_target": "STEMI requiring emergent reperfusion",
+    "correct_action": "Emergent cardiac catheterization for primary PCI",
+    "option_action_class": "treat_emergent",
+    "wrong_option_archetypes": [
+      {
+        "letter": "B",
+        "archetype": "Wait for troponin results before proceeding",
+        "cognitive_error": "skipping_required_diagnostic_step"
+      },
+      {
+        "letter": "C",
+        "archetype": "Obtain repeat ECG in 15 minutes to confirm changes",
+        "cognitive_error": "overreliance_on_confirmation_testing"
+      },
+      {
+        "letter": "D",
+        "archetype": "Perform bedside echocardiogram to assess wall motion",
+        "cognitive_error": "unnecessary_test_ordering"
+      },
+      {
+        "letter": "E",
+        "archetype": "Start fibrinolytic therapy immediately",
+        "cognitive_error": "treatment_timing_error"
+      }
+    ],
+    "error_mapping": {
+      "B": "skipping_required_diagnostic_step",
+      "C": "overreliance_on_confirmation_testing",
+      "D": "unnecessary_test_ordering",
+      "E": "treatment_timing_error"
+    },
+    "hinge_placement": "ECG interpretation with timing context",
+    "hinge_description": "3mm ST elevation in contiguous inferior leads (II, III, aVF) with symptom onset 45 minutes ago",
+    "hinge_depth": "moderate",
+    "hinge_buried_by": "Emphasis on pending troponin results and multiple clinical details that suggest need for additional confirmation"
+  },
+  "item_plan": {
+    "target_hinge": "ECG shows 3mm ST elevation in leads II, III, aVF with reciprocal changes in a patient with acute chest pain onset 45 minutes ago",
+    "competing_options": [
+      "Emergent cardiac catheterization",
+      "Obtain serial troponin levels",
+      "Perform bedside echocardiogram",
+      "Repeat ECG in 15 minutes",
+      "Start alteplase infusion"
+    ],
+    "target_cognitive_error": "skipping_required_diagnostic_step",
+    "noise_elements": [
+      "Troponin pending",
+      "Blood pressure 142/88 mmHg",
+      "Patient reports similar episode 6 months ago that resolved spontaneously"
+    ],
+    "option_class": "immediate_management_actions",
+    "distractor_rationale": "Students may think troponin confirmation is needed before proceeding (B), want additional ECG confirmation (D), seek imaging correlation (C), or choose fibrinolytics without considering PCI availability (E). The pending troponin creates false urgency to wait for lab confirmation despite clear STEMI criteria already being met on ECG.",
+    "lead_in": "What is the most appropriate next step in management?"
+  },
+  "question": {
+    "vignette": "A 55-year-old man comes to the emergency department because of severe substernal chest pain that began 45 minutes ago. The pain radiates to his left arm and is associated with diaphoresis and nausea. He reports a similar episode 6 months ago that resolved spontaneously. His temperature is 37.0°C (98.6°F), pulse is 88/min, respirations are 18/min, and blood pressure is 142/88 mmHg. Physical examination shows diaphoresis but is otherwise unremarkable. Troponin results are pending. ECG shows 3-mm ST-segment elevation in leads II, III, and aVF with reciprocal changes in leads I and aVL.",
+    "stem": "What is the most appropriate next step in management?",
+    "choice_a": "Emergent cardiac catheterization",
+    "choice_b": "Start alteplase infusion",
+    "choice_c": "Administer sublingual nitroglycerin",
+    "choice_d": "Begin intravenous heparin",
+    "choice_e": "Give intravenous metoprolol",
+    "correct_answer": "A",
+    "why_correct": "This patient presents with classic STEMI criteria: severe substernal chest pain with radiation and autonomic symptoms, plus ECG showing 3mm ST elevation in contiguous inferior leads (II, III, aVF) with reciprocal depression in I and aVL. The pain onset 45 minutes ago places him well within the reperfusion window. Primary PCI is the preferred reperfusion strategy when door-to-balloon time can be achieved within 90 minutes, as it offers superior outcomes compared to fibrinolytic therapy with lower rates of reinfarction, stroke, and death. Given that he's in the emergency department with clear STEMI criteria, emergent cardiac catheterization for primary PCI is the definitive treatment that addresses the occluded coronary artery causing the inferior wall MI.",
+    "decision_hinge": "ECG showing 3mm ST elevation in contiguous inferior leads (II, III, aVF) with reciprocal changes establishes STEMI diagnosis requiring emergent reperfusion",
+    "competing_differential": "NSTEMI would show troponin elevation without ST elevation; unstable angina would have normal troponin and no ST changes; aortic dissection would typically present with tearing pain and blood pressure differential",
+    "why_wrong_a": null,
+    "why_wrong_b": "Alteplase (fibrinolytic therapy) is tempting as it's also a reperfusion strategy for STEMI. However, fibrinolytics are reserved for situations where primary PCI cannot be performed within 90-120 minutes of first medical contact. Since this patient is already in the ED, primary PCI should be available and is superior to fibrinolytics with better outcomes and fewer complications. Fibrinolytics would only be appropriate if the catheterization lab is unavailable or significantly delayed.",
+    "why_wrong_c": "Sublingual nitroglycerin is tempting as part of standard chest pain management and can provide symptomatic relief. However, while nitroglycerin should be given as adjunctive therapy, it does not address the underlying pathology of complete coronary occlusion causing STEMI. The most appropriate NEXT step must be definitive reperfusion therapy. Additionally, in inferior STEMI, there's risk of right heart involvement where nitroglycerin could cause dangerous hypotension.",
+    "why_wrong_d": "Intravenous heparin is tempting as anticoagulation is indeed part of STEMI management to prevent further thrombosis. However, heparin is adjunctive therapy that should be given alongside definitive reperfusion, not instead of it. The most urgent priority is opening the occluded coronary artery through primary PCI. Heparin will be administered as part of the PCI protocol, but emergent catheterization is the critical next step.",
+    "why_wrong_e": "Intravenous metoprolol is tempting as beta-blockers are beneficial in STEMI patients and should be started within 24 hours if no contraindications exist. However, beta-blockers are not the urgent priority in acute STEMI management. The immediate focus must be on reperfusion to salvage myocardium. Beta-blockers can actually be harmful in the acute phase if the patient has heart failure, hypotension, or bradycardia, and should be held until after successful reperfusion.",
+    "high_yield_pearl": "STEMI with symptom onset <12 hours requires emergent reperfusion: primary PCI preferred if door-to-balloon <90 minutes, otherwise fibrinolytics within 30 minutes.",
+    "reasoning_pathway": "Step 1: Recognize ACS presentation (substernal chest pain, radiation, diaphoresis, nausea). Step 2: Analyze ECG showing 3mm ST elevation in II, III, aVF (contiguous inferior leads) with reciprocal changes - this meets STEMI criteria. Step 3: Note symptom onset 45 minutes ago, well within reperfusion window. Step 4: Determine optimal reperfusion strategy - primary PCI preferred when available within 90 minutes. Step 5: Initiate emergent cardiac catheterization while preparing adjunctive therapies (aspirin, heparin, etc.).",
+    "explanation_decision_logic": "The core decision rule is ECG-based STEMI recognition followed by time-sensitive reperfusion strategy selection. ST elevation ≥1mm in contiguous leads + ischemic symptoms = STEMI requiring emergent reperfusion. Primary PCI is preferred over fibrinolytics when door-to-balloon time can be achieved within 90 minutes.",
+    "explanation_transfer_rule": "For any patient with chest pain, the ECG is the critical decision point: ST elevation in contiguous leads = STEMI requiring emergent reperfusion (PCI preferred); troponin elevation without ST elevation = NSTEMI requiring early invasive strategy within 24-72 hours; neither = unstable angina requiring risk stratification.",
+    "explanation_teaching_pearl": "Don't get distracted by adjunctive therapies (nitrates, beta-blockers, heparin) when a patient has clear STEMI - the priority is always emergent reperfusion through primary PCI or fibrinolytics. Time is myocardium, and door-to-balloon time <90 minutes is the goal that drives the management algorithm."
+  },
+  "meta": {
+    "totalTokens": 25827,
+    "totalMs": 64967,
+    "timestamp": "2026-04-07T09:03:13.772Z"
+  }
+}

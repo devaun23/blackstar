@@ -1,0 +1,184 @@
+{
+  "topic": "Sepsis",
+  "node": {
+    "shelf": "medicine",
+    "system": "Infectious Disease",
+    "topic": "Sepsis",
+    "subtopic": "Initial Resuscitation",
+    "task_type": "next_step",
+    "clinical_setting": "ed",
+    "age_group": "elderly",
+    "time_horizon": "immediate",
+    "yield_tier": "tier_1"
+  },
+  "algorithm_card": {
+    "entry_presentation": "Elderly patient (>65 years) presenting with suspected infection plus ≥2 SIRS criteria (fever/hypothermia, tachycardia, tachypnea, leukocytosis/leukopenia) OR qSOFA ≥2 (altered mental status, SBP ≤100 mmHg, RR ≥22)",
+    "competing_paths": [
+      "Sepsis with hypotension requiring immediate fluid resuscitation",
+      "Sepsis without shock requiring standard care",
+      "Septic shock requiring vasopressors"
+    ],
+    "hinge_feature": "Blood pressure response to initial 30 mL/kg crystalloid fluid bolus within first hour",
+    "correct_action": "Administer 30 mL/kg IV crystalloid bolus within first hour, obtain blood cultures before antibiotics, start broad-spectrum antibiotics within 1 hour, and reassess hemodynamic status",
+    "contraindications": [
+      "Delaying antibiotic administration beyond 1 hour from recognition",
+      "Using colloids as first-line fluid resuscitation",
+      "Administering full 30 mL/kg bolus in patients with known heart failure without monitoring",
+      "Starting vasopressors before adequate fluid resuscitation"
+    ],
+    "source_citations": [
+      "Surviving Sepsis Campaign Guidelines 2021",
+      "SCCM/ESICM Sepsis-3 Consensus Definitions 2016",
+      "American College of Emergency Physicians Sepsis Guidelines 2019"
+    ]
+  },
+  "facts": [
+    {
+      "fact_type": "threshold",
+      "fact_text": "qSOFA score ≥2 identifies high-risk patients outside ICU with suspected infection and mortality risk >10%",
+      "threshold_value": "2",
+      "source_name": "JAMA Sepsis-3 Consensus",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "complication",
+      "fact_text": "Each hour delay in appropriate antibiotic administration increases mortality by 7.6% in septic shock",
+      "threshold_value": null,
+      "source_name": "Critical Care Medicine Kumar et al",
+      "source_tier": "B",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "management_step",
+      "fact_text": "Initial fluid resuscitation with 30 mL/kg crystalloid should be completed within 3 hours of sepsis recognition",
+      "threshold_value": "30 mL/kg",
+      "source_name": "Surviving Sepsis Campaign 2021",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "Mean arterial pressure ≥65 mmHg is the initial resuscitation target for septic shock",
+      "threshold_value": "65 mmHg",
+      "source_name": "Surviving Sepsis Campaign 2021",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "Serum lactate ≥2 mmol/L indicates tissue hypoperfusion and defines septic shock when combined with persistent hypotension",
+      "threshold_value": "2 mmol/L",
+      "source_name": "Sepsis-3 JAMA 2016",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "risk_factor",
+      "fact_text": "Elderly patients may not develop classic fever response and may present with hypothermia or normal temperature in sepsis",
+      "threshold_value": null,
+      "source_name": "Journal of Emergency Medicine Geriatric Sepsis",
+      "source_tier": "B",
+      "confidence": "moderate"
+    }
+  ],
+  "case_plan": {
+    "target_cognitive_error": "under_triage",
+    "target_hinge_clue_type": "age_specific_presentation",
+    "target_action_class": "stabilize",
+    "ambiguity_level": 4,
+    "distractor_strength": 4,
+    "clinical_complexity": 3,
+    "ambiguity_strategy": "Present elderly patient with atypical sepsis presentation (no fever, subtle altered mental status) where vital signs appear borderline stable but meet qSOFA ≥2 criteria, making it easy to underestimate severity and delay aggressive resuscitation",
+    "distractor_design": {
+      "obtain_blood_cultures_and_start_antibiotics": "Addresses infection component but misses the critical need for immediate fluid resuscitation in sepsis - treats the pathogen but not the physiologic derangement",
+      "start_norepinephrine_infusion": "Premature escalation to vasopressors without adequate fluid resuscitation first - violates the stepwise approach of sepsis management",
+      "order_chest_xray_and_urinalysis": "Focuses on finding infection source but delays time-sensitive resuscitation - diagnostic workup can be done concurrently with treatment",
+      "give_supplemental_oxygen_and_monitor": "Underestimates severity by treating this as stable sepsis rather than recognizing need for aggressive fluid resuscitation based on qSOFA criteria"
+    },
+    "final_decisive_clue": "qSOFA score of 2 (altered mental status + systolic BP 95 mmHg) in elderly patient with suspected UTI despite normal temperature",
+    "explanation_teaching_goal": "Recognize that elderly patients with sepsis may present atypically without fever, and that qSOFA ≥2 identifies high-risk patients requiring immediate aggressive fluid resuscitation with 30 mL/kg crystalloid bolus within the first hour, not just routine sepsis care"
+  },
+  "skeleton": {
+    "case_summary": "A 78-year-old woman presents to the ED with confusion and urinary frequency. Her vital signs show BP 95/60, HR 105, RR 24, temperature 98.2°F, and she appears disoriented to time and place.",
+    "hidden_target": "Recognition that elderly patients can present with atypical sepsis (no fever) and that qSOFA ≥2 mandates immediate aggressive fluid resuscitation rather than routine sepsis care",
+    "correct_action": "Administer 30 mL/kg IV crystalloid bolus within first hour",
+    "wrong_option_archetypes": [
+      {
+        "letter": "B",
+        "archetype": "Obtain blood cultures and start broad-spectrum antibiotics",
+        "cognitive_error": "anchoring_on_infection_source"
+      },
+      {
+        "letter": "C",
+        "archetype": "Start norepinephrine infusion",
+        "cognitive_error": "premature_escalation"
+      },
+      {
+        "letter": "D",
+        "archetype": "Order chest X-ray and urinalysis to identify infection source",
+        "cognitive_error": "diagnostic_momentum"
+      },
+      {
+        "letter": "E",
+        "archetype": "Provide supplemental oxygen and continuous monitoring",
+        "cognitive_error": "under_triage"
+      }
+    ],
+    "error_mapping": {
+      "B": "anchoring_on_infection_source",
+      "C": "premature_escalation",
+      "D": "diagnostic_momentum",
+      "E": "under_triage"
+    },
+    "hinge_placement": "Vital signs and mental status assessment reveal qSOFA score of 2",
+    "hinge_description": "The combination of systolic BP ≤100 mmHg (95/60) and altered mental status (disoriented to time and place) gives qSOFA ≥2, identifying this as high-risk sepsis requiring immediate aggressive fluid resuscitation despite the absence of fever and seemingly stable appearance"
+  },
+  "item_plan": {
+    "target_hinge": "qSOFA score of 2 (systolic BP ≤100 mmHg and altered mental status) in elderly patient with suspected infection mandates immediate aggressive fluid resuscitation",
+    "competing_options": [
+      "Administer 30 mL/kg IV crystalloid bolus within first hour",
+      "Obtain blood cultures and start broad-spectrum antibiotics",
+      "Start norepinephrine infusion for hypotension",
+      "Order chest X-ray and urinalysis to identify infection source",
+      "Provide supplemental oxygen and continuous monitoring"
+    ],
+    "target_cognitive_error": "under_triage",
+    "noise_elements": [
+      "Normal temperature of 98.2°F masking sepsis severity",
+      "Urinary frequency suggesting simple UTI",
+      "Age 78 years old making confusion seem routine"
+    ],
+    "option_class": "immediate_management_interventions",
+    "distractor_rationale": "Students will under-triage this patient because the normal temperature and seemingly stable vital signs mask the true severity indicated by qSOFA ≥2. They may anchor on the infection workup (blood cultures/antibiotics), prematurely escalate to vasopressors without fluid resuscitation, get distracted by diagnostic workup, or provide routine monitoring without recognizing the high-risk sepsis requiring aggressive resuscitation.",
+    "lead_in": "What is the most appropriate immediate next step in management?"
+  },
+  "question": {
+    "vignette": "A 78-year-old woman presents to the emergency department with a 2-day history of confusion and urinary frequency. Her daughter reports the patient has been increasingly disoriented and had several episodes of incontinence. Past medical history includes hypertension and osteoarthritis. Heart and lung examination is unremarkable. Abdomen is soft with mild suprapubic tenderness. Neurologic examination shows no focal deficits. Temperature is 98.2°F (36.8°C), blood pressure 102/65 mmHg, heart rate 105/min, and respiratory rate 24/min. She is disoriented to time and place but responds to voice.",
+    "stem": "What is the most appropriate immediate next step in management?",
+    "choice_a": "Administer IV fluid resuscitation",
+    "choice_b": "Obtain blood cultures and start antibiotics",
+    "choice_c": "Begin norepinephrine infusion",
+    "choice_d": "Order chest radiograph and urinalysis",
+    "choice_e": "Initiate oxygen therapy and monitoring",
+    "correct_answer": "B",
+    "why_correct": "This patient meets criteria for possible sepsis (altered mental status + tachycardia + tachypnea + suspected UTI source) and requires immediate sepsis bundle implementation. The most critical time-sensitive intervention is obtaining blood cultures before antibiotics and initiating broad-spectrum antibiotics within 1 hour of recognition. Each hour delay in appropriate antibiotic therapy increases mortality by 7.6% in septic patients, making this the highest priority intervention that directly impacts survival.",
+    "why_wrong_a": "While IV fluid resuscitation (30 mL/kg crystalloid) is part of the sepsis bundle and should be initiated, it can run simultaneously with obtaining cultures and preparing antibiotics. Antibiotics are more time-critical as delays directly correlate with increased mortality, whereas fluid resuscitation has a 3-hour completion target.",
+    "why_wrong_b": null,
+    "why_wrong_c": "Vasopressors are indicated only after adequate fluid resuscitation fails to maintain MAP ≥65 mmHg. This patient has borderline hypotension but hasn't received initial fluid challenge yet. Starting vasopressors before cultures and antibiotics delays the most mortality-critical intervention.",
+    "why_wrong_d": "Diagnostic workup including chest X-ray and urinalysis is important for source identification but should not delay the 1-hour antibiotic window. These studies can be obtained while preparing antibiotics, but the suspected UTI source combined with sepsis criteria already justifies immediate antibiotic therapy.",
+    "why_wrong_e": "Supportive care is appropriate but doesn't address the underlying septic process. While monitoring is essential, it's passive management. Active intervention with blood cultures and antibiotics within the golden hour is the evidence-based priority that reduces mortality risk.",
+    "high_yield_pearl": "In suspected sepsis, blood cultures should be obtained before antibiotics when feasible, and antibiotic therapy must be initiated within the first hour of recognition to minimize mortality risk.",
+    "reasoning_pathway": "Elderly patient with altered mental status → Consider sepsis given urinary symptoms → Assess vital signs for sepsis criteria → Borderline BP with tachycardia and tachypnea → qSOFA score assessment → Time-sensitive sepsis management priorities → Blood cultures and antibiotics within first hour",
+    "decision_hinge": "Recognition of possible sepsis in elderly patient with altered mental status and borderline vital signs, requiring immediate implementation of sepsis bundle with blood cultures and antibiotics as the most time-critical intervention",
+    "competing_differential": "Simple urinary tract infection with delirium in elderly patient versus early sepsis requiring immediate antibiotic intervention and close monitoring for hemodynamic deterioration",
+    "explanation_decision_logic": "Recognition of possible sepsis in elderly patient with altered mental status and borderline vital signs, requiring immediate implementation of sepsis bundle with blood cultures and antibiotics as the most time-critical intervention",
+    "explanation_transfer_rule": "When sepsis is suspected based on clinical criteria, prioritize interventions by their time-sensitivity and mortality impact: antibiotics within 1 hour > fluid resuscitation within 3 hours > vasopressors after adequate fluids",
+    "explanation_teaching_pearl": "Don't let diagnostic workup delay the sepsis hour-1 bundle - blood cultures and antibiotics are more time-critical than additional imaging when the clinical picture already suggests sepsis with an obvious source"
+  },
+  "meta": {
+    "totalTokens": 41346,
+    "totalMs": 122176,
+    "timestamp": "2026-03-26T14:31:54.217Z"
+  }
+}

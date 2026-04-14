@@ -3,6 +3,7 @@ import type { AgentType } from '@/lib/types/database';
 import type { AgentContext, AgentOutput } from '@/lib/types/factory';
 import { callClaude } from './claude';
 import { fetchActivePrompt, fillTemplate } from './prompts';
+import { getMockFixture } from './mock-fixtures';
 
 /**
  * Shared agent skeleton. Fetches the active prompt for the given agent type,
@@ -14,13 +15,26 @@ export async function runAgent<TIn, TOut extends z.ZodType>(options: {
   context: AgentContext;
   input: TIn;
   outputSchema: TOut;
+  model?: string;
   buildUserMessage: (input: TIn) => Record<string, string> | Promise<Record<string, string>>;
 }): Promise<AgentOutput<z.infer<TOut>>> {
-  const { agentType, input, outputSchema, buildUserMessage } = options;
+  const { agentType, context, input, outputSchema, buildUserMessage, model } = options;
 
   const startTime = Date.now();
 
   try {
+    // Mock mode: return deterministic fixture without API call
+    if (context.mockMode) {
+      const fixture = getMockFixture(agentType);
+      if (fixture) {
+        const result = outputSchema.safeParse(fixture);
+        if (result.success) {
+          return { success: true, data: result.data, tokensUsed: 0 };
+        }
+        console.warn(`[mock] Fixture for ${agentType} failed schema validation, falling through to API`);
+      }
+    }
+
     const prompt = await fetchActivePrompt(agentType);
     const templateVars = await buildUserMessage(input);
     const userMessage = fillTemplate(prompt.user_prompt_template, templateVars);
@@ -29,6 +43,7 @@ export async function runAgent<TIn, TOut extends z.ZodType>(options: {
       systemPrompt: prompt.system_prompt,
       userMessage,
       outputSchema,
+      ...(model ? { model } : {}),
     });
 
     return {

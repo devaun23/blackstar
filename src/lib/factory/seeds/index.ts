@@ -14,6 +14,22 @@ export type { ContentDisciplineSeed } from './content-disciplines';
 export { contentTopics } from './content-topics';
 export type { ContentTopicSeed } from './content-topics';
 
+// v7 reasoning ontology seeds
+export { hingeClueTypes } from './hinge-clue-types';
+export type { HingeClueTypeSeed } from './hinge-clue-types';
+export { actionClasses } from './action-classes';
+export type { ActionClassSeed } from './action-classes';
+export { alternateTerminology } from './alternate-terminology';
+export type { AlternateTerminologySeed } from './alternate-terminology';
+export { patternFamilies } from './pattern-families';
+export type { PatternFamilySeed } from './pattern-families';
+
+// Content graph seeds (confusion sets, transfer rules)
+export { confusionSets } from './confusion-sets';
+export type { ConfusionSetSeed } from './confusion-sets';
+export { transferRules } from './transfer-rules';
+export type { TransferRuleSeed } from './transfer-rules';
+
 // Exam content specs — spec-layer metadata for Medicine expansion
 export {
   MEDICINE_NODES,

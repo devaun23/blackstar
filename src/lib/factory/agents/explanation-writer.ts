@@ -11,6 +11,7 @@ interface ExplanationWriterInput {
   card: AlgorithmCardRow;
   facts: FactRowRow[];
   node?: BlueprintNodeRow;
+  transferRuleText?: string;  // From case_plan — declared before the question was written
 }
 
 /**
@@ -51,6 +52,11 @@ export async function run(
 
       if (!vars.visual_guidance) {
         vars.visual_guidance = 'No visual coverage defined for this topic. Do not produce visual_specs.';
+      }
+
+      // Pass the pre-declared transfer rule so the explanation references it, not invents one
+      if (data.transferRuleText) {
+        vars.transfer_rule_text = data.transferRuleText;
       }
 
       return vars;

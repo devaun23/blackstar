@@ -1,0 +1,173 @@
+{
+  "topic": "Acute Coronary Syndrome",
+  "node": {
+    "shelf": "medicine",
+    "system": "Cardiology",
+    "topic": "Acute Coronary Syndrome",
+    "subtopic": "STEMI",
+    "task_type": "next_step",
+    "clinical_setting": "ed",
+    "age_group": "middle_aged",
+    "time_horizon": "immediate",
+    "yield_tier": "tier_1"
+  },
+  "algorithm_card": {
+    "entry_presentation": "Middle-aged patient presenting with severe chest pain lasting >20 minutes, associated with diaphoresis, nausea, and dyspnea",
+    "competing_paths": [
+      "STEMI requiring emergent reperfusion - ST-elevation ≥1mm in ≥2 contiguous leads or new LBBB",
+      "NSTEMI/UA requiring medical management - ST-depression, T-wave inversion, or normal ECG with elevated troponins",
+      "Non-cardiac chest pain - Normal ECG, normal troponins, atypical pain characteristics"
+    ],
+    "hinge_feature": "ST-elevation ≥1mm in ≥2 contiguous leads or new left bundle branch block on ECG",
+    "correct_action": "Activate cardiac catheterization lab for primary PCI within 90 minutes of first medical contact, or initiate fibrinolytic therapy within 30 minutes if PCI unavailable",
+    "contraindications": [
+      "Delaying reperfusion for troponin results",
+      "Using fibrinolytics if active bleeding or recent stroke within 3 months",
+      "Administering morphine routinely (associated with increased mortality)"
+    ],
+    "source_citations": [
+      "2013 ACCF/AHA Guideline for the Management of STEMI",
+      "2015 ACC/AHA/SCAI Focused Update on Primary PCI",
+      "ESC Guidelines for STEMI 2017"
+    ]
+  },
+  "facts": [
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "STEMI diagnosis requires ST-elevation ≥1mm in ≥2 contiguous leads",
+      "threshold_value": "1mm",
+      "source_name": "2013 ACCF/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "threshold",
+      "fact_text": "Door-to-balloon time for primary PCI should be ≤90 minutes",
+      "threshold_value": "90 minutes",
+      "source_name": "AHA Mission Lifeline",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "management_step",
+      "fact_text": "Dual antiplatelet therapy with aspirin and P2Y12 inhibitor should be initiated immediately",
+      "threshold_value": null,
+      "source_name": "2016 ACC/AHA Guideline on Duration of DAPT",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "contraindication",
+      "fact_text": "Fibrinolytic therapy is contraindicated if history of intracranial hemorrhage or ischemic stroke within 3 months",
+      "threshold_value": "3 months",
+      "source_name": "2013 ACCF/AHA STEMI Guidelines",
+      "source_tier": "A",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "risk_factor",
+      "fact_text": "Every 30-minute delay in reperfusion increases 1-year mortality by 7.5%",
+      "threshold_value": "30 minutes",
+      "source_name": "Circulation 2006 De Luca et al",
+      "source_tier": "B",
+      "confidence": "high"
+    },
+    {
+      "fact_type": "diagnostic_criterion",
+      "fact_text": "Posterior STEMI may only show ST-depression in V1-V3, requiring posterior leads V7-V9",
+      "threshold_value": null,
+      "source_name": "JACC 2004 Matetzky et al",
+      "source_tier": "B",
+      "confidence": "moderate"
+    }
+  ],
+  "case_plan": {
+    "target_cognitive_error": "over_testing",
+    "target_hinge_clue_type": "imaging_discriminator",
+    "target_action_class": "treat_emergent",
+    "ambiguity_level": 3,
+    "distractor_strength": 4,
+    "clinical_complexity": 3,
+    "ambiguity_strategy": "Present classic STEMI symptoms with clear ST-elevations on ECG, but include normal troponin level that arrived simultaneously with the ECG, creating temptation to wait for serial troponins or additional testing before proceeding to emergent reperfusion",
+    "distractor_design": {
+      "Serial troponin levels in 6 hours": "Seems logical since initial troponin is normal, but delays life-saving reperfusion - classic over_testing trap",
+      "Echocardiogram to assess wall motion": "Appears reasonable to assess cardiac function, but unnecessarily delays definitive treatment when ECG is diagnostic",
+      "CT angiogram of chest to rule out aortic dissection": "Tempting given chest pain severity, but ECG changes are pathognomonic for STEMI and this delays reperfusion",
+      "Admit to telemetry for observation": "Seems conservative and safe, but fails to recognize need for emergent intervention"
+    },
+    "final_decisive_clue": "ST-elevation ≥1mm in leads II, III, aVF (inferior STEMI) on initial ECG",
+    "explanation_teaching_goal": "Teach that STEMI diagnosis is based on ECG findings, not troponin levels, and that emergent reperfusion should never be delayed for additional testing when diagnostic criteria are met"
+  },
+  "skeleton": {
+    "case_summary": "A 52-year-old man presents to the ED with severe crushing chest pain for 45 minutes, associated with diaphoresis and nausea, with ST-elevation ≥1mm in leads II, III, and aVF on ECG but normal initial troponin level.",
+    "hidden_target": "Recognition that STEMI diagnosis is ECG-based and requires immediate reperfusion therapy regardless of troponin levels",
+    "correct_action": "Activate cardiac catheterization lab for primary PCI within 90 minutes",
+    "wrong_option_archetypes": [
+      {
+        "letter": "B",
+        "archetype": "Serial troponin levels in 6 hours to confirm myocardial infarction",
+        "cognitive_error": "over_testing"
+      },
+      {
+        "letter": "C",
+        "archetype": "Echocardiogram to assess regional wall motion abnormalities",
+        "cognitive_error": "over_testing"
+      },
+      {
+        "letter": "D",
+        "archetype": "CT angiogram of chest to rule out aortic dissection",
+        "cognitive_error": "anchoring_on_severity"
+      },
+      {
+        "letter": "E",
+        "archetype": "Admit to cardiac telemetry unit for monitoring and observation",
+        "cognitive_error": "risk_aversion"
+      }
+    ],
+    "error_mapping": {
+      "B": "over_testing",
+      "C": "over_testing",
+      "D": "anchoring_on_severity",
+      "E": "risk_aversion"
+    },
+    "hinge_placement": "In the initial presentation paragraph, immediately after vital signs",
+    "hinge_description": "ST-elevation ≥1mm in leads II, III, aVF (inferior STEMI pattern) on the initial ECG - this definitively establishes STEMI diagnosis independent of troponin levels and mandates immediate reperfusion therapy"
+  },
+  "item_plan": {
+    "target_hinge": "ST-elevation ≥1mm in leads II, III, and aVF on ECG",
+    "competing_options": [
+      "Activate cardiac catheterization lab for primary PCI within 90 minutes",
+      "Obtain serial troponin levels in 6 hours to confirm myocardial infarction",
+      "Order echocardiogram to assess regional wall motion abnormalities",
+      "Obtain CT angiogram of chest to rule out aortic dissection",
+      "Admit to cardiac telemetry unit for monitoring and observation"
+    ],
+    "target_cognitive_error": "over_testing",
+    "noise_elements": [
+      "Normal initial troponin level",
+      "45-minute duration of symptoms",
+      "Associated diaphoresis and nausea"
+    ],
+    "option_class": "immediate_management_actions",
+    "distractor_rationale": "Students may delay reperfusion therapy by waiting for troponin elevation (option B) or ordering additional imaging studies (options C, D) despite clear STEMI criteria on ECG, or may under-triage to observation (option E) rather than recognizing the need for emergent intervention",
+    "lead_in": "What is the most appropriate next step in management?"
+  },
+  "question": {
+    "vignette": "A 52-year-old man presents to the emergency department with severe crushing substernal chest pain that began 45 minutes ago while at rest. He reports associated diaphoresis, nausea, and shortness of breath. Past medical history includes hypertension and hyperlipidemia. He takes metoprolol and atorvastatin. Vital signs are temperature 37.0°C, pulse 98/min, respirations 20/min, and blood pressure 148/92 mmHg. Physical examination shows an anxious-appearing man with diaphoresis and mild respiratory distress. Cardiac examination reveals regular rate and rhythm without murmurs. Initial ECG shows ST-elevation of 2 mm in leads II, III, and aVF. Initial troponin I level is 0.02 ng/mL (normal <0.04 ng/mL).",
+    "stem": "What is the most appropriate next step in management?",
+    "choice_a": "Activate cardiac catheterization lab for primary PCI within 90 minutes",
+    "choice_b": "Obtain serial troponin levels in 6 hours to confirm myocardial infarction",
+    "choice_c": "Order echocardiogram to assess regional wall motion abnormalities",
+    "choice_d": "Obtain CT angiogram of chest to rule out aortic dissection",
+    "choice_e": "Admit to cardiac telemetry unit for monitoring and observation",
+    "correct_answer": "A",
+    "why_correct": "ST-elevation ≥1mm in ≥2 contiguous leads (II, III, aVF) establishes STEMI diagnosis independent of troponin levels. Primary PCI within 90 minutes is the gold standard reperfusion therapy and should be initiated immediately to minimize myocardial damage.",
+    "decision_hinge": "ST-elevation of 2 mm in leads II, III, and aVF on initial ECG - this diagnostic finding defines STEMI and mandates immediate reperfusion therapy regardless of initial troponin level",
+    "competing_differential": "NSTEMI/unstable angina (would show ST-depression or T-wave inversion), non-cardiac chest pain (normal ECG), or aortic dissection (would typically show aortic root dilatation on imaging rather than ST-elevation pattern)"
+  },
+  "meta": {
+    "totalTokens": 23091,
+    "totalMs": 69456,
+    "timestamp": "2026-03-26T14:10:50.791Z"
+  }
+}

@@ -36,6 +36,18 @@ export const explanationOutputSchema = z.object({
   high_yield_pearl: z.string().min(10),
   reasoning_pathway: z.string().min(10),
   visual_specs: z.array(visualSpecSchema).nullable().optional(),
+  // v2 5-component explanation (nullable for backward compatibility)
+  explanation_decision_logic: z.string().nullable().optional(),
+  explanation_hinge_id: z.string().uuid().nullable().optional(),
+  explanation_error_diagnosis: z.record(
+    z.enum(['A', 'B', 'C', 'D', 'E']),
+    z.object({
+      error_name: z.string(),
+      explanation: z.string().max(200),
+    }),
+  ).nullable().optional(),
+  explanation_transfer_rule: z.string().nullable().optional(),
+  explanation_teaching_pearl: z.string().nullable().optional(),
 });
 
 export type ItemDraftInput = z.infer<typeof itemDraftSchema>;

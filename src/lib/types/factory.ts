@@ -11,6 +11,10 @@ import type {
   ItemDraftInput,
   ExplanationOutput,
   ValidatorReportInput,
+  CasePlanInput,
+  OptionFrame,
+  QuestionSkeletonInput,
+  SkeletonValidatorOutput,
 } from '../factory/schemas';
 
 import type { AgentType, ItemStatus, PipelineStatus } from './database';
@@ -26,6 +30,10 @@ export type {
   ItemDraftInput,
   ExplanationOutput,
   ValidatorReportInput,
+  CasePlanInput,
+  OptionFrame,
+  QuestionSkeletonInput,
+  SkeletonValidatorOutput,
 };
 
 // --- Pipeline types ---
@@ -35,6 +43,8 @@ export interface PipelineConfig {
   shelf?: string;            // Filter for selector
   yieldTier?: string;        // Filter for selector
   mockMode?: boolean;        // Use mock responses
+  skipExplanation?: boolean; // Skip explanation writing + publish (harness mode)
+  juryEnabled?: boolean;     // Enable multi-model jury on high-stakes validators
 }
 
 export interface AgentStepResult {
