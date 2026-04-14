@@ -176,20 +176,7 @@ export async function selectNextQuestion(
     return selectAssessmentQuestion(opts.sessionId);
   }
 
-  // Training mode with forced dimension — skip repair/weakness logic
-  if (opts?.forceDimension) {
-    const result = await selectByDimensionMatch(
-      supabase,
-      opts.forceDimension.type,
-      opts.forceDimension.id,
-      'forced_training',
-      servedIds,
-    );
-    if (result) return result;
-    // Fall through to general selection if no match for forced dimension
-  }
-
-  // 1. If we have a repair action from the last attempt, follow it
+  // 1. If we have a repair action from the last attempt, follow it (highest priority)
   if (lastRepairAction && lastDimensionType && lastDimensionId) {
     const repairResult = await selectForRepair(
       supabase, lastRepairAction, lastDimensionType, lastDimensionId, lastCorrectOptionFrameId, servedIds
@@ -197,7 +184,17 @@ export async function selectNextQuestion(
     if (repairResult) return repairResult;
   }
 
-  // 2. Find weakest dimensions across all types
+  // 2. Auto-mix: ~30% retention / ~70% training
+  //    Check if items are due for review and probabilistically interleave them
+  const dueCount = await getDueReviewCount(userId);
+  if (dueCount > 0 && Math.random() < 0.3) {
+    const retentionResult = await selectRetentionQuestion(userId);
+    if (retentionResult && !servedIds.has(retentionResult.questionId)) {
+      return retentionResult;
+    }
+  }
+
+  // 3. Find weakest dimensions across all types
   const weakest = await getWeakestDimensions(userId, 3);
   if (weakest.length > 0) {
     const result = await selectForDimension(supabase, weakest[0], servedIds);

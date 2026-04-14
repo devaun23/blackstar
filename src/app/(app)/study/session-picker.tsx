@@ -28,7 +28,6 @@ export default function SessionPicker({ userId, onSessionCreated }: SessionPicke
   const [dueCount, setDueCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
-  const [showWeaknessPicker, setShowWeaknessPicker] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -47,8 +46,6 @@ export default function SessionPicker({ userId, onSessionCreated }: SessionPicke
     mode: SessionMode,
     opts?: {
       targetCount?: number;
-      targetDimensionType?: DimensionType;
-      targetDimensionId?: string;
       timeLimitSeconds?: number;
     }
   ) => {
@@ -59,9 +56,7 @@ export default function SessionPicker({ userId, onSessionCreated }: SessionPicke
       body: JSON.stringify({
         user_id: userId,
         mode,
-        target_count: opts?.targetCount,
-        target_dimension_type: opts?.targetDimensionType,
-        target_dimension_id: opts?.targetDimensionId,
+        target_count: opts?.targetCount ?? 999, // open-ended for training
         time_limit_seconds: opts?.timeLimitSeconds,
       }),
     });
@@ -72,8 +67,6 @@ export default function SessionPicker({ userId, onSessionCreated }: SessionPicke
         id: session.id,
         mode: session.mode,
         targetCount: session.target_count,
-        targetDimensionType: session.target_dimension_type ?? undefined,
-        targetDimensionId: session.target_dimension_id ?? undefined,
         timeLimitSeconds: session.time_limit_seconds ?? undefined,
       });
     }
@@ -88,140 +81,43 @@ export default function SessionPicker({ userId, onSessionCreated }: SessionPicke
     );
   }
 
-  // Weakness picker sub-view
-  if (showWeaknessPicker) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-black px-4">
-        <div className="w-full max-w-lg">
-          <button
-            onClick={() => setShowWeaknessPicker(false)}
-            className="mb-4 text-sm text-zinc-500 hover:text-zinc-300"
-          >
-            &larr; Back
-          </button>
-          <h2 className="text-xl font-bold text-white">Pick a Weakness to Train</h2>
-          <p className="mt-1 text-sm text-zinc-400">
-            The system will focus all questions on this dimension.
-          </p>
-          <div className="mt-6 space-y-3">
-            {weaknesses.length === 0 ? (
-              <p className="text-sm text-zinc-500">
-                No weakness data yet. Complete some questions first.
-              </p>
-            ) : (
-              weaknesses.map(w => (
-                <button
-                  key={`${w.dimensionType}:${w.dimensionId}`}
-                  onClick={() =>
-                    startSession('training', {
-                      targetCount: 15,
-                      targetDimensionType: w.dimensionType,
-                      targetDimensionId: w.dimensionId,
-                    })
-                  }
-                  disabled={creating}
-                  className="flex w-full items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950 px-5 py-4 text-left transition-colors hover:border-zinc-600 disabled:opacity-50"
-                >
-                  <div>
-                    <p className="text-sm font-medium text-white">
-                      {w.dimensionLabel.replace(/_/g, ' ')}
-                    </p>
-                    <p className="mt-0.5 text-xs text-zinc-500">
-                      {w.dimensionType.replace(/_/g, ' ')} &middot; {w.totalAttempts} attempts
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className={`text-lg font-bold ${w.masteryLevel < 0.5 ? 'text-[var(--color-incorrect-base)]' : w.masteryLevel < 0.7 ? 'text-amber-400' : 'text-[var(--color-correct-base)]'}`}>
-                      {Math.round(w.masteryLevel * 100)}%
-                    </p>
-                    <p className="text-xs text-zinc-500">mastery</p>
-                  </div>
-                </button>
-              ))
-            )}
-          </div>
-        </div>
-      </div>
-    );
+  // Build context line
+  const contextParts: string[] = [];
+  if (dueCount > 0) contextParts.push(`${dueCount} due for review`);
+  if (weaknesses.length > 0) {
+    const w = weaknesses[0];
+    contextParts.push(`weakest: ${w.dimensionLabel.replace(/_/g, ' ')} (${Math.round(w.masteryLevel * 100)}%)`);
   }
 
-  // Main mode picker
   return (
     <div className="flex min-h-screen items-center justify-center bg-black px-4">
-      <div className="w-full max-w-lg">
-        <h1 className="text-center text-2xl font-bold text-white">Study Session</h1>
-        <p className="mt-2 text-center text-sm text-zinc-400">
-          Choose your mode. The system adapts to your weaknesses.
+      <div className="w-full max-w-md text-center">
+        <h1 className="text-3xl font-bold text-white">Ready to study?</h1>
+        <p className="mt-3 text-sm text-zinc-400">
+          {contextParts.length > 0
+            ? contextParts.join(' · ')
+            : 'The system adapts to your weaknesses as you go.'}
         </p>
 
-        <div className="mt-8 space-y-4">
-          {/* Retention */}
-          <button
-            onClick={() => startSession('retention', { targetCount: Math.min(dueCount, 15) || 10 })}
-            disabled={creating || dueCount === 0}
-            className="group w-full rounded-xl border border-zinc-800 bg-zinc-950 px-6 py-5 text-left transition-colors hover:border-[var(--color-accent-base)] disabled:opacity-40 disabled:hover:border-zinc-800"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-base font-semibold text-white">Retention Review</h3>
-                <p className="mt-1 text-sm text-zinc-400">
-                  Spaced retrieval of concepts due for review
-                </p>
-              </div>
-              {dueCount > 0 ? (
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-accent-base)] text-sm font-bold text-white">
-                  {dueCount}
-                </span>
-              ) : (
-                <span className="text-xs text-zinc-600">None due</span>
-              )}
-            </div>
-          </button>
+        <button
+          onClick={() => startSession('training')}
+          disabled={creating}
+          className="mt-8 w-full rounded-xl bg-[var(--color-accent-base)] py-4 text-lg font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+        >
+          {creating ? 'Starting...' : 'Start Studying'}
+        </button>
 
-          {/* Training */}
-          <button
-            onClick={() => {
-              if (weaknesses.length > 0) {
-                setShowWeaknessPicker(true);
-              } else {
-                startSession('training', { targetCount: 15 });
-              }
-            }}
-            disabled={creating}
-            className="group w-full rounded-xl border border-zinc-800 bg-zinc-950 px-6 py-5 text-left transition-colors hover:border-[var(--color-accent-base)] disabled:opacity-40"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-base font-semibold text-white">Focused Training</h3>
-                <p className="mt-1 text-sm text-zinc-400">
-                  {weaknesses.length > 0
-                    ? `Target your weakest area: ${weaknesses[0].dimensionLabel.replace(/_/g, ' ')}`
-                    : 'Adaptive practice on your weakest dimensions'}
-                </p>
-              </div>
-              {weaknesses.length > 0 && (
-                <span className={`text-lg font-bold ${weaknesses[0].masteryLevel < 0.5 ? 'text-[var(--color-incorrect-base)]' : 'text-amber-400'}`}>
-                  {Math.round(weaknesses[0].masteryLevel * 100)}%
-                </span>
-              )}
-            </div>
-          </button>
+        <p className="mt-3 text-xs text-zinc-600">
+          Mixes review + new material automatically. End anytime.
+        </p>
 
-          {/* Assessment */}
+        <div className="mt-10 border-t border-zinc-800 pt-6">
           <button
             onClick={() => startSession('assessment', { targetCount: 20, timeLimitSeconds: 90 * 20 })}
             disabled={creating}
-            className="group w-full rounded-xl border border-zinc-800 bg-zinc-950 px-6 py-5 text-left transition-colors hover:border-[var(--color-accent-base)] disabled:opacity-40"
+            className="text-sm text-zinc-500 underline decoration-zinc-700 underline-offset-4 transition-colors hover:text-zinc-300"
           >
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-base font-semibold text-white">Assessment Block</h3>
-                <p className="mt-1 text-sm text-zinc-400">
-                  20 questions, timed, no feedback until the end
-                </p>
-              </div>
-              <span className="text-xs text-zinc-500">~30 min</span>
-            </div>
+            Take a practice exam (20 questions, timed)
           </button>
         </div>
       </div>

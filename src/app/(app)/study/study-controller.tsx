@@ -29,8 +29,6 @@ export default function StudyController({ userId }: { userId: string }) {
             id: data.session.id,
             mode: data.session.mode,
             targetCount: data.session.target_count,
-            targetDimensionType: data.session.target_dimension_type ?? undefined,
-            targetDimensionId: data.session.target_dimension_id ?? undefined,
             timeLimitSeconds: data.session.time_limit_seconds ?? undefined,
           });
         }
@@ -48,7 +46,6 @@ export default function StudyController({ userId }: { userId: string }) {
     );
   }
 
-  // Active session → go straight to study
   if (activeSession) {
     return (
       <StudySession
@@ -56,15 +53,12 @@ export default function StudyController({ userId }: { userId: string }) {
         sessionId={activeSession.id}
         sessionMode={activeSession.mode}
         targetCount={activeSession.targetCount}
-        targetDimensionType={activeSession.targetDimensionType}
-        targetDimensionId={activeSession.targetDimensionId}
         timeLimitSeconds={activeSession.timeLimitSeconds}
         onSessionEnd={() => setActiveSession(null)}
       />
     );
   }
 
-  // No active session → show picker
   return (
     <SessionPicker
       userId={userId}

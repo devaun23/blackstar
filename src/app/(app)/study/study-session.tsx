@@ -73,9 +73,9 @@ interface StudySessionProps {
 const CHOICE_KEYS = ['A', 'B', 'C', 'D', 'E'] as const;
 
 const MODE_LABELS: Record<SessionMode, string> = {
-  retention: 'Retention Review',
-  training: 'Focused Training',
-  assessment: 'Assessment Block',
+  retention: 'Study Session',
+  training: 'Study Session',
+  assessment: 'Practice Exam',
 };
 
 export default function StudySession({
@@ -237,12 +237,8 @@ export default function StudySession({
       return;
     }
 
-    // Training/retention: show feedback
-    if (result.sessionComplete || completedCount + 1 >= targetCount) {
-      setPhase('complete');
-    } else {
-      setPhase('reviewing');
-    }
+    // Training: always show feedback, never auto-complete (open-ended sessions)
+    setPhase('reviewing');
   };
 
   handleSubmitRef.current = handleSubmit;
@@ -421,21 +417,36 @@ export default function StudySession({
     E: current.option_e,
   };
 
-  const progress = targetCount > 0 ? (completedCount / targetCount) * 100 : 0;
+  const correctCount = attempts.filter(a => a.isCorrect).length;
 
   return (
     <div className="px-4 py-8">
       <div className="mx-auto max-w-3xl">
-        {/* Header with mode + progress */}
+        {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="rounded-full bg-[var(--color-accent-base)]/20 px-3 py-1 text-xs font-semibold text-[var(--color-accent-base)]">
-                {MODE_LABELS[sessionMode]}
-              </span>
-              <span className="text-sm text-zinc-400">
-                {completedCount + 1} of {targetCount}
-              </span>
+              {sessionMode === 'assessment' ? (
+                <>
+                  <span className="rounded-full bg-[var(--color-accent-base)]/20 px-3 py-1 text-xs font-semibold text-[var(--color-accent-base)]">
+                    Practice Exam
+                  </span>
+                  <span className="text-sm text-zinc-400">
+                    {completedCount + 1} of {targetCount}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="text-sm font-medium text-zinc-300">
+                    Q{completedCount + 1}
+                  </span>
+                  {completedCount > 0 && (
+                    <span className="text-xs text-zinc-500">
+                      {correctCount}/{completedCount} correct
+                    </span>
+                  )}
+                </>
+              )}
             </div>
             <div className="flex items-center gap-3">
               {sessionMode === 'assessment' && timeLimitSeconds && (
@@ -456,13 +467,15 @@ export default function StudySession({
               </button>
             </div>
           </div>
-          {/* Progress bar */}
-          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-zinc-800">
-            <div
-              className="h-full rounded-full bg-[var(--color-accent-base)] transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
+          {/* Progress bar — assessment mode only */}
+          {sessionMode === 'assessment' && (
+            <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-zinc-800">
+              <div
+                className="h-full rounded-full bg-[var(--color-accent-base)] transition-all duration-300"
+                style={{ width: `${targetCount > 0 ? (completedCount / targetCount) * 100 : 0}%` }}
+              />
+            </div>
+          )}
         </div>
 
         {/* Question card */}
