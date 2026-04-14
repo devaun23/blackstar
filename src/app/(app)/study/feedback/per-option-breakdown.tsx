@@ -10,6 +10,8 @@ interface PerOptionBreakdownProps {
   defaultOpen?: boolean;
   /** Which options to show: 'all' | 'selected' (only the wrong one picked) | 'none' */
   scope: 'all' | 'selected' | 'none';
+  /** When true, renders options directly without the Collapsible wrapper */
+  bare?: boolean;
 }
 
 export default function PerOptionBreakdown({
@@ -18,6 +20,7 @@ export default function PerOptionBreakdown({
   selectedAnswer,
   defaultOpen = false,
   scope,
+  bare = false,
 }: PerOptionBreakdownProps) {
   if (scope === 'none') return null;
 
@@ -28,10 +31,9 @@ export default function PerOptionBreakdown({
   const hasContent = filteredOptions.some((o) => o.whyWrong || o.whyCorrect);
   if (!hasContent) return null;
 
-  return (
-    <Collapsible title="Option-by-Option Breakdown" defaultOpen={defaultOpen}>
-      <div className="space-y-3">
-        {filteredOptions.map((opt) => {
+  const content = (
+    <div className="space-y-3">
+      {filteredOptions.map((opt) => {
           const isCorrectOpt = opt.letter === correctAnswer;
           const isSelectedWrong = opt.letter === selectedAnswer && !isCorrectOpt;
           const explanation = isCorrectOpt ? opt.whyCorrect : opt.whyWrong;
@@ -76,6 +78,13 @@ export default function PerOptionBreakdown({
           );
         })}
       </div>
+  );
+
+  if (bare) return content;
+
+  return (
+    <Collapsible title="Option-by-Option Breakdown" defaultOpen={defaultOpen}>
+      {content}
     </Collapsible>
   );
 }
