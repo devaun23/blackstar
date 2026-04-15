@@ -35,6 +35,8 @@ export const SOURCE_STATUS = {
   'Emma Holliday Psychiatry Shelf Review': 'registered_only',
   'Emma Holliday High Yield IM Review': 'registered_only',
   'NBME Psychiatry Shelf Exam Content Outline': 'registered_only',
+  'Emma Holliday Pediatrics Shelf Review': 'registered_only',
+  'NBME Comprehensive Clinical Science Self-Assessment': 'registered_only',
 } as const;
 
 export const sourceRegistry: SourceRegistrySeed[] = [
@@ -274,5 +276,21 @@ export const sourceRegistry: SourceRegistrySeed[] = [
     priority_rank: 56,
     url: null,
     notes: 'Single-lecture IM shelf exam review by Emma Holliday Ramahi. 9 systems: cardiology, pulm, GI, ID, nephro, heme/onc, rheum/derm, endo, neuro. High-yield buzzwords, clinical pearls, associations. Facts must cite a guideline.',
+  },
+  {
+    category: 'review',
+    name: 'Emma Holliday Pediatrics Shelf Review',
+    allowed_use: 'content',
+    priority_rank: 57,
+    url: null,
+    notes: 'High-yield pediatrics shelf exam review by Emma Holliday Ramahi. Covers neonatology, genetics, immunodeficiency, growth/dev, CHD, respiratory, endocrine, renal, heme-onc, infectious disease, MSK, neurology. Facts must cite a guideline.',
+  },
+  {
+    category: 'qbank',
+    name: 'NBME Comprehensive Clinical Science Self-Assessment',
+    allowed_use: 'content',
+    priority_rank: 49,
+    url: 'https://www.nbme.org/assessment-products/clinical-science-shelf-exams',
+    notes: 'Official NBME self-assessment items. Gold standard for question design, vignette quality, distractor plausibility, and clinical reasoning patterns. Facts must cite a guideline.',
   },
 ];

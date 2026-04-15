@@ -1,0 +1,32 @@
+{
+  "source": "NBME Comprehensive Clinical Science Self-Assessment",
+  "description": "Official NBME self-assessment items. Gold standard for question design, vignette quality, distractor plausibility, and clinical reasoning patterns.",
+  "total_items": 15,
+  "uploaded_items": 15,
+  "sections": [
+    {
+      "id": "section-1",
+      "name": "Section 1",
+      "total_items": 50,
+      "uploaded_items": 15,
+      "status": "partial",
+      "items": [
+        { "file": "section-1/ccss-001.md", "item": 1, "topic": "Latent TB", "shelf": "medicine", "answer": "C", "status": "uploaded" },
+        { "file": "section-1/ccss-002.md", "item": 2, "topic": "Transient Synovitis", "shelf": "pediatrics", "answer": "E", "status": "uploaded" },
+        { "file": "section-1/ccss-003.md", "item": 3, "topic": "Recurrent UTI in Pregnancy", "shelf": "obgyn", "answer": "C", "status": "uploaded" },
+        { "file": "section-1/ccss-004.md", "item": 4, "topic": "Testicular Torsion", "shelf": "surgery", "answer": "E", "status": "uploaded" },
+        { "file": "section-1/ccss-005.md", "item": 5, "topic": "End-of-Life Goals of Care", "shelf": "medicine", "answer": "B", "status": "uploaded" },
+        { "file": "section-1/ccss-006.md", "item": 6, "topic": "Cornual Ectopic Pregnancy", "shelf": "obgyn", "answer": "C", "status": "uploaded" },
+        { "file": "section-1/ccss-007.md", "item": 7, "topic": "Congenital Diaphragmatic Hernia", "shelf": "pediatrics", "answer": "D", "status": "uploaded" },
+        { "file": "section-1/ccss-008.md", "item": 8, "topic": "Decompensated Heart Failure", "shelf": "medicine", "answer": "C", "status": "uploaded" },
+        { "file": "section-1/ccss-009.md", "item": 9, "topic": "Infectious Mononucleosis", "shelf": "pediatrics", "answer": "B", "status": "uploaded" },
+        { "file": "section-1/ccss-010.md", "item": 10, "topic": "Anaphylaxis", "shelf": "pediatrics", "answer": "C", "status": "uploaded" },
+        { "file": "section-1/ccss-011.md", "item": 11, "topic": "Hepatitis A", "shelf": "medicine", "answer": "E", "status": "uploaded" },
+        { "file": "section-1/ccss-012.md", "item": 12, "topic": "SLE Pericarditis", "shelf": "medicine", "answer": "D", "status": "uploaded" },
+        { "file": "section-1/ccss-013.md", "item": 13, "topic": "Progressive Supranuclear Palsy", "shelf": "neurology", "answer": "E", "status": "uploaded" },
+        { "file": "section-1/ccss-014.md", "item": 14, "topic": "Caudal Regression Syndrome", "shelf": "obgyn", "answer": "E", "status": "uploaded" },
+        { "file": "section-1/ccss-015.md", "item": 15, "topic": "Osteomalacia / Vitamin D Deficiency", "shelf": "medicine", "answer": "D", "status": "uploaded" }
+      ]
+    }
+  ]
+}
