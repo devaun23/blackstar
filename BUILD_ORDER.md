@@ -4,6 +4,10 @@
 
 Sequenced build contract. Each step must be verified before the next begins. No step-skipping.
 
+## Scope
+
+All Step 2 CK content and all shelf exams. The database is built comprehensively; question generation focuses on one shelf at a time. The original 20 IM topics (Phase 1) remain the first generation targets.
+
 ## Status Legend
 
 - [x] Complete
@@ -29,9 +33,9 @@ Sequenced build contract. Each step must be verified before the next begins. No 
 - [x] Schemas synced with type changes (subtopic, frequency/discrimination, time_horizon, severity_markers, exam_translation)
 
 ### Step 4: Seed data
-- [x] `src/lib/factory/seeds/blueprint-nodes.ts` — 20 medicine T1 topics
+- [x] `src/lib/factory/seeds/blueprint-nodes.ts` — 136 medicine blueprint nodes (Phase 1 batch)
 - [x] `src/lib/factory/seeds/error-taxonomy.ts` — 12 cognitive errors
-- [x] `src/lib/factory/seeds/source-registry.ts` — Tier A/B/C sources
+- [x] `src/lib/factory/seeds/source-registry.ts` — Scope + Content sources
 - [x] `src/lib/factory/seeds/agent-prompts.ts` — All 12 agent prompts (including exam_translation_validator)
 
 ### Step 5: Seed API route
@@ -39,14 +43,13 @@ Sequenced build contract. Each step must be verified before the next begins. No 
 
 ### Governance Documents
 - [x] `PRODUCT_VISION.md` — Mission, principles, anti-patterns, success criteria
-- [x] `SOURCE_POLICY.md` — Tier A/B/C rules, hard boundaries
+- [x] `SOURCE_POLICY.md` — Scope + Content source rules, hard boundaries
 - [x] `REJECTION_RULES.md` — Auto-kill criteria (19 rules, 7 categories)
-- [x] `MEDICINE_T1_TOPICS.csv` — 20 approved topics with subtopic
+- [x] `MEDICINE_TOPICS.csv` — Topic registry with phase tags (Phase 1: 20 IM topics)
 - [x] `ALGORITHM_CARD_SPEC.md` — What makes a card board-testable, status lifecycle, acceptance criteria
 - [x] `AGENT_CONTRACTS.md` — Per-agent role, inputs, outputs, may/may-not-decide, pass/fail
 - [x] `REPAIR_POLICY.md` — Kill thresholds, repairable vs discard failures, per-validator consecutive fail limits
-- [x] `DISTILLATION_POLICY.md` — Prep resource isolation, verification requirements
-- [x] `MEDICINE_T1_FORK_TARGETS.csv` — Fork counts per topic (65 total forks across 20 topics)
+- [x] `MEDICINE_FORK_TARGETS.csv` — Fork counts per topic (65 total forks across Phase 1 topics)
 
 **Verification:** `npx tsc --noEmit --strict` passes. All Supabase tables and enums verified.
 
@@ -83,14 +86,14 @@ Sequenced build contract. Each step must be verified before the next begins. No 
 
 ---
 
-## Phase 1.5: Algorithm Card Proving Ground (DO NEXT)
+## Block C: Algorithm Card Proving Ground
 
 **Goal:** Prove the algorithm extractor produces board-testable cards, not guideline summaries.
 
 ### Step 10: Seed database
 - [ ] Run `POST /api/factory/seed` to populate blueprint nodes, error taxonomy, sources, agent prompts
 
-### Step 11: Test algorithm extraction on 3 topics only
+### Step 11: Test algorithm extraction on 3 topics
 - [ ] Acute Pancreatitis
 - [ ] Cirrhosis / SBP
 - [ ] GI Bleed
@@ -102,7 +105,7 @@ For each topic:
 - [ ] Exam translation validator confirms fork quality → card status: `translation_verified`
 - [ ] Card promoted to `generation_ready`
 
-**Gate:** Do NOT proceed to Phase 2 until at least 3 cards are `generation_ready`.
+**Gate:** Do NOT proceed to Block D until at least 3 cards are `generation_ready`.
 
 ### Step 12: Add algorithm card review queue
 - [ ] Pipeline enforces: item_planner only pulls `generation_ready` cards
@@ -111,7 +114,7 @@ For each topic:
 
 ---
 
-## Phase 2: Item Generation (3-topic pilot)
+## Block D: Item Generation (3-topic pilot)
 
 ### Step 13: Run end-to-end pipeline on 3 topics
 - [ ] Full pipeline: select → extract → plan → write → validate (6 validators) → repair → explain → publish
@@ -123,33 +126,38 @@ For each topic:
 
 ---
 
-## Phase 2.5: Broadening
+## Block E: Broadening (shelf by shelf)
 
-### Step 14: Expand to all 20 topics
-- [ ] Generate algorithm cards for remaining 17 topics
+### Step 14: Expand to all Phase 1 IM topics
+- [ ] Generate algorithm cards for remaining 17 IM topics
 - [ ] Verify card quality via translation validator
 - [ ] Run pipeline at scale
 
+### Step 15: Add next shelf (Surgery, Peds, OB/GYN, Psych)
+- [ ] Add blueprint nodes for target shelf
+- [ ] Seed algorithm cards
+- [ ] Run pipeline, validate quality matches IM baseline
+
 ---
 
-## Phase 3: API + UI (only after system stability)
+## Block F: API + UI (only after system stability)
 
-### Step 15: Factory API routes
+### Step 16: Factory API routes
 - [x] `POST /api/factory/run` — Trigger pipeline
 - [x] `GET /api/factory/blueprints` — List/filter blueprint nodes
 - [x] `GET /api/factory/item-drafts` — List drafts by status
 - [ ] `GET /api/factory/run/[runId]` — Run status + agent trace
 
-### Step 16: Student API routes
+### Step 17: Student API routes
 - [x] `GET /api/questions` — Published questions (RLS-filtered)
 - [x] `POST /api/responses` — Submit answer, compute correctness
 
-### Step 17: Audit / Debug UI
+### Step 18: Audit / Debug UI
 - [ ] Pipeline trace viewer (per-draft: blueprint → card → plan → draft → reports → repairs)
 - [ ] Algorithm card review queue
 - [ ] Kill analysis dashboard
 
-### Step 18: Dashboard UI
+### Step 19: Dashboard UI
 - [ ] `src/app/(dashboard)/layout.tsx` — Sidebar layout
 - [ ] Factory control panel
 - [ ] Question browser
@@ -158,7 +166,7 @@ For each topic:
 
 ## Current Priority
 
-1. **Add mock mode to Claude client** (Step 6) — enables testing without API calls
+1. **Build comprehensive content database** — ingest all Inner Circle, DI, and source material across all shelves
 2. **Seed database** (Step 10) — populate all tables
 3. **Test algorithm extraction on 3 topics** (Step 11) — prove the translation layer works
 4. **Algorithm card review queue** (Step 12) — enforce generation_ready gate

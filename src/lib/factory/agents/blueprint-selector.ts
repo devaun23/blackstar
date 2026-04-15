@@ -81,8 +81,10 @@ export async function run(
   if (input.shelf) {
     query = query.eq('shelf', input.shelf);
   }
+  // yield_tier is a priority hint, not a hard gate — all tiers are eligible
+  // Pass it to the agent prompt so Claude can weight higher-tier nodes
   if (input.yieldTier) {
-    query = query.eq('yield_tier', input.yieldTier);
+    query = query.order('yield_tier', { ascending: true });
   }
 
   const { data: candidates, error } = await query;

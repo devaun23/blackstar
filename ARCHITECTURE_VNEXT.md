@@ -80,7 +80,7 @@ Interface:
     yield_tier: "tier_1" | "tier_2" // board frequency
   }
 
-Target: 30-50 confusion sets covering all 20 T1 topics
+Target: 30-50 confusion sets initially, expanding across all shelves
 Each set generates 2-5 contrastive questions via the contrast repair action
 
 Examples:
@@ -294,7 +294,7 @@ Requires: minimum 50 attempts across 5+ topics to produce meaningful prediction
 
 ### Phase 0: Seed the Reasoning Ontology (CURRENT BLOCKER)
 ```
-0a. Write confusion-sets.ts with 30 sets covering all T1 topics
+0a. Write confusion-sets.ts with 30 sets covering initial IM topics
 0b. Write transfer-rules.ts with 40 rules spanning multiple contexts
 0c. Write pattern-families.ts with 30 high-frequency patterns
 0d. Write precedence-rules.ts with hard override conditions

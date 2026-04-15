@@ -1,0 +1,21 @@
+topic,subtopic,system,setting,task_type,phase
+Acute Coronary Syndrome,STEMI vs NSTEMI management,Cardiovascular,ed,next_step,1
+Pulmonary Embolism,Wells score and D-dimer algorithm,Pulmonary,ed,diagnostic_test,1
+Deep Vein Thrombosis,Anticoagulation initiation,Vascular,outpatient,next_step,1
+Sepsis,Early goal-directed therapy,Infectious Disease,ed,stabilization,1
+GI Bleed,Upper vs lower and resuscitation,Gastrointestinal,ed,stabilization,1
+Acute Pancreatitis,Ranson criteria and imaging,Gastrointestinal,ed,diagnostic_test,1
+Cirrhosis and Spontaneous Bacterial Peritonitis,Paracentesis and empiric antibiotics,Gastrointestinal,inpatient,next_step,1
+Acute Kidney Injury,Pre-renal vs intrinsic vs post-renal,Renal,inpatient,diagnostic_test,1
+Diabetic Ketoacidosis,Insulin and fluid resuscitation,Endocrine,ed,stabilization,1
+Hyperosmolar Hyperglycemic State,Fluid correction and monitoring,Endocrine,icu,stabilization,1
+Stroke,tPA window and contraindications,Neurology,ed,next_step,1
+Transient Ischemic Attack,ABCD2 score and workup,Neurology,ed,risk_identification,1
+Syncope,Cardiac vs vasovagal differentiation,Cardiovascular,ed,diagnostic_test,1
+CHF Exacerbation,Diuresis and afterload reduction,Cardiovascular,inpatient,next_step,1
+COPD Exacerbation,Bronchodilators and steroids,Pulmonary,ed,next_step,1
+Asthma Exacerbation,Severity assessment and stepwise therapy,Pulmonary,ed,stabilization,1
+Community-Acquired Pneumonia,CURB-65 and empiric antibiotics,Pulmonary,inpatient,next_step,1
+Infective Endocarditis,Duke criteria and blood cultures,Cardiovascular,inpatient,diagnostic_test,1
+Meningitis,Empiric antibiotics before LP,Infectious Disease,ed,stabilization,1
+Hypercalcemia,Malignancy vs hyperparathyroidism workup,Endocrine,inpatient,diagnostic_test,1
