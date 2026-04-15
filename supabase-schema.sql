@@ -281,10 +281,7 @@ create table public.validator_report (
 
 alter table public.validator_report enable row level security;
 
-create policy "Authenticated users can read validator_report"
-  on public.validator_report for select
-  to authenticated
-  using (true);
+-- No SELECT policy: service role only (system internal — contains QA feedback)
 
 -- ============================================
 -- 8. Error Taxonomy — cognitive error catalog
@@ -367,10 +364,7 @@ create table public.pipeline_run (
 
 alter table public.pipeline_run enable row level security;
 
-create policy "Authenticated users can read pipeline_run"
-  on public.pipeline_run for select
-  to authenticated
-  using (true);
+-- No SELECT policy: service role only (system internal — execution logs)
 
 -- Now add the FK from item_draft to pipeline_run
 alter table public.item_draft
@@ -396,10 +390,7 @@ create table public.agent_prompt (
 
 alter table public.agent_prompt enable row level security;
 
-create policy "Authenticated users can read agent_prompt"
-  on public.agent_prompt for select
-  to authenticated
-  using (true);
+-- No SELECT policy: service role only (system internal — AI system prompts)
 
 -- Ensure only one active prompt per agent type
 create unique index idx_agent_prompt_active
@@ -460,6 +451,22 @@ create index idx_pipeline_run_status
 -- User responses by user
 create index idx_user_responses_user
   on public.user_responses (user_id);
+
+-- Foreign key indexes (v18)
+create index if not exists idx_algorithm_card_blueprint
+  on public.algorithm_card(blueprint_node_id);
+create index if not exists idx_item_plan_algorithm_card
+  on public.item_plan(algorithm_card_id);
+create index if not exists idx_item_plan_blueprint
+  on public.item_plan(blueprint_node_id);
+create index if not exists idx_item_draft_item_plan
+  on public.item_draft(item_plan_id);
+create index if not exists idx_item_draft_pipeline_run
+  on public.item_draft(pipeline_run_id);
+create index if not exists idx_validator_report_draft
+  on public.validator_report(item_draft_id);
+create index if not exists idx_user_responses_draft
+  on public.user_responses(item_draft_id);
 
 -- ============================================
 -- TRIGGERS: auto-update updated_at
@@ -553,6 +560,18 @@ create index if not exists idx_di_evidence_episode on public.di_evidence_item(ep
 create index if not exists idx_di_episode_shelf on public.di_episode(shelf);
 create index if not exists idx_di_evidence_source on public.di_evidence_item(source);
 create index if not exists idx_di_episode_source on public.di_episode(source);
+
+alter table public.di_episode enable row level security;
+create policy "Authenticated users can read di_episode"
+  on public.di_episode for select
+  to authenticated
+  using (true);
+
+alter table public.di_evidence_item enable row level security;
+create policy "Authenticated users can read di_evidence_item"
+  on public.di_evidence_item for select
+  to authenticated
+  using (true);
 
 -- ============================================
 -- USPSTF SCREENING RECOMMENDATIONS (v17)
