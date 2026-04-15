@@ -1,0 +1,367 @@
+{
+  "source": "UWorld Inner Circle Step 2 CK Notes",
+  "description": "Comprehensive Step 2 CK review notes cross-checked with UWorld. Content source — directly available to agents for question design and clinical reasoning. Facts must cite a guideline source.",
+  "source_date": "July 2022",
+  "total_pages": 339,
+  "total_sections": 6,
+  "total_files": 41,
+  "uploaded_files": 41,
+  "excluded_topics": ["pharmacology", "biostats", "bioethics"],
+  "pending_sources": ["dermatology-pdf"],
+  "sections": [
+    {
+      "id": "sec-01",
+      "name": "General Concepts",
+      "pages": "1-13",
+      "shelf": "general",
+      "status": "uploaded",
+      "files": [
+        {
+          "file": "sec-01-general-concepts/gen-001-age-related-changes.md",
+          "subsection": "Age-Related Changes",
+          "pages": "1-2",
+          "status": "uploaded",
+          "topics": ["geriatrics", "cardiology", "pulmonology", "ophthalmology", "ent", "neurology"]
+        },
+        {
+          "file": "sec-01-general-concepts/gen-002-lymphedema-misc.md",
+          "subsection": "Lymphedema, HIV Cachexia, GVHD, Serum Sickness, Vasodilation",
+          "pages": "2",
+          "status": "uploaded",
+          "topics": ["lymphedema", "hiv", "transplant", "immunology", "hepatology"]
+        },
+        {
+          "file": "sec-01-general-concepts/gen-003-criteria-equations.md",
+          "subsection": "Criteria and Equations",
+          "pages": "2-3",
+          "status": "uploaded",
+          "topics": ["cardiology", "pulmonology", "nephrology", "gi", "neurology", "infectious-disease"]
+        },
+        {
+          "file": "sec-01-general-concepts/gen-004-imaging.md",
+          "subsection": "Imaging Methods",
+          "pages": "3-4",
+          "status": "uploaded",
+          "topics": ["imaging", "radiology", "cardiology", "pulmonology", "gi"]
+        },
+        {
+          "file": "sec-01-general-concepts/gen-005-immunology.md",
+          "subsection": "Immunology — Immunodeficiency Diseases",
+          "pages": "4-6",
+          "status": "uploaded",
+          "topics": ["immunology", "immunodeficiency", "infectious-disease", "pediatrics"]
+        },
+        {
+          "file": "sec-01-general-concepts/gen-006-vitamins.md",
+          "subsection": "Vitamins A-K, Zinc",
+          "pages": "6-8",
+          "status": "uploaded",
+          "topics": ["nutrition", "vitamins", "hematology", "neurology", "dermatology"]
+        },
+        {
+          "file": "sec-01-general-concepts/gen-007-substance-abuse.md",
+          "subsection": "Substance Abuse — Alcohol, Cocaine",
+          "pages": "8-9",
+          "status": "uploaded",
+          "topics": ["substance-abuse", "toxicology", "cardiology", "emergency-medicine"]
+        },
+        {
+          "file": "sec-01-general-concepts/gen-008-gas-poisoning.md",
+          "subsection": "Gas Poisoning — CO, Cyanide, Methemoglobinemia",
+          "pages": "9",
+          "status": "uploaded",
+          "topics": ["toxicology", "emergency-medicine", "hematology"]
+        },
+        {
+          "file": "sec-01-general-concepts/gen-009-environmental-exposure.md",
+          "subsection": "Environmental Exposure",
+          "pages": "9-12",
+          "status": "uploaded",
+          "topics": ["toxicology", "environmental", "emergency-medicine", "neurology", "orthopedics"]
+        },
+        {
+          "file": "sec-01-general-concepts/gen-010-parenteral-nutrition.md",
+          "subsection": "Parenteral Nutrition, Mineral Deficiency, Candidemia",
+          "pages": "12-13",
+          "status": "uploaded",
+          "topics": ["nutrition", "infectious-disease", "ophthalmology", "cardiology"]
+        },
+        {
+          "file": "sec-01-general-concepts/gen-011-masses-oncology.md",
+          "subsection": "Masses and Oncology",
+          "pages": "13",
+          "status": "uploaded",
+          "topics": ["oncology", "surgery", "screening", "mediastinal-masses"]
+        }
+      ]
+    },
+    {
+      "id": "sec-02",
+      "name": "Trauma",
+      "pages": "14-24",
+      "shelf": "surgery",
+      "status": "uploaded",
+      "files": [
+        {
+          "file": "sec-02-trauma/trm-001-abc-shock.md",
+          "subsection": "ABC, Shock, Hemorrhage",
+          "pages": "14-16",
+          "status": "uploaded",
+          "topics": ["trauma", "shock", "emergency-medicine", "hemorrhage"]
+        },
+        {
+          "file": "sec-02-trauma/trm-002-shock-types.md",
+          "subsection": "Cardiogenic, Obstructive, Distributive Shock",
+          "pages": "16-17",
+          "status": "uploaded",
+          "topics": ["shock", "cardiology", "emergency-medicine", "critical-care"]
+        },
+        {
+          "file": "sec-02-trauma/trm-003-head-neck-trauma.md",
+          "subsection": "Head Trauma, C-Spine, Cord Syndromes",
+          "pages": "17-19",
+          "status": "uploaded",
+          "topics": ["trauma", "neurosurgery", "spine", "emergency-medicine", "neurology"]
+        },
+        {
+          "file": "sec-02-trauma/trm-004-chest-trauma.md",
+          "subsection": "Chest Trauma, Aortic Injury, Tamponade",
+          "pages": "19-22",
+          "status": "uploaded",
+          "topics": ["trauma", "cardiothoracic", "emergency-medicine", "pneumothorax"]
+        },
+        {
+          "file": "sec-02-trauma/trm-005-lung-trauma-ventilation.md",
+          "subsection": "Lung Trauma, ARDS, Ventilation",
+          "pages": "22-24",
+          "status": "uploaded",
+          "topics": ["pulmonology", "trauma", "critical-care", "ventilation", "ards"]
+        },
+        {
+          "file": "sec-02-trauma/trm-006-abdominal-trauma-burns.md",
+          "subsection": "Abdominal Trauma, Burns",
+          "pages": "24-25",
+          "status": "uploaded",
+          "topics": ["trauma", "surgery", "burns", "emergency-medicine", "fluids"]
+        }
+      ]
+    },
+    {
+      "id": "sec-03",
+      "name": "IM + FM + Surgery",
+      "pages": "25-208",
+      "shelf": "medicine",
+      "status": "partial",
+      "files": [
+        {
+          "file": "sec-03-im-fm-surgery/ims-001-preop-postop.md",
+          "subsection": "Pre-Op Evaluation, Post-Op Complications",
+          "pages": "25-27",
+          "status": "uploaded",
+          "topics": ["surgery", "perioperative", "anesthesia", "wound-care", "infection"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-002-cv-drugs.md",
+          "subsection": "Cardiovascular Drugs",
+          "pages": "27-29",
+          "status": "uploaded",
+          "topics": ["cardiology", "pharmacology", "antihypertensives", "antiarrhythmics", "statins"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-003-hypertension.md",
+          "subsection": "Hypertension and Secondary Causes",
+          "pages": "29-33",
+          "status": "uploaded",
+          "topics": ["cardiology", "hypertension", "nephrology", "endocrinology"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-004-ischemic-heart-disease.md",
+          "subsection": "CAD, Stable Angina, ACS",
+          "pages": "32-35",
+          "status": "uploaded",
+          "topics": ["cardiology", "ischemia", "angina", "acs", "stemi", "nstemi"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-005-mi-complications.md",
+          "subsection": "MI Management, Mechanical Complications",
+          "pages": "35-37",
+          "status": "uploaded",
+          "topics": ["cardiology", "mi", "emergency-medicine", "cardiogenic-shock"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-006-heart-failure.md",
+          "subsection": "Heart Failure, High-Output HF",
+          "pages": "36-39",
+          "status": "uploaded",
+          "topics": ["cardiology", "heart-failure", "pharmacology", "high-output-hf"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-007-arrhythmias.md",
+          "subsection": "Tachyarrhythmias, Bradyarrhythmias, QT",
+          "pages": "38-42",
+          "status": "uploaded",
+          "topics": ["cardiology", "arrhythmia", "electrophysiology", "afib", "vfib"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-008-cardiomyopathies.md",
+          "subsection": "DCM, HCM, Restrictive, Takotsubo, Myocarditis",
+          "pages": "42-44",
+          "status": "uploaded",
+          "topics": ["cardiology", "cardiomyopathy", "hcm", "dcm", "myocarditis"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-009-pericardial-disease.md",
+          "subsection": "Pericarditis, Effusion, Tamponade",
+          "pages": "44-46",
+          "status": "uploaded",
+          "topics": ["cardiology", "pericardial", "tamponade", "pericarditis"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-010-valvular-disease.md",
+          "subsection": "Valvular Heart Disease, Endocarditis",
+          "pages": "46-49",
+          "status": "uploaded",
+          "topics": ["cardiology", "valvular", "infectious-disease", "endocarditis"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-011-vascular-disease.md",
+          "subsection": "Aortic Dissection, AAA, PAD, DVT",
+          "pages": "48-52",
+          "status": "uploaded",
+          "topics": ["vascular", "surgery", "aortic-dissection", "aaa", "pad", "dvt"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-012-congenital-syncope-misc.md",
+          "subsection": "Congenital Heart, Syncope, Cardiac Neoplasms",
+          "pages": "48-52",
+          "status": "uploaded",
+          "topics": ["cardiology", "congenital", "syncope", "neoplasms"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-001-pulm-brief-topics.md",
+          "subsection": "Pulmonology — Bronchoscopy, Vocal Fold Motion, Tracheomalacia, CVID",
+          "pages": "50-51",
+          "status": "uploaded",
+          "t1_overlap": false,
+          "topics": ["pulmonology", "imaging", "ent", "immunodeficiency"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-002-pulm-ards.md",
+          "subsection": "ARDS and Acute Respiratory Failure",
+          "pages": "51-52",
+          "status": "uploaded",
+          "t1_overlap": false,
+          "topics": ["pulmonology", "critical-care", "ards"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-003-pulm-vasculature.md",
+          "subsection": "Pulmonary Vasculature — Pulmonary HTN, Cor Pulmonale, Pulmonary Edema",
+          "pages": "52-54",
+          "status": "uploaded",
+          "t1_overlap": true,
+          "t1_topics": ["CHF Exacerbation"],
+          "topics": ["pulmonology", "cardiology", "pulmonary-hypertension", "hematology"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-004-pulm-vte.md",
+          "subsection": "Venous Thromboembolism — DVT and Pulmonary Embolism",
+          "pages": "54-59",
+          "status": "uploaded",
+          "t1_overlap": true,
+          "t1_topics": ["Pulmonary Embolism", "Deep Vein Thrombosis"],
+          "topics": ["pulmonology", "hematology", "vte", "emergency-medicine"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-005-pulm-cough.md",
+          "subsection": "Cough — Acute and Chronic",
+          "pages": "57-58",
+          "status": "uploaded",
+          "t1_overlap": false,
+          "topics": ["pulmonology", "cough", "gerd"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-006-pulm-obstructive.md",
+          "subsection": "Obstructive Lung Disease — Asthma, Bronchiectasis, COPD",
+          "pages": "58-62",
+          "status": "uploaded",
+          "t1_overlap": true,
+          "t1_topics": ["COPD Exacerbation", "Asthma Exacerbation"],
+          "topics": ["pulmonology", "asthma", "copd", "bronchiectasis"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-007-pulm-restrictive.md",
+          "subsection": "Restrictive Lung Disease — ILD, Pneumoconioses, Sarcoidosis",
+          "pages": "62-63",
+          "status": "uploaded",
+          "t1_overlap": false,
+          "topics": ["pulmonology", "ild", "sarcoidosis", "occupational-medicine"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-008-pulm-neoplasms.md",
+          "subsection": "Lung Neoplasms — Lung Cancer, Solitary Nodule, Transplant",
+          "pages": "63-65",
+          "status": "uploaded",
+          "t1_overlap": false,
+          "topics": ["pulmonology", "oncology", "lung-cancer", "paraneoplastic"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-009-pulm-pleural.md",
+          "subsection": "Pleural Disease — Effusions, Pneumothorax, Tension Pneumothorax",
+          "pages": "65-67",
+          "status": "uploaded",
+          "t1_overlap": false,
+          "topics": ["pulmonology", "pleural-disease", "emergency-medicine"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-010-pulm-ventilation.md",
+          "subsection": "Mechanical Ventilation, High Altitude Illness",
+          "pages": "67-68",
+          "status": "uploaded",
+          "t1_overlap": false,
+          "topics": ["pulmonology", "critical-care", "ventilation"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-011-pulm-sleep.md",
+          "subsection": "Pulmonary Sleep Disorders — OSA, Obesity Hypoventilation",
+          "pages": "68",
+          "status": "uploaded",
+          "t1_overlap": false,
+          "topics": ["pulmonology", "sleep-medicine", "pediatrics"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-012-pulm-infectious-systemic.md",
+          "subsection": "Pneumonia, Aspiration, Anaphylaxis, TB, GPA, Systemic Pulmonary Disease",
+          "pages": "68-71",
+          "status": "uploaded",
+          "t1_overlap": true,
+          "t1_topics": ["Community-Acquired Pneumonia"],
+          "topics": ["pulmonology", "infectious-disease", "pneumonia", "allergy", "rheumatology"]
+        }
+      ]
+    },
+    {
+      "id": "sec-04",
+      "name": "Pediatrics",
+      "pages": "209-253",
+      "shelf": "pediatrics",
+      "status": "pending",
+      "files": []
+    },
+    {
+      "id": "sec-05",
+      "name": "OB/GYN",
+      "pages": "254-308",
+      "shelf": "obgyn",
+      "status": "pending",
+      "files": []
+    },
+    {
+      "id": "sec-06",
+      "name": "Psychiatry",
+      "pages": "309-338",
+      "shelf": "psychiatry",
+      "status": "pending",
+      "files": []
+    }
+  ]
+}
