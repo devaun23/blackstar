@@ -232,7 +232,7 @@ You CANNOT introduce new answer choices, change the clinical meaning of any opti
 The correct_answer letter MUST match the skeleton's correct_option_frame_id.
 
 Write like a board exam, not a textbook. No teaching. No hints. Just clinical data and a question.`,
-    user_prompt_template: `Blueprint node:\n{{blueprint_node}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nItem plan:\n{{item_plan}}\n\nSupporting facts:\n{{fact_rows}}\n\nQuestion skeleton (if available — use option_frames to constrain answer choices):\n{{question_skeleton}}\n\nWrite the clinical vignette. Return a JSON object with:\n- vignette: string (max 120 words, cold chart style)\n- stem: string (the question)\n- choice_a through choice_e: string (5 answer choices — if skeleton provided, render each option_frame.meaning as NBME phrasing)\n- correct_answer: "A"|"B"|"C"|"D"|"E" (must match skeleton.correct_option_frame_id if skeleton provided)\n- why_correct: string (brief explanation)\n- decision_hinge: string (the finding that distinguishes the answer)\n- competing_differential: string (main competing diagnosis/action)`,
+    user_prompt_template: `Blueprint node:\n{{blueprint_node}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nItem plan:\n{{item_plan}}\n\nSupporting facts:\n{{fact_rows}}\n\nQuestion skeleton (if available — use option_frames to constrain answer choices):\n{{question_skeleton}}\n\nBoard review reference material (enriches vignette realism — clinical truth comes from algorithm card and facts above):\n{{di_context}}\n\nWrite the clinical vignette. Return a JSON object with:\n- vignette: string (max 120 words, cold chart style)\n- stem: string (the question)\n- choice_a through choice_e: string (5 answer choices — if skeleton provided, render each option_frame.meaning as NBME phrasing)\n- correct_answer: "A"|"B"|"C"|"D"|"E" (must match skeleton.correct_option_frame_id if skeleton provided)\n- why_correct: string (brief explanation)\n- decision_hinge: string (the finding that distinguishes the answer)\n- competing_differential: string (main competing diagnosis/action)`,
     notes: 'v2: Option-frame-constrained vignette generation. Writer renders pre-specified option meanings, cannot invent new choices.',
   },
 
@@ -693,6 +693,9 @@ Transfer rule (declared before the question was written — anchor your explanat
 Visual guidance:
 {{visual_guidance}}
 
+Board review reference material (enriches teaching pearls and error diagnosis — clinical truth comes from algorithm card and facts above):
+{{di_context}}
+
 Write comprehensive explanations. Return a JSON object with:
 - why_correct: string (START with the transfer rule, then reasoning chain)
 - why_wrong_a through why_wrong_e: string for EVERY incorrect option (REQUIRED — explain why tempting and why wrong)
@@ -782,6 +785,9 @@ Available confusion sets (select target_confusion_set_id if applicable):
 
 Available transfer rules (select target_transfer_rule_id if a matching rule exists):
 {{transfer_rules}}
+
+Board review reference material (enriches question design — clinical truth comes from algorithm card and facts above):
+{{di_context}}
 
 Design the cognitive architecture for this question. Return a JSON object with:
 - cognitive_operation_type: "rule_application"|"threshold_recognition"|"diagnosis_disambiguation"|"management_sequencing"|"risk_stratification"

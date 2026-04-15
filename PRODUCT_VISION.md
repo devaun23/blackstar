@@ -8,7 +8,7 @@ Build an AI-powered question factory that mirrors how NBME creates board exam it
 
 1. **Blueprint-first scope.** Every question traces back to a blueprint node (shelf × system × topic × task_type). If it's not in the blueprint, it doesn't get generated. No topic drift.
 
-2. **Source hierarchy is law.** Tier A sources define what's testable. Tier B sources define what's true. Tier C sources inform style only. An agent cannot promote a source beyond its tier. See `SOURCE_POLICY.md`.
+2. **Source hierarchy is law.** Scope sources define what's testable. Content sources (guidelines, references, review notes) are all available to agents, but facts must cite a guideline. See `SOURCE_POLICY.md`.
 
 3. **Adversarial validation, not rubber-stamping.** Five independent validators attack each question. A single auto-kill condition ends the item. Validators are adversaries, not cheerleaders.
 
@@ -27,7 +27,7 @@ Build an AI-powered question factory that mirrors how NBME creates board exam it
 - **Teaching vignettes:** Vignettes that explain the pathophysiology or hint at the answer.
 - **Asymmetric options:** Mixing medications with diagnostic tests, or having one option that's obviously longer/more detailed.
 - **Fact recall disguised as reasoning:** "What is the most common cause of X?" is not a decision question.
-- **Source laundering:** Using a Tier C source (UWorld) to define what's medically correct.
+- **Unsourced facts:** Using review notes (UWorld, AMBOSS) as the sole citation for a clinical fact without guideline backing.
 - **Validator collusion:** All validators passing a mediocre question because prompts are too lenient.
 
 ## Success Criteria

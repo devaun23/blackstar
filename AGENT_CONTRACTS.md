@@ -49,7 +49,7 @@ Each agent has a bounded role. This document defines what each agent may and may
 - Severity marker selection
 
 **May NOT decide:**
-- Source hierarchy priority (Tier B > Tier C, always)
+- Source hierarchy priority (guidelines > review notes for clinical facts)
 - Whether the topic is in scope (blueprint says it is)
 - Final publication readiness
 - Question wording or answer choices

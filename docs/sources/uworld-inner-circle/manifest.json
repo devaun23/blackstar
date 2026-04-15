@@ -3,11 +3,11 @@
   "description": "Comprehensive Step 2 CK review notes cross-checked with UWorld. Content source — directly available to agents for question design and clinical reasoning. Facts must cite a guideline source.",
   "source_date": "July 2022",
   "total_pages": 339,
-  "total_sections": 6,
-  "total_files": 41,
-  "uploaded_files": 41,
+  "total_sections": 7,
+  "total_files": 82,
+  "uploaded_files": 82,
   "excluded_topics": ["pharmacology", "biostats", "bioethics"],
-  "pending_sources": ["dermatology-pdf"],
+  "pending_sources": [],
   "sections": [
     {
       "id": "sec-01",
@@ -336,7 +336,127 @@
           "t1_overlap": true,
           "t1_topics": ["Community-Acquired Pneumonia"],
           "topics": ["pulmonology", "infectious-disease", "pneumonia", "allergy", "rheumatology"]
-        }
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-013-endocrine-thyroid.md",
+          "subsection": "Endocrine — Thyroid",
+          "pages": "66-68",
+          "status": "uploaded",
+          "topics": ["endocrinology", "thyroid", "hypothyroidism", "hyperthyroidism", "thyroid-cancer"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-014-endocrine-pituitary.md",
+          "subsection": "Endocrine — Pituitary",
+          "pages": "68-70",
+          "status": "uploaded",
+          "topics": ["endocrinology", "pituitary", "acromegaly", "prolactinoma", "hypogonadism"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-015-endocrine-parathyroid.md",
+          "subsection": "Endocrine — Parathyroid",
+          "pages": "70-71",
+          "status": "uploaded",
+          "topics": ["endocrinology", "parathyroid", "hypocalcemia", "hypercalcemia", "osteoporosis"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-016-endocrine-adrenal.md",
+          "subsection": "Endocrine — Adrenal",
+          "pages": "71-76",
+          "status": "uploaded",
+          "topics": ["endocrinology", "adrenal", "addisons-disease", "cushing-syndrome", "hyperaldosteronism", "pheochromocytoma", "CAH", "carcinoid"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-017-endocrine-diabetes.md",
+          "subsection": "Endocrine — Pancreas and Diabetes",
+          "pages": "73-76",
+          "status": "uploaded",
+          "topics": ["endocrinology", "diabetes", "DKA", "HHS", "diabetes-insipidus", "diabetic-complications"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-018-breast.md",
+          "subsection": "Breast",
+          "pages": "76-77",
+          "status": "uploaded",
+          "topics": ["breast", "breast-cancer", "breast-imaging", "benign-breast-disease"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-019-female-reproductive.md",
+          "subsection": "Female Reproductive",
+          "pages": "77-80",
+          "status": "uploaded",
+          "topics": ["gynecology", "uterus", "fibroids", "adenomyosis", "cervix", "endometrium", "menstrual-disorders", "contraception", "menopause"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-020-male-reproductive.md",
+          "subsection": "Male Reproductive",
+          "pages": "80-82",
+          "status": "uploaded",
+          "topics": ["urology", "testes", "prostate", "BPH", "prostate-cancer", "testicular-cancer", "priapism"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-021-gi-esophagus.md",
+          "subsection": "GI — Esophagus",
+          "pages": "82-85",
+          "status": "uploaded",
+          "topics": ["gi", "esophagus", "dysphagia", "GERD", "esophageal-cancer", "achalasia", "esophagitis"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-022-gi-gastric.md",
+          "subsection": "GI — Gastric",
+          "pages": "85-88",
+          "status": "uploaded",
+          "topics": ["gi", "gastric", "peptic-ulcer-disease", "GERD", "gastroparesis", "gastric-cancer", "GI-bleed", "diarrhea"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-023-gi-biliary.md",
+          "subsection": "GI — Gallbladder and Biliary",
+          "pages": "88-90",
+          "status": "uploaded",
+          "topics": ["gi", "gallbladder", "cholecystitis", "choledocholithiasis", "cholangitis", "biliary", "PBC", "PSC", "cholangiocarcinoma"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-024-gi-liver.md",
+          "subsection": "GI — Liver",
+          "pages": "90-96",
+          "status": "uploaded",
+          "topics": ["gi", "hepatology", "hepatitis", "cirrhosis", "liver-failure", "hepatocellular-carcinoma", "jaundice", "portal-hypertension", "ascites"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-025-gi-pancreas.md",
+          "subsection": "GI — Pancreas",
+          "pages": "96-98",
+          "status": "uploaded",
+          "topics": ["gi", "pancreas", "pancreatitis", "pseudocyst", "pancreatic-cancer", "zollinger-ellison"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-026-gi-spleen.md",
+          "subsection": "GI — Spleen",
+          "pages": "98",
+          "status": "uploaded",
+          "topics": ["gi", "spleen", "splenomegaly", "splenic-infarct", "splenectomy"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-027-gi-small-bowel.md",
+          "subsection": "GI — Small Bowel",
+          "pages": "98-100",
+          "status": "uploaded",
+          "topics": ["gi", "small-bowel", "celiac-disease", "IBS", "lactose-intolerance", "small-bowel-obstruction", "appendicitis"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-028-gi-large-bowel-rectum.md",
+          "subsection": "GI — Large Bowel and Rectum",
+          "pages": "100-103",
+          "status": "uploaded",
+          "topics": ["gi", "colon", "IBD", "crohn", "ulcerative-colitis", "diverticular-disease", "colon-cancer", "ischemic-colitis", "c-diff", "hemorrhoids", "rectal-cancer"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/ims-029-ophthalmology.md",
+          "subsection": "Ophthalmology",
+          "pages": "1-10",
+          "status": "uploaded",
+          "topics": ["ophthalmology", "neurology", "genetics", "trauma", "infectious-disease", "pharmacology", "oncology", "pediatrics"]
+        },
+        { "file": "sec-03-im-fm-surgery/im-social-sciences.md", "subsection": "Social Sciences", "pages": "207-208", "status": "uploaded", "topics": ["ethics", "patient-safety", "healthcare-delivery", "professionalism", "informed-consent"] }
       ]
     },
     {
@@ -344,24 +464,156 @@
       "name": "Pediatrics",
       "pages": "209-253",
       "shelf": "pediatrics",
-      "status": "pending",
-      "files": []
+      "status": "uploaded",
+      "files": [
+        { "file": "sec-04-pediatrics/peds-001-birth-childhood-general.md", "subsection": "Birth, Newborn, Childhood, Imaging, Poisoning, Allergy", "pages": "209-218", "status": "uploaded", "topics": ["pediatrics", "neonatology", "genetics", "immunology", "toxicology"] },
+        { "file": "sec-04-pediatrics/peds-002-cardiovascular-pulmonary.md", "subsection": "Cardiovascular, Pulmonary & Critical Care", "pages": "211-216", "status": "uploaded", "topics": ["pediatrics", "cardiology", "congenital-heart-disease", "pulmonology", "asthma", "vasculitis"] },
+        { "file": "sec-04-pediatrics/peds-003-derm-ent-ophtho-endo.md", "subsection": "Dermatology, ENT, Ophthalmology, Endocrine & Metabolism", "pages": "216-222", "status": "uploaded", "topics": ["pediatrics", "dermatology", "ent", "ophthalmology", "endocrinology", "dka", "thyroid"] },
+        { "file": "sec-04-pediatrics/peds-004-gi-nutrition.md", "subsection": "GI & Nutrition, Biliary, Liver, Spleen", "pages": "222-228", "status": "uploaded", "topics": ["pediatrics", "gi", "nutrition", "hepatology", "celiac", "cystic-fibrosis"] },
+        { "file": "sec-04-pediatrics/peds-005-heme-onc.md", "subsection": "Hematology-Oncology", "pages": "228-232", "status": "uploaded", "topics": ["pediatrics", "hematology", "hematology-oncology", "leukemia", "lymphoma", "coagulation"] },
+        { "file": "sec-04-pediatrics/peds-006-infectious-disease-vaccines.md", "subsection": "Infectious Disease, Vaccinations", "pages": "232-237", "status": "uploaded", "topics": ["pediatrics", "infectious-disease", "meningitis", "vaccines", "congenital-infections"] },
+        { "file": "sec-04-pediatrics/peds-007-renal-electrolytes.md", "subsection": "Renal, Urinary Systems & Electrolytes", "pages": "237-242", "status": "uploaded", "topics": ["pediatrics", "nephrology", "electrolytes", "acid-base", "glomerular-disease"] },
+        { "file": "sec-04-pediatrics/peds-008-neuro-psych-rheum.md", "subsection": "Nervous System, Psychiatric, Rheumatology", "pages": "242-253", "status": "uploaded", "topics": ["pediatrics", "neurology", "psychiatry", "rheumatology", "orthopedics"] }
+      ]
     },
     {
       "id": "sec-05",
       "name": "OB/GYN",
       "pages": "254-308",
       "shelf": "obgyn",
-      "status": "pending",
-      "files": []
+      "status": "uploaded",
+      "files": [
+        { "file": "sec-05-obgyn/obgyn-001-normal-pregnancy.md", "subsection": "Normal Pregnancy, Childbirth, Puerperium", "pages": "254-266", "status": "uploaded", "topics": ["obstetrics", "pregnancy", "postpartum", "fetal-monitoring", "prenatal-testing"] },
+        { "file": "sec-05-obgyn/obgyn-002-pregnancy-disorders.md", "subsection": "Disorders of Pregnancy, Hypertensive Disorders", "pages": "266-278", "status": "uploaded", "topics": ["obstetrics", "preeclampsia", "ectopic", "gestational-diabetes", "congenital-infections"] },
+        { "file": "sec-05-obgyn/obgyn-003-obstetric-complications.md", "subsection": "Obstetric Complications", "pages": "278-284", "status": "uploaded", "topics": ["obstetrics", "obstetric-complications", "postpartum", "hemorrhage", "placental-disorders"] },
+        { "file": "sec-05-obgyn/obgyn-004-gynecology.md", "subsection": "Gynecology, Reproductive, Contraception, Tumors", "pages": "284-304", "status": "uploaded", "topics": ["gynecology", "amenorrhea", "PCOS", "contraception", "cervical-cancer", "ovarian-tumors", "endometriosis"] },
+        { "file": "sec-05-obgyn/obg-001-intrapartum-fetal-assessment.md", "subsection": "Intrapartum Fetal Assessment — BPP, FHR, EFM Categories", "pages": "306-308", "status": "uploaded", "topics": ["obstetrics", "fetal-monitoring", "labor-delivery"] }
+      ]
     },
     {
       "id": "sec-06",
       "name": "Psychiatry",
-      "pages": "309-338",
+      "pages": "309-339",
       "shelf": "psychiatry",
-      "status": "pending",
-      "files": []
+      "status": "uploaded",
+      "files": [
+        {
+          "file": "sec-06-psychiatry/psy-001-mental-status-exam.md",
+          "subsection": "Mental Status Exam and History Taking",
+          "pages": "309-310",
+          "status": "uploaded",
+          "topics": ["psychiatry", "clinical-skills"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-002-nervous-system.md",
+          "subsection": "Nervous System — Fragile X, Cognitive, Neurodegenerative",
+          "pages": "310",
+          "status": "uploaded",
+          "topics": ["neurology", "genetics", "psychiatry"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-003-therapy-types.md",
+          "subsection": "Therapy Types — CBT, DBT, Interpersonal, Motivational",
+          "pages": "310-311",
+          "status": "uploaded",
+          "topics": ["psychiatry", "therapy"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-004-normal-development-ethics.md",
+          "subsection": "Normal Development, Ethics, Defense Mechanisms",
+          "pages": "311-312",
+          "status": "uploaded",
+          "topics": ["psychiatry", "pediatrics", "ethics"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-005-eating-body-disorders.md",
+          "subsection": "Eating Disorders, Body Dysmorphic, Gender Dysmorphia",
+          "pages": "312-313",
+          "status": "uploaded",
+          "topics": ["psychiatry", "eating-disorders"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-006-learning-developmental.md",
+          "subsection": "Learning and Developmental Disorders",
+          "pages": "313-314",
+          "status": "uploaded",
+          "topics": ["psychiatry", "pediatrics", "neurodevelopmental"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-007-somatoform-disorders.md",
+          "subsection": "Somatoform Disorders — SSD, Conversion, Factitious",
+          "pages": "314",
+          "status": "uploaded",
+          "topics": ["psychiatry", "somatoform"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-008-sleep-disorders.md",
+          "subsection": "Sleep Disorders — Insomnia, Narcolepsy, RLS",
+          "pages": "314-315",
+          "status": "uploaded",
+          "topics": ["psychiatry", "sleep-medicine"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-009-anxiety-trauma.md",
+          "subsection": "Anxiety and Trauma-Related Disorders",
+          "pages": "315-317",
+          "status": "uploaded",
+          "topics": ["psychiatry", "anxiety"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-010-childhood-disorders.md",
+          "subsection": "Childhood and Early-Onset Disorders",
+          "pages": "317-318",
+          "status": "uploaded",
+          "topics": ["psychiatry", "pediatrics"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-011-mood-disorders.md",
+          "subsection": "Mood Disorders — Bipolar, MDD, Dysthymia, Postpartum",
+          "pages": "318-322",
+          "status": "uploaded",
+          "topics": ["psychiatry", "mood-disorders"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-012-personality-impulse.md",
+          "subsection": "Personality Disorders, OCD, Impulse Control",
+          "pages": "322-324",
+          "status": "uploaded",
+          "topics": ["psychiatry", "personality-disorders"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-013-substance-psychotic.md",
+          "subsection": "Substance Abuse, Dissociative, Psychotic Disorders",
+          "pages": "325-332",
+          "status": "uploaded",
+          "topics": ["psychiatry", "substance-abuse", "psychosis"]
+        },
+        {
+          "file": "sec-06-psychiatry/psy-014-psych-pharmacology-emergencies.md",
+          "subsection": "Psychiatric Pharmacology and Emergencies",
+          "pages": "332-339",
+          "status": "uploaded",
+          "topics": ["psychiatry", "pharmacology"]
+        }
+      ]
+    },
+    {
+      "id": "sec-07",
+      "name": "Dermatology (REMS Supplement)",
+      "pages": "1-19",
+      "shelf": "medicine",
+      "status": "uploaded",
+      "files": [
+        { "file": "sec-07-dermatology/derm-001-pigmented-common.md", "subsection": "Pigmented Skin Disorders, Seborrheic Dermatitis, Atopic Dermatitis, Contact Dermatitis, Psoriasis", "pages": "2-4", "status": "uploaded", "topics": ["dermatology", "eczema", "psoriasis", "contact-dermatitis", "atopic-dermatitis", "seborrheic-dermatitis"] },
+        { "file": "sec-07-dermatology/derm-002-skin-infections.md", "subsection": "Impetigo, Cellulitis, Candidal Intertrigo, Shingles, Hidradenitis Suppurativa", "pages": "5", "status": "uploaded", "topics": ["dermatology", "cellulitis", "impetigo", "hsv", "vzv", "candida", "hidradenitis-suppurativa"] },
+        { "file": "sec-07-dermatology/derm-003-cutaneous-mycoses.md", "subsection": "Tinea (Corporis, Pedis, Facialis, Manuum, Versicolor), Erythrasma", "pages": "6", "status": "uploaded", "topics": ["dermatology", "tinea", "fungal-infections", "erythrasma"] },
+        { "file": "sec-07-dermatology/derm-004-blistering-disorders.md", "subsection": "Bullous Pemphigoid, Dermatitis Herpetiformis, Porphyria Cutanea Tarda, Erythema Multiforme, Scabies", "pages": "7-8", "status": "uploaded", "topics": ["dermatology", "autoimmune", "bullous-pemphigoid", "celiac", "porphyria", "erythema-multiforme", "scabies"] },
+        { "file": "sec-07-dermatology/derm-005-misc-disorders.md", "subsection": "Ichthyosis, Pityriasis Rosea, Acanthosis Nigricans, Lichen Planus, Actinic Keratosis, Oral Lesions", "pages": "9-10", "status": "uploaded", "topics": ["dermatology", "lichen-planus", "acanthosis-nigricans", "actinic-keratosis", "ichthyosis", "oral-lesions"] },
+        { "file": "sec-07-dermatology/derm-006-childhood-rashes.md", "subsection": "HFMD, Molluscum, Parvovirus B19, Rubella, Rubeola, VZV, Herpes Zoster", "pages": "11-12", "status": "uploaded", "topics": ["dermatology", "pediatrics", "exanthems", "vzv", "measles", "rubella", "parvovirus", "coxsackie", "herpes-zoster"] },
+        { "file": "sec-07-dermatology/derm-007-hair-ulcers-vascular.md", "subsection": "Alopecia, Telogen Effluvium, LE Ulcers, Pressure Ulcers, Pyogenic Granuloma, Kaposi Sarcoma", "pages": "13-15", "status": "uploaded", "topics": ["dermatology", "alopecia", "ulcers", "vascular-tumors", "kaposi-sarcoma", "pressure-ulcer"] },
+        { "file": "sec-07-dermatology/derm-008-associations-burns.md", "subsection": "Skin-Disease Associations, Sweet Syndrome, Necrobiosis Lipoidica, Burn Classification, Burn Sepsis", "pages": "16-17", "status": "uploaded", "topics": ["dermatology", "burns", "sweet-syndrome", "wound-care", "necrobiosis-lipoidica", "drug-reactions"] },
+        { "file": "sec-07-dermatology/derm-009-skin-cancer.md", "subsection": "BCC, SCC, Melanoma, Actinic Keratosis, Keratoacanthoma", "pages": "18-19", "status": "uploaded", "topics": ["dermatology", "oncology", "melanoma", "basal-cell-carcinoma", "squamous-cell-carcinoma", "keratoacanthoma"] }
+      ]
     }
   ]
 }

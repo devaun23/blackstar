@@ -51,9 +51,9 @@ Auto-kill criteria that immediately disqualify a generated question. These are e
 
 | Rule | Description | Validator |
 |------|-------------|-----------|
-| R-SRC-01 | Correct answer justified by a Tier C source (qbank) | medical_validator |
+| R-SRC-01 | Correct answer justified solely by review notes (qbank) without guideline citation | medical_validator |
 | R-SRC-02 | Fabricated guideline name cited | medical_validator |
-| R-SRC-03 | No Tier B source in algorithm_card.source_citations | medical_validator |
+| R-SRC-03 | No guideline source in algorithm_card.source_citations | medical_validator |
 
 ## Category 7: Pipeline Kills
 

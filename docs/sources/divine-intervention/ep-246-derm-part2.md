@@ -55,6 +55,7 @@ Flesh-colored papules/genital warts (HPV 6,11)
 Do not confuse with condyloma latum (syphilis)
 Tx: topical salicylic acid, cryotherapy, podophyllin
 Most likely outcome: spontaneous resolution
+HPV 1 → plantar warts (verruca plantaris); distinct from genital HPV 6,11
 
 # ACTINIC KERATOSIS
 Red lesion on sun-exposed spots with rough sandpaper texture
@@ -99,19 +100,20 @@ Complete excision; >1mm thick → sentinel lymph node biopsy
 Prognosis: Breslow depth/thickness
 
 # URTICARIA & ANGIOEDEMA
-Whealing of skin → Tx: antihistamine
-Angioedema does NOT have hives
+Whealing of skin → Tx: antihistamine (cetirizine, H1 blocker)
+Angioedema (C1 esterase inhibitor deficiency) → angioedema without hives or pruritus
 
 # DRUG ALLERGY
 MC reported drug allergy: penicillin
 Testing: skin testing (not RAST/ELISA)
-Anaphylaxis to penicillin → avoid anti-staph penicillins and cephalosporins
+Anaphylaxis to penicillin → avoid anti-staph penicillins and all cephalosporins; aztreonam is safe alternative
 
 # JARISCH-HERXHEIMER REACTION
 Treating spirochetes (Treponema/Borrelia) with cell wall inhibitors → organisms lyse → endotoxin release
 Fever, headache, myalgia, malaise, sweating, hypotension
+Classic vignette: 6 yo with Lyme given doxycycline → fever, headache, myalgia, hypotension
 Resolves quickly; continue antibiotic; supportive care
-NOT an allergic reaction
+NOT an allergic reaction; may use same abx in future
 
 # DRESS SYNDROME (Drug Reaction with Eosinophilia and Systemic Symptoms)
 Recent drug (e.g. TMP-SMX) + edematous face + generalized rash + elevated AST/ALT + eosinophilia + elevated lymphocytes + lymphadenopathy

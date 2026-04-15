@@ -1,0 +1,12 @@
+{
+  "source": "AMBOSS Step 2 CK",
+  "description": "Behavioral science articles from AMBOSS. Expanding scope beyond IM Tier 1 to cover ethics, palliative care, infection control, and preventive medicine.",
+  "total_articles": 5,
+  "articles": [
+    { "article_number": 1, "file": "am-001-death.md" },
+    { "article_number": 2, "file": "am-002-medical-law-ethics.md" },
+    { "article_number": 3, "file": "am-003-palliative-medicine.md" },
+    { "article_number": 4, "file": "am-004-infection-prevention.md" },
+    { "article_number": 5, "file": "am-005-preventive-medicine.md" }
+  ]
+}

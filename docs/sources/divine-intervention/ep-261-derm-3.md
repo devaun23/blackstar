@@ -9,7 +9,9 @@ uploaded_at: 2026-04-14
 
 # DRUG REACTIONS
 Tetracycline photosensitivity: "SAT for photo" — Sulfonamides, Amiodarone, Tetracycline
-Red Man Syndrome: vancomycin or IV ciprofloxacin → flushing, hypotension
+Sulfonamide photosensitivity can occur after days, months, or even years of use
+Penicillin anaphylaxis → avoid all cephalosporins; aztreonam is safe (monobactam, no cross-reactivity)
+Red Man Syndrome: vancomycin or IV ciprofloxacin → flushing, hypotension, muscle aches
 Fixed drug eruption: round/oval discrete lesions on torso after starting abx
 Ampicillin rash in mono: college student + pharyngitis + ampicillin → EBV mononucleosis
 
@@ -26,7 +28,9 @@ Type II HSR
 
 # DERMATITIS HERPETIFORMIS
 Iron deficiency anemia + itchy vesicles on extensors → celiac disease
-Tx: 1st gluten-free diet; 2nd dapsone (watch for G6PD deficiency!)
+Tx: 1st gluten-free diet; 2nd dapsone (watch for G6PD deficiency → hematuria + indirect hyperbilirubinemia)
+Dapsone also used for PCP prophylaxis in sulfa-allergic patients
+Tx: Leprosy triple therapy — Dapsone + Rifampin + Clofazimine
 
 # PORPHYRIA CUTANEA TARDA
 IVDU + vesicles on dorsal hands after minor trauma
@@ -53,11 +57,14 @@ Nephrogenic systemic fibrosis: ESRD + gadolinium → thick tight indurated skin
 Calciphylaxis: ESRD + painful red/brown subcutaneous nodules (↑↑ phosphate precipitates with Ca in skin)
 
 # OTHER
-Livedo reticularis: net-like lesion after cardiac cath or in vasculitis
-Acanthosis nigricans: velvety flexor surface lesions → insulin resistance/DM; also GI malignancy; OBGYN: PCOS
+IVDU + sudden seborrheic dermatitis breakout → screen for HIV
+Livedo reticularis: net-like lesion after cardiac cath or recently diagnosed with vasculitis (antiphospholipid syndrome, PAN)
+Acanthosis nigricans: velvety flexor surface lesions → insulin resistance/DM; also GI malignancy (rapid onset); OBGYN: PCOS
 Xanthomas/xanthelasmas: familial hyperlipidemia
 Mechanic's hands: concrete-like fissured thick hands → polymyositis/dermatomyositis
-Multiple myeloma: large tongue + sallow (waxy) skin + renal failure + anemia + pneumococcal infections → amyloidosis
+Multiple myeloma: large tongue + sallow (waxy) skin + renal failure + anemia + 3+ episodes of pneumococcal pneumonia → amyloidosis
+Amyloidosis: restrictive cardiomyopathy + palpable kidney mass + macroglossia + waxy skin → AL amyloidosis
 Paget's disease of nipple: crusted eczema-like lesions around nipple → mammogram + core biopsy (underlying intraductal carcinoma)
 Necrolytic migratory erythema: eczema on flexor surfaces + weight loss + new-onset DM → glucagonoma
-Ecthyma gangrenosum: HIV + low CD4 + recent swimming → painless necrotic lesion (Pseudomonas)
+Ecthyma gangrenosum: HIV + low CD4 + recent swimming → painless necrotic lesion on arms/trunk (Pseudomonas)
+Sunscreen avoided in infants <6 months old; use sun-protective clothing instead

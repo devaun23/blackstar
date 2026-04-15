@@ -5,6 +5,7 @@ import type { AgentContext, AgentOutput } from '@/lib/types/factory';
 import type { ItemDraftRow, AlgorithmCardRow, FactRowRow, BlueprintNodeRow } from '@/lib/types/database';
 import { runAgent } from '../agent-helpers';
 import { getVisualCoverage } from '../seeds/visual-coverage';
+import { resolveDIContext } from '../di-loader';
 
 interface ExplanationWriterInput {
   draft: ItemDraftRow;
@@ -28,11 +29,14 @@ export async function run(
     context,
     input,
     outputSchema: explanationOutputSchema,
-    buildUserMessage: (data) => {
+    buildUserMessage: async (data) => {
+      const topic = data.node?.topic ?? '';
+      const diContext = topic ? await resolveDIContext(topic) : '';
       const vars: Record<string, string> = {
         item_draft: JSON.stringify(data.draft, null, 2),
         algorithm_card: JSON.stringify(data.card, null, 2),
         fact_rows: JSON.stringify(data.facts, null, 2),
+        di_context: diContext || 'No board review reference content available for this topic.',
       };
 
       // Inject visual guidance if coverage exists for this topic

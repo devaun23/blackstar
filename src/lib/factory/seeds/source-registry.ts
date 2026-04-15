@@ -30,6 +30,8 @@ export const SOURCE_STATUS = {
   'GOLD COPD Guidelines': 'registered_only',
   'GINA Asthma Guidelines': 'registered_only',
   'UpToDate': 'registered_only',
+  'UWorld Inner Circle Step 2 CK Notes': 'registered_only',
+  'USPSTF Screening Recommendations': 'registered_only',
 } as const;
 
 export const sourceRegistry: SourceRegistrySeed[] = [
@@ -83,11 +85,17 @@ export const sourceRegistry: SourceRegistrySeed[] = [
     notes: 'Defines physician task distribution across Step 2 CK. Informs task_type weighting in blueprint generation.',
   },
 
-  // --- Truth sources (define correct answers) ---
+  // --- Content sources (guidelines, references, review notes) ---
+  // Priority determines conflict resolution: lower number wins.
+  // Guidelines (10-21): define correct answers, thresholds, management
+  // References (30): secondary fallback
+  // Review notes (50+): question design, difficulty, reasoning patterns, learner traps
+
+  // ── Guidelines ──
   {
     category: 'guideline',
     name: 'AHA/ACC Guidelines',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 10,
     url: 'https://www.ahajournals.org/guidelines',
     notes: 'Cardiology management guidelines. Primary source for ACS, CHF, endocarditis, arrhythmia questions.',
@@ -95,7 +103,7 @@ export const sourceRegistry: SourceRegistrySeed[] = [
   {
     category: 'guideline',
     name: 'ACEP Clinical Policies',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 11,
     url: 'https://www.acep.org/clinical-policies',
     notes: 'Emergency medicine clinical policies. Source for ED management of syncope, PE, stroke.',
@@ -103,7 +111,7 @@ export const sourceRegistry: SourceRegistrySeed[] = [
   {
     category: 'guideline',
     name: 'Surviving Sepsis Campaign Guidelines',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 12,
     url: 'https://www.sccm.org/SurvivingSepsisCampaign/Guidelines',
     notes: 'Sepsis and septic shock management. Primary source for sepsis questions. Source pack: PACK.SSC.SEPSIS.2021',
@@ -111,7 +119,7 @@ export const sourceRegistry: SourceRegistrySeed[] = [
   {
     category: 'guideline',
     name: 'AASLD Practice Guidelines',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 13,
     url: 'https://www.aasld.org/practice-guidelines',
     notes: 'Hepatology guidelines. Source for cirrhosis, SBP, hepatic encephalopathy. Source pack: PACK.AASLD.CSBP.2021',
@@ -119,7 +127,7 @@ export const sourceRegistry: SourceRegistrySeed[] = [
   {
     category: 'guideline',
     name: 'KDIGO Clinical Practice Guidelines',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 14,
     url: 'https://kdigo.org/guidelines/',
     notes: 'Nephrology guidelines. Source for AKI staging and management.',
@@ -127,7 +135,7 @@ export const sourceRegistry: SourceRegistrySeed[] = [
   {
     category: 'guideline',
     name: 'ADA Standards of Care in Diabetes',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 15,
     url: 'https://diabetesjournals.org/care/issue/47/Supplement_1',
     notes: 'Diabetes management guidelines. Source for DKA, HHS management.',
@@ -135,7 +143,7 @@ export const sourceRegistry: SourceRegistrySeed[] = [
   {
     category: 'guideline',
     name: 'ATS/IDSA CAP Guidelines',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 16,
     url: 'https://www.atsjournals.org/doi/full/10.1164/rccm.201908-1581ST',
     notes: 'Community-acquired pneumonia management guidelines.',
@@ -143,7 +151,7 @@ export const sourceRegistry: SourceRegistrySeed[] = [
   {
     category: 'guideline',
     name: 'IDSA Meningitis Guidelines',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 17,
     url: 'https://academic.oup.com/cid/article/39/9/1267/402089',
     notes: 'Bacterial meningitis management. Source for empiric therapy and diagnostic workup.',
@@ -151,7 +159,7 @@ export const sourceRegistry: SourceRegistrySeed[] = [
   {
     category: 'guideline',
     name: 'GOLD COPD Guidelines',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 18,
     url: 'https://goldcopd.org/gold-reports/',
     notes: 'COPD classification and exacerbation management.',
@@ -159,61 +167,85 @@ export const sourceRegistry: SourceRegistrySeed[] = [
   {
     category: 'guideline',
     name: 'GINA Asthma Guidelines',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 19,
     url: 'https://ginasthma.org/gina-reports/',
     notes: 'Asthma classification and acute exacerbation management.',
   },
-  // ─── NEW: ACG Pancreatitis (Phase 1.5 target) ───
   {
     category: 'guideline',
     name: 'ACG Acute Pancreatitis Guidelines',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 20,
     url: 'https://journals.lww.com/ajg/fulltext/2024/01000/american_college_of_gastroenterology_guidelines.14.aspx',
-    notes: 'ACG 2024 guideline for acute pancreatitis. Source pack: PACK.ACG.AP.2024. Phase 1.5 exemplar.',
+    notes: 'ACG 2024 guideline for acute pancreatitis. Source pack: PACK.ACG.AP.2024.',
   },
-  // ─── NEW: ACG GI Bleeding (Phase 1.5 target) ───
   {
     category: 'guideline',
     name: 'ACG GI Bleeding Guidelines',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 21,
     url: 'https://journals.lww.com/ajg/fulltext/2021/05000/acg_clinical_guideline__upper_gastrointestinal_and.14.aspx',
-    notes: 'ACG 2021 guideline for upper and lower GI bleeding. Source pack: PACK.ACG.GIB.2021. Phase 1.5 target.',
+    notes: 'ACG 2021 guideline for upper and lower GI bleeding. Source pack: PACK.ACG.GIB.2021.',
   },
+  {
+    category: 'guideline',
+    name: 'USPSTF Screening Recommendations',
+    allowed_use: 'content',
+    priority_rank: 22,
+    url: 'https://www.uspreventiveservicestaskforce.org/uspstf/recommendation-topics',
+    notes: 'Preventive screening guidelines. Primary source for age/sex-specific cancer screening, metabolic screening, and risk-factor-based screening questions.',
+  },
+
+  // ── References ──
   {
     category: 'reference',
     name: 'UpToDate',
-    allowed_use: 'truth',
+    allowed_use: 'content',
     priority_rank: 30,
     url: 'https://www.uptodate.com',
     notes: 'Evidence-based clinical decision support. Secondary source when society guidelines are insufficient.',
   },
 
-  // --- Inspiration sources (inform style, not truth) ---
+  // ── Review notes (directly available to agents for question design) ──
   {
     category: 'qbank',
     name: 'UWorld Step 2 CK',
-    allowed_use: 'inspiration',
+    allowed_use: 'content',
     priority_rank: 50,
     url: null,
-    notes: 'Style reference for vignette complexity and distractor quality. Cannot define scope or truth.',
+    notes: 'Question design, vignette complexity, distractor quality, difficulty calibration. Facts must cite a guideline.',
   },
   {
     category: 'qbank',
     name: 'AMBOSS Step 2 CK',
-    allowed_use: 'inspiration',
+    allowed_use: 'content',
     priority_rank: 51,
     url: null,
-    notes: 'Style reference for explanation structure and clinical reasoning emphasis. Cannot define scope or truth.',
+    notes: 'Explanation structure, clinical reasoning emphasis, learner trap patterns. Facts must cite a guideline.',
   },
   {
-    category: 'reference',
+    category: 'review',
     name: 'Divine Intervention Podcast Notes',
-    allowed_use: 'inspiration',
+    allowed_use: 'content',
     priority_rank: 52,
     url: 'https://divineinterventionpodcasts.com',
-    notes: 'Board review podcast notes (100+ episodes). Raw storage for future pipeline integration. Covers IM, peds, neuro, OB/GYN, surgery, pharm, and more.',
+    notes: 'Board review podcast notes (115 episodes). Clinical patterns, high-yield focus areas, reasoning shortcuts. Facts must cite a guideline.',
+  },
+  {
+    category: 'review',
+    name: 'UWorld Inner Circle Step 2 CK Notes',
+    allowed_use: 'content',
+    priority_rank: 53,
+    url: null,
+    notes: 'Comprehensive Step 2 CK review notes. Clinical reasoning, decision forks, management algorithms. Facts must cite a guideline.',
+  },
+  {
+    category: 'review',
+    name: 'Emma Holliday Surgery Shelf Review',
+    allowed_use: 'content',
+    priority_rank: 54,
+    url: null,
+    notes: 'High-yield surgery shelf exam review by Emma Holliday Ramahi. Covers pre-op, trauma, GI, hepatobiliary, vascular, endocrine, breast, oncology, pedi-surg, urology, ortho, transplant, anesthesia. Facts must cite a guideline.',
   },
 ];

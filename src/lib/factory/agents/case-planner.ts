@@ -5,6 +5,7 @@ import type { CasePlanInput } from '@/lib/factory/schemas';
 import type { AgentContext, AgentOutput } from '@/lib/types/factory';
 import type { BlueprintNodeRow, AlgorithmCardRow, FactRowRow, ErrorTaxonomyRow } from '@/lib/types/database';
 import { runAgent } from '../agent-helpers';
+import { resolveDIContext } from '../di-loader';
 
 interface CasePlannerInput {
   node: BlueprintNodeRow;
@@ -69,16 +70,22 @@ export async function run(
     context,
     input,
     outputSchema: resolvedSchema,
-    buildUserMessage: (data) => ({
-      blueprint_node: JSON.stringify(data.node, null, 2),
-      algorithm_card: JSON.stringify(data.card, null, 2),
-      fact_rows: JSON.stringify(data.facts, null, 2),
-      error_taxonomy: JSON.stringify(data.errors, null, 2),
-      hinge_clue_types: JSON.stringify(data.hingeClueTypes ?? [], null, 2),
-      action_classes: JSON.stringify(data.actionClasses ?? [], null, 2),
-      confusion_sets: JSON.stringify(data.confusionSets ?? [], null, 2),
-      transfer_rules: JSON.stringify(data.transferRules ?? [], null, 2),
-    }),
+    buildUserMessage: async (data) => {
+      const diContext = await resolveDIContext(data.node.topic, {
+        itemTypes: ['clinical_pearl', 'risk_factor', 'mnemonic'],
+      });
+      return {
+        blueprint_node: JSON.stringify(data.node, null, 2),
+        algorithm_card: JSON.stringify(data.card, null, 2),
+        fact_rows: JSON.stringify(data.facts, null, 2),
+        error_taxonomy: JSON.stringify(data.errors, null, 2),
+        hinge_clue_types: JSON.stringify(data.hingeClueTypes ?? [], null, 2),
+        action_classes: JSON.stringify(data.actionClasses ?? [], null, 2),
+        confusion_sets: JSON.stringify(data.confusionSets ?? [], null, 2),
+        transfer_rules: JSON.stringify(data.transferRules ?? [], null, 2),
+        di_context: diContext || 'No board review reference content available for this topic.',
+      };
+    },
   });
 
   if (!result.success) {

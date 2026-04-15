@@ -19,7 +19,7 @@ export type PipelineStatus = 'running' | 'completed' | 'failed' | 'killed';
 export type SessionMode = 'retention' | 'training' | 'assessment';
 export type SessionStatus = 'active' | 'completed' | 'abandoned';
 export type UserRole = 'student' | 'admin';
-export type SourceUse = 'scope' | 'truth' | 'inspiration';
+export type SourceUse = 'scope' | 'content';
 export type CorrectAnswer = 'A' | 'B' | 'C' | 'D' | 'E';
 export type ReviewStatus = 'pending_review' | 'approved' | 'rejected' | 'needs_revision';
 
@@ -176,6 +176,28 @@ export interface SourceRegistryRow {
   url: string | null;
   notes: string | null;
   created_at: string;
+}
+
+export type UspstfGrade = 'A' | 'B' | 'C' | 'D' | 'I';
+
+export interface UspstfScreeningRow {
+  id: string;
+  display_id: string;
+  condition: string;
+  screening_test: string;
+  sex: string | null;
+  age_start: number | null;
+  age_end: number | null;
+  risk_group: string | null;
+  population_detail: string | null;
+  grade: UspstfGrade;
+  is_recommended: boolean;
+  frequency_text: string | null;
+  frequency_months: number | null;
+  special_notes: string | null;
+  topic_tags: string[];
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ItemPerformanceRow {

@@ -66,7 +66,7 @@ create type public.card_status as enum (
 );
 
 create type public.source_use as enum (
-  'scope', 'truth', 'inspiration'
+  'scope', 'content'
 );
 
 -- ============================================
@@ -511,3 +511,89 @@ $$ language plpgsql security definer;
 create trigger on_item_published
   after insert or update on public.item_draft
   for each row execute function public.handle_item_published();
+
+-- ============================================
+-- DIVINE INTERVENTION EVIDENCE LAYER (v14)
+-- ============================================
+
+create table if not exists public.di_episode (
+  id uuid primary key default gen_random_uuid(),
+  episode_number integer not null,
+  title text not null,
+  shelf text,
+  topic_tags text[] not null default '{}',
+  source_file text not null,
+  total_items integer not null default 0,
+  source text not null default 'divine_intervention',
+  ingested_at timestamptz not null default now(),
+  unique (source, episode_number)
+);
+
+create table if not exists public.di_evidence_item (
+  id uuid primary key default gen_random_uuid(),
+  episode_id uuid not null references public.di_episode(id) on delete cascade,
+  item_type text not null,
+  section_heading text not null,
+  claim text not null,
+  raw_text text not null,
+  trigger_presentation text,
+  association text,
+  differential jsonb,
+  mnemonic_text text,
+  topic_tags text[] not null default '{}',
+  shelf text,
+  display_id text not null unique,
+  source text not null default 'divine_intervention',
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_di_evidence_topic on public.di_evidence_item using gin(topic_tags);
+create index if not exists idx_di_evidence_type on public.di_evidence_item(item_type);
+create index if not exists idx_di_evidence_episode on public.di_evidence_item(episode_id);
+create index if not exists idx_di_episode_shelf on public.di_episode(shelf);
+create index if not exists idx_di_evidence_source on public.di_evidence_item(source);
+create index if not exists idx_di_episode_source on public.di_episode(source);
+
+-- ============================================
+-- USPSTF SCREENING RECOMMENDATIONS (v17)
+-- ============================================
+
+create type public.uspstf_grade as enum ('A', 'B', 'C', 'D', 'I');
+
+create table if not exists public.uspstf_screening (
+  id uuid primary key default gen_random_uuid(),
+  display_id text not null unique,
+  condition text not null,
+  screening_test text not null,
+  sex text,
+  age_start integer,
+  age_end integer,
+  risk_group text,
+  population_detail text,
+  grade public.uspstf_grade not null,
+  is_recommended boolean not null default true,
+  frequency_text text,
+  frequency_months integer,
+  special_notes text,
+  topic_tags text[] not null default '{}',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_uspstf_condition on public.uspstf_screening(condition);
+create index if not exists idx_uspstf_grade on public.uspstf_screening(grade);
+create index if not exists idx_uspstf_age_range on public.uspstf_screening(age_start, age_end);
+create index if not exists idx_uspstf_sex on public.uspstf_screening(sex);
+create index if not exists idx_uspstf_risk_group on public.uspstf_screening(risk_group);
+create index if not exists idx_uspstf_topic on public.uspstf_screening using gin(topic_tags);
+
+create trigger set_uspstf_updated_at
+  before update on public.uspstf_screening
+  for each row execute function public.handle_updated_at();
+
+alter table public.uspstf_screening enable row level security;
+
+create policy "Authenticated users can read uspstf_screening"
+  on public.uspstf_screening for select
+  to authenticated
+  using (true);

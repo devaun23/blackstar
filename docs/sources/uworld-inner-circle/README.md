@@ -33,7 +33,7 @@
 |---|---------|-------|-------|--------|
 | 1 | [General Concepts](sec-01-general-concepts/) | 1-13 | 11/11 | uploaded |
 | 2 | [Trauma](sec-02-trauma/) | 14-24 | 6/6 | uploaded |
-| 3 | [IM + FM + Surgery](sec-03-im-fm-surgery/) | 25-208 | 24/? | partial |
+| 3 | [IM + FM + Surgery](sec-03-im-fm-surgery/) | 25-208 | 40/? | partial |
 | 4 | [Pediatrics](sec-04-pediatrics/) | 209-253 | 0/? | pending |
 | 5 | [OB/GYN](sec-05-obgyn/) | 254-308 | 0/? | pending |
 | 6 | [Psychiatry](sec-06-psychiatry/) | 309-338 | 0/? | pending |
@@ -98,6 +98,37 @@
 | im-010-pulm-ventilation.md | Mechanical Ventilation, High Altitude Illness | | uploaded |
 | im-011-pulm-sleep.md | OSA, Obesity Hypoventilation | | uploaded |
 | im-012-pulm-infectious-systemic.md | Pneumonia, Aspiration, Anaphylaxis, TB, GPA | CAP | uploaded |
+
+### IM + FM + Surgery Files — Endocrine (pages 66-76)
+
+| File | Subsection | Status |
+|------|-----------|--------|
+| ims-013-endocrine-thyroid.md | Thyroid — Hypo/Hyperthyroidism, Thyroid Storm, Nodules, Cancer | uploaded |
+| ims-014-endocrine-pituitary.md | Pituitary — Acromegaly, Prolactinoma, Hypogonadism | uploaded |
+| ims-015-endocrine-parathyroid.md | Parathyroid — Hypo/Hyperparathyroidism, Osteoporosis | uploaded |
+| ims-016-endocrine-adrenal.md | Adrenal — Addison's, Cushing, Conn, Pheo, CAH, Carcinoid | uploaded |
+| ims-017-endocrine-diabetes.md | Diabetes — DKA, HHS, DI, Diabetic Complications | uploaded |
+
+### IM + FM + Surgery Files — Reproductive (pages 76-82)
+
+| File | Subsection | Status |
+|------|-----------|--------|
+| ims-018-breast.md | Breast — Cancer, BCT, Benign Disease | uploaded |
+| ims-019-female-reproductive.md | Female Repro — Uterus, Cervix, Menstrual, Contraception, Menopause | uploaded |
+| ims-020-male-reproductive.md | Male Repro — Testes, Prostate, Urethra, Penis | uploaded |
+
+### IM + FM + Surgery Files — GI (pages 82-103)
+
+| File | Subsection | Status |
+|------|-----------|--------|
+| ims-021-gi-esophagus.md | Esophagus — Dysphagia, Achalasia, GERD, Esophageal Cancer | uploaded |
+| ims-022-gi-gastric.md | Gastric — PUD, Gastritis, GI Bleeds, Diarrhea, Surgery | uploaded |
+| ims-023-gi-biliary.md | Biliary — Gallstones, Cholecystitis, Cholangitis, PBC, PSC | uploaded |
+| ims-024-gi-liver.md | Liver — Hepatitis, Cirrhosis, Liver Masses, Jaundice, Ascites | uploaded |
+| ims-025-gi-pancreas.md | Pancreas — Acute/Chronic Pancreatitis, Pseudocyst, Pancreatic Cancer | uploaded |
+| ims-026-gi-spleen.md | Spleen — Splenomegaly, Splenic Infarct, Laceration | uploaded |
+| ims-027-gi-small-bowel.md | Small Bowel — Celiac, IBS, Lactose Intolerance, SBO, Appendicitis | uploaded |
+| ims-028-gi-large-bowel-rectum.md | Large Bowel/Rectum — IBD, Diverticular, Colon Cancer, C. diff, Hemorrhoids | uploaded |
 
 ## Excluded Topics
 

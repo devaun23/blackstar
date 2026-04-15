@@ -4,6 +4,7 @@ import type { ItemDraftInput } from '@/lib/factory/schemas';
 import type { AgentContext, AgentOutput } from '@/lib/types/factory';
 import type { BlueprintNodeRow, AlgorithmCardRow, FactRowRow, ItemPlanRow, QuestionSkeletonRow } from '@/lib/types/database';
 import { runAgent } from '../agent-helpers';
+import { resolveDIContext } from '../di-loader';
 
 interface VignetteWriterInput {
   node: BlueprintNodeRow;
@@ -27,12 +28,16 @@ export async function run(
     context,
     input,
     outputSchema: itemDraftSchema,
-    buildUserMessage: (data) => {
+    buildUserMessage: async (data) => {
+      const diContext = await resolveDIContext(data.node.topic, {
+        itemTypes: ['clinical_pearl', 'treatment_protocol', 'comparison_table'],
+      });
       const vars: Record<string, string> = {
         blueprint_node: JSON.stringify(data.node, null, 2),
         algorithm_card: JSON.stringify(data.card, null, 2),
         item_plan: JSON.stringify(data.plan, null, 2),
         fact_rows: JSON.stringify(data.facts, null, 2),
+        di_context: diContext || 'No board review reference content available for this topic.',
       };
       if (data.skeleton) {
         vars.question_skeleton = JSON.stringify(data.skeleton, null, 2);
