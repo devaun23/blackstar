@@ -1,0 +1,19 @@
+{
+  "source": "emma_holliday",
+  "shelf": "pediatrics",
+  "total_sections": 12,
+  "sections": [
+    { "section": 1, "file": "eh-peds-001-newborn.md", "title": "The Newborn", "status": "uploaded" },
+    { "section": 2, "file": "eh-peds-002-genetics.md", "title": "Genetic Diseases & Syndromes", "status": "uploaded" },
+    { "section": 3, "file": "eh-peds-003-immune.md", "title": "Immune Deficiency", "status": "uploaded" },
+    { "section": 4, "file": "eh-peds-004-growth-dev.md", "title": "Growth and Development", "status": "uploaded" },
+    { "section": 5, "file": "eh-peds-005-heart.md", "title": "Heart Disease", "status": "uploaded" },
+    { "section": 6, "file": "eh-peds-006-respiratory.md", "title": "Respiratory Disease", "status": "uploaded" },
+    { "section": 7, "file": "eh-peds-007-endocrine.md", "title": "Endocrine", "status": "uploaded" },
+    { "section": 8, "file": "eh-peds-008-renal.md", "title": "Renal Disease", "status": "uploaded" },
+    { "section": 9, "file": "eh-peds-009-heme-onc.md", "title": "Heme-Onc", "status": "uploaded" },
+    { "section": 10, "file": "eh-peds-010-infectious.md", "title": "Infectious Disease", "status": "uploaded" },
+    { "section": 11, "file": "eh-peds-011-bone-joint.md", "title": "Bone and Joint Issues", "status": "uploaded" },
+    { "section": 12, "file": "eh-peds-012-neurology.md", "title": "Neurology", "status": "uploaded" }
+  ]
+}

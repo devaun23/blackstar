@@ -468,17 +468,19 @@ export const headingToTopic: Record<string, KnownTopic> = {
   'infant of diabetic': 'Neonatology',
 
   // Genetics / Syndromes
-  'down syndrome': 'Pediatric Genetics / Syndromes',
+  // Note: 'down syndrome' and 'fragile x' already mapped in psychiatry section.
+  // Peds files use shelf='pediatrics' to disambiguate at query time.
   'trisomy': 'Pediatric Genetics / Syndromes',
   'turner': 'Pediatric Genetics / Syndromes',
   'klinefelter': 'Pediatric Genetics / Syndromes',
-  'fragile x': 'Pediatric Genetics / Syndromes',
   'prader-willi': 'Pediatric Genetics / Syndromes',
   'angelman': 'Pediatric Genetics / Syndromes',
   'williams': 'Pediatric Genetics / Syndromes',
   'fetal alcohol': 'Pediatric Genetics / Syndromes',
   'neurofibromatosis': 'Pediatric Genetics / Syndromes',
   'pierre robin': 'Pediatric Genetics / Syndromes',
+  'edward': 'Pediatric Genetics / Syndromes',
+  'patau': 'Pediatric Genetics / Syndromes',
 
   // Immunodeficiency
   'bruton': 'Immunodeficiency',
@@ -495,7 +497,7 @@ export const headingToTopic: Record<string, KnownTopic> = {
   'vaccine': 'Growth and Development',
   'growth': 'Growth and Development',
   'potty training': 'Growth and Development',
-  'enuresis': 'Growth and Development',
+  // Note: 'enuresis' already mapped in psychiatry section
 
   // Congenital Heart Disease
   'tetralogy': 'Congenital Heart Disease',

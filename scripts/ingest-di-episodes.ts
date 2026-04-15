@@ -12,6 +12,8 @@
  *   npx tsx scripts/ingest-di-episodes.ts --dry-run                # DI, parse only
  *   npx tsx scripts/ingest-di-episodes.ts --source=inner_circle    # IC, live
  *   npx tsx scripts/ingest-di-episodes.ts --source=inner_circle --dry-run
+ *   npx tsx scripts/ingest-di-episodes.ts --source=emma_holliday   # EH Peds, live
+ *   npx tsx scripts/ingest-di-episodes.ts --source=emma_holliday --dry-run
  */
 
 import * as fs from 'fs';
@@ -55,6 +57,12 @@ const SOURCE_CONFIGS: Record<string, SourceConfig> = {
     dir: path.resolve(__dirname, '../docs/sources/uworld-inner-circle'),
     displayIdPrefix: 'IC',
     source: 'inner_circle',
+  },
+  emma_holliday: {
+    label: 'Emma Holliday Pediatrics',
+    dir: path.resolve(__dirname, '../docs/sources/emma-holliday-peds'),
+    displayIdPrefix: 'EH.PEDS',
+    source: 'emma_holliday',
   },
 };
 
@@ -114,8 +122,19 @@ function loadICManifest(dir: string): FileEntry[] {
   return entries;
 }
 
+function loadEHManifest(dir: string): FileEntry[] {
+  const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8'));
+  return manifest.sections
+    .filter((s: { status: string }) => s.status === 'uploaded')
+    .map((s: { section: number; file: string }) => ({
+      file: s.file,
+      episodeNumber: s.section,
+    }));
+}
+
 function loadManifest(source: string, dir: string): FileEntry[] {
   if (source === 'inner_circle') return loadICManifest(dir);
+  if (source === 'emma_holliday') return loadEHManifest(dir);
   return loadDIManifest(dir);
 }
 
@@ -141,8 +160,8 @@ async function main() {
 
     try {
       const content = fs.readFileSync(filePath, 'utf8');
-      // For IC files, episode number comes from manifest ordering, not frontmatter
-      const episodeOverride = SOURCE === 'inner_circle' ? entry.episodeNumber : undefined;
+      // For IC and EH files, episode number comes from manifest ordering, not frontmatter
+      const episodeOverride = (SOURCE === 'inner_circle' || SOURCE === 'emma_holliday') ? entry.episodeNumber : undefined;
       const result = parseEpisode(content, entry.file, episodeOverride);
       parsed.push(result);
     } catch (err) {
