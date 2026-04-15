@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { runPipeline } from '@/lib/factory/pipeline';
+import { verifyAdminKey } from '@/lib/supabase/admin';
 import type { PipelineConfig } from '@/lib/types/factory';
 
 /**
@@ -9,7 +10,7 @@ import type { PipelineConfig } from '@/lib/types/factory';
  */
 export async function POST(request: Request) {
   const authHeader = request.headers.get('x-admin-key');
-  if (authHeader !== process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (!verifyAdminKey(authHeader)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

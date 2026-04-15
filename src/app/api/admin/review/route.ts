@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, verifyAdminKey } from '@/lib/supabase/admin';
 import type { ReviewStatus } from '@/lib/types/database';
 
 /**
@@ -20,7 +20,7 @@ import type { ReviewStatus } from '@/lib/types/database';
  */
 export async function POST(request: Request) {
   const authHeader = request.headers.get('x-admin-key');
-  if (authHeader !== process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (!verifyAdminKey(authHeader)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
