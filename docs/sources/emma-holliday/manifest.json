@@ -1,0 +1,71 @@
+{
+  "source": "Emma Holliday High Yield IM Review",
+  "description": "Single-lecture internal medicine shelf exam review by Emma Holliday Ramahi. Organized by 9 body systems with high-yield clinical pearls, buzzwords, and associations.",
+  "total_sections": 9,
+  "shelf": "medicine",
+  "sections": [
+    {
+      "section": 1,
+      "title": "Cardiology",
+      "file": "eh-cardiology.md",
+      "status": "uploaded",
+      "topics": ["cardiology", "acs", "heart-failure", "arrhythmias", "valvular-disease", "pericarditis"]
+    },
+    {
+      "section": 2,
+      "title": "Pulmonology",
+      "file": "eh-pulmonology.md",
+      "status": "uploaded",
+      "topics": ["pulmonology", "copd", "asthma", "pneumonia", "pulmonary-embolism", "pleural-effusions"]
+    },
+    {
+      "section": 3,
+      "title": "Gastroenterology",
+      "file": "eh-gastroenterology.md",
+      "status": "uploaded",
+      "topics": ["gi", "ibd", "hepatology", "pancreatitis", "peptic-ulcer-disease", "hepatobiliary"]
+    },
+    {
+      "section": 4,
+      "title": "Infectious Disease",
+      "file": "eh-infectious-disease.md",
+      "status": "uploaded",
+      "topics": ["infectious-disease", "meningitis", "pneumonia", "endocarditis", "sepsis", "antibiotics"]
+    },
+    {
+      "section": 5,
+      "title": "Nephrology",
+      "file": "eh-nephrology.md",
+      "status": "uploaded",
+      "topics": ["nephrology", "electrolytes", "acid-base", "calcium", "sodium", "potassium"]
+    },
+    {
+      "section": 6,
+      "title": "Hematology / Oncology",
+      "file": "eh-hematology-oncology.md",
+      "status": "uploaded",
+      "topics": ["hematology", "oncology", "anticoagulation"]
+    },
+    {
+      "section": 7,
+      "title": "Rheumatology / Dermatology",
+      "file": "eh-rheumatology-dermatology.md",
+      "status": "uploaded",
+      "topics": ["rheumatology", "dermatology"]
+    },
+    {
+      "section": 8,
+      "title": "Endocrinology",
+      "file": "eh-endocrinology.md",
+      "status": "uploaded",
+      "topics": ["endocrinology", "diabetes-medications", "dka", "thyroid", "calcium"]
+    },
+    {
+      "section": 9,
+      "title": "Neurology",
+      "file": "eh-neurology.md",
+      "status": "uploaded",
+      "topics": ["neurology", "stroke", "seizures"]
+    }
+  ]
+}

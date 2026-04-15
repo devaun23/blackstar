@@ -1,0 +1,25 @@
+{
+  "source": "Emma Holliday Surgery Shelf Review",
+  "description": "High-yield surgery shelf exam review by Emma Holliday Ramahi. Content source — directly available to agents for question design and clinical reasoning. Facts must cite a guideline source.",
+  "total_files": 16,
+  "uploaded_files": 16,
+  "status": "uploaded",
+  "files": [
+    { "file": "eh-001-preop-vent-acidbase.md", "subsection": "Pre-Op, Vent Settings, Acid-Base, Electrolytes, Fluids", "status": "uploaded", "topics": ["perioperative", "ventilation", "acid-base", "electrolytes", "fluids"] },
+    { "file": "eh-002-burns-clotting.md", "subsection": "Burns, Clotting and Bleeding Disorders", "status": "uploaded", "topics": ["burns", "hematology", "coagulation"] },
+    { "file": "eh-003-trauma-abc-shock.md", "subsection": "Trauma ABC, Chest Trauma, Shock Types", "status": "uploaded", "topics": ["trauma", "shock", "airway", "chest-trauma"] },
+    { "file": "eh-004-head-neck-abdominal-trauma.md", "subsection": "Head Trauma, Neck Zones, Abdominal/Pelvic Trauma", "status": "uploaded", "topics": ["trauma", "neurosurgery", "abdominal-trauma", "pelvic-trauma"] },
+    { "file": "eh-005-ortho-trauma-postop.md", "subsection": "Ortho Trauma, Post-Op Fever, Pressure Ulcers", "status": "uploaded", "topics": ["orthopedics", "postoperative", "fever", "wound-care"] },
+    { "file": "eh-006-thoracic-lung.md", "subsection": "Pleural Effusions, Pneumothorax, Lung Cancer, ARDS", "status": "uploaded", "topics": ["pulmonology", "thoracic-surgery", "lung-cancer", "ards"] },
+    { "file": "eh-007-murmurs.md", "subsection": "Murmur Buzzwords", "status": "uploaded", "topics": ["cardiology", "valvular", "murmurs"] },
+    { "file": "eh-008-esophagus-stomach.md", "subsection": "Esophagus, Stomach, Gastric Cancer", "status": "uploaded", "topics": ["gi", "esophagus", "stomach", "gerd", "gastric-cancer"] },
+    { "file": "eh-009-duodenum-pancreas.md", "subsection": "Duodenal Ulcers, Pancreatitis, Pancreatic Cancer", "status": "uploaded", "topics": ["gi", "duodenum", "pancreas", "pancreatitis"] },
+    { "file": "eh-010-hepatobiliary.md", "subsection": "Gallbladder, Liver, Hepatic Masses", "status": "uploaded", "topics": ["gi", "hepatobiliary", "gallbladder", "liver"] },
+    { "file": "eh-011-spleen-appendix-bowel.md", "subsection": "Spleen, Appendicitis, Bowel Obstruction, Hernias", "status": "uploaded", "topics": ["surgery", "spleen", "appendix", "bowel-obstruction", "hernias"] },
+    { "file": "eh-012-ibd-diverticular-colorectal.md", "subsection": "IBD, Diverticular Disease, Colorectal Cancer", "status": "uploaded", "topics": ["gi", "ibd", "diverticulitis", "colorectal-cancer"] },
+    { "file": "eh-013-vascular.md", "subsection": "AAA, Mesenteric Ischemia, PAD, DVT/PE", "status": "uploaded", "topics": ["vascular", "aaa", "mesenteric-ischemia", "pad", "dvt", "pe"] },
+    { "file": "eh-014-endocrine.md", "subsection": "Thyroid, Adrenal, Parathyroid, MEN", "status": "uploaded", "topics": ["endocrinology", "thyroid", "adrenal", "parathyroid"] },
+    { "file": "eh-015-breast-skin-sarcoma.md", "subsection": "Breast, Skin Cancer, Sarcoma", "status": "uploaded", "topics": ["breast", "skin-cancer", "melanoma", "sarcoma"] },
+    { "file": "eh-016-neck-ent-pedi-uro-ortho-transplant.md", "subsection": "Neck Mass, ENT, Pedi-Surg, Urology, Ortho, Transplant, Anesthesia", "status": "uploaded", "topics": ["ent", "pediatric-surgery", "urology", "orthopedics", "transplant", "anesthesia"] }
+  ]
+}

@@ -13,6 +13,8 @@ interface DILoaderOptions {
   maxItems?: number;
   /** Filter by specific review source(s). If omitted, returns from all sources. */
   sources?: ReviewSource[];
+  /** Filter by shelf (e.g., 'psychiatry', 'medicine'). If omitted, returns from all shelves. */
+  shelf?: string;
 }
 
 function formatItem(item: Pick<DIEvidenceItemRow, 'display_id' | 'item_type' | 'claim'>): string {
@@ -47,6 +49,10 @@ export async function resolveDIContext(
     query = query.in('source', options.sources);
   }
 
+  if (options?.shelf) {
+    query = query.eq('shelf', options.shelf);
+  }
+
   const { data, error } = await query;
 
   if (error || !data || data.length === 0) {
@@ -71,6 +77,7 @@ export async function resolveDIContext(
     divine_intervention: 'Divine Intervention Podcast Notes',
     inner_circle: 'UWorld Inner Circle Notes',
     amboss: 'AMBOSS Step 2 CK Notes',
+    emma_holliday: 'Emma Holliday Review Notes',
   };
 
   const lines: string[] = [];

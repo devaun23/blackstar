@@ -6,8 +6,8 @@ import { z } from 'zod/v4';
 
 // --- Source identifiers ---
 
-export type ReviewSource = 'divine_intervention' | 'inner_circle' | 'amboss';
-export const REVIEW_SOURCES = ['divine_intervention', 'inner_circle', 'amboss'] as const;
+export type ReviewSource = 'divine_intervention' | 'inner_circle' | 'amboss' | 'emma_holliday';
+export const REVIEW_SOURCES = ['divine_intervention', 'inner_circle', 'amboss', 'emma_holliday'] as const;
 
 // --- Enums ---
 

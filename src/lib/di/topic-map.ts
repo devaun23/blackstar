@@ -30,6 +30,23 @@ export const KNOWN_TOPICS = [
   'Meningitis',
   'Hypercalcemia',
   'Arrhythmias',
+
+  // Psychiatry topics
+  'Bipolar Disorder',
+  'Major Depressive Disorder',
+  'Psychotic Disorders',
+  'Anxiety Disorders',
+  'OCD',
+  'PTSD',
+  'Personality Disorders',
+  'Substance Use Disorders',
+  'Delirium',
+  'Dementia',
+  'Eating Disorders',
+  'Sleep Disorders',
+  'ADHD',
+  'Child & Adolescent Psychiatry',
+  'Factitious Disorders',
 ] as const;
 
 export type KnownTopic = (typeof KNOWN_TOPICS)[number];
@@ -121,6 +138,30 @@ export const diTagToTopics: Record<string, KnownTopic[]> = {
 
   // Syncope
   'syncope': ['Syncope'],
+
+  // ── Psychiatry ──
+  'mood-disorders': ['Bipolar Disorder', 'Major Depressive Disorder'],
+  'bipolar': ['Bipolar Disorder'],
+  'depression': ['Major Depressive Disorder'],
+  'psychotic-disorders': ['Psychotic Disorders'],
+  'schizophrenia': ['Psychotic Disorders'],
+  'anxiety': ['Anxiety Disorders', 'OCD', 'PTSD'],
+  'ocd': ['OCD'],
+  'ptsd': ['PTSD'],
+  'personality-disorders': ['Personality Disorders'],
+  'substance-use': ['Substance Use Disorders'],
+  'substance-abuse': ['Substance Use Disorders'],
+  'alcohol': ['Substance Use Disorders'],
+  'delirium-dementia': ['Delirium', 'Dementia'],
+  'delirium': ['Delirium'],
+  'dementia': ['Dementia'],
+  'eating-disorders': ['Eating Disorders'],
+  'sleep-disorders': ['Sleep Disorders'],
+  'child-psychiatry': ['ADHD', 'Child & Adolescent Psychiatry'],
+  'adhd': ['ADHD'],
+  'development': ['Child & Adolescent Psychiatry'],
+  'factitious-malingering': ['Factitious Disorders'],
+  'psychopharmacology': ['Bipolar Disorder', 'Major Depressive Disorder', 'Psychotic Disorders', 'Anxiety Disorders'],
 };
 
 /**
@@ -235,6 +276,129 @@ export const headingToTopic: Record<string, KnownTopic> = {
   'hypercalcemia': 'Hypercalcemia',
   'calcium': 'Hypercalcemia',
   'pth': 'Hypercalcemia',
+
+  // ── Psychiatry ──
+  // Mood disorders
+  'bipolar': 'Bipolar Disorder',
+  'mania': 'Bipolar Disorder',
+  'manic': 'Bipolar Disorder',
+  'lithium': 'Bipolar Disorder',
+  'mood stabilizer': 'Bipolar Disorder',
+  'valproate': 'Bipolar Disorder',
+  'carbamazepine': 'Bipolar Disorder',
+  'lamotrigine': 'Bipolar Disorder',
+  'depressive disorder': 'Major Depressive Disorder',
+  'mdd': 'Major Depressive Disorder',
+  'antidepressant': 'Major Depressive Disorder',
+  'ssri': 'Major Depressive Disorder',
+  'maoi': 'Major Depressive Disorder',
+  'tricyclic': 'Major Depressive Disorder',
+  'tca': 'Major Depressive Disorder',
+  'snri': 'Major Depressive Disorder',
+  'bupropion': 'Major Depressive Disorder',
+  'atypical depression': 'Major Depressive Disorder',
+  'bereavement': 'Major Depressive Disorder',
+  'adjustment disorder': 'Major Depressive Disorder',
+
+  // Psychotic disorders
+  'schizophrenia': 'Psychotic Disorders',
+  'schizoaffective': 'Psychotic Disorders',
+  'psychotic': 'Psychotic Disorders',
+  'delusion': 'Psychotic Disorders',
+  'antipsychotic': 'Psychotic Disorders',
+  'haloperidol': 'Psychotic Disorders',
+  'clozapine': 'Psychotic Disorders',
+  'eps': 'Psychotic Disorders',
+  'tardive dyskinesia': 'Psychotic Disorders',
+  'neuroleptic malignant': 'Psychotic Disorders',
+  'nms': 'Psychotic Disorders',
+
+  // Anxiety disorders
+  'anxiety': 'Anxiety Disorders',
+  'panic': 'Anxiety Disorders',
+  'phobia': 'Anxiety Disorders',
+  'gad': 'Anxiety Disorders',
+  'generalized anxiety': 'Anxiety Disorders',
+  'buspirone': 'Anxiety Disorders',
+  'benzodiazepine': 'Anxiety Disorders',
+  'ocd': 'OCD',
+  'obsessive': 'OCD',
+  'compulsive': 'OCD',
+  'ptsd': 'PTSD',
+  'post-traumatic': 'PTSD',
+  'posttraumatic': 'PTSD',
+
+  // Personality disorders
+  'personality disorder': 'Personality Disorders',
+  'cluster a': 'Personality Disorders',
+  'cluster b': 'Personality Disorders',
+  'cluster c': 'Personality Disorders',
+  'borderline': 'Personality Disorders',
+  'antisocial': 'Personality Disorders',
+  'narcissistic': 'Personality Disorders',
+  'histrionic': 'Personality Disorders',
+  'schizoid': 'Personality Disorders',
+  'schizotypal': 'Personality Disorders',
+  'avoidant': 'Personality Disorders',
+  'dependent': 'Personality Disorders',
+
+  // Substance use
+  'substance': 'Substance Use Disorders',
+  'alcohol withdrawal': 'Substance Use Disorders',
+  'delirium tremens': 'Substance Use Disorders',
+  'opioid': 'Substance Use Disorders',
+  'naloxone': 'Substance Use Disorders',
+  'cocaine': 'Substance Use Disorders',
+  'pcp': 'Substance Use Disorders',
+  'cannabis': 'Substance Use Disorders',
+  'wernicke': 'Substance Use Disorders',
+  'korsakoff': 'Substance Use Disorders',
+
+  // Delirium & dementia
+  'delirium': 'Delirium',
+  'alzheimer': 'Dementia',
+  'frontotemporal': 'Dementia',
+  'pick': 'Dementia',
+  'lewy body': 'Dementia',
+  'vascular dementia': 'Dementia',
+  'creutzfeldt': 'Dementia',
+  'normal pressure hydrocephalus': 'Dementia',
+  'nph': 'Dementia',
+  'neurosyphilis': 'Dementia',
+
+  // Eating disorders
+  'anorexia': 'Eating Disorders',
+  'bulimia': 'Eating Disorders',
+  'eating disorder': 'Eating Disorders',
+  'refeeding': 'Eating Disorders',
+
+  // Sleep disorders
+  'insomnia': 'Sleep Disorders',
+  'sleep apnea': 'Sleep Disorders',
+  'narcolepsy': 'Sleep Disorders',
+  'restless leg': 'Sleep Disorders',
+  'sleep': 'Sleep Disorders',
+
+  // Child psychiatry
+  'adhd': 'ADHD',
+  'methylphenidate': 'ADHD',
+  'conduct disorder': 'Child & Adolescent Psychiatry',
+  'oppositional defiant': 'Child & Adolescent Psychiatry',
+  'tourette': 'Child & Adolescent Psychiatry',
+  'autism': 'Child & Adolescent Psychiatry',
+  'asperger': 'Child & Adolescent Psychiatry',
+  'rett': 'Child & Adolescent Psychiatry',
+  'intellectual disability': 'Child & Adolescent Psychiatry',
+  'fragile x': 'Child & Adolescent Psychiatry',
+  'down syndrome': 'Child & Adolescent Psychiatry',
+  'development': 'Child & Adolescent Psychiatry',
+  'enuresis': 'Child & Adolescent Psychiatry',
+  'encopresis': 'Child & Adolescent Psychiatry',
+
+  // Factitious
+  'factitious': 'Factitious Disorders',
+  'munchausen': 'Factitious Disorders',
+  'malingering': 'Factitious Disorders',
 };
 
 /**

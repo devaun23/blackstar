@@ -32,6 +32,9 @@ export const SOURCE_STATUS = {
   'UpToDate': 'registered_only',
   'UWorld Inner Circle Step 2 CK Notes': 'registered_only',
   'USPSTF Screening Recommendations': 'registered_only',
+  'Emma Holliday Psychiatry Shelf Review': 'registered_only',
+  'Emma Holliday High Yield IM Review': 'registered_only',
+  'NBME Psychiatry Shelf Exam Content Outline': 'registered_only',
 } as const;
 
 export const sourceRegistry: SourceRegistrySeed[] = [
@@ -59,6 +62,14 @@ export const sourceRegistry: SourceRegistrySeed[] = [
     priority_rank: 3,
     url: 'https://www.nbme.org/assessment-products/clinical-science-shelf-exams',
     notes: 'Defines testable topics for the Surgery shelf.',
+  },
+  {
+    category: 'outline',
+    name: 'NBME Psychiatry Shelf Exam Content Outline',
+    allowed_use: 'scope',
+    priority_rank: 7,
+    url: 'https://www.nbme.org/assessment-products/clinical-science-shelf-exams',
+    notes: 'Defines testable topics for the Psychiatry shelf.',
   },
   {
     category: 'guide',
@@ -247,5 +258,21 @@ export const sourceRegistry: SourceRegistrySeed[] = [
     priority_rank: 54,
     url: null,
     notes: 'High-yield surgery shelf exam review by Emma Holliday Ramahi. Covers pre-op, trauma, GI, hepatobiliary, vascular, endocrine, breast, oncology, pedi-surg, urology, ortho, transplant, anesthesia. Facts must cite a guideline.',
+  },
+  {
+    category: 'review',
+    name: 'Emma Holliday Psychiatry Shelf Review',
+    allowed_use: 'content',
+    priority_rank: 55,
+    url: null,
+    notes: 'High-yield psychiatry shelf exam review by Emma Holliday Ramahi. Covers mood disorders, psychopharmacology, psychotic disorders, anxiety, personality disorders, substance use, delirium/dementia, child psychiatry. Facts must cite a guideline.',
+  },
+  {
+    category: 'review',
+    name: 'Emma Holliday High Yield IM Review',
+    allowed_use: 'content',
+    priority_rank: 56,
+    url: null,
+    notes: 'Single-lecture IM shelf exam review by Emma Holliday Ramahi. 9 systems: cardiology, pulm, GI, ID, nephro, heme/onc, rheum/derm, endo, neuro. High-yield buzzwords, clinical pearls, associations. Facts must cite a guideline.',
   },
 ];
