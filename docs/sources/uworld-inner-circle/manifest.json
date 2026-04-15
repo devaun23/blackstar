@@ -4,8 +4,8 @@
   "source_date": "July 2022",
   "total_pages": 339,
   "total_sections": 7,
-  "total_files": 82,
-  "uploaded_files": 82,
+  "total_files": 90,
+  "uploaded_files": 90,
   "excluded_topics": ["pharmacology", "biostats", "bioethics"],
   "pending_sources": [],
   "sections": [
@@ -456,7 +456,67 @@
           "status": "uploaded",
           "topics": ["ophthalmology", "neurology", "genetics", "trauma", "infectious-disease", "pharmacology", "oncology", "pediatrics"]
         },
-        { "file": "sec-03-im-fm-surgery/im-social-sciences.md", "subsection": "Social Sciences", "pages": "207-208", "status": "uploaded", "topics": ["ethics", "patient-safety", "healthcare-delivery", "professionalism", "informed-consent"] }
+        { "file": "sec-03-im-fm-surgery/im-social-sciences.md", "subsection": "Social Sciences", "pages": "207-208", "status": "uploaded", "topics": ["ethics", "patient-safety", "healthcare-delivery", "professionalism", "informed-consent"] },
+        {
+          "file": "sec-03-im-fm-surgery/im-013-nbme-vocabulary.md",
+          "subsection": "Alternative NBME Vocabulary",
+          "pages": "reference",
+          "status": "uploaded",
+          "topics": ["nbme-vocabulary", "test-strategy", "all-systems"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-014-risk-factors-part1.md",
+          "subsection": "Risk Factors — CVS, Derm, Pulm, Endocrine, GI, Environmental",
+          "pages": "reference",
+          "status": "uploaded",
+          "t1_overlap": true,
+          "t1_topics": ["Acute Coronary Syndrome", "Pulmonary Embolism", "COPD Exacerbation", "Asthma Exacerbation", "Community-Acquired Pneumonia"],
+          "topics": ["risk-factors", "cardiology", "dermatology", "pulmonology", "endocrinology", "gi"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-015-risk-factors-part2.md",
+          "subsection": "Risk Factors — Hem/Onc, ID, MSK, Renal, Reproductive, Neuro, Psych, Elderly",
+          "pages": "reference",
+          "status": "uploaded",
+          "t1_overlap": true,
+          "t1_topics": ["Sepsis", "Meningitis", "Acute Kidney Injury"],
+          "topics": ["risk-factors", "hematology", "oncology", "infectious-disease", "msk", "nephrology", "reproductive", "neurology", "geriatrics"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-016-vaccines.md",
+          "subsection": "Vaccines — Types, Schedules, Special Populations",
+          "pages": "reference",
+          "status": "uploaded",
+          "topics": ["vaccines", "immunology", "pediatrics", "preventive-medicine"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-017-screening.md",
+          "subsection": "Screening Guidelines — Pregnancy, Smokers, Genetic, Cancer, Metabolic",
+          "pages": "reference",
+          "status": "uploaded",
+          "topics": ["screening", "preventive-medicine", "oncology", "obstetrics", "metabolic"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-018-teratogens.md",
+          "subsection": "Teratogens — Drug Effects on Fetus, Pregnancy Contraindications",
+          "pages": "reference",
+          "status": "uploaded",
+          "topics": ["teratogens", "obstetrics", "pharmacology", "pediatrics"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-019-military-medicine.md",
+          "subsection": "Military Medicine — TBI, PTSD, Tropical ID, Military Vaccines",
+          "pages": "reference",
+          "status": "uploaded",
+          "topics": ["military", "tbi", "ptsd", "tropical-medicine", "infectious-disease"]
+        },
+        {
+          "file": "sec-03-im-fm-surgery/im-020-social-sciences-ethics.md",
+          "subsection": "Social Sciences — Palliative Care, Ethics, QI, Biases, Substance Abuse",
+          "pages": "reference",
+          "status": "uploaded",
+          "topics": ["social-sciences", "ethics", "palliative-care", "quality-improvement", "substance-abuse"]
+        }
       ]
     },
     {

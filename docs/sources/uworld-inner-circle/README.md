@@ -33,7 +33,7 @@
 |---|---------|-------|-------|--------|
 | 1 | [General Concepts](sec-01-general-concepts/) | 1-13 | 11/11 | uploaded |
 | 2 | [Trauma](sec-02-trauma/) | 14-24 | 6/6 | uploaded |
-| 3 | [IM + FM + Surgery](sec-03-im-fm-surgery/) | 25-208 | 40/? | partial |
+| 3 | [IM + FM + Surgery](sec-03-im-fm-surgery/) | 25-208 | 48/? | partial |
 | 4 | [Pediatrics](sec-04-pediatrics/) | 209-253 | 0/? | pending |
 | 5 | [OB/GYN](sec-05-obgyn/) | 254-308 | 0/? | pending |
 | 6 | [Psychiatry](sec-06-psychiatry/) | 309-338 | 0/? | pending |
@@ -129,6 +129,19 @@
 | ims-026-gi-spleen.md | Spleen — Splenomegaly, Splenic Infarct, Laceration | uploaded |
 | ims-027-gi-small-bowel.md | Small Bowel — Celiac, IBS, Lactose Intolerance, SBO, Appendicitis | uploaded |
 | ims-028-gi-large-bowel-rectum.md | Large Bowel/Rectum — IBD, Diverticular, Colon Cancer, C. diff, Hemorrhoids | uploaded |
+
+### IM + FM + Surgery Files — Reference / Cross-Cutting
+
+| File | Subsection | Status |
+|------|-----------|--------|
+| im-013-nbme-vocabulary.md | Alternative NBME Vocabulary (by system) | uploaded |
+| im-014-risk-factors-part1.md | Risk Factors — CVS, Derm, Pulm, Endocrine, GI, Environmental | uploaded |
+| im-015-risk-factors-part2.md | Risk Factors — Hem/Onc, ID, MSK, Renal, Reproductive, Neuro, Psych, Elderly | uploaded |
+| im-016-vaccines.md | Vaccines — Types, Schedules, Special Populations | uploaded |
+| im-017-screening.md | Screening — Pregnancy, Smokers, Genetic, Cancer, Metabolic | uploaded |
+| im-018-teratogens.md | Teratogens — Drug Effects on Fetus | uploaded |
+| im-019-military-medicine.md | Military — TBI, PTSD, Tropical ID | uploaded |
+| im-020-social-sciences-ethics.md | Social Sciences — Palliative, Ethics, QI, Biases | uploaded |
 
 ## Excluded Topics
 
