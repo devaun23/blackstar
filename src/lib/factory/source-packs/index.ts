@@ -93,6 +93,62 @@ const PACK_REGISTRY: Record<string, () => Promise<SourcePack>> = {
     import('./idsa-uti').then((m) => m.PACK_IDSA_UTI_2011),
   'PACK.CDC.STI.2021': () =>
     import('./cdc-sti').then((m) => m.PACK_CDC_STI_2021),
+
+  // ── Phase 2: Remaining IM — Rheumatology ──
+  'PACK.ACR.RA.2021': () =>
+    import('./acr-ra').then((m) => m.PACK_ACR_RA_2021),
+  'PACK.ACR.GOUT.2020': () =>
+    import('./acr-gout').then((m) => m.PACK_ACR_GOUT_2020),
+  'PACK.ACR.SLE.2019': () =>
+    import('./acr-sle').then((m) => m.PACK_ACR_SLE_2019),
+  'PACK.ACR.VASC.2021': () =>
+    import('./acr-vasculitis').then((m) => m.PACK_ACR_VASC_2021),
+
+  // ── Phase 2: Remaining IM — Hematology/Oncology/ID ──
+  'PACK.CHEST.VTE.2021': () =>
+    import('./chest-vte').then((m) => m.PACK_CHEST_VTE_2021),
+  'PACK.ASH.SCD.2020': () =>
+    import('./ash-sickle-cell').then((m) => m.PACK_ASH_SCD_2020),
+  'PACK.ASH.TTP.2020': () =>
+    import('./ash-ttp-hus').then((m) => m.PACK_ASH_TTP_2020),
+  'PACK.ASCO.TLS.2015': () =>
+    import('./asco-tumor-lysis').then((m) => m.PACK_ASCO_TLS_2015),
+  'PACK.IDSA.SSTI.2014': () =>
+    import('./idsa-ssti').then((m) => m.PACK_IDSA_SSTI_2014),
+
+  // ── Neurology ──
+  'PACK.AAN.EPIL.2018': () =>
+    import('./aan-epilepsy').then((m) => m.PACK_AAN_EPIL_2018),
+  'PACK.AAN.MS.2018': () =>
+    import('./aan-ms').then((m) => m.PACK_AAN_MS_2018),
+  'PACK.AAN.HA.2021': () =>
+    import('./aan-headache').then((m) => m.PACK_AAN_HA_2021),
+  'PACK.AAN.DEM.2018': () =>
+    import('./aan-dementia').then((m) => m.PACK_AAN_DEM_2018),
+  'PACK.AAN.NM.2016': () =>
+    import('./aan-neuromuscular').then((m) => m.PACK_AAN_NM_2016),
+
+  // ── Surgery ──
+  'PACK.ACS.ATLS.2018': () =>
+    import('./acs-atls-trauma').then((m) => m.PACK_ACS_ATLS_2018),
+  'PACK.WSES.APPY.2020': () =>
+    import('./wses-appendicitis').then((m) => m.PACK_WSES_APPY_2020),
+  'PACK.TG.CHOLE.2018': () =>
+    import('./tg-cholecystitis').then((m) => m.PACK_TG_CHOLE_2018),
+  'PACK.WSES.SBO.2017': () =>
+    import('./wses-sbo').then((m) => m.PACK_WSES_SBO_2017),
+  'PACK.HS.HERNIA.2018': () =>
+    import('./herniasurge').then((m) => m.PACK_HS_HERNIA_2018),
+  'PACK.ABA.BURNS.2016': () =>
+    import('./aba-burns').then((m) => m.PACK_ABA_BURNS_2016),
+  'PACK.ACCAHA.PERIOP.2014': () =>
+    import('./acc-aha-periop').then((m) => m.PACK_ACCAHA_PERIOP_2014),
+  'PACK.NCCN.BREAST.2024': () =>
+    import('./nccn-breast').then((m) => m.PACK_NCCN_BREAST_2024),
+  'PACK.ATA.THYSURG.2015': () =>
+    import('./ata-thyroid-nodule-surg').then((m) => m.PACK_ATA_THYSURG_2015),
+  'PACK.WSES.ABD.2020': () =>
+    import('./wses-acute-abdomen').then((m) => m.PACK_WSES_ABD_2020),
 };
 
 /** Load a pack by ID. Returns null if not registered or not active. */

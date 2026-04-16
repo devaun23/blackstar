@@ -1,0 +1,217 @@
+import type { SourcePack } from './types';
+
+export const PACK_AAP_NRP_2020: SourcePack = {
+  source_pack_id: 'PACK.AAP.NRP.2020',
+  source_name: 'AAP/AHA Neonatal Resuscitation Program (NRP) 8th Edition',
+  source_registry_id: 'REG.AAP.NRP',
+  canonical_url: 'https://doi.org/10.1542/peds.2020-038505E',
+  publication_year: 2020,
+  guideline_body: 'AAP/AHA',
+
+  topic_tags: ['Neonatal Resuscitation', 'NRP', 'Delivery Room', 'Apgar Score', 'Meconium'],
+  allowed_decision_scopes: [
+    'initial newborn assessment',
+    'NRP algorithm steps',
+    'positive pressure ventilation initiation',
+    'intubation decision',
+    'chest compressions in neonate',
+    'epinephrine administration in neonate',
+    'meconium-stained amniotic fluid management',
+    'preterm newborn stabilization',
+  ],
+  excluded_decision_scopes: [
+    'NICU long-term management',
+    'congenital heart disease surgical planning',
+    'neonatal transport protocols',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.AAP.NRP.2020.REC.01',
+      display_id: 'AAP-NRP-R1',
+      statement: 'Initial steps for all newborns: provide warmth, dry, stimulate, position airway, and clear secretions if needed. Assess breathing and heart rate within 30 seconds.',
+      normalized_claim: 'All newborns receive initial steps (warm, dry, stimulate, position) with assessment of HR and breathing within 30 seconds.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Initial Steps', page_or_location: 'Algorithm Step 1' },
+    },
+    {
+      rec_id: 'PACK.AAP.NRP.2020.REC.02',
+      display_id: 'AAP-NRP-R2',
+      statement: 'Positive pressure ventilation (PPV) should be initiated within 60 seconds of life if the newborn is apneic, gasping, or has a heart rate <100 bpm after initial steps.',
+      normalized_claim: 'PPV within 60 seconds (golden minute) if apneic, gasping, or HR <100 after initial steps.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Ventilation', page_or_location: 'Algorithm Step 2' },
+    },
+    {
+      rec_id: 'PACK.AAP.NRP.2020.REC.03',
+      display_id: 'AAP-NRP-R3',
+      statement: 'Term newborns should be resuscitated with 21% oxygen (room air). Preterm neonates <35 weeks should start with 21-30% FiO2 and titrate to target SpO2.',
+      normalized_claim: 'Start resuscitation with 21% O2 for term infants; 21-30% for preterm <35 weeks; titrate by pulse oximetry.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Oxygen Management', page_or_location: 'Section 3.2' },
+    },
+    {
+      rec_id: 'PACK.AAP.NRP.2020.REC.04',
+      display_id: 'AAP-NRP-R4',
+      statement: 'Routine endotracheal suctioning is no longer recommended for vigorous or non-vigorous neonates born through meconium-stained amniotic fluid. Initial steps and PPV take priority.',
+      normalized_claim: 'No routine intubation/suctioning for meconium-stained amniotic fluid; proceed with initial steps and PPV if needed.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      context: 'Changed from prior recommendation of routine suctioning for non-vigorous neonates',
+      provenance: { section: 'Meconium Management', page_or_location: 'Section 2.3' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.AAP.NRP.2020.DC.01',
+      display_id: 'AAP-NRP-DC1',
+      name: 'Apgar Score',
+      components: [
+        'Appearance (skin color): 0=blue/pale, 1=acrocyanosis, 2=pink',
+        'Pulse (heart rate): 0=absent, 1=<100, 2=>=100',
+        'Grimace (reflex irritability): 0=none, 1=grimace, 2=cry/cough',
+        'Activity (muscle tone): 0=limp, 1=some flexion, 2=active',
+        'Respiration: 0=absent, 1=slow/irregular, 2=vigorous cry',
+      ],
+      threshold: 'Scored at 1 and 5 minutes; extended to 10, 15, 20 minutes if score <7',
+      interpretation: 'Apgar score is NOT used to determine need for resuscitation. It documents transition and response to resuscitation. Score 7-10 = reassuring; 4-6 = moderately depressed; 0-3 = severely depressed.',
+      normalized_claim: 'Apgar score assesses newborn status at 1 and 5 minutes but does NOT guide resuscitation decisions; HR and respiratory effort guide NRP algorithm.',
+      provenance: { section: 'Assessment', page_or_location: 'Section 1.2' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.AAP.NRP.2020.T.01',
+      display_id: 'AAP-NRP-T1',
+      parameter: 'Heart rate for PPV initiation',
+      value: '100',
+      unit: 'bpm',
+      clinical_meaning: 'Heart rate <100 bpm after initial steps is the primary indication for positive pressure ventilation.',
+      normalized_claim: 'HR <100 bpm after initial steps triggers PPV initiation.',
+      direction: 'below',
+      provenance: { section: 'Ventilation', page_or_location: 'Algorithm Step 2' },
+    },
+    {
+      threshold_id: 'PACK.AAP.NRP.2020.T.02',
+      display_id: 'AAP-NRP-T2',
+      parameter: 'Heart rate for chest compressions',
+      value: '60',
+      unit: 'bpm',
+      clinical_meaning: 'Heart rate <60 bpm despite 30 seconds of effective PPV requires initiation of coordinated chest compressions with ventilation (3:1 ratio).',
+      normalized_claim: 'HR <60 bpm despite effective PPV for 30 seconds triggers chest compressions (3:1 compression-to-ventilation ratio).',
+      direction: 'below',
+      provenance: { section: 'Chest Compressions', page_or_location: 'Algorithm Step 3' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.AAP.NRP.2020.TX.01',
+      display_id: 'AAP-NRP-TX1',
+      action: 'Positive pressure ventilation with corrective steps (MR SOPA)',
+      normalized_claim: 'If PPV ineffective: Mask adjustment, Reposition airway, Suction, Open mouth, Pressure increase, Alternative airway (MR SOPA).',
+      timing: 'Within 60 seconds of birth if HR <100 or apnea',
+      condition: 'Heart rate <100 or apnea/gasping after initial steps',
+      provenance: { section: 'Ventilation Corrective Steps', page_or_location: 'Section 3.1' },
+    },
+    {
+      step_id: 'PACK.AAP.NRP.2020.TX.02',
+      display_id: 'AAP-NRP-TX2',
+      action: 'Chest compressions coordinated with PPV',
+      normalized_claim: 'Chest compressions: two-thumb encircling technique, lower third of sternum, 3:1 ratio with ventilation (90 compressions + 30 breaths per minute).',
+      timing: 'After 30 seconds of effective PPV with HR remaining <60',
+      condition: 'HR <60 bpm despite 30 seconds of effective PPV',
+      provenance: { section: 'Chest Compressions', page_or_location: 'Algorithm Step 3' },
+    },
+    {
+      step_id: 'PACK.AAP.NRP.2020.TX.03',
+      display_id: 'AAP-NRP-TX3',
+      action: 'Epinephrine administration',
+      normalized_claim: 'Epinephrine 0.01-0.03 mg/kg IV (umbilical vein preferred) if HR remains <60 despite effective ventilation and compressions.',
+      timing: 'After chest compressions + PPV fail to raise HR above 60',
+      condition: 'HR <60 bpm despite effective compressions and ventilation',
+      drug_details: { drug: 'Epinephrine', dose: '0.01-0.03 mg/kg (0.1-0.3 mL/kg of 1:10,000)', route: 'IV (UVC preferred) or ET' },
+      provenance: { section: 'Medications', page_or_location: 'Algorithm Step 4' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.AAP.NRP.2020.RF.01',
+      display_id: 'AAP-NRP-RF1',
+      finding: 'Heart rate absent (no pulse) at birth with no response to initial resuscitation after 20 minutes',
+      implication: 'Perinatal asphyxia with very low probability of survival without severe disability.',
+      action: 'Consider cessation of resuscitative efforts after 20 minutes of adequate resuscitation with no detectable heart rate. Discuss with family.',
+      urgency: 'immediate',
+      provenance: { section: 'Ethics and Care Decisions', page_or_location: 'Section 7.1' },
+    },
+    {
+      flag_id: 'PACK.AAP.NRP.2020.RF.02',
+      display_id: 'AAP-NRP-RF2',
+      finding: 'Preterm neonate <32 weeks with hypothermia (temperature <36.5C) in delivery room',
+      implication: 'Hypothermia in preterm neonates increases mortality, IVH, and late-onset sepsis risk.',
+      action: 'Plastic wrap/bag without drying, radiant warmer, increased room temperature (23-25C), pre-warmed surfaces. Target axillary temperature 36.5-37.5C.',
+      urgency: 'immediate',
+      provenance: { section: 'Preterm Considerations', page_or_location: 'Section 6.1' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.AAP.NRP.2020.SEV.01',
+      display_id: 'AAP-NRP-SEV1',
+      level: 'Mild neonatal depression',
+      criteria: [
+        'Heart rate >=100 after initial steps',
+        'Spontaneous respirations present but may be labored',
+        'Good tone with some flexion',
+        'Apgar 7-10 at 5 minutes',
+      ],
+      management_implications:
+        'Routine care with continued monitoring. Skin-to-skin contact with mother. No resuscitation beyond initial steps needed. Monitor for late decompensation.',
+      provenance: { section: 'Assessment', page_or_location: 'Section 1.3' },
+    },
+    {
+      severity_id: 'PACK.AAP.NRP.2020.SEV.02',
+      display_id: 'AAP-NRP-SEV2',
+      level: 'Severe neonatal depression requiring full resuscitation',
+      criteria: [
+        'Heart rate <60 bpm despite effective PPV',
+        'Apneic or gasping despite stimulation and ventilation',
+        'Poor or absent tone',
+        'Apgar 0-3 at 5 minutes',
+      ],
+      management_implications:
+        'Full NRP algorithm: intubation, chest compressions (3:1 ratio), epinephrine via UVC. Consider volume expansion (10 mL/kg NS) if suspected hypovolemia. Evaluate for therapeutic hypothermia if >=36 weeks GA with suspected HIE.',
+      provenance: { section: 'Full Resuscitation', page_or_location: 'Section 5.1' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Pediatrics pack for NRP. Covers NRP algorithm, Apgar scoring, meconium management, preterm considerations, and resuscitation medication.',
+
+  all_item_ids: [
+    'PACK.AAP.NRP.2020.REC.01', 'PACK.AAP.NRP.2020.REC.02', 'PACK.AAP.NRP.2020.REC.03',
+    'PACK.AAP.NRP.2020.REC.04', 'PACK.AAP.NRP.2020.DC.01',
+    'PACK.AAP.NRP.2020.T.01', 'PACK.AAP.NRP.2020.T.02',
+    'PACK.AAP.NRP.2020.TX.01', 'PACK.AAP.NRP.2020.TX.02', 'PACK.AAP.NRP.2020.TX.03',
+    'PACK.AAP.NRP.2020.RF.01', 'PACK.AAP.NRP.2020.RF.02',
+    'PACK.AAP.NRP.2020.SEV.01', 'PACK.AAP.NRP.2020.SEV.02',
+  ],
+  all_display_ids: [
+    'AAP-NRP-R1', 'AAP-NRP-R2', 'AAP-NRP-R3', 'AAP-NRP-R4',
+    'AAP-NRP-DC1',
+    'AAP-NRP-T1', 'AAP-NRP-T2',
+    'AAP-NRP-TX1', 'AAP-NRP-TX2', 'AAP-NRP-TX3',
+    'AAP-NRP-RF1', 'AAP-NRP-RF2',
+    'AAP-NRP-SEV1', 'AAP-NRP-SEV2',
+  ],
+};

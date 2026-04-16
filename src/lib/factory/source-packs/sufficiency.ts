@@ -3,7 +3,7 @@
 // reasoning viability (competing pathways, management hinges).
 
 import type { SourcePack } from './types';
-import { topicSourceMap } from './topic-source-map';
+import { topicSourceMap, resolveTopicKey } from './topic-source-map';
 import { loadPack } from './index';
 
 export interface SufficiencyResult {
@@ -125,7 +125,8 @@ export function evaluatePack(pack: SourcePack, topic: string): SufficiencyResult
  * `source_insufficient` error — the pipeline does NOT silently degrade.
  */
 export async function checkSourceSufficiency(topic: string): Promise<SufficiencyResult> {
-  const config = topicSourceMap[topic];
+  const resolvedKey = resolveTopicKey(topic);
+  const config = topicSourceMap[resolvedKey];
 
   if (!config) {
     // Topic not in map — no source pack exists

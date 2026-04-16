@@ -48,6 +48,101 @@ export const KNOWN_TOPICS = [
   'Child & Adolescent Psychiatry',
   'Factitious Disorders',
 
+  // IM — Electrolytes/Acid-Base
+  'Hyponatremia',
+  'Hyperkalemia',
+  'Hypokalemia',
+  'Hypocalcemia',
+  'AG Metabolic Acidosis',
+  'Metabolic Alkalosis',
+
+  // IM — Hematology/Oncology (expanded)
+  'Iron Deficiency Anemia',
+  'B12 Deficiency',
+  'Hemolytic Anemia',
+  'Thrombocytopenia',
+  'Pancytopenia',
+  'Lymphoma',
+
+  // IM — Hepatology (expanded)
+  'Alcoholic Hepatitis',
+  'NAFLD/NASH',
+  'Drug-Induced Liver Injury',
+  'Autoimmune Hepatitis',
+
+  // IM — Gastroenterology (expanded)
+  'Peptic Ulcer Disease',
+  'Small Bowel Obstruction',
+  'Celiac Disease',
+  'Diverticulitis',
+
+  // IM — Pulmonary (expanded)
+  'Pleural Effusion',
+  'Interstitial Lung Disease',
+  'Obstructive Sleep Apnea',
+  'Pneumothorax',
+  'Sarcoidosis',
+  'Pulmonary Hypertension',
+
+  // IM — Nephrology (expanded)
+  'Nephrolithiasis',
+  'Polycystic Kidney Disease',
+  'Renal Tubular Acidosis',
+  'Renal Artery Stenosis',
+
+  // IM — Neurology (expanded)
+  'Parkinson Disease',
+  'Subarachnoid Hemorrhage',
+
+  // IM — Rheumatology (expanded)
+  'Pseudogout',
+  'PMR/GCA',
+  'Ankylosing Spondylitis',
+
+  // IM — Infectious Disease (expanded)
+  'Tuberculosis',
+  'HAP/VAP',
+  'Fever of Unknown Origin',
+
+  // IM — Dermatology (expanded)
+  'Melanoma',
+  'SJS/TEN',
+  'Psoriasis',
+  'Erythema Nodosum',
+  'Pemphigus/Pemphigoid',
+
+  // IM — Toxicology (expanded)
+  'Acetaminophen Overdose',
+  'Salicylate Toxicity',
+  'Opioid Overdose',
+  'Alcohol Withdrawal',
+  'Serotonin Syndrome vs NMS',
+
+  // IM — Critical Care (expanded)
+  'Anaphylaxis',
+  'ARDS',
+  'Hypovolemic Shock',
+  'Tension Pneumothorax',
+
+  // IM — Preventive (expanded)
+  'Colon Cancer Screening',
+  'Breast Cancer Screening',
+  'Cervical Cancer Screening',
+  'Adult Immunizations',
+
+  // IM — Endocrinology (expanded aliases for multi-topic packs)
+  'Hyperthyroidism',
+  'Hypothyroidism',
+  'Thyroid Storm',
+  'Adrenal Insufficiency',
+  'Cushing Syndrome',
+
+  // IM — Cardiology (expanded)
+  'Aortic Dissection',
+  'Aortic Stenosis',
+  'Pericarditis',
+  'Valvular Heart Disease',
+
   // Pediatrics topics
   'Neonatology',
   'Pediatric Genetics / Syndromes',
@@ -277,9 +372,20 @@ export const headingToTopic: Record<string, KnownTopic> = {
   'renal failure': 'Acute Kidney Injury',
   'creatinine': 'Acute Kidney Injury',
   'dialysis': 'Acute Kidney Injury',
-  'electrolyte': 'Acute Kidney Injury',
-  'hyperkalemia': 'Acute Kidney Injury',
-  'hyponatremia': 'Acute Kidney Injury',
+
+  // Electrolytes/Acid-Base (specific topic routing)
+  'hyperkalemia': 'Hyperkalemia',
+  'hyponatremia': 'Hyponatremia',
+  'hypokalemia': 'Hypokalemia',
+  'hypocalcemia': 'Hypocalcemia',
+  'siadh': 'Hyponatremia',
+  'diabetes insipidus': 'Hyponatremia',
+  'anion gap': 'AG Metabolic Acidosis',
+  'metabolic acidosis': 'AG Metabolic Acidosis',
+  'metabolic alkalosis': 'Metabolic Alkalosis',
+  'respiratory acidosis': 'AG Metabolic Acidosis',
+  'winter': 'AG Metabolic Acidosis',
+  'mudpiles': 'AG Metabolic Acidosis',
 
   // DKA / HHS
   'dka': 'DKA / HHS',
@@ -287,7 +393,7 @@ export const headingToTopic: Record<string, KnownTopic> = {
   'hhs': 'DKA / HHS',
   'hyperosmolar': 'DKA / HHS',
   'insulin': 'DKA / HHS',
-  'anion gap': 'DKA / HHS',
+  'diabetic ketoacid': 'DKA / HHS',
 
   // Stroke / TIA
   'stroke': 'Stroke',
@@ -319,8 +425,166 @@ export const headingToTopic: Record<string, KnownTopic> = {
 
   // Hypercalcemia
   'hypercalcemia': 'Hypercalcemia',
-  'calcium': 'Hypercalcemia',
   'pth': 'Hypercalcemia',
+  'hyperparathyroid': 'Hypercalcemia',
+
+  // Hepatology (expanded)
+  'alcoholic hepatitis': 'Alcoholic Hepatitis',
+  'maddrey': 'Alcoholic Hepatitis',
+  'nafld': 'NAFLD/NASH',
+  'nash': 'NAFLD/NASH',
+  'fatty liver': 'NAFLD/NASH',
+  'drug-induced liver': 'Drug-Induced Liver Injury',
+  'dili': 'Drug-Induced Liver Injury',
+  'autoimmune hepatitis': 'Autoimmune Hepatitis',
+
+  // GI (expanded)
+  'peptic ulcer': 'Peptic Ulcer Disease',
+  'h. pylori': 'Peptic Ulcer Disease',
+  'h pylori': 'Peptic Ulcer Disease',
+  'helicobacter': 'Peptic Ulcer Disease',
+  'small bowel obstruction': 'Small Bowel Obstruction',
+  'sbo': 'Small Bowel Obstruction',
+  'celiac': 'Celiac Disease',
+  'sprue': 'Celiac Disease',
+  'anti-ttg': 'Celiac Disease',
+  'diverticulitis': 'Diverticulitis',
+  'diverticular': 'Diverticulitis',
+
+  // Pulmonary (expanded)
+  'pleural effusion': 'Pleural Effusion',
+  'thoracentesis': 'Pleural Effusion',
+  'light criteria': 'Pleural Effusion',
+  'interstitial lung': 'Interstitial Lung Disease',
+  'ild': 'Interstitial Lung Disease',
+  'pulmonary fibrosis': 'Interstitial Lung Disease',
+  'sleep apnea': 'Obstructive Sleep Apnea',
+  'osa': 'Obstructive Sleep Apnea',
+  'pneumothorax': 'Pneumothorax',
+  'sarcoidosis': 'Sarcoidosis',
+  'hilar lymphadenopathy': 'Sarcoidosis',
+  'pulmonary hypertension': 'Pulmonary Hypertension',
+  'pah': 'Pulmonary Hypertension',
+
+  // Nephrology (expanded)
+  'kidney stone': 'Nephrolithiasis',
+  'nephrolithiasis': 'Nephrolithiasis',
+  'renal calcul': 'Nephrolithiasis',
+  'pkd': 'Polycystic Kidney Disease',
+  'polycystic kidney': 'Polycystic Kidney Disease',
+  'rta': 'Renal Tubular Acidosis',
+  'renal tubular': 'Renal Tubular Acidosis',
+  'renal artery stenosis': 'Renal Artery Stenosis',
+  'renovascular': 'Renal Artery Stenosis',
+
+  // Hematology/Oncology (expanded)
+  'iron deficiency': 'Iron Deficiency Anemia',
+  'microcytic': 'Iron Deficiency Anemia',
+  'b12 deficiency': 'B12 Deficiency',
+  'megaloblastic': 'B12 Deficiency',
+  'pernicious': 'B12 Deficiency',
+  'macrocytic': 'B12 Deficiency',
+  'hemolytic anemia': 'Hemolytic Anemia',
+  'coombs': 'Hemolytic Anemia',
+  'g6pd': 'Hemolytic Anemia',
+  'spherocytosis': 'Hemolytic Anemia',
+  'thrombocytopenia': 'Thrombocytopenia',
+  'itp': 'Thrombocytopenia',
+  'pancytopenia': 'Pancytopenia',
+  'aplastic': 'Pancytopenia',
+  'myelodysplastic': 'Pancytopenia',
+  'lymphoma': 'Lymphoma',
+  'hodgkin': 'Lymphoma',
+  'non-hodgkin': 'Lymphoma',
+  'reed-sternberg': 'Lymphoma',
+
+  // Neurology (expanded)
+  'parkinson': 'Parkinson Disease',
+  'levodopa': 'Parkinson Disease',
+  'carbidopa': 'Parkinson Disease',
+  'subarachnoid': 'Subarachnoid Hemorrhage',
+  'sah': 'Subarachnoid Hemorrhage',
+  'berry aneurysm': 'Subarachnoid Hemorrhage',
+
+  // Rheumatology (expanded)
+  'pseudogout': 'Pseudogout',
+  'cppd': 'Pseudogout',
+  'polymyalgia': 'PMR/GCA',
+  'giant cell arteritis': 'PMR/GCA',
+  'temporal arteritis': 'PMR/GCA',
+  'pmr': 'PMR/GCA',
+  'ankylosing spondylitis': 'Ankylosing Spondylitis',
+  'sacroiliitis': 'Ankylosing Spondylitis',
+  'hla-b27': 'Ankylosing Spondylitis',
+
+  // Infectious Disease (expanded)
+  'tuberculosis': 'Tuberculosis',
+  'tb ': 'Tuberculosis',
+  'hap': 'HAP/VAP',
+  'vap': 'HAP/VAP',
+  'hospital-acquired pneumonia': 'HAP/VAP',
+  'ventilator': 'HAP/VAP',
+  'fever of unknown': 'Fever of Unknown Origin',
+  'fuo': 'Fever of Unknown Origin',
+
+  // Dermatology (expanded)
+  'melanoma': 'Melanoma',
+  'sjs': 'SJS/TEN',
+  'stevens-johnson': 'SJS/TEN',
+  'toxic epidermal': 'SJS/TEN',
+  'ten ': 'SJS/TEN',
+  'psoriasis': 'Psoriasis',
+  'erythema nodosum': 'Erythema Nodosum',
+  'pemphigus': 'Pemphigus/Pemphigoid',
+  'pemphigoid': 'Pemphigus/Pemphigoid',
+  'nikolsky': 'Pemphigus/Pemphigoid',
+
+  // Toxicology (expanded)
+  'acetaminophen overdose': 'Acetaminophen Overdose',
+  'n-acetylcysteine': 'Acetaminophen Overdose',
+  'nac': 'Acetaminophen Overdose',
+  'rumack': 'Acetaminophen Overdose',
+  'salicylate toxicity': 'Salicylate Toxicity',
+  'aspirin overdose': 'Salicylate Toxicity',
+  'opioid overdose': 'Opioid Overdose',
+  'alcohol withdrawal': 'Alcohol Withdrawal',
+  'ciwa': 'Alcohol Withdrawal',
+  'serotonin syndrome': 'Serotonin Syndrome vs NMS',
+
+  // Critical Care (expanded)
+  'anaphylaxis': 'Anaphylaxis',
+  'epinephrine': 'Anaphylaxis',
+  'ards': 'ARDS',
+  'acute respiratory distress': 'ARDS',
+  'tension pneumothorax': 'Tension Pneumothorax',
+  'hypovolemic shock': 'Hypovolemic Shock',
+
+  // Preventive/Screening
+  'colonoscopy screening': 'Colon Cancer Screening',
+  'colon cancer screen': 'Colon Cancer Screening',
+  'mammogram': 'Breast Cancer Screening',
+  'breast cancer screen': 'Breast Cancer Screening',
+  'pap smear': 'Cervical Cancer Screening',
+  'cervical cancer screen': 'Cervical Cancer Screening',
+  'hpv screening': 'Cervical Cancer Screening',
+
+  // Cardiology (expanded)
+  'aortic dissection': 'Aortic Dissection',
+  'aortic stenosis': 'Aortic Stenosis',
+  'aortic regurgitation': 'Valvular Heart Disease',
+  'mitral stenosis': 'Valvular Heart Disease',
+  'mitral regurgitation': 'Valvular Heart Disease',
+
+  // Endocrinology (expanded)
+  'hyperthyroidism': 'Hyperthyroidism',
+  'graves': 'Hyperthyroidism',
+  'hypothyroidism': 'Hypothyroidism',
+  'hashimoto': 'Hypothyroidism',
+  'thyroid storm': 'Thyroid Storm',
+  'myxedema': 'Hypothyroidism',
+  'adrenal insufficiency': 'Adrenal Insufficiency',
+  'addison': 'Adrenal Insufficiency',
+  'cushing': 'Cushing Syndrome',
 
   // ── Psychiatry ──
   // Mood disorders
@@ -389,7 +653,6 @@ export const headingToTopic: Record<string, KnownTopic> = {
 
   // Substance use
   'substance': 'Substance Use Disorders',
-  'alcohol withdrawal': 'Substance Use Disorders',
   'delirium tremens': 'Substance Use Disorders',
   'opioid': 'Substance Use Disorders',
   'naloxone': 'Substance Use Disorders',
@@ -419,10 +682,10 @@ export const headingToTopic: Record<string, KnownTopic> = {
 
   // Sleep disorders
   'insomnia': 'Sleep Disorders',
-  'sleep apnea': 'Sleep Disorders',
   'narcolepsy': 'Sleep Disorders',
   'restless leg': 'Sleep Disorders',
-  'sleep': 'Sleep Disorders',
+  'sleep disorder': 'Sleep Disorders',
+  'parasomnia': 'Sleep Disorders',
 
   // Child psychiatry
   'adhd': 'ADHD',

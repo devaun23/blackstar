@@ -1,0 +1,211 @@
+import type { SourcePack } from './types';
+
+export const PACK_ATA_THYSURG_2015: SourcePack = {
+  source_pack_id: 'PACK.ATA.THYSURG.2015',
+  source_name: 'ATA 2015 Management Guidelines for Thyroid Nodules and Differentiated Thyroid Cancer — Surgical Focus',
+  canonical_url: 'https://doi.org/10.1089/thy.2015.0020',
+  publication_year: 2015,
+  guideline_body: 'ATA',
+
+  topic_tags: ['Thyroid Nodule', 'Thyroid Cancer', 'FNA', 'Bethesda System', 'Thyroidectomy', 'RAI', 'Surgery', 'Endocrine Surgery'],
+  allowed_decision_scopes: [
+    'thyroid nodule FNA indications',
+    'Bethesda system interpretation',
+    'indeterminate nodule molecular testing',
+    'lobectomy vs total thyroidectomy',
+    'radioactive iodine therapy indications',
+    'thyroid cancer surgical extent',
+    'central neck dissection indications',
+  ],
+  excluded_decision_scopes: [
+    'anaplastic thyroid cancer management',
+    'medullary thyroid cancer (MEN syndromes)',
+    'thyroid lymphoma',
+    'multinodular goiter without nodule concern',
+    'hyperthyroidism medical management',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.ATA.THYSURG.2015.REC.01',
+      display_id: 'ATA-THYS-R1',
+      statement: 'FNA biopsy is recommended for thyroid nodules ≥1cm with suspicious ultrasound features (hypoechoic, irregular margins, taller-than-wide, microcalcifications, extrathyroidal extension). Nodules ≥1.5cm with intermediate suspicion and ≥2cm with low suspicion should also undergo FNA.',
+      normalized_claim: 'FNA if ≥1cm with suspicious US features (hypoechoic, irregular margins, microcalcifications). FNA if ≥1.5cm intermediate or ≥2cm low suspicion.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Thyroid Nodule Evaluation', page_or_location: 'Recommendation 8' },
+    },
+    {
+      rec_id: 'PACK.ATA.THYSURG.2015.REC.02',
+      display_id: 'ATA-THYS-R2',
+      statement: 'Thyroid lobectomy alone is sufficient initial surgery for unifocal differentiated thyroid cancer ≤4cm without extrathyroidal extension, clinically negative nodes, and no prior radiation exposure.',
+      normalized_claim: 'Lobectomy sufficient for unifocal well-differentiated thyroid cancer ≤4cm without ETE, negative nodes, no radiation history.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Surgical Management', page_or_location: 'Recommendation 35' },
+    },
+    {
+      rec_id: 'PACK.ATA.THYSURG.2015.REC.03',
+      display_id: 'ATA-THYS-R3',
+      statement: 'Total thyroidectomy is recommended for differentiated thyroid cancer >4cm, bilateral disease, extrathyroidal extension, clinically apparent nodal metastases, or when RAI therapy is planned.',
+      normalized_claim: 'Total thyroidectomy for: tumor >4cm, bilateral disease, extrathyroidal extension, clinical node metastases, or planned RAI.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Surgical Management', page_or_location: 'Recommendation 36' },
+    },
+    {
+      rec_id: 'PACK.ATA.THYSURG.2015.REC.04',
+      display_id: 'ATA-THYS-R4',
+      statement: 'For Bethesda III-IV (indeterminate) cytology, molecular testing (Afirma, ThyroSeq) may be used to guide management. A benign molecular result allows observation; a suspicious result favors surgery.',
+      normalized_claim: 'Bethesda III-IV (indeterminate): molecular testing can guide management. Benign molecular → observe. Suspicious molecular → lobectomy.',
+      strength: 'conditional',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Indeterminate Nodules', page_or_location: 'Recommendation 15' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.ATA.THYSURG.2015.DC.01',
+      display_id: 'ATA-THYS-DC1',
+      name: 'Bethesda System for Reporting Thyroid Cytopathology',
+      components: [
+        'Bethesda I: Nondiagnostic/unsatisfactory — repeat FNA in 4-6 weeks',
+        'Bethesda II: Benign — follow-up with US in 12-24 months',
+        'Bethesda III: Atypia of undetermined significance (AUS) / Follicular lesion of undetermined significance (FLUS) — repeat FNA, molecular testing, or lobectomy',
+        'Bethesda IV: Follicular neoplasm / Suspicious for follicular neoplasm — lobectomy (molecular testing may help)',
+        'Bethesda V: Suspicious for malignancy — lobectomy or total thyroidectomy',
+        'Bethesda VI: Malignant — total thyroidectomy or lobectomy (per cancer guidelines)',
+      ],
+      threshold: 'Bethesda V-VI have >60-97% malignancy risk; Bethesda III-IV have 10-40% risk',
+      interpretation: 'Bethesda I → repeat. Bethesda II → observe. Bethesda III-IV → molecular testing or diagnostic lobectomy. Bethesda V-VI → surgery.',
+      normalized_claim: 'Bethesda I=nondiagnostic (repeat), II=benign (observe), III-IV=indeterminate (molecular testing or lobectomy), V=suspicious (surgery), VI=malignant (surgery).',
+      provenance: { section: 'Cytology', page_or_location: 'Recommendation 10-15' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.ATA.THYSURG.2015.T.01',
+      display_id: 'ATA-THYS-T1',
+      parameter: 'Tumor size threshold for lobectomy vs total thyroidectomy',
+      value: '4',
+      unit: 'cm',
+      clinical_meaning: 'Well-differentiated thyroid cancer ≤4cm without aggressive features can be treated with lobectomy alone. Tumors >4cm generally require total thyroidectomy.',
+      normalized_claim: 'Thyroid cancer ≤4cm without ETE or nodal disease → lobectomy acceptable. >4cm → total thyroidectomy recommended.',
+      direction: 'above',
+      provenance: { section: 'Surgical Extent', page_or_location: 'Recommendation 35-36' },
+    },
+    {
+      threshold_id: 'PACK.ATA.THYSURG.2015.T.02',
+      display_id: 'ATA-THYS-T2',
+      parameter: 'Nodule size for FNA with high-suspicion US pattern',
+      value: '1',
+      unit: 'cm',
+      clinical_meaning: 'High-suspicion US features (hypoechoic solid nodule with ≥1 of: irregular margins, microcalcifications, taller-than-wide, ETE) warrant FNA at ≥1cm.',
+      normalized_claim: 'FNA threshold for high-suspicion thyroid nodule = ≥1cm. Intermediate suspicion ≥1.5cm. Low suspicion ≥2cm. Very low suspicion ≥2cm or observe.',
+      direction: 'above',
+      provenance: { section: 'FNA Indications', page_or_location: 'Recommendation 8' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.ATA.THYSURG.2015.TX.01',
+      display_id: 'ATA-THYS-TX1',
+      action: 'Diagnostic lobectomy for indeterminate thyroid nodule (Bethesda III-IV)',
+      normalized_claim: 'Bethesda III-IV without molecular testing or with suspicious molecular result: diagnostic lobectomy. Final pathology determines need for completion thyroidectomy.',
+      timing: 'Elective, within 4-8 weeks of FNA result',
+      condition: 'Bethesda III or IV FNA result without definitive molecular testing',
+      provenance: { section: 'Indeterminate Nodules', page_or_location: 'Recommendation 15' },
+    },
+    {
+      step_id: 'PACK.ATA.THYSURG.2015.TX.02',
+      display_id: 'ATA-THYS-TX2',
+      action: 'Total thyroidectomy for thyroid cancer >4cm or bilateral disease',
+      normalized_claim: 'Thyroid cancer >4cm, bilateral, or with ETE/nodal metastases: total thyroidectomy. Prophylactic central neck dissection considered for papillary cancer with clinically involved central nodes.',
+      timing: 'Elective, within 4-8 weeks of diagnosis',
+      condition: 'Differentiated thyroid cancer >4cm, bilateral disease, ETE, or clinical nodal metastases',
+      provenance: { section: 'Surgical Management', page_or_location: 'Recommendation 36' },
+    },
+    {
+      step_id: 'PACK.ATA.THYSURG.2015.TX.03',
+      display_id: 'ATA-THYS-TX3',
+      action: 'Radioactive iodine (RAI) ablation post-thyroidectomy',
+      normalized_claim: 'RAI ablation recommended for intermediate-to-high risk differentiated thyroid cancer after total thyroidectomy. Not routinely recommended for low-risk papillary microcarcinoma.',
+      timing: '4-6 weeks post-thyroidectomy (after TSH rises or rhTSH stimulation)',
+      condition: 'Intermediate or high-risk differentiated thyroid cancer after total thyroidectomy',
+      drug_details: { drug: 'I-131 (Radioactive Iodine)', dose: '30-150 mCi based on risk', route: 'PO' },
+      provenance: { section: 'RAI Therapy', page_or_location: 'Recommendation 50-55' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.ATA.THYSURG.2015.RF.01',
+      display_id: 'ATA-THYS-RF1',
+      finding: 'Rapidly enlarging thyroid nodule with vocal cord paralysis (hoarseness) or fixation to surrounding structures',
+      implication: 'Concerning for aggressive thyroid malignancy (anaplastic, poorly differentiated, or locally advanced papillary/follicular cancer) with invasion of recurrent laryngeal nerve or trachea.',
+      action: 'Urgent FNA or core biopsy. CT neck/chest with contrast. Direct laryngoscopy. ENT/surgical oncology consultation. Do not delay.',
+      urgency: 'urgent',
+      provenance: { section: 'High-Risk Features', page_or_location: 'Recommendation 7' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.ATA.THYSURG.2015.SEV.01',
+      display_id: 'ATA-THYS-SEV1',
+      level: 'ATA Low-Risk Differentiated Thyroid Cancer',
+      criteria: [
+        'Papillary thyroid cancer with all: tumor ≤4cm, intrathyroidal, N0, M0',
+        'No vascular invasion',
+        'No aggressive histologic variants (tall cell, hobnail, columnar)',
+        'Complete resection with negative margins',
+        'No RAI-avid disease outside thyroid bed on post-treatment scan (if given)',
+      ],
+      management_implications:
+        'Lobectomy alone may be sufficient. RAI not routinely recommended. TSH suppression to 0.5-2.0 mU/L. Surveillance with serial thyroglobulin and neck US. Excellent prognosis (>98% disease-specific survival).',
+      provenance: { section: 'Risk Stratification', page_or_location: 'Recommendation 47' },
+    },
+    {
+      severity_id: 'PACK.ATA.THYSURG.2015.SEV.02',
+      display_id: 'ATA-THYS-SEV2',
+      level: 'ATA High-Risk Differentiated Thyroid Cancer',
+      criteria: [
+        'Gross extrathyroidal extension (invasion of subcutaneous tissue, larynx, trachea, esophagus, RLN)',
+        'Incomplete tumor resection',
+        'Distant metastases',
+        'Postoperative thyroglobulin suggestive of distant metastases',
+        'Pathologic N1 with largest node >3cm',
+      ],
+      management_implications:
+        'Total thyroidectomy + therapeutic central/lateral neck dissection. RAI ablation/therapy required. TSH suppression to <0.1 mU/L. Close surveillance with stimulated thyroglobulin. Consider external beam radiation for unresectable disease.',
+      provenance: { section: 'Risk Stratification', page_or_location: 'Recommendation 47' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Surgery pack: Thyroid nodule/cancer surgical management. Covers Bethesda system, FNA indications, lobectomy vs total thyroidectomy, RAI therapy, molecular testing for indeterminate nodules.',
+
+  all_item_ids: [
+    'PACK.ATA.THYSURG.2015.REC.01', 'PACK.ATA.THYSURG.2015.REC.02', 'PACK.ATA.THYSURG.2015.REC.03',
+    'PACK.ATA.THYSURG.2015.REC.04',
+    'PACK.ATA.THYSURG.2015.DC.01',
+    'PACK.ATA.THYSURG.2015.T.01', 'PACK.ATA.THYSURG.2015.T.02',
+    'PACK.ATA.THYSURG.2015.TX.01', 'PACK.ATA.THYSURG.2015.TX.02', 'PACK.ATA.THYSURG.2015.TX.03',
+    'PACK.ATA.THYSURG.2015.RF.01',
+    'PACK.ATA.THYSURG.2015.SEV.01', 'PACK.ATA.THYSURG.2015.SEV.02',
+  ],
+  all_display_ids: [
+    'ATA-THYS-R1', 'ATA-THYS-R2', 'ATA-THYS-R3', 'ATA-THYS-R4',
+    'ATA-THYS-DC1',
+    'ATA-THYS-T1', 'ATA-THYS-T2',
+    'ATA-THYS-TX1', 'ATA-THYS-TX2', 'ATA-THYS-TX3',
+    'ATA-THYS-RF1',
+    'ATA-THYS-SEV1', 'ATA-THYS-SEV2',
+  ],
+};

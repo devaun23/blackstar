@@ -1,0 +1,240 @@
+import type { SourcePack } from './types';
+
+export const PACK_TG_CHOLE_2018: SourcePack = {
+  source_pack_id: 'PACK.TG.CHOLE.2018',
+  source_name: 'Tokyo Guidelines 2018 — Acute Cholecystitis, Cholangitis, and Choledocholithiasis',
+  canonical_url: 'https://doi.org/10.1002/jhbp.518',
+  publication_year: 2018,
+  guideline_body: 'Tokyo Guidelines',
+
+  topic_tags: ['Cholecystitis', 'Cholangitis', 'Choledocholithiasis', 'Gallstones', 'ERCP', 'Surgery'],
+  allowed_decision_scopes: [
+    'acute cholecystitis grading (I/II/III)',
+    'cholecystectomy timing',
+    'cholangitis diagnosis and severity',
+    'ERCP for CBD stones',
+    'percutaneous cholecystostomy indications',
+    'Charcot triad and Reynold pentad recognition',
+  ],
+  excluded_decision_scopes: [
+    'chronic cholecystitis management',
+    'gallbladder cancer staging',
+    'primary sclerosing cholangitis',
+    'biliary atresia',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.TG.CHOLE.2018.REC.01',
+      display_id: 'TG-CHOLE-R1',
+      statement: 'Grade I (mild) acute cholecystitis should be treated with early laparoscopic cholecystectomy, ideally within 72 hours of symptom onset.',
+      normalized_claim: 'Grade I acute cholecystitis: early laparoscopic cholecystectomy within 72 hours of symptom onset.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Management Flowchart', page_or_location: 'Section 4.1' },
+    },
+    {
+      rec_id: 'PACK.TG.CHOLE.2018.REC.02',
+      display_id: 'TG-CHOLE-R2',
+      statement: 'Grade II (moderate) acute cholecystitis should undergo early cholecystectomy with advanced laparoscopic techniques or drainage if experienced surgeon unavailable. Subtotal cholecystectomy or percutaneous drainage are bail-out options.',
+      normalized_claim: 'Grade II cholecystitis: early cholecystectomy by experienced surgeon. Bail-out: subtotal cholecystectomy or percutaneous drainage.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Management Flowchart', page_or_location: 'Section 4.2' },
+    },
+    {
+      rec_id: 'PACK.TG.CHOLE.2018.REC.03',
+      display_id: 'TG-CHOLE-R3',
+      statement: 'Grade III (severe) acute cholecystitis with organ dysfunction should be managed initially with percutaneous cholecystostomy (gallbladder drainage) and antibiotics. Cholecystectomy is delayed until the patient is medically optimized.',
+      normalized_claim: 'Grade III cholecystitis (organ dysfunction): percutaneous cholecystostomy + antibiotics first. Delayed cholecystectomy after medical optimization.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Management Flowchart', page_or_location: 'Section 4.3' },
+    },
+    {
+      rec_id: 'PACK.TG.CHOLE.2018.REC.04',
+      display_id: 'TG-CHOLE-R4',
+      statement: 'Suspected choledocholithiasis should be evaluated with MRCP or EUS. ERCP with sphincterotomy and stone extraction is therapeutic, not diagnostic. ERCP should be performed before cholecystectomy when CBD stones are confirmed.',
+      normalized_claim: 'CBD stone suspected: MRCP or EUS to confirm. ERCP + sphincterotomy for extraction, not diagnosis. ERCP before cholecystectomy.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Choledocholithiasis', page_or_location: 'Section 6' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.TG.CHOLE.2018.DC.01',
+      display_id: 'TG-CHOLE-DC1',
+      name: 'TG18 Diagnostic Criteria for Acute Cholecystitis',
+      components: [
+        'A. Local signs: Murphy sign, RUQ mass/pain/tenderness',
+        'B. Systemic signs: fever, elevated CRP, elevated WBC',
+        'C. Imaging: characteristic findings on US (wall thickening >4mm, pericholecystic fluid, sonographic Murphy sign, distended gallbladder)',
+      ],
+      threshold: 'Definite diagnosis: one item from A + one from B + C. Suspected: one from A + one from B',
+      interpretation: 'All three criteria (local + systemic + imaging) confirm diagnosis. Clinical suspicion alone (A + B) warrants further workup.',
+      normalized_claim: 'Acute cholecystitis diagnosis: local signs (Murphy/RUQ pain) + systemic inflammation (fever/elevated WBC/CRP) + confirmatory imaging (US with wall thickening, pericholecystic fluid).',
+      provenance: { section: 'Diagnostic Criteria', page_or_location: 'Section 2' },
+    },
+    {
+      criterion_id: 'PACK.TG.CHOLE.2018.DC.02',
+      display_id: 'TG-CHOLE-DC2',
+      name: 'Charcot Triad and Reynold Pentad for Cholangitis',
+      components: [
+        'Charcot triad: fever + RUQ pain + jaundice',
+        'Reynold pentad: Charcot triad + altered mental status + hypotension/shock',
+      ],
+      interpretation: 'Charcot triad suggests acute cholangitis. Reynold pentad indicates severe/suppurative cholangitis with sepsis requiring emergent biliary drainage.',
+      normalized_claim: 'Charcot triad (fever, RUQ pain, jaundice) = acute cholangitis. Reynold pentad (+ AMS + hypotension) = suppurative cholangitis requiring emergent ERCP drainage.',
+      provenance: { section: 'Acute Cholangitis', page_or_location: 'Section 5' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.TG.CHOLE.2018.T.01',
+      display_id: 'TG-CHOLE-T1',
+      parameter: 'Gallbladder wall thickness on ultrasound',
+      value: '4',
+      unit: 'mm',
+      clinical_meaning: 'Wall thickness >4mm (anterior wall, in fasting patient) is a criterion for acute cholecystitis on ultrasound.',
+      normalized_claim: 'Gallbladder wall >4mm on US in fasting patient supports acute cholecystitis diagnosis.',
+      direction: 'above',
+      provenance: { section: 'Imaging', page_or_location: 'Section 2' },
+    },
+    {
+      threshold_id: 'PACK.TG.CHOLE.2018.T.02',
+      display_id: 'TG-CHOLE-T2',
+      parameter: 'CBD diameter on ultrasound',
+      value: '6',
+      unit: 'mm',
+      clinical_meaning: 'Common bile duct >6mm (>8mm post-cholecystectomy, >10mm if age >60) raises suspicion for choledocholithiasis. Warrants MRCP/EUS.',
+      normalized_claim: 'CBD >6mm on US raises suspicion for choledocholithiasis; further evaluation with MRCP or EUS indicated.',
+      direction: 'above',
+      provenance: { section: 'Choledocholithiasis', page_or_location: 'Section 6' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.TG.CHOLE.2018.TX.01',
+      display_id: 'TG-CHOLE-TX1',
+      action: 'Early laparoscopic cholecystectomy for Grade I cholecystitis',
+      normalized_claim: 'Grade I cholecystitis: lap chole within 72 hours. NPO, IV fluids, IV antibiotics (ceftriaxone + metronidazole or pip-tazo). Same-admission surgery preferred over delayed.',
+      timing: 'Within 72 hours of symptom onset',
+      condition: 'Grade I (mild) acute cholecystitis',
+      drug_details: { drug: 'Ceftriaxone + Metronidazole', dose: '1g + 500mg', route: 'IV', duration: 'Until surgery' },
+      provenance: { section: 'Treatment', page_or_location: 'Section 4.1' },
+    },
+    {
+      step_id: 'PACK.TG.CHOLE.2018.TX.02',
+      display_id: 'TG-CHOLE-TX2',
+      action: 'Percutaneous cholecystostomy for Grade III cholecystitis',
+      normalized_claim: 'Grade III cholecystitis with organ dysfunction: percutaneous cholecystostomy (US or CT-guided) for gallbladder decompression. IV antibiotics. Delayed cholecystectomy after recovery.',
+      timing: 'Urgent (within 24 hours) for drainage; delayed surgery after stabilization',
+      condition: 'Grade III (severe) acute cholecystitis with organ dysfunction',
+      provenance: { section: 'Treatment', page_or_location: 'Section 4.3' },
+    },
+    {
+      step_id: 'PACK.TG.CHOLE.2018.TX.03',
+      display_id: 'TG-CHOLE-TX3',
+      action: 'Emergent ERCP for acute cholangitis',
+      normalized_claim: 'Acute cholangitis: emergent biliary drainage via ERCP with sphincterotomy and stone extraction. If ERCP fails, percutaneous transhepatic biliary drainage (PTBD).',
+      timing: 'Within 24 hours for moderate cholangitis; within 12 hours for severe (Reynold pentad)',
+      condition: 'Acute cholangitis (Grade II or III)',
+      provenance: { section: 'Cholangitis Management', page_or_location: 'Section 5' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.TG.CHOLE.2018.RF.01',
+      display_id: 'TG-CHOLE-RF1',
+      finding: 'Reynold pentad: fever + RUQ pain + jaundice + altered mental status + hypotension',
+      implication: 'Suppurative cholangitis with sepsis. High mortality without emergent biliary decompression.',
+      action: 'Emergent ERCP with biliary drainage. Broad-spectrum IV antibiotics. ICU admission. Vasopressor support as needed.',
+      urgency: 'immediate',
+      provenance: { section: 'Acute Cholangitis', page_or_location: 'Section 5' },
+    },
+    {
+      flag_id: 'PACK.TG.CHOLE.2018.RF.02',
+      display_id: 'TG-CHOLE-RF2',
+      finding: 'Emphysematous cholecystitis: gas in gallbladder wall on imaging',
+      implication: 'Gas-forming bacterial infection (Clostridium, E. coli). High perforation and mortality risk. More common in diabetics.',
+      action: 'Emergent cholecystectomy. Broad-spectrum antibiotics covering anaerobes. Do not delay for percutaneous drainage.',
+      urgency: 'immediate',
+      provenance: { section: 'Special Situations', page_or_location: 'Section 4' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.TG.CHOLE.2018.SEV.01',
+      display_id: 'TG-CHOLE-SEV1',
+      level: 'Grade I (Mild) Acute Cholecystitis',
+      criteria: [
+        'Acute cholecystitis in otherwise healthy patient',
+        'No organ dysfunction',
+        'Mild inflammatory changes in the gallbladder',
+      ],
+      management_implications:
+        'Early laparoscopic cholecystectomy within 72 hours. Straightforward surgical approach. Low conversion rate. Short hospital stay expected.',
+      provenance: { section: 'Severity Grading', page_or_location: 'Section 3' },
+    },
+    {
+      severity_id: 'PACK.TG.CHOLE.2018.SEV.02',
+      display_id: 'TG-CHOLE-SEV2',
+      level: 'Grade II (Moderate) Acute Cholecystitis',
+      criteria: [
+        'WBC >18,000/mm³',
+        'Palpable tender RUQ mass',
+        'Duration of symptoms >72 hours',
+        'Marked local inflammation (gangrenous cholecystitis, pericholecystic abscess, hepatic abscess, biliary peritonitis, emphysematous cholecystitis)',
+      ],
+      management_implications:
+        'Early cholecystectomy by experienced surgeon recommended. Higher conversion-to-open rate. Bail-out options: subtotal cholecystectomy or percutaneous drainage. Extended antibiotic course.',
+      provenance: { section: 'Severity Grading', page_or_location: 'Section 3' },
+    },
+    {
+      severity_id: 'PACK.TG.CHOLE.2018.SEV.03',
+      display_id: 'TG-CHOLE-SEV3',
+      level: 'Grade III (Severe) Acute Cholecystitis',
+      criteria: [
+        'Cardiovascular dysfunction (hypotension requiring vasopressors)',
+        'Neurological dysfunction (decreased consciousness)',
+        'Respiratory dysfunction (PaO2/FiO2 <300)',
+        'Renal dysfunction (oliguria, creatinine >2.0)',
+        'Hepatic dysfunction (INR >1.5)',
+        'Hematologic dysfunction (platelets <100,000)',
+      ],
+      management_implications:
+        'Percutaneous cholecystostomy for gallbladder decompression. ICU admission. Organ support. Delayed cholecystectomy after medical optimization. Surgery in acute phase carries high mortality.',
+      provenance: { section: 'Severity Grading', page_or_location: 'Section 3' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Surgery pack: Acute cholecystitis/cholangitis. Covers TG18 grading, cholecystectomy timing, cholangitis (Charcot/Reynold), ERCP indications, choledocholithiasis workup.',
+
+  all_item_ids: [
+    'PACK.TG.CHOLE.2018.REC.01', 'PACK.TG.CHOLE.2018.REC.02', 'PACK.TG.CHOLE.2018.REC.03',
+    'PACK.TG.CHOLE.2018.REC.04',
+    'PACK.TG.CHOLE.2018.DC.01', 'PACK.TG.CHOLE.2018.DC.02',
+    'PACK.TG.CHOLE.2018.T.01', 'PACK.TG.CHOLE.2018.T.02',
+    'PACK.TG.CHOLE.2018.TX.01', 'PACK.TG.CHOLE.2018.TX.02', 'PACK.TG.CHOLE.2018.TX.03',
+    'PACK.TG.CHOLE.2018.RF.01', 'PACK.TG.CHOLE.2018.RF.02',
+    'PACK.TG.CHOLE.2018.SEV.01', 'PACK.TG.CHOLE.2018.SEV.02', 'PACK.TG.CHOLE.2018.SEV.03',
+  ],
+  all_display_ids: [
+    'TG-CHOLE-R1', 'TG-CHOLE-R2', 'TG-CHOLE-R3', 'TG-CHOLE-R4',
+    'TG-CHOLE-DC1', 'TG-CHOLE-DC2',
+    'TG-CHOLE-T1', 'TG-CHOLE-T2',
+    'TG-CHOLE-TX1', 'TG-CHOLE-TX2', 'TG-CHOLE-TX3',
+    'TG-CHOLE-RF1', 'TG-CHOLE-RF2',
+    'TG-CHOLE-SEV1', 'TG-CHOLE-SEV2', 'TG-CHOLE-SEV3',
+  ],
+};

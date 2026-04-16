@@ -1,0 +1,220 @@
+import type { SourcePack } from './types';
+
+export const PACK_AAN_DEM_2018: SourcePack = {
+  source_pack_id: 'PACK.AAN.DEM.2018',
+  source_name: 'AAN 2018 Practice Guideline Update: Mild Cognitive Impairment & Dementia Management',
+  source_registry_id: 'REG.AAN.DEM',
+  canonical_url: 'https://doi.org/10.1212/WNL.0000000000004826',
+  publication_year: 2018,
+  guideline_body: 'AAN',
+
+  topic_tags: ['Dementia', 'Alzheimer Disease', 'MCI', 'Lewy Body Dementia', 'Vascular Dementia', 'FTD', 'Neurology'],
+  allowed_decision_scopes: [
+    'MCI vs dementia differentiation',
+    'reversible dementia workup',
+    'Alzheimer disease pharmacotherapy',
+    'Lewy body dementia recognition and management',
+    'vascular dementia identification',
+    'frontotemporal dementia recognition',
+    'dementia behavioral symptom management',
+    'driving assessment in dementia',
+  ],
+  excluded_decision_scopes: [
+    'Creutzfeldt-Jakob disease management',
+    'dementia genetic testing',
+    'advanced dementia hospice criteria',
+    'caregiver support interventions',
+    'neuropsychological testing protocols',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.AAN.DEM.2018.REC.01',
+      display_id: 'AAN-DEM-R1',
+      statement: 'All patients with cognitive decline should be screened for reversible causes: vitamin B12 deficiency, hypothyroidism (TSH), neurosyphilis (RPR), and depression. Structural neuroimaging (MRI or CT) should be obtained.',
+      normalized_claim: 'Dementia workup must include B12, TSH, RPR, depression screening, and brain MRI/CT to identify reversible causes.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Evaluation', page_or_location: 'Section 2.1' },
+    },
+    {
+      rec_id: 'PACK.AAN.DEM.2018.REC.02',
+      display_id: 'AAN-DEM-R2',
+      statement: 'Cholinesterase inhibitors (donepezil, rivastigmine, galantamine) should be offered to patients with mild-to-moderate Alzheimer disease. Benefit is modest but consistent across trials.',
+      normalized_claim: 'Cholinesterase inhibitors (donepezil, rivastigmine, galantamine) for mild-to-moderate AD; modest but consistent benefit.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'AD Pharmacotherapy', page_or_location: 'Section 3.1' },
+    },
+    {
+      rec_id: 'PACK.AAN.DEM.2018.REC.03',
+      display_id: 'AAN-DEM-R3',
+      statement: 'Memantine (an NMDA receptor antagonist) should be added for moderate-to-severe Alzheimer disease, either alone or in combination with a cholinesterase inhibitor.',
+      normalized_claim: 'Memantine for moderate-to-severe AD; can be combined with cholinesterase inhibitor for additional benefit.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'AD Pharmacotherapy', page_or_location: 'Section 3.2' },
+    },
+    {
+      rec_id: 'PACK.AAN.DEM.2018.REC.04',
+      display_id: 'AAN-DEM-R4',
+      statement: 'Antipsychotics should be avoided in Lewy body dementia due to severe neuroleptic sensitivity (exaggerated extrapyramidal symptoms, worsened cognition, neuroleptic malignant syndrome risk). If psychosis requires treatment, low-dose quetiapine or pimavanserin may be considered.',
+      normalized_claim: 'Avoid antipsychotics in Lewy body dementia — neuroleptic sensitivity causes severe EPS and NMS risk. Quetiapine or pimavanserin if essential.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'DLB Management', page_or_location: 'Section 4.2' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.AAN.DEM.2018.DC.01',
+      display_id: 'AAN-DEM-DC1',
+      name: 'MCI vs Dementia Differentiation',
+      components: [
+        'MCI: cognitive decline in >=1 domain beyond expected for age, preserved functional independence in daily activities',
+        'Dementia: cognitive decline in >=2 domains sufficient to interfere with independence in everyday activities',
+        'Decline from previous level of functioning, not explained by delirium or psychiatric disorder',
+        'Cognitive impairment confirmed by objective testing (e.g., MMSE, MoCA)',
+      ],
+      interpretation: 'The key distinction is functional independence. MCI patients maintain independence in daily activities despite measurable cognitive decline. Dementia diagnosis requires functional impairment.',
+      normalized_claim: 'MCI = cognitive decline with preserved functional independence. Dementia = cognitive decline with impaired functional independence.',
+      provenance: { section: 'Classification', page_or_location: 'Section 1.1' },
+    },
+    {
+      criterion_id: 'PACK.AAN.DEM.2018.DC.02',
+      display_id: 'AAN-DEM-DC2',
+      name: 'Lewy Body Dementia Diagnostic Features',
+      components: [
+        'Core features (>=2 for probable DLB): fluctuating cognition with pronounced variation in attention/alertness, recurrent well-formed visual hallucinations, REM sleep behavior disorder, parkinsonism',
+        'Suggestive biomarkers: reduced dopamine transporter uptake on SPECT/PET, polysomnographic confirmation of REM without atonia, low myocardial MIBG uptake',
+        'Supportive features: severe neuroleptic sensitivity, repeated falls, syncope, autonomic dysfunction, excessive daytime somnolence',
+      ],
+      interpretation: 'DLB is the second most common neurodegenerative dementia. Visual hallucinations + parkinsonism + fluctuating cognition = classic triad. Critical to avoid antipsychotics.',
+      normalized_claim: 'DLB diagnosis: >=2 core features (fluctuating cognition, visual hallucinations, RBD, parkinsonism). Antipsychotic sensitivity is a hallmark.',
+      provenance: { section: 'DLB Criteria', page_or_location: 'Section 4.1' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.AAN.DEM.2018.T.01',
+      display_id: 'AAN-DEM-T1',
+      parameter: 'MoCA score suggesting cognitive impairment',
+      value: '26',
+      unit: 'points',
+      clinical_meaning: 'MoCA score <26/30 suggests cognitive impairment and warrants further evaluation. More sensitive than MMSE for MCI detection.',
+      normalized_claim: 'MoCA <26/30 indicates possible cognitive impairment; more sensitive than MMSE for detecting MCI.',
+      direction: 'below',
+      provenance: { section: 'Screening Tools', page_or_location: 'Section 2.2' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.AAN.DEM.2018.TX.01',
+      display_id: 'AAN-DEM-TX1',
+      action: 'Mild-to-moderate AD: Initiate cholinesterase inhibitor',
+      normalized_claim: 'Donepezil 5 mg/day x 4-6 weeks, then increase to 10 mg/day for mild-to-moderate AD. Alternatives: rivastigmine patch, galantamine.',
+      condition: 'Probable Alzheimer disease, mild-to-moderate severity (MMSE 10-26)',
+      drug_details: { drug: 'Donepezil', dose: '5 mg/day, increase to 10 mg/day after 4-6 weeks', route: 'PO' },
+      contraindications: ['Sick sinus syndrome without pacemaker', 'Active peptic ulcer disease (relative)'],
+      escalation: 'Add memantine when disease progresses to moderate stage (MMSE <18)',
+      provenance: { section: 'AD Treatment', page_or_location: 'Section 3.1' },
+    },
+    {
+      step_id: 'PACK.AAN.DEM.2018.TX.02',
+      display_id: 'AAN-DEM-TX2',
+      action: 'Moderate-to-severe AD: Add memantine',
+      normalized_claim: 'Memantine 5 mg/day, titrate to 10 mg BID over 4 weeks for moderate-to-severe AD. Can combine with cholinesterase inhibitor.',
+      condition: 'Moderate-to-severe Alzheimer disease (MMSE <18)',
+      drug_details: { drug: 'Memantine', dose: '5 mg/day, titrate to 10 mg BID', route: 'PO' },
+      contraindications: ['Severe renal impairment (reduce dose)'],
+      provenance: { section: 'AD Treatment', page_or_location: 'Section 3.2' },
+    },
+    {
+      step_id: 'PACK.AAN.DEM.2018.TX.03',
+      display_id: 'AAN-DEM-TX3',
+      action: 'Reversible causes workup and treatment',
+      normalized_claim: 'Screen and treat reversible causes: B12 supplementation for deficiency, levothyroxine for hypothyroidism, RPR/VDRL for neurosyphilis, depression treatment, VP shunt evaluation for NPH.',
+      condition: 'All patients presenting with new cognitive decline',
+      provenance: { section: 'Reversible Causes', page_or_location: 'Section 2.3' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.AAN.DEM.2018.RF.01',
+      display_id: 'AAN-DEM-RF1',
+      finding: 'Rapidly progressive dementia (weeks to months) with myoclonus, ataxia, or visual disturbance',
+      implication: 'Suggests Creutzfeldt-Jakob disease (prion disease) or autoimmune encephalitis rather than typical neurodegenerative dementia. CJD is fatal within 1 year.',
+      action: 'Urgent brain MRI (DWI for cortical ribboning), EEG for periodic sharp wave complexes, CSF 14-3-3 protein and RT-QuIC assay. Also send paraneoplastic and autoimmune encephalitis panels.',
+      urgency: 'urgent',
+      provenance: { section: 'Rapid Cognitive Decline', page_or_location: 'Section 5.1' },
+    },
+    {
+      flag_id: 'PACK.AAN.DEM.2018.RF.02',
+      display_id: 'AAN-DEM-RF2',
+      finding: 'Cognitive decline + gait apraxia + urinary incontinence (classic triad)',
+      implication: 'Normal pressure hydrocephalus (NPH) — a potentially reversible cause of dementia. Triad = "wet, wobbly, and wacky."',
+      action: 'Brain MRI showing ventriculomegaly out of proportion to sulcal atrophy. Large-volume LP (30-50 mL) as diagnostic and therapeutic trial. Neurosurgery referral for VP shunt evaluation.',
+      urgency: 'soon',
+      provenance: { section: 'NPH', page_or_location: 'Section 2.4' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.AAN.DEM.2018.SEV.01',
+      display_id: 'AAN-DEM-SEV1',
+      level: 'Mild cognitive impairment (MCI)',
+      criteria: [
+        'Subjective cognitive complaints (patient or informant)',
+        'Objective cognitive impairment on testing (1-1.5 SD below age norms)',
+        'Preserved functional independence in daily activities',
+        'Does not meet criteria for dementia',
+      ],
+      management_implications:
+        'No FDA-approved pharmacotherapy for MCI. Recommend cognitive stimulation, physical exercise, cardiovascular risk factor management. Screen for depression. Monitor every 6-12 months for progression. Annual rate of conversion to dementia is 10-15%.',
+      provenance: { section: 'MCI Management', page_or_location: 'Section 1.2' },
+    },
+    {
+      severity_id: 'PACK.AAN.DEM.2018.SEV.02',
+      display_id: 'AAN-DEM-SEV2',
+      level: 'Moderate-to-severe Alzheimer disease',
+      criteria: [
+        'MMSE <18 or MoCA <14',
+        'Requires assistance with basic activities of daily living (bathing, dressing, toileting)',
+        'Behavioral and psychological symptoms common (agitation, psychosis, wandering)',
+        'Loss of ability to manage finances, medications, or driving safely',
+      ],
+      management_implications:
+        'Add memantine to existing cholinesterase inhibitor. Address behavioral symptoms with non-pharmacologic strategies first. Avoid anticholinergics and benzodiazepines. Assess caregiver burden. Evaluate capacity for medical decision-making. Address goals of care and advance directives.',
+      provenance: { section: 'Advanced AD', page_or_location: 'Section 3.3' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Phase 1 neurology pack for dementia. Covers MCI vs dementia, reversible causes workup, AD pharmacotherapy, DLB recognition, and NPH triad.',
+
+  all_item_ids: [
+    'PACK.AAN.DEM.2018.REC.01', 'PACK.AAN.DEM.2018.REC.02', 'PACK.AAN.DEM.2018.REC.03',
+    'PACK.AAN.DEM.2018.REC.04',
+    'PACK.AAN.DEM.2018.DC.01', 'PACK.AAN.DEM.2018.DC.02',
+    'PACK.AAN.DEM.2018.T.01',
+    'PACK.AAN.DEM.2018.TX.01', 'PACK.AAN.DEM.2018.TX.02', 'PACK.AAN.DEM.2018.TX.03',
+    'PACK.AAN.DEM.2018.RF.01', 'PACK.AAN.DEM.2018.RF.02',
+    'PACK.AAN.DEM.2018.SEV.01', 'PACK.AAN.DEM.2018.SEV.02',
+  ],
+  all_display_ids: [
+    'AAN-DEM-R1', 'AAN-DEM-R2', 'AAN-DEM-R3', 'AAN-DEM-R4',
+    'AAN-DEM-DC1', 'AAN-DEM-DC2',
+    'AAN-DEM-T1',
+    'AAN-DEM-TX1', 'AAN-DEM-TX2', 'AAN-DEM-TX3',
+    'AAN-DEM-RF1', 'AAN-DEM-RF2',
+    'AAN-DEM-SEV1', 'AAN-DEM-SEV2',
+  ],
+};

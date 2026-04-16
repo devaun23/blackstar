@@ -1,0 +1,92 @@
+# IM Blueprint Topics Without Source Packs
+# These topics have blueprint nodes but no source pack or alias in topic-source-map.
+# Run: npx tsx scripts/draft-source-pack.ts --batch-file=scripts/uncovered-im-topics.txt
+
+# Electrolytes/Acid-Base (6)
+Hyponatremia
+Hyperkalemia
+Hypokalemia
+AG Metabolic Acidosis
+Metabolic Alkalosis
+Hypocalcemia
+
+# Dermatology-within-IM (5)
+Melanoma
+SJS/TEN
+Psoriasis
+Erythema Nodosum
+Pemphigus/Pemphigoid
+
+# Toxicology-within-IM (5)
+Acetaminophen Overdose
+Salicylate Toxicity
+Opioid Overdose
+Alcohol Withdrawal
+Serotonin Syndrome vs NMS
+
+# Critical Care/Shock (3 — others covered by existing packs via aliases)
+Anaphylaxis
+ARDS
+Hypovolemic Shock
+
+# Pulmonary (6)
+Pleural Effusion
+Lung Cancer Screening
+Pneumothorax
+Interstitial Lung Disease
+Obstructive Sleep Apnea
+Tuberculosis Screening
+
+# Gastroenterology (3)
+Peptic Ulcer Disease
+Small Bowel Obstruction
+Celiac Disease
+Diverticulitis
+
+# Hepatology (4)
+Alcoholic Hepatitis
+NAFLD/NASH
+Drug-Induced Liver Injury
+Autoimmune Hepatitis
+
+# Nephrology (4)
+Renal Artery Stenosis
+Nephrolithiasis
+Polycystic Kidney Disease
+Renal Tubular Acidosis
+
+# Hematology/Oncology (4)
+Iron Deficiency Anemia
+B12 Deficiency
+Hemolytic Anemia
+Pancytopenia
+Lymphoma
+Thrombocytopenia
+
+# Neurology (2)
+Parkinson Disease
+Subarachnoid Hemorrhage
+
+# Rheumatology (3)
+Pseudogout
+PMR/GCA
+Ankylosing Spondylitis
+
+# Infectious Disease (3)
+Tuberculosis
+HAP/VAP
+Fever of Unknown Origin
+
+# Preventive/Screening (4)
+Colon Cancer Screening
+Breast Cancer Screening
+Cervical Cancer Screening
+Adult Immunizations
+
+# Pulmonary (additional)
+Sarcoidosis
+Pulmonary Hypertension
+
+# Other
+Dialysis Indications
+Tension Pneumothorax

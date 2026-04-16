@@ -297,4 +297,190 @@ export const topicSourceMap: Record<string, TopicSourceConfig> = {
     conflict_resolution: 'KDIGO is the nephrology authority for glomerular disease.',
     precedence_rule: 'KDIGO sole authority.',
   },
+
+  // ── Phase 3: Heme/Onc + Rheum + Neuro ──
+  'DVT / Anticoagulation': {
+    topic_id: 'TOPIC.MED.VTE',
+    primary: 'PACK.CHEST.VTE.2021',
+    secondary: [
+      {
+        source_pack_id: 'PACK.AHA.PE.2024',
+        allowed_scopes: ['PE-specific risk stratification', 'submassive/massive PE management'],
+        excluded_scopes: ['DVT-specific anticoagulation duration', 'outpatient DVT treatment'],
+      },
+    ],
+    conflict_resolution: 'CHEST is the authority for VTE anticoagulation. AHA PE pack applies for PE-specific decisions.',
+    precedence_rule: 'CHEST primary. AHA PE secondary for PE overlap.',
+  },
+  'Sickle Cell Disease': {
+    topic_id: 'TOPIC.MED.SCD',
+    primary: 'PACK.ASH.SCD.2020',
+    conflict_resolution: 'ASH is the hematology authority for sickle cell disease.',
+    precedence_rule: 'ASH sole authority.',
+  },
+  'TTP / HUS / HIT / DIC': {
+    topic_id: 'TOPIC.MED.TTP',
+    primary: 'PACK.ASH.TTP.2020',
+    conflict_resolution: 'ASH/ISTH is the authority for thrombotic microangiopathies and HIT.',
+    precedence_rule: 'ASH/ISTH sole authority.',
+  },
+  'Tumor Lysis Syndrome': {
+    topic_id: 'TOPIC.MED.TLS',
+    primary: 'PACK.ASCO.TLS.2015',
+    conflict_resolution: 'ASCO is the oncology authority for TLS.',
+    precedence_rule: 'ASCO sole authority.',
+  },
+  'Skin / Soft Tissue Infections': {
+    topic_id: 'TOPIC.MED.SSTI',
+    primary: 'PACK.IDSA.SSTI.2014',
+    conflict_resolution: 'IDSA is the ID authority for SSTI.',
+    precedence_rule: 'IDSA sole authority.',
+  },
+  'Rheumatoid Arthritis': {
+    topic_id: 'TOPIC.MED.RA',
+    primary: 'PACK.ACR.RA.2021',
+    conflict_resolution: 'ACR is the rheumatology authority for RA.',
+    precedence_rule: 'ACR sole authority.',
+  },
+  'Gout': {
+    topic_id: 'TOPIC.MED.GOUT',
+    primary: 'PACK.ACR.GOUT.2020',
+    conflict_resolution: 'ACR is the rheumatology authority for gout.',
+    precedence_rule: 'ACR sole authority.',
+  },
+  'SLE': {
+    topic_id: 'TOPIC.MED.SLE',
+    primary: 'PACK.ACR.SLE.2019',
+    conflict_resolution: 'ACR/EULAR is the authority for SLE.',
+    precedence_rule: 'ACR/EULAR sole authority.',
+  },
+  'Vasculitis': {
+    topic_id: 'TOPIC.MED.VASC',
+    primary: 'PACK.ACR.VASC.2021',
+    conflict_resolution: 'ACR is the rheumatology authority for vasculitis.',
+    precedence_rule: 'ACR sole authority.',
+  },
+  'Epilepsy / Status Epilepticus': {
+    topic_id: 'TOPIC.MED.EPIL',
+    primary: 'PACK.AAN.EPIL.2018',
+    conflict_resolution: 'AAN/AES is the neurology authority for epilepsy.',
+    precedence_rule: 'AAN/AES sole authority.',
+  },
+  'Multiple Sclerosis': {
+    topic_id: 'TOPIC.MED.MS',
+    primary: 'PACK.AAN.MS.2018',
+    conflict_resolution: 'AAN is the neurology authority for MS.',
+    precedence_rule: 'AAN sole authority.',
+  },
+  'Headache / Migraine': {
+    topic_id: 'TOPIC.MED.HA',
+    primary: 'PACK.AAN.HA.2021',
+    conflict_resolution: 'AHS/AAN is the authority for headache disorders.',
+    precedence_rule: 'AHS/AAN sole authority.',
+  },
+  'Dementia': {
+    topic_id: 'TOPIC.MED.DEM',
+    primary: 'PACK.AAN.DEM.2018',
+    conflict_resolution: 'AAN is the neurology authority for dementia.',
+    precedence_rule: 'AAN sole authority.',
+  },
+  'GBS / Myasthenia Gravis': {
+    topic_id: 'TOPIC.MED.NM',
+    primary: 'PACK.AAN.NM.2016',
+    conflict_resolution: 'AAN is the neurology authority for neuromuscular disorders.',
+    precedence_rule: 'AAN sole authority.',
+  },
+  'Osteomyelitis': {
+    topic_id: 'TOPIC.MED.OSTEO_INF',
+    primary: 'PACK.IDSA.SSTI.2014',
+    conflict_resolution: 'IDSA SSTI guideline covers diabetic foot infections/osteomyelitis.',
+    precedence_rule: 'IDSA sole authority.',
+  },
 };
+
+// ─── Topic Alias Resolution ───
+// Blueprint node topics don't always match topic-source-map keys exactly.
+// This map resolves blueprint names → source map keys so the sufficiency gate
+// and source loader can find packs for all node topics.
+
+const topicAliases: Record<string, string> = {
+  // Cardiology
+  'Aortic Stenosis': 'Valvular Heart Disease',
+  'Aortic Dissection': 'Valvular Heart Disease',      // closest pack available
+  'Pericarditis': 'Pericardial Disease',
+
+  // Endocrinology — multi-topic packs
+  'DKA': 'DKA / HHS',
+  'HHS': 'DKA / HHS',
+  'Hyperthyroidism': 'Thyroid Disease',
+  'Hypothyroidism': 'Thyroid Disease',
+  'Thyroid Storm': 'Thyroid Disease',
+  'Adrenal Insufficiency': 'Adrenal Insufficiency / Cushing',
+  'Cushing Syndrome': 'Adrenal Insufficiency / Cushing',
+  'Hypercalcemia': 'Hypercalcemia / Hyperparathyroidism',
+  'Osteoporosis': 'Osteoporosis',
+  'Type 2 Diabetes': 'Type 2 Diabetes',
+
+  // Pulmonary
+  'COPD Exacerbation': 'COPD',
+  'Asthma Exacerbation': 'Asthma',
+
+  // Neurology
+  'Ischemic Stroke': 'Acute Ischemic Stroke',
+  'Seizure': 'Epilepsy / Status Epilepticus',
+  'Status Epilepticus': 'Epilepsy / Status Epilepticus',
+  'Migraine': 'Headache / Migraine',
+  'Myasthenia Gravis': 'GBS / Myasthenia Gravis',
+  'Guillain-Barre Syndrome': 'GBS / Myasthenia Gravis',
+  'Delirium vs Dementia': 'Dementia',
+
+  // Nephrology
+  'Chronic Kidney Disease': 'CKD',
+  'Nephrotic Syndrome': 'Nephrotic / Nephritic Syndrome',
+  'Nephritic Syndrome': 'Nephrotic / Nephritic Syndrome',
+  'RPGN': 'Nephrotic / Nephritic Syndrome',
+
+  // Hematology
+  'DVT Anticoagulation': 'DVT / Anticoagulation',
+  'HIT': 'TTP / HUS / HIT / DIC',
+  'TTP': 'TTP / HUS / HIT / DIC',
+  'DIC': 'TTP / HUS / HIT / DIC',
+
+  // Infectious Disease
+  'Meningitis': 'Bacterial Meningitis',
+  'C. difficile': 'C. difficile',
+  'Clostridioides difficile': 'C. difficile',
+  'UTI/Pyelonephritis': 'UTI / Pyelonephritis',
+  'Cellulitis': 'Skin / Soft Tissue Infections',
+  'HIV': 'HIV / AIDS',
+  'Sexually Transmitted Infections': 'STI',
+
+  // GI
+  'Inflammatory Bowel Disease': 'IBD',
+
+  // Rheumatology
+  'Vasculitis': 'Vasculitis',
+
+  // Critical Care — route to existing packs
+  'Septic Shock': 'Sepsis / Shock',
+  'Sepsis': 'Sepsis / Shock',
+  'Cardiogenic Shock': 'Acute Coronary Syndrome',    // ACS pack covers cardiogenic shock
+  'Massive PE': 'Pulmonary Embolism',
+  'Distributive Shock': 'Sepsis / Shock',
+
+  // Preventive — route to preventive packs
+  'Lipid Management': 'Dyslipidemia',
+  'Osteoporosis Screening': 'Osteoporosis',
+};
+
+/**
+ * Resolve a blueprint node topic to its topic-source-map key.
+ * Checks direct match first, then aliases.
+ * Returns the resolved key or the original topic if no mapping exists.
+ */
+export function resolveTopicKey(blueprintTopic: string): string {
+  if (topicSourceMap[blueprintTopic]) return blueprintTopic;
+  const alias = topicAliases[blueprintTopic];
+  if (alias && topicSourceMap[alias]) return alias;
+  return blueprintTopic;
+}

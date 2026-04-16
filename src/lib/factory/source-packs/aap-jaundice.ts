@@ -1,0 +1,217 @@
+import type { SourcePack } from './types';
+
+export const PACK_AAP_JAUN_2022: SourcePack = {
+  source_pack_id: 'PACK.AAP.JAUN.2022',
+  source_name: 'AAP 2022 Clinical Practice Guideline: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation',
+  source_registry_id: 'REG.AAP.JAUN',
+  canonical_url: 'https://doi.org/10.1542/peds.2022-058859',
+  publication_year: 2022,
+  guideline_body: 'AAP',
+
+  topic_tags: ['Neonatal Jaundice', 'Hyperbilirubinemia', 'Phototherapy', 'Kernicterus', 'Exchange Transfusion'],
+  allowed_decision_scopes: [
+    'physiologic vs pathologic jaundice',
+    'phototherapy initiation thresholds',
+    'exchange transfusion thresholds',
+    'risk factor assessment for severe hyperbilirubinemia',
+    'bilirubin monitoring and follow-up',
+    'kernicterus prevention',
+  ],
+  excluded_decision_scopes: [
+    'preterm <35 weeks bilirubin management',
+    'conjugated hyperbilirubinemia workup',
+    'biliary atresia evaluation',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.AAP.JAUN.2022.REC.01',
+      display_id: 'AAP-JAUN-R1',
+      statement: 'Universal bilirubin screening (transcutaneous or serum total bilirubin) should be performed on all newborns before discharge, ideally between 24 and 48 hours of age.',
+      normalized_claim: 'Universal predischarge bilirubin screening (TcB or TSB) for all newborns >=35 weeks gestation.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Screening', page_or_location: 'Section 3.1' },
+    },
+    {
+      rec_id: 'PACK.AAP.JAUN.2022.REC.02',
+      display_id: 'AAP-JAUN-R2',
+      statement: 'Phototherapy thresholds are determined by hour-specific bilirubin nomogram incorporating gestational age and neurotoxicity risk factors.',
+      normalized_claim: 'Phototherapy thresholds are hour-specific, adjusted for gestational age (35-37 vs >=38 weeks) and neurotoxicity risk factors.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Phototherapy', page_or_location: 'Section 4.1' },
+    },
+    {
+      rec_id: 'PACK.AAP.JAUN.2022.REC.03',
+      display_id: 'AAP-JAUN-R3',
+      statement: 'Neurotoxicity risk factors include isoimmune hemolytic disease, G6PD deficiency, asphyxia, sepsis, acidosis, and albumin <3.0 g/dL. These lower the phototherapy threshold.',
+      normalized_claim: 'Neurotoxicity risk factors (hemolysis, G6PD, asphyxia, sepsis, low albumin) lower phototherapy and exchange transfusion thresholds.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Risk Factors', page_or_location: 'Section 2.2' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.AAP.JAUN.2022.DC.01',
+      display_id: 'AAP-JAUN-DC1',
+      name: 'Pathologic Jaundice Indicators',
+      components: [
+        'Jaundice within first 24 hours of life',
+        'TSB rising >0.2 mg/dL/hour or >5 mg/dL/day',
+        'TSB exceeding hour-specific phototherapy threshold',
+        'Conjugated (direct) bilirubin >1.0 mg/dL or >20% of TSB',
+        'Jaundice persisting beyond 2-3 weeks',
+      ],
+      interpretation: 'Any of these features suggests pathologic jaundice requiring workup for hemolysis, infection, or metabolic disease. Jaundice <24 hours is always pathologic.',
+      normalized_claim: 'Pathologic jaundice: onset <24h, rapid rise >5 mg/dL/day, elevated conjugated fraction, or persistence beyond 2-3 weeks.',
+      provenance: { section: 'Diagnosis', page_or_location: 'Section 2.1' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.AAP.JAUN.2022.T.01',
+      display_id: 'AAP-JAUN-T1',
+      parameter: 'Phototherapy threshold for low-risk term neonate at 48 hours',
+      value: '15',
+      unit: 'mg/dL',
+      clinical_meaning: 'TSB >=15 mg/dL at 48 hours in a low-risk >=38 week neonate meets the phototherapy threshold on the hour-specific nomogram.',
+      normalized_claim: 'Phototherapy threshold ~15 mg/dL at 48h for low-risk term neonates; lower for medium/high neurotoxicity risk.',
+      direction: 'above',
+      provenance: { section: 'Phototherapy Nomogram', page_or_location: 'Figure 2' },
+    },
+    {
+      threshold_id: 'PACK.AAP.JAUN.2022.T.02',
+      display_id: 'AAP-JAUN-T2',
+      parameter: 'Exchange transfusion threshold',
+      value: '25',
+      unit: 'mg/dL',
+      clinical_meaning: 'TSB >=25 mg/dL in a term neonate at >=72 hours with no risk factors approaches exchange transfusion threshold. Lower thresholds apply with risk factors.',
+      normalized_claim: 'Exchange transfusion threshold ~25 mg/dL for low-risk term neonates; 2-3 mg/dL lower with neurotoxicity risk factors.',
+      direction: 'above',
+      provenance: { section: 'Exchange Transfusion', page_or_location: 'Figure 3' },
+    },
+    {
+      threshold_id: 'PACK.AAP.JAUN.2022.T.03',
+      display_id: 'AAP-JAUN-T3',
+      parameter: 'Rate of TSB rise suggesting hemolysis',
+      value: '0.2',
+      unit: 'mg/dL/hour',
+      clinical_meaning: 'TSB rising >0.2 mg/dL/hour suggests active hemolysis and increases risk of rapidly crossing phototherapy or exchange transfusion thresholds.',
+      normalized_claim: 'TSB rise >0.2 mg/dL/hour indicates hemolysis; requires urgent evaluation and closer monitoring.',
+      direction: 'above',
+      provenance: { section: 'Risk Assessment', page_or_location: 'Section 2.3' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.AAP.JAUN.2022.TX.01',
+      display_id: 'AAP-JAUN-TX1',
+      action: 'Intensive phototherapy',
+      normalized_claim: 'Intensive phototherapy (irradiance >=30 microW/cm2/nm) using blue LED lights with maximal skin exposure reduces TSB by 1-2 mg/dL within 4-6 hours.',
+      timing: 'When TSB reaches hour-specific phototherapy threshold',
+      condition: 'TSB at or above phototherapy threshold on hour-specific nomogram',
+      provenance: { section: 'Phototherapy', page_or_location: 'Section 4.1' },
+    },
+    {
+      step_id: 'PACK.AAP.JAUN.2022.TX.02',
+      display_id: 'AAP-JAUN-TX2',
+      action: 'Exchange transfusion for severe hyperbilirubinemia',
+      normalized_claim: 'Double-volume exchange transfusion (160 mL/kg) when TSB reaches exchange threshold despite intensive phototherapy or if signs of acute bilirubin encephalopathy present.',
+      timing: 'When TSB reaches exchange threshold or signs of ABE appear',
+      condition: 'TSB at exchange transfusion threshold or acute bilirubin encephalopathy',
+      contraindications: ['Hemodynamic instability (relative)'],
+      provenance: { section: 'Exchange Transfusion', page_or_location: 'Section 4.2' },
+    },
+    {
+      step_id: 'PACK.AAP.JAUN.2022.TX.03',
+      display_id: 'AAP-JAUN-TX3',
+      action: 'IVIG for isoimmune hemolytic disease',
+      normalized_claim: 'IVIG (0.5-1 g/kg) for ABO or Rh isoimmune hemolytic disease when TSB is rising despite intensive phototherapy and approaching exchange threshold.',
+      timing: 'When TSB rising rapidly despite intensive phototherapy',
+      condition: 'Isoimmune hemolytic disease (positive DAT) with rising TSB',
+      drug_details: { drug: 'IVIG', dose: '0.5-1 g/kg', route: 'IV infusion', duration: '2 hours' },
+      provenance: { section: 'Adjunctive Therapy', page_or_location: 'Section 4.3' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.AAP.JAUN.2022.RF.01',
+      display_id: 'AAP-JAUN-RF1',
+      finding: 'Acute bilirubin encephalopathy (ABE): hypertonia, retrocollis/opisthotonus, high-pitched cry, fever, lethargy progressing to obtundation',
+      implication: 'ABE can progress to chronic bilirubin encephalopathy (kernicterus) with permanent neurologic damage (choreoathetoid CP, auditory neuropathy, gaze palsy).',
+      action: 'Immediate exchange transfusion regardless of TSB level. Do not wait for lab results. Intensive phototherapy while preparing for exchange.',
+      urgency: 'immediate',
+      provenance: { section: 'Bilirubin Encephalopathy', page_or_location: 'Section 5.1' },
+    },
+    {
+      flag_id: 'PACK.AAP.JAUN.2022.RF.02',
+      display_id: 'AAP-JAUN-RF2',
+      finding: 'Jaundice within first 24 hours of life',
+      implication: 'Always pathologic. Most commonly caused by hemolytic disease (ABO/Rh incompatibility, G6PD deficiency). Rapid rise in TSB expected.',
+      action: 'Urgent TSB measurement, blood type/DAT/Coombs, CBC with reticulocyte count, G6PD screen. Intensive phototherapy if TSB at threshold.',
+      urgency: 'urgent',
+      provenance: { section: 'Early Jaundice', page_or_location: 'Section 2.1' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.AAP.JAUN.2022.SEV.01',
+      display_id: 'AAP-JAUN-SEV1',
+      level: 'Physiologic jaundice',
+      criteria: [
+        'Onset after 24 hours of life',
+        'Peaks at days 3-5 in term neonates',
+        'TSB <12 mg/dL in formula-fed, <15 mg/dL in breastfed',
+        'TSB rise <5 mg/dL/day',
+        'Resolves by 2 weeks',
+      ],
+      management_implications:
+        'Supportive care with adequate feeding (8-12 feeds/day). Encourage breastfeeding. Recheck bilirubin per hour-specific nomogram risk zone. No phototherapy needed.',
+      provenance: { section: 'Classification', page_or_location: 'Section 1.1' },
+    },
+    {
+      severity_id: 'PACK.AAP.JAUN.2022.SEV.02',
+      display_id: 'AAP-JAUN-SEV2',
+      level: 'Severe hyperbilirubinemia at risk for exchange transfusion',
+      criteria: [
+        'TSB within 2 mg/dL of exchange transfusion threshold',
+        'TSB rising >0.2 mg/dL/hour despite intensive phototherapy',
+        'Positive DAT with ongoing hemolysis',
+        'Neurotoxicity risk factors present',
+      ],
+      management_implications:
+        'Continuous intensive phototherapy. Type and crossmatch for exchange transfusion. NICU transfer. Serial TSB every 2-4 hours. IVIG if isoimmune hemolysis. Proceed to exchange if TSB reaches threshold or ABE signs appear.',
+      provenance: { section: 'Severe Hyperbilirubinemia', page_or_location: 'Section 4.4' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Pediatrics pack for neonatal jaundice per AAP 2022 guideline. Covers screening, phototherapy/exchange thresholds, hemolysis workup, and kernicterus prevention.',
+
+  all_item_ids: [
+    'PACK.AAP.JAUN.2022.REC.01', 'PACK.AAP.JAUN.2022.REC.02', 'PACK.AAP.JAUN.2022.REC.03',
+    'PACK.AAP.JAUN.2022.DC.01',
+    'PACK.AAP.JAUN.2022.T.01', 'PACK.AAP.JAUN.2022.T.02', 'PACK.AAP.JAUN.2022.T.03',
+    'PACK.AAP.JAUN.2022.TX.01', 'PACK.AAP.JAUN.2022.TX.02', 'PACK.AAP.JAUN.2022.TX.03',
+    'PACK.AAP.JAUN.2022.RF.01', 'PACK.AAP.JAUN.2022.RF.02',
+    'PACK.AAP.JAUN.2022.SEV.01', 'PACK.AAP.JAUN.2022.SEV.02',
+  ],
+  all_display_ids: [
+    'AAP-JAUN-R1', 'AAP-JAUN-R2', 'AAP-JAUN-R3',
+    'AAP-JAUN-DC1',
+    'AAP-JAUN-T1', 'AAP-JAUN-T2', 'AAP-JAUN-T3',
+    'AAP-JAUN-TX1', 'AAP-JAUN-TX2', 'AAP-JAUN-TX3',
+    'AAP-JAUN-RF1', 'AAP-JAUN-RF2',
+    'AAP-JAUN-SEV1', 'AAP-JAUN-SEV2',
+  ],
+};

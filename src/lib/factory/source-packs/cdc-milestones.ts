@@ -1,0 +1,215 @@
+import type { SourcePack } from './types';
+
+export const PACK_CDC_MILES_2022: SourcePack = {
+  source_pack_id: 'PACK.CDC.MILES.2022',
+  source_name: 'CDC/AAP 2022 Updated Developmental Milestones and Learn the Signs. Act Early.',
+  source_registry_id: 'REG.CDC.MILES',
+  canonical_url: 'https://doi.org/10.1542/peds.2021-052138',
+  publication_year: 2022,
+  guideline_body: 'CDC/AAP',
+
+  topic_tags: ['Developmental Milestones', 'Autism Screening', 'M-CHAT', 'Growth and Development', 'Developmental Delay'],
+  allowed_decision_scopes: [
+    'motor milestone assessment',
+    'language milestone assessment',
+    'social-emotional milestone assessment',
+    'developmental delay identification',
+    'autism spectrum disorder screening',
+    'early intervention referral',
+  ],
+  excluded_decision_scopes: [
+    'specific autism treatment protocols',
+    'genetic testing for developmental delay',
+    'cerebral palsy management',
+    'intellectual disability classification',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.CDC.MILES.2022.REC.01',
+      display_id: 'CDC-MILES-R1',
+      statement: 'Developmental surveillance should occur at every well-child visit. Standardized developmental screening should be performed at 9, 18, and 30 months.',
+      normalized_claim: 'Developmental screening with validated tool (ASQ-3 or PEDS) at 9, 18, and 30 months; surveillance at every well-child visit.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Screening Schedule', page_or_location: 'Section 1.1' },
+    },
+    {
+      rec_id: 'PACK.CDC.MILES.2022.REC.02',
+      display_id: 'CDC-MILES-R2',
+      statement: 'Autism-specific screening with M-CHAT-R/F should be performed at 18 and 24 months for all children, regardless of risk factors.',
+      normalized_claim: 'Universal ASD screening with M-CHAT-R/F at 18 and 24 months; positive screen requires follow-up interview and referral for comprehensive evaluation.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'ASD Screening', page_or_location: 'Section 2.1' },
+    },
+    {
+      rec_id: 'PACK.CDC.MILES.2022.REC.03',
+      display_id: 'CDC-MILES-R3',
+      statement: 'When developmental delay is identified, referral to Early Intervention (Birth to 3) or school district (3-5 years) should not be delayed pending further diagnostic workup.',
+      normalized_claim: 'Refer to Early Intervention (EI) or Part B services immediately upon identifying developmental concern; do not delay for diagnosis.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Referral', page_or_location: 'Section 3.1' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.CDC.MILES.2022.DC.01',
+      display_id: 'CDC-MILES-DC1',
+      name: 'Key Developmental Milestone Red Flags by Age',
+      components: [
+        'By 4 months: No head control, does not bring hands to mouth, does not push up on forearms in prone',
+        'By 6 months: No reaching, no babbling (consonant sounds), does not roll in either direction',
+        'By 9 months: No sitting independently, no back-and-forth vowel sounds, no response to own name',
+        'By 12 months: No pulling to stand, no single words, no gestures (waving, pointing)',
+        'By 18 months: Not walking, fewer than 6 words, does not point to show things',
+        'By 24 months: No 2-word phrases, fewer than 50 words, no pretend play',
+        'By 36 months: Cannot climb stairs, unclear speech to strangers, no interest in other children',
+      ],
+      interpretation: 'Failure to meet milestones at any checkpoint warrants standardized screening and possible referral. The 2022 CDC update shifted milestones to represent what 75% (not 50%) of children achieve, reducing false reassurance.',
+      normalized_claim: 'Absence of age-appropriate milestones (motor, language, social) at well-child checkpoints requires formal screening and early intervention referral.',
+      provenance: { section: 'Milestone Checklist', page_or_location: 'Appendix A' },
+    },
+    {
+      criterion_id: 'PACK.CDC.MILES.2022.DC.02',
+      display_id: 'CDC-MILES-DC2',
+      name: 'Autism Spectrum Disorder Early Warning Signs',
+      components: [
+        'No pointing or gesturing by 12 months',
+        'No single words by 16 months',
+        'No 2-word spontaneous phrases by 24 months',
+        'Loss of previously acquired language or social skills at any age (regression)',
+        'Poor eye contact, limited response to name',
+        'Lack of shared enjoyment (not showing objects to parents)',
+        'Repetitive behaviors or restricted interests',
+        'Unusual sensory responses (covering ears, visual fascination)',
+      ],
+      interpretation: 'Any regression in language or social skills should prompt immediate ASD evaluation. M-CHAT-R/F positive screen has sensitivity ~85% and specificity ~99% with follow-up interview.',
+      normalized_claim: 'ASD red flags: no pointing by 12mo, no words by 16mo, no phrases by 24mo, any regression, poor eye contact, restricted/repetitive behaviors.',
+      provenance: { section: 'ASD Warning Signs', page_or_location: 'Section 2.2' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.CDC.MILES.2022.T.01',
+      display_id: 'CDC-MILES-T1',
+      parameter: 'Age for independent walking',
+      value: '18',
+      unit: 'months',
+      clinical_meaning: 'Most children walk independently by 12-15 months. Failure to walk by 18 months is a red flag requiring motor evaluation (consider CP, neuromuscular disease, hip pathology).',
+      normalized_claim: 'Not walking by 18 months is a developmental red flag requiring evaluation for motor delay.',
+      direction: 'above',
+      provenance: { section: 'Motor Milestones', page_or_location: 'Appendix A' },
+    },
+    {
+      threshold_id: 'PACK.CDC.MILES.2022.T.02',
+      display_id: 'CDC-MILES-T2',
+      parameter: 'Minimum words by 24 months',
+      value: '50',
+      unit: 'words',
+      clinical_meaning: 'Children should have at least 50 words and begin combining 2-word phrases by 24 months. Fewer than 50 words suggests expressive language delay.',
+      normalized_claim: 'By 24 months: >=50 words and 2-word phrases expected; fewer than 50 words warrants speech-language evaluation.',
+      direction: 'below',
+      provenance: { section: 'Language Milestones', page_or_location: 'Section 1.3' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.CDC.MILES.2022.TX.01',
+      display_id: 'CDC-MILES-TX1',
+      action: 'Standardized developmental screening at well-child visits',
+      normalized_claim: 'Administer validated screening tool (ASQ-3 or PEDS) at 9, 18, and 30 months; M-CHAT-R/F at 18 and 24 months.',
+      timing: '9, 18, 24, and 30 months',
+      condition: 'Routine well-child visit at designated screening ages',
+      provenance: { section: 'Screening Protocol', page_or_location: 'Section 1.1' },
+    },
+    {
+      step_id: 'PACK.CDC.MILES.2022.TX.02',
+      display_id: 'CDC-MILES-TX2',
+      action: 'Early Intervention referral for identified delays',
+      normalized_claim: 'Refer to Part C Early Intervention (birth to 3) or Part B preschool services (3-5) for any identified developmental delay; do not wait for definitive diagnosis.',
+      timing: 'Immediately upon identification of developmental concern',
+      condition: 'Failed developmental screening or clinical concern for delay',
+      provenance: { section: 'Referral', page_or_location: 'Section 3.1' },
+    },
+    {
+      step_id: 'PACK.CDC.MILES.2022.TX.03',
+      display_id: 'CDC-MILES-TX3',
+      action: 'Comprehensive ASD evaluation after positive M-CHAT screen',
+      normalized_claim: 'Positive M-CHAT-R/F requires follow-up interview; if still positive, refer for comprehensive ASD evaluation (developmental pediatrician, psychologist, or multidisciplinary team).',
+      timing: 'Within 1-2 months of positive screen',
+      condition: 'Positive M-CHAT-R/F with positive follow-up interview',
+      provenance: { section: 'ASD Evaluation', page_or_location: 'Section 2.3' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.CDC.MILES.2022.RF.01',
+      display_id: 'CDC-MILES-RF1',
+      finding: 'Developmental regression: loss of previously acquired language, social, or motor skills at any age',
+      implication: 'Regression suggests ASD (25-30% present with regression), Rett syndrome, neurodegenerative disease, or Landau-Kleffner syndrome. Requires urgent evaluation.',
+      action: 'Comprehensive developmental evaluation, hearing test, EEG (especially with language regression to rule out Landau-Kleffner), metabolic screening if motor regression. ASD evaluation.',
+      urgency: 'urgent',
+      provenance: { section: 'Regression', page_or_location: 'Section 2.4' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.CDC.MILES.2022.SEV.01',
+      display_id: 'CDC-MILES-SEV1',
+      level: 'Isolated developmental delay (single domain)',
+      criteria: [
+        'Delay in one domain only (e.g., speech only, or motor only)',
+        'Other developmental domains age-appropriate',
+        'No regression',
+        'No dysmorphic features or neurologic abnormalities',
+      ],
+      management_implications:
+        'Refer to Early Intervention for domain-specific therapy (speech therapy for language, PT/OT for motor). Audiology evaluation for speech delay. Repeat screening at next well-child visit. Good prognosis with early intervention.',
+      provenance: { section: 'Delay Classification', page_or_location: 'Section 3.2' },
+    },
+    {
+      severity_id: 'PACK.CDC.MILES.2022.SEV.02',
+      display_id: 'CDC-MILES-SEV2',
+      level: 'Global developmental delay (multiple domains)',
+      criteria: [
+        'Delay in >=2 developmental domains',
+        'Significant functional impairment',
+        'May have dysmorphic features, micro/macrocephaly, or neurologic findings',
+        'May include regression',
+      ],
+      management_implications:
+        'Comprehensive developmental evaluation. Genetic testing (chromosomal microarray, fragile X). Metabolic screening if indicated. Brain MRI if neurologic signs. Early Intervention with multimodal therapy. Consider ASD evaluation. Evaluate vision and hearing.',
+      provenance: { section: 'Global Delay', page_or_location: 'Section 3.3' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Pediatrics pack for developmental milestones per CDC 2022 update. Covers motor/language/social milestones, ASD screening, and early intervention referral.',
+
+  all_item_ids: [
+    'PACK.CDC.MILES.2022.REC.01', 'PACK.CDC.MILES.2022.REC.02', 'PACK.CDC.MILES.2022.REC.03',
+    'PACK.CDC.MILES.2022.DC.01', 'PACK.CDC.MILES.2022.DC.02',
+    'PACK.CDC.MILES.2022.T.01', 'PACK.CDC.MILES.2022.T.02',
+    'PACK.CDC.MILES.2022.TX.01', 'PACK.CDC.MILES.2022.TX.02', 'PACK.CDC.MILES.2022.TX.03',
+    'PACK.CDC.MILES.2022.RF.01',
+    'PACK.CDC.MILES.2022.SEV.01', 'PACK.CDC.MILES.2022.SEV.02',
+  ],
+  all_display_ids: [
+    'CDC-MILES-R1', 'CDC-MILES-R2', 'CDC-MILES-R3',
+    'CDC-MILES-DC1', 'CDC-MILES-DC2',
+    'CDC-MILES-T1', 'CDC-MILES-T2',
+    'CDC-MILES-TX1', 'CDC-MILES-TX2', 'CDC-MILES-TX3',
+    'CDC-MILES-RF1',
+    'CDC-MILES-SEV1', 'CDC-MILES-SEV2',
+  ],
+};

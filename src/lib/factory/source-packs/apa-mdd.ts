@@ -1,0 +1,216 @@
+import type { SourcePack } from './types';
+
+export const PACK_APA_MDD_2023: SourcePack = {
+  source_pack_id: 'PACK.APA.MDD.2023',
+  source_name: 'APA Practice Guidelines for the Treatment of Major Depressive Disorder (3rd Edition)',
+  source_registry_id: 'REG.APA.MDD',
+  canonical_url: 'https://doi.org/10.1176/appi.books.9780890424462',
+  publication_year: 2023,
+  guideline_body: 'APA',
+
+  topic_tags: ['MDD', 'Depression', 'SSRI', 'ECT', 'Suicide Risk', 'Psychiatry'],
+  allowed_decision_scopes: [
+    'MDD diagnosis',
+    'first-line antidepressant selection',
+    'augmentation strategy',
+    'treatment-resistant depression management',
+    'psychotherapy selection',
+    'suicide risk assessment',
+    'PHQ-9 monitoring',
+    'ECT indications',
+  ],
+  excluded_decision_scopes: [
+    'bipolar depression management',
+    'grief vs MDD differentiation beyond DSM criteria',
+    'pediatric depression',
+    'perinatal depression pharmacotherapy specifics',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.APA.MDD.2023.REC.01',
+      display_id: 'APA-MDD-R1',
+      statement: 'SSRIs or SNRIs are recommended as first-line pharmacotherapy for moderate-to-severe MDD due to favorable efficacy and side-effect profiles.',
+      normalized_claim: 'SSRI or SNRI is first-line pharmacotherapy for moderate-to-severe MDD.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Pharmacotherapy', page_or_location: 'Section 4.1' },
+    },
+    {
+      rec_id: 'PACK.APA.MDD.2023.REC.02',
+      display_id: 'APA-MDD-R2',
+      statement: 'Cognitive behavioral therapy (CBT) or interpersonal therapy (IPT) is recommended as first-line treatment for mild-to-moderate MDD, or in combination with pharmacotherapy for moderate-to-severe MDD.',
+      normalized_claim: 'CBT or IPT is first-line for mild-to-moderate MDD; combine with medication for moderate-to-severe.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Psychotherapy', page_or_location: 'Section 3.2' },
+    },
+    {
+      rec_id: 'PACK.APA.MDD.2023.REC.03',
+      display_id: 'APA-MDD-R3',
+      statement: 'ECT is recommended for treatment-resistant depression, depression with psychotic features, catatonia, or when rapid response is needed (e.g., active suicidality, food refusal).',
+      normalized_claim: 'ECT indicated for treatment-resistant depression, psychotic features, catatonia, or need for rapid response.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Somatic Therapies', page_or_location: 'Section 5.1' },
+    },
+    {
+      rec_id: 'PACK.APA.MDD.2023.REC.04',
+      display_id: 'APA-MDD-R4',
+      statement: 'All patients with MDD should be assessed for suicide risk at initial evaluation and at each visit, using structured tools such as the PHQ-9 Item 9 or Columbia Suicide Severity Rating Scale.',
+      normalized_claim: 'Suicide risk assessment required at every visit for MDD patients; use PHQ-9 Item 9 or C-SSRS.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Safety Assessment', page_or_location: 'Section 2.3' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.APA.MDD.2023.DC.01',
+      display_id: 'APA-MDD-DC1',
+      name: 'DSM-5 Major Depressive Episode',
+      components: [
+        'Five or more symptoms during the same 2-week period, representing a change from previous functioning',
+        'At least one symptom is either (1) depressed mood or (2) loss of interest or pleasure (anhedonia)',
+        'Symptoms: depressed mood, anhedonia, weight/appetite change, insomnia or hypersomnia, psychomotor agitation or retardation, fatigue, worthlessness or excessive guilt, diminished concentration, recurrent thoughts of death or suicidal ideation',
+        'Symptoms cause clinically significant distress or impairment in functioning',
+        'Episode not attributable to substance use or another medical condition',
+      ],
+      threshold: '>=5 of 9 symptoms for >=2 weeks; must include depressed mood or anhedonia',
+      interpretation: 'Meets criteria for major depressive episode. Distinguish from adjustment disorder, bereavement, bipolar depression, and medical causes.',
+      normalized_claim: 'MDD requires >=5 of 9 symptoms for >=2 weeks including depressed mood or anhedonia, with functional impairment.',
+      provenance: { section: 'Diagnostic Criteria', page_or_location: 'DSM-5 Section II' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.APA.MDD.2023.T.01',
+      display_id: 'APA-MDD-T1',
+      parameter: 'PHQ-9 score for moderate depression',
+      value: '10',
+      clinical_meaning: 'PHQ-9 score >=10 indicates at least moderate depression severity; consider initiating or adjusting treatment.',
+      normalized_claim: 'PHQ-9 >=10 indicates moderate depression; threshold for initiating pharmacotherapy.',
+      direction: 'above',
+      provenance: { section: 'Severity Assessment', page_or_location: 'Section 2.2' },
+    },
+    {
+      threshold_id: 'PACK.APA.MDD.2023.T.02',
+      display_id: 'APA-MDD-T2',
+      parameter: 'Adequate antidepressant trial duration',
+      value: '4-8',
+      unit: 'weeks',
+      clinical_meaning: 'Antidepressant response should be assessed after 4-8 weeks at adequate dose before considering treatment change.',
+      normalized_claim: 'Adequate antidepressant trial requires 4-8 weeks at therapeutic dose before switching or augmenting.',
+      direction: 'range',
+      provenance: { section: 'Treatment Duration', page_or_location: 'Section 4.3' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.APA.MDD.2023.TX.01',
+      display_id: 'APA-MDD-TX1',
+      action: 'Initiate SSRI monotherapy for first MDD episode',
+      normalized_claim: 'Start SSRI (sertraline, escitalopram, or fluoxetine) as first-line for new MDD diagnosis.',
+      condition: 'First episode moderate-to-severe MDD without psychotic features',
+      drug_details: { drug: 'Sertraline', dose: '50-200mg', route: 'PO daily' },
+      contraindications: ['Concurrent MAOI use', 'History of serotonin syndrome'],
+      provenance: { section: 'First-line Pharmacotherapy', page_or_location: 'Section 4.1' },
+    },
+    {
+      step_id: 'PACK.APA.MDD.2023.TX.02',
+      display_id: 'APA-MDD-TX2',
+      action: 'Augment with atypical antipsychotic or lithium for partial response',
+      normalized_claim: 'For partial SSRI response after adequate trial, augment with aripiprazole, quetiapine, or lithium.',
+      condition: 'Partial response to adequate SSRI trial (4-8 weeks at therapeutic dose)',
+      drug_details: { drug: 'Aripiprazole', dose: '2-15mg', route: 'PO daily' },
+      escalation: 'Switch antidepressant class or refer for ECT if augmentation fails',
+      provenance: { section: 'Augmentation Strategies', page_or_location: 'Section 4.4' },
+    },
+    {
+      step_id: 'PACK.APA.MDD.2023.TX.03',
+      display_id: 'APA-MDD-TX3',
+      action: 'Continue antidepressant for maintenance phase',
+      normalized_claim: 'Continue antidepressant at full dose for >=4-9 months after remission; indefinitely for recurrent MDD (>=3 episodes).',
+      timing: 'After achieving remission',
+      condition: 'Remission achieved on current regimen',
+      provenance: { section: 'Maintenance Treatment', page_or_location: 'Section 4.5' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.APA.MDD.2023.RF.01',
+      display_id: 'APA-MDD-RF1',
+      finding: 'Active suicidal ideation with plan and intent, or recent suicide attempt',
+      implication: 'Immediate risk of self-harm. Outpatient management insufficient.',
+      action: 'Psychiatric emergency evaluation, consider inpatient hospitalization, remove access to lethal means, 1:1 observation.',
+      urgency: 'immediate',
+      provenance: { section: 'Suicide Risk Management', page_or_location: 'Section 2.4' },
+    },
+    {
+      flag_id: 'PACK.APA.MDD.2023.RF.02',
+      display_id: 'APA-MDD-RF2',
+      finding: 'Manic or hypomanic symptoms emerging during antidepressant therapy',
+      implication: 'Suggests bipolar spectrum disorder. Antidepressant monotherapy can worsen mania.',
+      action: 'Discontinue antidepressant, reassess diagnosis for bipolar disorder, initiate mood stabilizer.',
+      urgency: 'urgent',
+      provenance: { section: 'Treatment-Emergent Mania', page_or_location: 'Section 4.6' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.APA.MDD.2023.SEV.01',
+      display_id: 'APA-MDD-SEV1',
+      level: 'Severe MDD with psychotic features',
+      criteria: [
+        'Meets full MDD criteria',
+        'Presence of delusions or hallucinations (typically mood-congruent: guilt, worthlessness, disease, death)',
+        'Often accompanied by psychomotor retardation or agitation',
+        'PHQ-9 typically >=20',
+      ],
+      management_implications:
+        'Requires combination of antidepressant + antipsychotic, or ECT. Antidepressant monotherapy insufficient. Consider inpatient treatment. Higher suicide risk.',
+      provenance: { section: 'Severity Classification', page_or_location: 'Section 2.2' },
+    },
+    {
+      severity_id: 'PACK.APA.MDD.2023.SEV.02',
+      display_id: 'APA-MDD-SEV2',
+      level: 'Treatment-resistant depression',
+      criteria: [
+        'Failure to respond to >=2 adequate antidepressant trials from different classes',
+        'Each trial at adequate dose for >=4-8 weeks',
+        'Adherence confirmed',
+        'Comorbid conditions ruled out as contributing factors',
+      ],
+      management_implications:
+        'Consider augmentation (lithium, atypical antipsychotic), switching class, ECT, ketamine/esketamine, or TMS. Comprehensive reassessment of diagnosis.',
+      provenance: { section: 'Treatment-Resistant Depression', page_or_location: 'Section 5.2' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Phase 1 psychiatry pack for MDD. Covers DSM-5 diagnosis, SSRI first-line, augmentation, ECT, and suicide risk assessment.',
+
+  all_item_ids: [
+    'PACK.APA.MDD.2023.REC.01', 'PACK.APA.MDD.2023.REC.02', 'PACK.APA.MDD.2023.REC.03',
+    'PACK.APA.MDD.2023.REC.04', 'PACK.APA.MDD.2023.DC.01', 'PACK.APA.MDD.2023.T.01',
+    'PACK.APA.MDD.2023.T.02', 'PACK.APA.MDD.2023.TX.01', 'PACK.APA.MDD.2023.TX.02',
+    'PACK.APA.MDD.2023.TX.03', 'PACK.APA.MDD.2023.RF.01', 'PACK.APA.MDD.2023.RF.02',
+    'PACK.APA.MDD.2023.SEV.01', 'PACK.APA.MDD.2023.SEV.02',
+  ],
+  all_display_ids: [
+    'APA-MDD-R1', 'APA-MDD-R2', 'APA-MDD-R3', 'APA-MDD-R4',
+    'APA-MDD-DC1',
+    'APA-MDD-T1', 'APA-MDD-T2',
+    'APA-MDD-TX1', 'APA-MDD-TX2', 'APA-MDD-TX3',
+    'APA-MDD-RF1', 'APA-MDD-RF2',
+    'APA-MDD-SEV1', 'APA-MDD-SEV2',
+  ],
+};

@@ -13,7 +13,7 @@ import type {
   SeverityDefinition,
 } from './source-packs/types';
 import type { TopicSourceConfig } from './source-packs/topic-source-map';
-import { topicSourceMap } from './source-packs/topic-source-map';
+import { topicSourceMap, resolveTopicKey } from './source-packs/topic-source-map';
 import { loadPack } from './source-packs/index';
 
 function formatRecommendation(r: Recommendation): string {
@@ -177,10 +177,12 @@ function formatForAgent(
 
 /**
  * Resolve the full source context for a topic, formatted for agent consumption.
+ * Combines guideline source packs with board review enrichment (DI/IC).
  * Returns empty string if no source pack is configured (will be caught by sufficiency gate).
  */
 export async function resolveSourceContext(topic: string): Promise<string> {
-  const config = topicSourceMap[topic];
+  const resolvedKey = resolveTopicKey(topic);
+  const config = topicSourceMap[resolvedKey];
   if (!config) return '';
 
   const primaryPack = await loadPack(config.primary);
@@ -197,5 +199,22 @@ export async function resolveSourceContext(topic: string): Promise<string> {
     }
   }
 
-  return formatForAgent(primaryPack, secondaryPacks, config);
+  const guidelineContext = formatForAgent(primaryPack, secondaryPacks, config);
+
+  // Enrich with board review sources (DI/IC) — supplementary context, NOT primary authority.
+  // Agents may reference DI/IC for test-taking patterns and clinical associations,
+  // but medical facts must cite the guideline source pack.
+  let enrichment = '';
+  try {
+    const { resolveDIContext } = await import('./di-loader');
+    // Use both the original topic name and resolved key for broader coverage
+    const diContext = await resolveDIContext(topic, { maxItems: 30 });
+    if (diContext) {
+      enrichment = `\n\n${'═'.repeat(50)}\nBOARD REVIEW ENRICHMENT (supplementary — cite guidelines for medical facts)\n${'═'.repeat(50)}\n${diContext}`;
+    }
+  } catch {
+    // DI/IC enrichment is optional — graceful degradation
+  }
+
+  return guidelineContext + enrichment;
 }

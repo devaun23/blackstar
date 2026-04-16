@@ -1,0 +1,210 @@
+import type { SourcePack } from './types';
+
+export const PACK_ACCAHA_PERIOP_2014: SourcePack = {
+  source_pack_id: 'PACK.ACCAHA.PERIOP.2014',
+  source_name: 'ACC/AHA 2014 Guideline on Perioperative Cardiovascular Evaluation and Management of Patients Undergoing Noncardiac Surgery',
+  canonical_url: 'https://doi.org/10.1161/CIR.0000000000000106',
+  publication_year: 2014,
+  guideline_body: 'ACC/AHA',
+
+  topic_tags: ['Perioperative Medicine', 'Cardiac Risk Assessment', 'RCRI', 'Preoperative Evaluation', 'Surgery'],
+  allowed_decision_scopes: [
+    'perioperative cardiac risk assessment',
+    'RCRI scoring and interpretation',
+    'functional capacity assessment (METs)',
+    'stepwise algorithm for non-cardiac surgery',
+    'beta-blocker management perioperatively',
+    'ACEi/ARB perioperative management',
+    'antiplatelet management around surgery',
+    'stent-related DAPT and surgery timing',
+  ],
+  excluded_decision_scopes: [
+    'cardiac surgery risk assessment',
+    'preoperative pulmonary evaluation',
+    'perioperative renal protection',
+    'perioperative glycemic control protocols',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.ACCAHA.PERIOP.2014.REC.01',
+      display_id: 'PERIOP-R1',
+      statement: 'Patients with active cardiac conditions (unstable angina, decompensated HF, significant arrhythmias, severe valvular disease) should have these conditions evaluated and treated before elective non-cardiac surgery.',
+      normalized_claim: 'Active cardiac conditions (unstable angina, decompensated HF, significant arrhythmias, severe valve disease) must be addressed before elective non-cardiac surgery.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Step 1 — Active Cardiac Conditions', page_or_location: 'Section 3' },
+    },
+    {
+      rec_id: 'PACK.ACCAHA.PERIOP.2014.REC.02',
+      display_id: 'PERIOP-R2',
+      statement: 'For patients with elevated cardiac risk (RCRI ≥1) and poor or unknown functional capacity (<4 METs), the clinician should consider whether further testing will change management before ordering pharmacologic stress testing.',
+      normalized_claim: 'Elevated risk (RCRI ≥1) + poor functional capacity (<4 METs): consider stress testing only if it will change management.',
+      strength: 'conditional',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Step 4 — Functional Capacity', page_or_location: 'Section 3' },
+    },
+    {
+      rec_id: 'PACK.ACCAHA.PERIOP.2014.REC.03',
+      display_id: 'PERIOP-R3',
+      statement: 'Beta-blockers should be continued in patients already receiving them chronically. De novo initiation of beta-blockers on the day of surgery is not recommended.',
+      normalized_claim: 'Continue chronic beta-blockers perioperatively. Do NOT start beta-blockers de novo on day of surgery.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Perioperative Beta-Blocker Therapy', page_or_location: 'Section 6' },
+    },
+    {
+      rec_id: 'PACK.ACCAHA.PERIOP.2014.REC.04',
+      display_id: 'PERIOP-R4',
+      statement: 'ACE inhibitors and ARBs should be held on the morning of surgery due to risk of refractory intraoperative hypotension. They may be restarted postoperatively when the patient is hemodynamically stable.',
+      normalized_claim: 'Hold ACEi/ARBs on morning of surgery (risk of intraoperative hypotension). Restart when hemodynamically stable postop.',
+      strength: 'conditional',
+      evidence_quality: 'low',
+      provenance: { section: 'RAAS Inhibitors', page_or_location: 'Section 6' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.ACCAHA.PERIOP.2014.DC.01',
+      display_id: 'PERIOP-DC1',
+      name: 'Revised Cardiac Risk Index (RCRI / Lee Index)',
+      components: [
+        'High-risk surgery (intraperitoneal, intrathoracic, suprainguinal vascular)',
+        'History of ischemic heart disease',
+        'History of congestive heart failure',
+        'History of cerebrovascular disease (stroke or TIA)',
+        'Insulin-dependent diabetes mellitus',
+        'Preoperative serum creatinine >2.0 mg/dL',
+      ],
+      threshold: '0 risk factors = ~3.9% MACE; 1 = ~6%; 2 = ~10.1%; ≥3 = ~15%',
+      interpretation: 'Each factor scores 1 point. Higher scores predict greater risk of major adverse cardiac events (MACE) perioperatively. Guides need for further testing.',
+      normalized_claim: 'RCRI: 6 risk factors (high-risk surgery, IHD, CHF, CVD, insulin-dependent DM, Cr >2.0). Score ≥3 = ~15% MACE risk.',
+      provenance: { section: 'Risk Assessment', page_or_location: 'Section 3' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.ACCAHA.PERIOP.2014.T.01',
+      display_id: 'PERIOP-T1',
+      parameter: 'Functional capacity (METs)',
+      value: '4',
+      unit: 'METs',
+      clinical_meaning: 'Functional capacity ≥4 METs (climb a flight of stairs, walk up a hill, do heavy housework) = adequate. Proceed to surgery without further cardiac testing. <4 METs with elevated risk warrants further evaluation.',
+      normalized_claim: '≥4 METs = adequate functional capacity, proceed to surgery. <4 METs with elevated risk → consider stress testing.',
+      direction: 'above',
+      provenance: { section: 'Functional Capacity', page_or_location: 'Section 3' },
+    },
+    {
+      threshold_id: 'PACK.ACCAHA.PERIOP.2014.T.02',
+      display_id: 'PERIOP-T2',
+      parameter: 'Minimum DAPT duration after bare-metal stent before elective surgery',
+      value: '30',
+      unit: 'days',
+      clinical_meaning: 'Elective non-cardiac surgery should be delayed at least 30 days after bare-metal stent (BMS) placement to allow minimum DAPT duration. Premature discontinuation risks stent thrombosis.',
+      normalized_claim: 'After BMS: delay elective surgery ≥30 days. After DES: delay ≥6 months (ideally 12 months). Premature DAPT cessation risks stent thrombosis.',
+      direction: 'above',
+      provenance: { section: 'Antiplatelet Management', page_or_location: 'Section 7' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.ACCAHA.PERIOP.2014.TX.01',
+      display_id: 'PERIOP-TX1',
+      action: 'Continue chronic beta-blocker therapy perioperatively',
+      normalized_claim: 'Patients on chronic beta-blockers: continue through surgery. Abrupt withdrawal associated with rebound tachycardia and increased cardiac events.',
+      timing: 'Continue through perioperative period including day of surgery',
+      condition: 'Patient already on chronic beta-blocker therapy',
+      drug_details: { drug: 'Metoprolol (or current beta-blocker)', route: 'PO or IV if NPO' },
+      contraindications: ['Severe bradycardia', 'Acute decompensated heart failure'],
+      provenance: { section: 'Beta-Blocker Therapy', page_or_location: 'Section 6' },
+    },
+    {
+      step_id: 'PACK.ACCAHA.PERIOP.2014.TX.02',
+      display_id: 'PERIOP-TX2',
+      action: 'Hold ACE inhibitor/ARB morning of surgery',
+      normalized_claim: 'Hold ACEi/ARB on morning of surgery. Resume postoperatively when hemodynamically stable and tolerating PO. Reduces risk of refractory intraoperative hypotension.',
+      timing: 'Hold morning of surgery; restart postop day 1-2 if stable',
+      condition: 'Patient on chronic ACEi/ARB therapy undergoing non-cardiac surgery',
+      provenance: { section: 'RAAS Inhibitors', page_or_location: 'Section 6' },
+    },
+    {
+      step_id: 'PACK.ACCAHA.PERIOP.2014.TX.03',
+      display_id: 'PERIOP-TX3',
+      action: 'Antiplatelet management for patients with coronary stents',
+      normalized_claim: 'BMS: minimum 30 days DAPT before elective surgery. DES: minimum 6 months (ideally 12). Continue aspirin perioperatively if possible. Discontinue P2Y12 inhibitor 5-7 days preop.',
+      timing: 'Discontinue clopidogrel/ticagrelor 5-7 days before surgery; continue aspirin if bleeding risk acceptable',
+      condition: 'Patient with coronary stent requiring non-cardiac surgery',
+      provenance: { section: 'Antiplatelet Management', page_or_location: 'Section 7' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.ACCAHA.PERIOP.2014.RF.01',
+      display_id: 'PERIOP-RF1',
+      finding: 'Active cardiac condition identified during preoperative evaluation: unstable angina, recent MI (<60 days), decompensated HF, high-grade AV block, symptomatic severe aortic stenosis',
+      implication: 'Proceeding with elective surgery under these conditions carries unacceptably high cardiac morbidity and mortality.',
+      action: 'Cancel/delay elective surgery. Evaluate and treat the cardiac condition first. Cardiology consultation.',
+      urgency: 'urgent',
+      provenance: { section: 'Step 1', page_or_location: 'Section 3' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.ACCAHA.PERIOP.2014.SEV.01',
+      display_id: 'PERIOP-SEV1',
+      level: 'Low Perioperative Cardiac Risk (RCRI 0)',
+      criteria: [
+        'No RCRI risk factors',
+        'Adequate functional capacity (≥4 METs)',
+        'No active cardiac conditions',
+        'Low-risk surgery or moderate-risk surgery',
+      ],
+      management_implications:
+        'Proceed to surgery without further cardiac testing. Continue chronic cardiac medications (except hold ACEi/ARB day of surgery). No perioperative cardiac monitoring beyond standard.',
+      provenance: { section: 'Risk Stratification', page_or_location: 'Section 3' },
+    },
+    {
+      severity_id: 'PACK.ACCAHA.PERIOP.2014.SEV.02',
+      display_id: 'PERIOP-SEV2',
+      level: 'Elevated Perioperative Cardiac Risk (RCRI ≥2, poor functional capacity)',
+      criteria: [
+        'RCRI score ≥2',
+        'Functional capacity <4 METs or unknown',
+        'Planned intermediate or high-risk surgery',
+        'No active cardiac conditions (those would delay surgery)',
+      ],
+      management_implications:
+        'Consider pharmacologic stress testing if results will change management. If proceeding, optimize medical therapy, continue beta-blockers, consider ICU-level postoperative monitoring. Perioperative troponin surveillance may be reasonable.',
+      provenance: { section: 'Risk Stratification', page_or_location: 'Section 3' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Surgery pack: Perioperative cardiac evaluation. Covers RCRI, METs, stepwise algorithm, beta-blocker/ACEi management, antiplatelet/stent timing.',
+
+  all_item_ids: [
+    'PACK.ACCAHA.PERIOP.2014.REC.01', 'PACK.ACCAHA.PERIOP.2014.REC.02', 'PACK.ACCAHA.PERIOP.2014.REC.03',
+    'PACK.ACCAHA.PERIOP.2014.REC.04',
+    'PACK.ACCAHA.PERIOP.2014.DC.01',
+    'PACK.ACCAHA.PERIOP.2014.T.01', 'PACK.ACCAHA.PERIOP.2014.T.02',
+    'PACK.ACCAHA.PERIOP.2014.TX.01', 'PACK.ACCAHA.PERIOP.2014.TX.02', 'PACK.ACCAHA.PERIOP.2014.TX.03',
+    'PACK.ACCAHA.PERIOP.2014.RF.01',
+    'PACK.ACCAHA.PERIOP.2014.SEV.01', 'PACK.ACCAHA.PERIOP.2014.SEV.02',
+  ],
+  all_display_ids: [
+    'PERIOP-R1', 'PERIOP-R2', 'PERIOP-R3', 'PERIOP-R4',
+    'PERIOP-DC1',
+    'PERIOP-T1', 'PERIOP-T2',
+    'PERIOP-TX1', 'PERIOP-TX2', 'PERIOP-TX3',
+    'PERIOP-RF1',
+    'PERIOP-SEV1', 'PERIOP-SEV2',
+  ],
+};

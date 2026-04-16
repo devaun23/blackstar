@@ -1,0 +1,216 @@
+import type { SourcePack } from './types';
+
+export const PACK_AAP_BRONCH_2014: SourcePack = {
+  source_pack_id: 'PACK.AAP.BRONCH.2014',
+  source_name: 'AAP 2014 Clinical Practice Guideline: The Diagnosis, Management, and Prevention of Bronchiolitis',
+  source_registry_id: 'REG.AAP.BRONCH',
+  canonical_url: 'https://doi.org/10.1542/peds.2014-2742',
+  publication_year: 2014,
+  guideline_body: 'AAP',
+
+  topic_tags: ['Bronchiolitis', 'RSV', 'Pediatric Respiratory', 'Palivizumab'],
+  allowed_decision_scopes: [
+    'bronchiolitis diagnosis',
+    'bronchiolitis supportive care',
+    'bronchodilator use in bronchiolitis',
+    'corticosteroid use in bronchiolitis',
+    'palivizumab prophylaxis indications',
+    'hospitalization criteria for bronchiolitis',
+  ],
+  excluded_decision_scopes: [
+    'recurrent wheezing beyond bronchiolitis',
+    'pediatric asthma management',
+    'RSV vaccine development',
+    'bronchiolitis in immunocompromised children',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.AAP.BRONCH.2014.REC.01',
+      display_id: 'AAP-BRONCH-R1',
+      statement: 'Bronchiolitis is a clinical diagnosis based on history and physical examination. Routine laboratory or radiographic studies should NOT be obtained.',
+      normalized_claim: 'Bronchiolitis is diagnosed clinically; routine labs, CXR, and viral testing are NOT recommended.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Diagnosis', page_or_location: 'Section 2.1' },
+    },
+    {
+      rec_id: 'PACK.AAP.BRONCH.2014.REC.02',
+      display_id: 'AAP-BRONCH-R2',
+      statement: 'Clinicians should NOT administer albuterol or salbutamol to infants and children with bronchiolitis.',
+      normalized_claim: 'Bronchodilators (albuterol) should NOT be used in bronchiolitis; no proven benefit and potential adverse effects.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Pharmacologic Therapy', page_or_location: 'Section 3.1' },
+    },
+    {
+      rec_id: 'PACK.AAP.BRONCH.2014.REC.03',
+      display_id: 'AAP-BRONCH-R3',
+      statement: 'Clinicians should NOT administer systemic corticosteroids to infants with bronchiolitis.',
+      normalized_claim: 'Systemic corticosteroids are NOT recommended for bronchiolitis; no benefit in RCTs.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Pharmacologic Therapy', page_or_location: 'Section 3.2' },
+    },
+    {
+      rec_id: 'PACK.AAP.BRONCH.2014.REC.04',
+      display_id: 'AAP-BRONCH-R4',
+      statement: 'Clinicians should NOT administer antibiotics to infants with bronchiolitis unless there is a concomitant bacterial infection.',
+      normalized_claim: 'Antibiotics are NOT indicated for bronchiolitis unless documented concurrent bacterial infection.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Pharmacologic Therapy', page_or_location: 'Section 3.3' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.AAP.BRONCH.2014.DC.01',
+      display_id: 'AAP-BRONCH-DC1',
+      name: 'Bronchiolitis Clinical Diagnosis',
+      components: [
+        'Age typically <2 years (peak 2-6 months)',
+        'Initial upper respiratory prodrome (rhinorrhea, cough, low-grade fever) for 1-3 days',
+        'Followed by lower respiratory signs: wheezing, crackles, tachypnea, increased work of breathing',
+        'Most commonly caused by RSV (50-80% of cases)',
+        'Seasonal pattern (fall-winter in temperate climates)',
+      ],
+      interpretation: 'Diagnosis is clinical. Chest X-ray may show hyperinflation and peribronchial thickening but is not needed for diagnosis and may lead to unnecessary antibiotics.',
+      normalized_claim: 'Bronchiolitis diagnosed clinically in child <2 years with URI prodrome followed by wheezing, crackles, and respiratory distress; RSV most common cause.',
+      provenance: { section: 'Diagnosis', page_or_location: 'Section 2.1' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.AAP.BRONCH.2014.T.01',
+      display_id: 'AAP-BRONCH-T1',
+      parameter: 'SpO2 threshold for supplemental oxygen',
+      value: '90',
+      unit: '%',
+      clinical_meaning: 'Supplemental oxygen is indicated when SpO2 falls persistently below 90%. Brief desaturations during sleep or feeding may not require intervention.',
+      normalized_claim: 'Supplemental O2 for bronchiolitis when SpO2 persistently <90%; higher thresholds are not supported by evidence.',
+      direction: 'below',
+      provenance: { section: 'Respiratory Support', page_or_location: 'Section 3.4' },
+    },
+    {
+      threshold_id: 'PACK.AAP.BRONCH.2014.T.02',
+      display_id: 'AAP-BRONCH-T2',
+      parameter: 'Age threshold for highest risk',
+      value: '12',
+      unit: 'weeks',
+      clinical_meaning: 'Infants <12 weeks of age are at highest risk for apnea and severe disease from bronchiolitis and have a lower threshold for hospitalization.',
+      normalized_claim: 'Infants <12 weeks have highest risk for apnea and severe bronchiolitis; lower threshold for admission.',
+      direction: 'below',
+      provenance: { section: 'Risk Factors', page_or_location: 'Section 2.3' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.AAP.BRONCH.2014.TX.01',
+      display_id: 'AAP-BRONCH-TX1',
+      action: 'Nasal suctioning and supportive care',
+      normalized_claim: 'Primary treatment is supportive: nasal suctioning to clear secretions, maintain hydration (oral or IV/NG if unable to feed), and supplemental O2 if SpO2 <90%.',
+      timing: 'Throughout illness course',
+      condition: 'All infants with bronchiolitis',
+      provenance: { section: 'Supportive Care', page_or_location: 'Section 3.4' },
+    },
+    {
+      step_id: 'PACK.AAP.BRONCH.2014.TX.02',
+      display_id: 'AAP-BRONCH-TX2',
+      action: 'Hypertonic saline nebulization for hospitalized patients',
+      normalized_claim: 'Nebulized 3% hypertonic saline may be administered to hospitalized infants with bronchiolitis; not recommended for ED use.',
+      timing: 'During hospitalization',
+      condition: 'Hospitalized infants with bronchiolitis',
+      provenance: { section: 'Pharmacologic Therapy', page_or_location: 'Section 3.5' },
+    },
+    {
+      step_id: 'PACK.AAP.BRONCH.2014.TX.03',
+      display_id: 'AAP-BRONCH-TX3',
+      action: 'Palivizumab prophylaxis for high-risk infants',
+      normalized_claim: 'Palivizumab (15 mg/kg IM monthly during RSV season) for preterm infants <29 weeks GA, hemodynamically significant CHD, or chronic lung disease of prematurity.',
+      timing: 'Monthly during RSV season (November-March)',
+      condition: 'High-risk infants: preterm <29 weeks GA, significant CHD, chronic lung disease',
+      drug_details: { drug: 'Palivizumab', dose: '15 mg/kg', route: 'IM monthly' },
+      provenance: { section: 'Prevention', page_or_location: 'Section 5.1' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.AAP.BRONCH.2014.RF.01',
+      display_id: 'AAP-BRONCH-RF1',
+      finding: 'Apneic episodes in infant with bronchiolitis, especially if <12 weeks old or born premature',
+      implication: 'Apnea may be the presenting sign of RSV bronchiolitis in young infants. Risk of respiratory failure.',
+      action: 'Hospital admission for continuous cardiorespiratory monitoring. Consider ICU for recurrent apnea. Evaluate for need for respiratory support (HFNC, CPAP).',
+      urgency: 'immediate',
+      provenance: { section: 'High-Risk Features', page_or_location: 'Section 4.1' },
+    },
+    {
+      flag_id: 'PACK.AAP.BRONCH.2014.RF.02',
+      display_id: 'AAP-BRONCH-RF2',
+      finding: 'Respiratory failure: severe retractions, grunting, cyanosis, SpO2 <90% on supplemental O2, or inability to maintain oral intake',
+      implication: 'May require escalation to HFNC, CPAP, or mechanical ventilation.',
+      action: 'ICU admission. Consider HFNC or CPAP before intubation. Ensure adequate hydration via IV. Continuous monitoring.',
+      urgency: 'immediate',
+      provenance: { section: 'Respiratory Support', page_or_location: 'Section 4.2' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.AAP.BRONCH.2014.SEV.01',
+      display_id: 'AAP-BRONCH-SEV1',
+      level: 'Mild bronchiolitis',
+      criteria: [
+        'SpO2 >=90% on room air',
+        'Adequate oral intake (>50% of normal)',
+        'Mild increased work of breathing (mild subcostal retractions)',
+        'No apneic episodes',
+        'Appropriate age and no high-risk comorbidities',
+      ],
+      management_implications:
+        'Outpatient management with parental education on nasal suctioning, small frequent feeds, and warning signs. Follow-up within 24-48 hours. Return precautions for worsening respiratory distress, poor feeding, or apnea.',
+      provenance: { section: 'Disposition', page_or_location: 'Section 4.3' },
+    },
+    {
+      severity_id: 'PACK.AAP.BRONCH.2014.SEV.02',
+      display_id: 'AAP-BRONCH-SEV2',
+      level: 'Severe bronchiolitis requiring hospitalization',
+      criteria: [
+        'SpO2 <90% on room air',
+        'Moderate-severe respiratory distress (nasal flaring, significant retractions, grunting)',
+        'Inability to maintain adequate hydration orally',
+        'Apnea episodes',
+        'Age <12 weeks or high-risk comorbidities (CHD, chronic lung disease, immunodeficiency)',
+      ],
+      management_implications:
+        'Hospitalization for supplemental O2, IV/NG hydration, continuous pulse oximetry. Consider HFNC or CPAP for progressive respiratory failure. No bronchodilators or steroids. ICU transfer for apnea or need for positive pressure ventilation.',
+      provenance: { section: 'Hospitalization Criteria', page_or_location: 'Section 4.1' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Pediatrics pack for bronchiolitis per AAP 2014 guideline. Emphasizes supportive care only and evidence against bronchodilators/steroids/antibiotics.',
+
+  all_item_ids: [
+    'PACK.AAP.BRONCH.2014.REC.01', 'PACK.AAP.BRONCH.2014.REC.02', 'PACK.AAP.BRONCH.2014.REC.03',
+    'PACK.AAP.BRONCH.2014.REC.04', 'PACK.AAP.BRONCH.2014.DC.01',
+    'PACK.AAP.BRONCH.2014.T.01', 'PACK.AAP.BRONCH.2014.T.02',
+    'PACK.AAP.BRONCH.2014.TX.01', 'PACK.AAP.BRONCH.2014.TX.02', 'PACK.AAP.BRONCH.2014.TX.03',
+    'PACK.AAP.BRONCH.2014.RF.01', 'PACK.AAP.BRONCH.2014.RF.02',
+    'PACK.AAP.BRONCH.2014.SEV.01', 'PACK.AAP.BRONCH.2014.SEV.02',
+  ],
+  all_display_ids: [
+    'AAP-BRONCH-R1', 'AAP-BRONCH-R2', 'AAP-BRONCH-R3', 'AAP-BRONCH-R4',
+    'AAP-BRONCH-DC1',
+    'AAP-BRONCH-T1', 'AAP-BRONCH-T2',
+    'AAP-BRONCH-TX1', 'AAP-BRONCH-TX2', 'AAP-BRONCH-TX3',
+    'AAP-BRONCH-RF1', 'AAP-BRONCH-RF2',
+    'AAP-BRONCH-SEV1', 'AAP-BRONCH-SEV2',
+  ],
+};
