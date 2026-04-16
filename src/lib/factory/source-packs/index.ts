@@ -149,6 +149,86 @@ const PACK_REGISTRY: Record<string, () => Promise<SourcePack>> = {
     import('./ata-thyroid-nodule-surg').then((m) => m.PACK_ATA_THYSURG_2015),
   'PACK.WSES.ABD.2020': () =>
     import('./wses-acute-abdomen').then((m) => m.PACK_WSES_ABD_2020),
+
+  // ── OB/GYN ──
+  'PACK.ACOG.PREEC.2020': () =>
+    import('./acog-preeclampsia').then((m) => m.PACK_ACOG_PREEC_2020),
+  'PACK.ACOG.GDM.2018': () =>
+    import('./acog-gdm').then((m) => m.PACK_ACOG_GDM_2018),
+  'PACK.ACOG.PTL.2021': () =>
+    import('./acog-preterm-labor').then((m) => m.PACK_ACOG_PTL_2021),
+  'PACK.ACOG.ECTOP.2018': () =>
+    import('./acog-ectopic').then((m) => m.PACK_ACOG_ECTOP_2018),
+  'PACK.ACOG.RH.2018': () =>
+    import('./acog-rh').then((m) => m.PACK_ACOG_RH_2018),
+  'PACK.ACOG.LABOR.2019': () =>
+    import('./acog-labor').then((m) => m.PACK_ACOG_LABOR_2019),
+  'PACK.ACOG.PPH.2017': () =>
+    import('./acog-pph').then((m) => m.PACK_ACOG_PPH_2017),
+  'PACK.ACOG.PRENA.2020': () =>
+    import('./acog-prenatal').then((m) => m.PACK_ACOG_PRENA_2020),
+  'PACK.ACOG.PLAC.2019': () =>
+    import('./acog-placental').then((m) => m.PACK_ACOG_PLAC_2019),
+  'PACK.ACOG.PROM.2020': () =>
+    import('./acog-prom').then((m) => m.PACK_ACOG_PROM_2020),
+  'PACK.ASCCP.CERV.2019': () =>
+    import('./asccp-cervical').then((m) => m.PACK_ASCCP_CERV_2019),
+  'PACK.ACOG.AUB.2021': () =>
+    import('./acog-aub').then((m) => m.PACK_ACOG_AUB_2021),
+  'PACK.CDC.CONTRA.2024': () =>
+    import('./cdc-contraception').then((m) => m.PACK_CDC_CONTRA_2024),
+  'PACK.ACOG.OVAR.2016': () =>
+    import('./acog-ovarian').then((m) => m.PACK_ACOG_OVAR_2016),
+  'PACK.NAMS.MENO.2022': () =>
+    import('./nams-menopause').then((m) => m.PACK_NAMS_MENO_2022),
+
+  // ── Pediatrics ──
+  'PACK.AHA.KAWA.2017': () =>
+    import('./aha-kawasaki').then((m) => m.PACK_AHA_KAWA_2017),
+  'PACK.AAP.NRP.2020': () =>
+    import('./aap-nrp').then((m) => m.PACK_AAP_NRP_2020),
+  'PACK.AAP.JAUN.2022': () =>
+    import('./aap-jaundice').then((m) => m.PACK_AAP_JAUN_2022),
+  'PACK.AAP.BRONCH.2014': () =>
+    import('./aap-bronchiolitis').then((m) => m.PACK_AAP_BRONCH_2014),
+  'PACK.AAP.AOM.2013': () =>
+    import('./aap-aom').then((m) => m.PACK_AAP_AOM_2013),
+  'PACK.AAP.FSEZ.2011': () =>
+    import('./aap-febrile-seizures').then((m) => m.PACK_AAP_FSEZ_2011),
+  'PACK.AAP.PUTI.2016': () =>
+    import('./aap-pedi-uti').then((m) => m.PACK_AAP_PUTI_2016),
+  'PACK.AAP.ADHD.2019': () =>
+    import('./aap-adhd').then((m) => m.PACK_AAP_ADHD_2019),
+  'PACK.CDC.IMMUN.2024': () =>
+    import('./cdc-immunizations').then((m) => m.PACK_CDC_IMMUN_2024),
+  'PACK.CDC.MILES.2022': () =>
+    import('./cdc-milestones').then((m) => m.PACK_CDC_MILES_2022),
+  'PACK.AAP.CROUP.2019': () =>
+    import('./aap-croup').then((m) => m.PACK_AAP_CROUP_2019),
+  'PACK.GINA.PASTHMA.2024': () =>
+    import('./gina-peds-asthma').then((m) => m.PACK_GINA_PASTHMA_2024),
+
+  // ── Psychiatry ──
+  'PACK.APA.MDD.2023': () =>
+    import('./apa-mdd').then((m) => m.PACK_APA_MDD_2023),
+  'PACK.APA.BPD.2023': () =>
+    import('./apa-bipolar').then((m) => m.PACK_APA_BPD_2023),
+  'PACK.APA.SCZ.2020': () =>
+    import('./apa-schizophrenia').then((m) => m.PACK_APA_SCZ_2020),
+  'PACK.ASAM.OUD.2020': () =>
+    import('./asam-oud').then((m) => m.PACK_ASAM_OUD_2020),
+  'PACK.APA.AUD.2018': () =>
+    import('./apa-aud').then((m) => m.PACK_APA_AUD_2018),
+  'PACK.APA.ANXPTSD.2017': () =>
+    import('./apa-anxiety-ptsd').then((m) => m.PACK_APA_ANXPTSD_2017),
+  'PACK.APA.EAT.2023': () =>
+    import('./apa-eating').then((m) => m.PACK_APA_EAT_2023),
+
+  // ── Preventive Medicine ──
+  'PACK.USPSTF.SCREEN.2024': () =>
+    import('./uspstf-screening').then((m) => m.PACK_USPSTF_SCREEN_2024),
+  'PACK.CDC.ADIMMUN.2024': () =>
+    import('./cdc-adult-immun').then((m) => m.PACK_CDC_ADIMMUN_2024),
 };
 
 /** Load a pack by ID. Returns null if not registered or not active. */

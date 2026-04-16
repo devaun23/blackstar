@@ -396,6 +396,292 @@ export const topicSourceMap: Record<string, TopicSourceConfig> = {
     conflict_resolution: 'IDSA SSTI guideline covers diabetic foot infections/osteomyelitis.',
     precedence_rule: 'IDSA sole authority.',
   },
+
+  // ── Phase 4: Surgery ──
+  'Trauma': {
+    topic_id: 'TOPIC.SURG.TRAUMA',
+    primary: 'PACK.ACS.ATLS.2018',
+    conflict_resolution: 'ACS/ATLS is the authority for trauma management.',
+    precedence_rule: 'ACS/ATLS sole authority.',
+  },
+  'Appendicitis': {
+    topic_id: 'TOPIC.SURG.APPY',
+    primary: 'PACK.WSES.APPY.2020',
+    conflict_resolution: 'WSES/SAGES is the authority for appendicitis.',
+    precedence_rule: 'WSES sole authority.',
+  },
+  'Cholecystitis / Cholangitis': {
+    topic_id: 'TOPIC.SURG.CHOLE',
+    primary: 'PACK.TG.CHOLE.2018',
+    conflict_resolution: 'Tokyo Guidelines is the authority for biliary disease.',
+    precedence_rule: 'TG18 sole authority.',
+  },
+  'Small Bowel Obstruction': {
+    topic_id: 'TOPIC.SURG.SBO',
+    primary: 'PACK.WSES.SBO.2017',
+    conflict_resolution: 'WSES is the authority for SBO management.',
+    precedence_rule: 'WSES sole authority.',
+  },
+  'Inguinal Hernia': {
+    topic_id: 'TOPIC.SURG.HERNIA',
+    primary: 'PACK.HS.HERNIA.2018',
+    conflict_resolution: 'HerniaSurge is the authority for inguinal hernia.',
+    precedence_rule: 'HerniaSurge sole authority.',
+  },
+  'Burns': {
+    topic_id: 'TOPIC.SURG.BURNS',
+    primary: 'PACK.ABA.BURNS.2016',
+    conflict_resolution: 'ABA is the authority for burn management.',
+    precedence_rule: 'ABA sole authority.',
+  },
+  'Perioperative CV Evaluation': {
+    topic_id: 'TOPIC.SURG.PERIOP',
+    primary: 'PACK.ACCAHA.PERIOP.2014',
+    conflict_resolution: 'ACC/AHA is the authority for perioperative cardiac risk.',
+    precedence_rule: 'ACC/AHA sole authority.',
+  },
+  'Breast Cancer': {
+    topic_id: 'TOPIC.SURG.BREAST',
+    primary: 'PACK.NCCN.BREAST.2024',
+    conflict_resolution: 'NCCN is the authority for breast cancer management.',
+    precedence_rule: 'NCCN sole authority.',
+  },
+  'Thyroid Nodule (Surgical)': {
+    topic_id: 'TOPIC.SURG.THYSURG',
+    primary: 'PACK.ATA.THYSURG.2015',
+    conflict_resolution: 'ATA is the authority for thyroid nodule surgical management.',
+    precedence_rule: 'ATA sole authority.',
+  },
+  'Diverticulitis / Mesenteric Ischemia': {
+    topic_id: 'TOPIC.SURG.ABD',
+    primary: 'PACK.WSES.ABD.2020',
+    conflict_resolution: 'WSES is the authority for acute abdominal emergencies.',
+    precedence_rule: 'WSES sole authority.',
+  },
+
+  // ── Phase 5: OB/GYN ──
+  'Preeclampsia / Eclampsia': {
+    topic_id: 'TOPIC.OBGYN.PREEC',
+    primary: 'PACK.ACOG.PREEC.2020',
+    conflict_resolution: 'ACOG is the authority for hypertensive disorders of pregnancy.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Gestational Diabetes': {
+    topic_id: 'TOPIC.OBGYN.GDM',
+    primary: 'PACK.ACOG.GDM.2018',
+    conflict_resolution: 'ACOG is the authority for GDM.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Preterm Labor': {
+    topic_id: 'TOPIC.OBGYN.PTL',
+    primary: 'PACK.ACOG.PTL.2021',
+    conflict_resolution: 'ACOG is the authority for preterm labor management.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Ectopic Pregnancy': {
+    topic_id: 'TOPIC.OBGYN.ECTOP',
+    primary: 'PACK.ACOG.ECTOP.2018',
+    conflict_resolution: 'ACOG is the authority for ectopic pregnancy.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Rh Isoimmunization': {
+    topic_id: 'TOPIC.OBGYN.RH',
+    primary: 'PACK.ACOG.RH.2018',
+    conflict_resolution: 'ACOG is the authority for Rh disease.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Labor Management': {
+    topic_id: 'TOPIC.OBGYN.LABOR',
+    primary: 'PACK.ACOG.LABOR.2019',
+    conflict_resolution: 'ACOG is the authority for labor management.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Postpartum Hemorrhage': {
+    topic_id: 'TOPIC.OBGYN.PPH',
+    primary: 'PACK.ACOG.PPH.2017',
+    conflict_resolution: 'ACOG is the authority for PPH.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Prenatal Care': {
+    topic_id: 'TOPIC.OBGYN.PRENA',
+    primary: 'PACK.ACOG.PRENA.2020',
+    conflict_resolution: 'ACOG is the authority for prenatal screening.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Placental Disorders': {
+    topic_id: 'TOPIC.OBGYN.PLAC',
+    primary: 'PACK.ACOG.PLAC.2019',
+    conflict_resolution: 'ACOG is the authority for placental disorders.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'PROM / PPROM': {
+    topic_id: 'TOPIC.OBGYN.PROM',
+    primary: 'PACK.ACOG.PROM.2020',
+    conflict_resolution: 'ACOG is the authority for PROM management.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Cervical Cancer Screening': {
+    topic_id: 'TOPIC.OBGYN.CERV',
+    primary: 'PACK.ASCCP.CERV.2019',
+    conflict_resolution: 'ASCCP is the authority for cervical screening.',
+    precedence_rule: 'ASCCP sole authority.',
+  },
+  'Abnormal Uterine Bleeding': {
+    topic_id: 'TOPIC.OBGYN.AUB',
+    primary: 'PACK.ACOG.AUB.2021',
+    conflict_resolution: 'ACOG is the authority for AUB.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Contraception': {
+    topic_id: 'TOPIC.OBGYN.CONTRA',
+    primary: 'PACK.CDC.CONTRA.2024',
+    conflict_resolution: 'CDC US MEC is the authority for contraceptive eligibility.',
+    precedence_rule: 'CDC sole authority.',
+  },
+  'Ovarian Mass': {
+    topic_id: 'TOPIC.OBGYN.OVAR',
+    primary: 'PACK.ACOG.OVAR.2016',
+    conflict_resolution: 'ACOG is the authority for ovarian mass evaluation.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Menopause / HRT': {
+    topic_id: 'TOPIC.OBGYN.MENO',
+    primary: 'PACK.NAMS.MENO.2022',
+    conflict_resolution: 'NAMS is the authority for menopause management.',
+    precedence_rule: 'NAMS sole authority.',
+  },
+
+  // ── Phase 6: Pediatrics ──
+  'Kawasaki Disease': {
+    topic_id: 'TOPIC.PEDS.KAWA',
+    primary: 'PACK.AHA.KAWA.2017',
+    conflict_resolution: 'AHA is the authority for Kawasaki disease.',
+    precedence_rule: 'AHA sole authority.',
+  },
+  'Neonatal Resuscitation': {
+    topic_id: 'TOPIC.PEDS.NRP',
+    primary: 'PACK.AAP.NRP.2020',
+    conflict_resolution: 'AAP/NRP is the authority for neonatal resuscitation.',
+    precedence_rule: 'AAP sole authority.',
+  },
+  'Neonatal Jaundice': {
+    topic_id: 'TOPIC.PEDS.JAUN',
+    primary: 'PACK.AAP.JAUN.2022',
+    conflict_resolution: 'AAP is the authority for neonatal hyperbilirubinemia.',
+    precedence_rule: 'AAP sole authority.',
+  },
+  'Bronchiolitis': {
+    topic_id: 'TOPIC.PEDS.BRONCH',
+    primary: 'PACK.AAP.BRONCH.2014',
+    conflict_resolution: 'AAP is the authority for bronchiolitis.',
+    precedence_rule: 'AAP sole authority.',
+  },
+  'Acute Otitis Media': {
+    topic_id: 'TOPIC.PEDS.AOM',
+    primary: 'PACK.AAP.AOM.2013',
+    conflict_resolution: 'AAP is the authority for AOM.',
+    precedence_rule: 'AAP sole authority.',
+  },
+  'Febrile Seizures': {
+    topic_id: 'TOPIC.PEDS.FSEZ',
+    primary: 'PACK.AAP.FSEZ.2011',
+    conflict_resolution: 'AAP is the authority for febrile seizures.',
+    precedence_rule: 'AAP sole authority.',
+  },
+  'Pediatric UTI': {
+    topic_id: 'TOPIC.PEDS.PUTI',
+    primary: 'PACK.AAP.PUTI.2016',
+    conflict_resolution: 'AAP is the authority for pediatric UTI.',
+    precedence_rule: 'AAP sole authority.',
+  },
+  'ADHD': {
+    topic_id: 'TOPIC.PEDS.ADHD',
+    primary: 'PACK.AAP.ADHD.2019',
+    conflict_resolution: 'AAP is the authority for ADHD.',
+    precedence_rule: 'AAP sole authority.',
+  },
+  'Immunization Schedule': {
+    topic_id: 'TOPIC.PEDS.IMMUN',
+    primary: 'PACK.CDC.IMMUN.2024',
+    conflict_resolution: 'CDC/ACIP is the authority for immunization schedules.',
+    precedence_rule: 'CDC sole authority.',
+  },
+  'Developmental Milestones': {
+    topic_id: 'TOPIC.PEDS.MILES',
+    primary: 'PACK.CDC.MILES.2022',
+    conflict_resolution: 'CDC/AAP is the authority for developmental milestones.',
+    precedence_rule: 'CDC/AAP sole authority.',
+  },
+  'Croup': {
+    topic_id: 'TOPIC.PEDS.CROUP',
+    primary: 'PACK.AAP.CROUP.2019',
+    conflict_resolution: 'AAP is the authority for croup management.',
+    precedence_rule: 'AAP sole authority.',
+  },
+  'Pediatric Asthma': {
+    topic_id: 'TOPIC.PEDS.PASTHMA',
+    primary: 'PACK.GINA.PASTHMA.2024',
+    conflict_resolution: 'GINA is the authority for pediatric asthma.',
+    precedence_rule: 'GINA sole authority.',
+  },
+
+  // ── Phase 7: Psychiatry ──
+  'Major Depressive Disorder': {
+    topic_id: 'TOPIC.PSYCH.MDD',
+    primary: 'PACK.APA.MDD.2023',
+    conflict_resolution: 'APA is the authority for MDD.',
+    precedence_rule: 'APA sole authority.',
+  },
+  'Bipolar Disorder': {
+    topic_id: 'TOPIC.PSYCH.BPD',
+    primary: 'PACK.APA.BPD.2023',
+    conflict_resolution: 'APA is the authority for bipolar disorder.',
+    precedence_rule: 'APA sole authority.',
+  },
+  'Schizophrenia': {
+    topic_id: 'TOPIC.PSYCH.SCZ',
+    primary: 'PACK.APA.SCZ.2020',
+    conflict_resolution: 'APA is the authority for schizophrenia.',
+    precedence_rule: 'APA sole authority.',
+  },
+  'Opioid / Substance Use Disorder': {
+    topic_id: 'TOPIC.PSYCH.OUD',
+    primary: 'PACK.ASAM.OUD.2020',
+    conflict_resolution: 'ASAM is the authority for substance use disorders.',
+    precedence_rule: 'ASAM sole authority.',
+  },
+  'Alcohol Use Disorder': {
+    topic_id: 'TOPIC.PSYCH.AUD',
+    primary: 'PACK.APA.AUD.2018',
+    conflict_resolution: 'APA is the authority for alcohol use disorder.',
+    precedence_rule: 'APA sole authority.',
+  },
+  'Anxiety / PTSD': {
+    topic_id: 'TOPIC.PSYCH.ANXPTSD',
+    primary: 'PACK.APA.ANXPTSD.2017',
+    conflict_resolution: 'APA is the authority for anxiety and PTSD.',
+    precedence_rule: 'APA sole authority.',
+  },
+  'Eating Disorders': {
+    topic_id: 'TOPIC.PSYCH.EAT',
+    primary: 'PACK.APA.EAT.2023',
+    conflict_resolution: 'APA is the authority for eating disorders.',
+    precedence_rule: 'APA sole authority.',
+  },
+
+  // ── Phase 7: Preventive Medicine ──
+  'USPSTF Screening': {
+    topic_id: 'TOPIC.PREV.SCREEN',
+    primary: 'PACK.USPSTF.SCREEN.2024',
+    conflict_resolution: 'USPSTF is the authority for screening recommendations.',
+    precedence_rule: 'USPSTF sole authority.',
+  },
+  'Adult Immunization': {
+    topic_id: 'TOPIC.PREV.ADIMMUN',
+    primary: 'PACK.CDC.ADIMMUN.2024',
+    conflict_resolution: 'CDC/ACIP is the authority for adult immunizations.',
+    precedence_rule: 'CDC sole authority.',
+  },
 };
 
 // ─── Topic Alias Resolution ───
@@ -471,6 +757,60 @@ const topicAliases: Record<string, string> = {
   // Preventive — route to preventive packs
   'Lipid Management': 'Dyslipidemia',
   'Osteoporosis Screening': 'Osteoporosis',
+
+  // Surgery aliases
+  'ATLS': 'Trauma',
+  'Hemorrhagic Shock': 'Trauma',
+  'Acute Cholecystitis': 'Cholecystitis / Cholangitis',
+  'Choledocholithiasis': 'Cholecystitis / Cholangitis',
+  'Cholangitis': 'Cholecystitis / Cholangitis',
+  'Bowel Obstruction': 'Small Bowel Obstruction',
+  'Burn Injury': 'Burns',
+  'Preoperative Evaluation': 'Perioperative CV Evaluation',
+  'Diverticulitis': 'Diverticulitis / Mesenteric Ischemia',
+  'Mesenteric Ischemia': 'Diverticulitis / Mesenteric Ischemia',
+
+  // OB/GYN aliases
+  'Preeclampsia': 'Preeclampsia / Eclampsia',
+  'Eclampsia': 'Preeclampsia / Eclampsia',
+  'HELLP Syndrome': 'Preeclampsia / Eclampsia',
+  'Placenta Previa': 'Placental Disorders',
+  'Placental Abruption': 'Placental Disorders',
+  'PROM': 'PROM / PPROM',
+  'PPROM': 'PROM / PPROM',
+  'Shoulder Dystocia': 'Labor Management',
+  'C-Section': 'Labor Management',
+  'Ovarian Torsion': 'Ovarian Mass',
+
+  // Pediatrics aliases
+  'RSV Bronchiolitis': 'Bronchiolitis',
+  'Neonatal Hyperbilirubinemia': 'Neonatal Jaundice',
+  'Kernicterus': 'Neonatal Jaundice',
+  'NRP': 'Neonatal Resuscitation',
+  'Otitis Media': 'Acute Otitis Media',
+  'Pediatric Asthma Exacerbation': 'Pediatric Asthma',
+
+  // Psychiatry aliases
+  'Depression': 'Major Depressive Disorder',
+  'MDD': 'Major Depressive Disorder',
+  'Mania': 'Bipolar Disorder',
+  'Alcohol Withdrawal': 'Alcohol Use Disorder',
+  'Delirium Tremens': 'Alcohol Use Disorder',
+  'Opioid Overdose': 'Opioid / Substance Use Disorder',
+  'Opioid Use Disorder': 'Opioid / Substance Use Disorder',
+  'GAD': 'Anxiety / PTSD',
+  'Panic Disorder': 'Anxiety / PTSD',
+  'PTSD': 'Anxiety / PTSD',
+  'OCD': 'Anxiety / PTSD',
+  'Anorexia Nervosa': 'Eating Disorders',
+  'Bulimia Nervosa': 'Eating Disorders',
+  'NMS': 'Schizophrenia',
+
+  // Preventive aliases
+  'Cancer Screening': 'USPSTF Screening',
+  'Breast Cancer Screening': 'USPSTF Screening',
+  'Colorectal Cancer Screening': 'USPSTF Screening',
+  'Lung Cancer Screening': 'USPSTF Screening',
 };
 
 /**
