@@ -54,7 +54,7 @@ function hasManagementHinge(pack: SourcePack): boolean {
   return hasThresholdWithMeaning || hasSeverityWithImplications;
 }
 
-function evaluatePack(pack: SourcePack, topic: string): SufficiencyResult {
+export function evaluatePack(pack: SourcePack, topic: string): SufficiencyResult {
   const missing: string[] = [];
 
   if (pack.recommendations.length < MINIMUM_REQUIREMENTS.recommendations) {

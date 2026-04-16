@@ -254,7 +254,52 @@ export const PACK_AHA_ACS_2023: SourcePack = {
     },
   ],
 
-  severity_definitions: [],
+  severity_definitions: [
+    {
+      severity_id: 'PACK.AHA.ACS.2023.SEV.01',
+      display_id: 'AHA-ACS-SEV1',
+      level: 'STEMI with cardiogenic shock',
+      criteria: [
+        'ST elevation meeting STEMI criteria',
+        'SBP <90 mmHg for ≥30 minutes or vasopressor requirement',
+        'Signs of end-organ hypoperfusion (altered mental status, cool extremities, oliguria)',
+        'Pulmonary congestion on exam or imaging',
+      ],
+      management_implications:
+        'Emergent PCI regardless of time delay. Vasopressors (norepinephrine first-line). Consider mechanical circulatory support (IABP, Impella). Mortality >40% without intervention.',
+      provenance: { section: 'Cardiogenic Shock', page_or_location: 'Section 8.1' },
+    },
+    {
+      severity_id: 'PACK.AHA.ACS.2023.SEV.02',
+      display_id: 'AHA-ACS-SEV2',
+      level: 'NSTEMI high-risk',
+      criteria: [
+        'TIMI score ≥3 or GRACE score >140',
+        'Positive troponin with dynamic changes',
+        'Recurrent ischemic symptoms despite medical therapy',
+        'Dynamic ST-segment or T-wave changes',
+        'Hemodynamic instability or sustained VT',
+      ],
+      management_implications:
+        'Early invasive strategy within 24 hours. Full anticoagulation + DAPT. ICU-level monitoring. Do not discharge without catheterization.',
+      provenance: { section: 'NSTEMI Risk Stratification', page_or_location: 'Section 4.3' },
+    },
+    {
+      severity_id: 'PACK.AHA.ACS.2023.SEV.03',
+      display_id: 'AHA-ACS-SEV3',
+      level: 'NSTEMI low-risk',
+      criteria: [
+        'TIMI score 0-2 and GRACE score <109',
+        'Negative or minimally elevated troponin',
+        'No recurrent chest pain',
+        'No hemodynamic compromise',
+        'No dynamic ECG changes',
+      ],
+      management_implications:
+        'Ischemia-guided strategy acceptable. Stress testing before or shortly after discharge. Medical therapy with DAPT and statin. Outpatient cardiology follow-up.',
+      provenance: { section: 'NSTEMI Risk Stratification', page_or_location: 'Section 4.3' },
+    },
+  ],
 
   source_pack_version: 1,
   status: 'active',
@@ -270,6 +315,7 @@ export const PACK_AHA_ACS_2023: SourcePack = {
     'PACK.AHA.ACS.2023.T.03', 'PACK.AHA.ACS.2023.T.04', 'PACK.AHA.ACS.2023.TX.01',
     'PACK.AHA.ACS.2023.TX.02', 'PACK.AHA.ACS.2023.TX.03', 'PACK.AHA.ACS.2023.TX.04',
     'PACK.AHA.ACS.2023.RF.01', 'PACK.AHA.ACS.2023.RF.02', 'PACK.AHA.ACS.2023.RF.03',
+    'PACK.AHA.ACS.2023.SEV.01', 'PACK.AHA.ACS.2023.SEV.02', 'PACK.AHA.ACS.2023.SEV.03',
   ],
   all_display_ids: [
     'AHA-ACS-R1', 'AHA-ACS-R2', 'AHA-ACS-R3', 'AHA-ACS-R4', 'AHA-ACS-R5', 'AHA-ACS-R6', 'AHA-ACS-R7',
@@ -277,5 +323,6 @@ export const PACK_AHA_ACS_2023: SourcePack = {
     'AHA-ACS-T1', 'AHA-ACS-T2', 'AHA-ACS-T3', 'AHA-ACS-T4',
     'AHA-ACS-TX1', 'AHA-ACS-TX2', 'AHA-ACS-TX3', 'AHA-ACS-TX4',
     'AHA-ACS-RF1', 'AHA-ACS-RF2', 'AHA-ACS-RF3',
+    'AHA-ACS-SEV1', 'AHA-ACS-SEV2', 'AHA-ACS-SEV3',
   ],
 };

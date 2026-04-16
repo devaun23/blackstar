@@ -1,0 +1,222 @@
+import type { SourcePack } from './types';
+
+export const PACK_ACG_GERD_2022: SourcePack = {
+  source_pack_id: 'PACK.ACG.GERD.2022',
+  source_name: 'ACG Clinical Guideline for the Diagnosis and Management of Gastroesophageal Reflux Disease',
+  canonical_url: 'https://doi.org/10.14309/ajg.0000000000001538',
+  publication_year: 2022,
+  guideline_body: 'ACG',
+
+  topic_tags: ['GERD', 'Barrett Esophagus', 'PPI', 'Esophagitis', 'Gastroenterology'],
+  allowed_decision_scopes: [
+    'GERD diagnosis — clinical vs objective testing',
+    'PPI therapy initiation and duration',
+    'alarm feature evaluation',
+    'EGD indications',
+    'Barrett esophagus screening and surveillance',
+    'refractory GERD evaluation',
+    'surgical anti-reflux therapy indications',
+    'PPI step-down and discontinuation',
+  ],
+  excluded_decision_scopes: [
+    'eosinophilic esophagitis management',
+    'esophageal motility disorders',
+    'esophageal cancer staging and treatment',
+    'peptic ulcer disease management',
+    'H. pylori eradication therapy',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.ACG.GERD.2022.REC.01',
+      display_id: 'ACG-GERD-R1',
+      statement: 'An 8-week course of PPI therapy is recommended as the initial treatment for patients with typical GERD symptoms (heartburn, regurgitation). Empiric PPI trial is both diagnostic and therapeutic.',
+      normalized_claim: 'Empiric PPI trial for 8 weeks is first-line for typical GERD symptoms (heartburn, regurgitation). Response to PPI supports diagnosis.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Medical Management', page_or_location: 'Section 4.1' },
+    },
+    {
+      rec_id: 'PACK.ACG.GERD.2022.REC.02',
+      display_id: 'ACG-GERD-R2',
+      statement: 'PPIs should be taken 30-60 minutes before meals for optimal efficacy. Once-daily dosing before breakfast is the standard starting regimen.',
+      normalized_claim: 'PPI taken 30-60 minutes before first meal of the day. Once-daily before breakfast is standard initial dosing.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Medical Management', page_or_location: 'Section 4.2' },
+    },
+    {
+      rec_id: 'PACK.ACG.GERD.2022.REC.03',
+      display_id: 'ACG-GERD-R3',
+      statement: 'Barrett esophagus screening with EGD is recommended in patients with chronic GERD (>5 years) and >=3 risk factors: age >50, male, White race, tobacco use, obesity, family history of Barrett/esophageal adenocarcinoma.',
+      normalized_claim: 'Screen for Barrett esophagus with EGD in chronic GERD (>5 years) plus >=3 risk factors: age >50, male, White, tobacco, obesity, family history.',
+      strength: 'conditional',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Barrett Esophagus', page_or_location: 'Section 6.1' },
+    },
+    {
+      rec_id: 'PACK.ACG.GERD.2022.REC.04',
+      display_id: 'ACG-GERD-R4',
+      statement: 'After successful 8-week PPI therapy, step down to the lowest effective dose or discontinue with on-demand use. H2RAs may be used for step-down therapy.',
+      normalized_claim: 'After 8-week PPI induction, step down to lowest effective dose or switch to on-demand PPI/H2RA. Long-term PPI only if symptoms recur on step-down.',
+      strength: 'conditional',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Long-term Management', page_or_location: 'Section 4.4' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.ACG.GERD.2022.DC.01',
+      display_id: 'ACG-GERD-DC1',
+      name: 'GERD Alarm Features Requiring EGD',
+      components: [
+        'Dysphagia (difficulty swallowing)',
+        'Odynophagia (painful swallowing)',
+        'Unintentional weight loss',
+        'Iron deficiency anemia or GI bleeding',
+        'Recurrent vomiting',
+        'New onset symptoms in patient age >60',
+      ],
+      interpretation: 'Any alarm feature warrants EGD to exclude esophageal malignancy, stricture, or eosinophilic esophagitis. Do not delay endoscopy for empiric PPI trial.',
+      normalized_claim: 'GERD alarm features (dysphagia, weight loss, anemia, age >60 new onset) mandate EGD before empiric therapy to exclude malignancy.',
+      provenance: { section: 'Diagnostic Evaluation', page_or_location: 'Section 3.1' },
+    },
+    {
+      criterion_id: 'PACK.ACG.GERD.2022.DC.02',
+      display_id: 'ACG-GERD-DC2',
+      name: 'Barrett Esophagus Diagnostic Criteria',
+      components: [
+        'Endoscopic visualization of salmon-colored mucosa extending above the GEJ (columnar-lined esophagus)',
+        'Histologic confirmation of intestinal metaplasia with goblet cells on biopsy',
+        'Measured by Prague C&M criteria: circumferential (C) and maximum (M) extent',
+      ],
+      interpretation: 'Barrett esophagus = endoscopic columnar mucosa + histologic intestinal metaplasia. Dysplasia grading determines surveillance interval and intervention.',
+      normalized_claim: 'Barrett esophagus requires both endoscopic columnar mucosa above GEJ AND histologic intestinal metaplasia with goblet cells.',
+      provenance: { section: 'Barrett Esophagus', page_or_location: 'Section 6.2' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.ACG.GERD.2022.T.01',
+      display_id: 'ACG-GERD-T1',
+      parameter: 'PPI trial duration for GERD diagnosis',
+      value: '8',
+      unit: 'weeks',
+      clinical_meaning: 'Standard empiric PPI trial is 8 weeks. Symptom response supports GERD diagnosis. Non-response warrants objective testing (pH monitoring, EGD).',
+      normalized_claim: '8-week PPI trial is diagnostic standard for typical GERD. Non-response requires pH monitoring or EGD.',
+      direction: 'above',
+      provenance: { section: 'Diagnosis', page_or_location: 'Section 3.2' },
+    },
+    {
+      threshold_id: 'PACK.ACG.GERD.2022.T.02',
+      display_id: 'ACG-GERD-T2',
+      parameter: 'Esophageal acid exposure time on pH monitoring',
+      value: '6',
+      unit: '% of total time',
+      clinical_meaning: 'Acid exposure time >6% on ambulatory pH monitoring is abnormal and confirms pathologic GERD.',
+      normalized_claim: 'Esophageal acid exposure >6% on ambulatory pH monitoring confirms pathologic GERD.',
+      direction: 'above',
+      provenance: { section: 'Objective Testing', page_or_location: 'Section 3.3' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.ACG.GERD.2022.TX.01',
+      display_id: 'ACG-GERD-TX1',
+      action: 'Empiric PPI therapy for typical GERD',
+      normalized_claim: 'First-line: omeprazole 20mg or equivalent PPI once daily, 30 min before breakfast for 8 weeks. Double-dose PPI (BID) for partial responders.',
+      timing: '8-week initial course',
+      condition: 'Typical GERD symptoms (heartburn, regurgitation) without alarm features',
+      drug_details: { drug: 'Omeprazole', dose: '20mg daily', route: 'PO, 30 min before breakfast' },
+      escalation: 'Double-dose PPI (BID) if partial response, then pH monitoring if still refractory',
+      provenance: { section: 'Medical Management', page_or_location: 'Section 4.1' },
+    },
+    {
+      step_id: 'PACK.ACG.GERD.2022.TX.02',
+      display_id: 'ACG-GERD-TX2',
+      action: 'EGD for alarm features',
+      normalized_claim: 'EGD indicated for alarm features (dysphagia, weight loss, anemia, age >60 new onset). Biopsy for Barrett if columnar mucosa seen. Do not delay for PPI trial.',
+      timing: 'At presentation with alarm features',
+      condition: 'GERD with dysphagia, weight loss, GI bleeding, anemia, or new symptoms age >60',
+      provenance: { section: 'Diagnostic Evaluation', page_or_location: 'Section 3.1' },
+    },
+    {
+      step_id: 'PACK.ACG.GERD.2022.TX.03',
+      display_id: 'ACG-GERD-TX3',
+      action: 'Surgical anti-reflux therapy (Nissen fundoplication)',
+      normalized_claim: 'Nissen fundoplication for patients with objectively confirmed GERD who respond to PPI but desire to discontinue, have medication side effects, or have large hiatal hernia.',
+      timing: 'After objective confirmation of GERD (pH monitoring)',
+      condition: 'Confirmed GERD with PPI intolerance, desire for medication-free management, or large hiatal hernia',
+      contraindications: ['Unconfirmed GERD diagnosis', 'Esophageal dysmotility (partial wrap preferred)', 'BMI >35 (consider gastric bypass)'],
+      provenance: { section: 'Surgical Management', page_or_location: 'Section 7.1' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.ACG.GERD.2022.RF.01',
+      display_id: 'ACG-GERD-RF1',
+      finding: 'Progressive dysphagia with unintentional weight loss in chronic GERD patient',
+      implication: 'Esophageal adenocarcinoma until proven otherwise. Barrett esophagus is the precursor lesion. Risk increases with duration and severity of GERD.',
+      action: 'Urgent EGD with biopsy. CT staging if malignancy found. Do not delay for PPI trial. Surgical oncology referral for confirmed cancer.',
+      urgency: 'urgent',
+      provenance: { section: 'Alarm Features', page_or_location: 'Section 3.1' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.ACG.GERD.2022.SEV.01',
+      display_id: 'ACG-GERD-SEV1',
+      level: 'Non-erosive reflux disease (NERD)',
+      criteria: [
+        'Typical GERD symptoms (heartburn, regurgitation)',
+        'Normal esophageal mucosa on EGD',
+        'May have positive pH monitoring',
+      ],
+      management_implications:
+        'PPI trial 8 weeks. Step-down to lowest effective dose. On-demand PPI or H2RA for maintenance. Good symptom response expected but lower PPI response rate than erosive esophagitis.',
+      provenance: { section: 'Classification', page_or_location: 'Section 2.1' },
+    },
+    {
+      severity_id: 'PACK.ACG.GERD.2022.SEV.02',
+      display_id: 'ACG-GERD-SEV2',
+      level: 'Erosive esophagitis (Los Angeles grade C-D)',
+      criteria: [
+        'LA-C: Mucosal breaks extending between tops of >=2 mucosal folds but <75% of circumference',
+        'LA-D: Mucosal breaks involving >=75% of esophageal circumference',
+        'Associated with complications: stricture, Barrett esophagus',
+      ],
+      management_implications:
+        'Requires continuous PPI therapy (not on-demand). Repeat EGD in 8-12 weeks to confirm healing and rule out Barrett. Higher risk of Barrett and adenocarcinoma. Long-term PPI maintenance recommended.',
+      provenance: { section: 'Erosive Esophagitis', page_or_location: 'Section 5.1' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Phase 1 pack for GERD. Covers empiric PPI therapy, alarm features, Barrett screening, step-down therapy, and surgical indications.',
+
+  all_item_ids: [
+    'PACK.ACG.GERD.2022.REC.01', 'PACK.ACG.GERD.2022.REC.02', 'PACK.ACG.GERD.2022.REC.03',
+    'PACK.ACG.GERD.2022.REC.04',
+    'PACK.ACG.GERD.2022.DC.01', 'PACK.ACG.GERD.2022.DC.02',
+    'PACK.ACG.GERD.2022.T.01', 'PACK.ACG.GERD.2022.T.02',
+    'PACK.ACG.GERD.2022.TX.01', 'PACK.ACG.GERD.2022.TX.02', 'PACK.ACG.GERD.2022.TX.03',
+    'PACK.ACG.GERD.2022.RF.01',
+    'PACK.ACG.GERD.2022.SEV.01', 'PACK.ACG.GERD.2022.SEV.02',
+  ],
+  all_display_ids: [
+    'ACG-GERD-R1', 'ACG-GERD-R2', 'ACG-GERD-R3', 'ACG-GERD-R4',
+    'ACG-GERD-DC1', 'ACG-GERD-DC2',
+    'ACG-GERD-T1', 'ACG-GERD-T2',
+    'ACG-GERD-TX1', 'ACG-GERD-TX2', 'ACG-GERD-TX3',
+    'ACG-GERD-RF1',
+    'ACG-GERD-SEV1', 'ACG-GERD-SEV2',
+  ],
+};

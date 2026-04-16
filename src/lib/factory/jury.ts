@@ -16,11 +16,21 @@ export interface JuryConfig {
   enabledValidators: ValidatorType[];
 }
 
+/**
+ * Cross-family jury: 3 models from 3 different families.
+ *
+ * Research basis (P1 — Council of AIs, P3 — Siam et al.):
+ * - Intra-family error correlation: 0.39-0.58 (overlapping blind spots)
+ * - Cross-family Fleiss' Kappa: -0.056 to 0.003 (near-zero = complementary errors)
+ * - 3 diverse-family models beats 5 same-family models
+ *
+ * Cost: $0.038/validation (vs $0.047 previous same-family jury)
+ */
 export const DEFAULT_JURY_CONFIG: JuryConfig = {
   models: [
-    'claude-opus-4-20250514',
-    'claude-sonnet-4-20250514',
-    'claude-haiku-3.5-20241022',
+    'claude-opus-4-20250514',    // Anchor — best error detection (MEDEC 70.16%)
+    'gpt-4o',                    // OpenAI family — complementary error patterns
+    'gemini-2.5-flash',          // Google family — cheap third vote, fast tie-breaker
   ],
   facilitatorModel: 'claude-opus-4-20250514',
   enabledValidators: ['medical', 'exam_translation'],

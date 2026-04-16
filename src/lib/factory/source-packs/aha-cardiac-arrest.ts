@@ -1,0 +1,228 @@
+import type { SourcePack } from './types';
+
+export const PACK_AHA_ACLS_2020: SourcePack = {
+  source_pack_id: 'PACK.AHA.ACLS.2020',
+  source_name: 'AHA 2020 Guidelines for CPR and Emergency Cardiovascular Care — Adult Advanced Cardiovascular Life Support',
+  source_registry_id: 'REG.AHA.ACLS',
+  canonical_url: 'https://doi.org/10.1161/CIR.0000000000000916',
+  publication_year: 2020,
+  guideline_body: 'AHA',
+
+  topic_tags: ['Cardiac Arrest', 'ACLS', 'VF', 'pVT', 'PEA', 'Asystole', 'Wide Complex Tachycardia', 'ROSC', 'Emergency Medicine'],
+  allowed_decision_scopes: [
+    'shockable rhythm algorithm (VF/pVT)',
+    'non-shockable rhythm algorithm (PEA/asystole)',
+    'epinephrine timing in cardiac arrest',
+    'amiodarone dosing in refractory VF/pVT',
+    'H\'s and T\'s reversible causes',
+    'wide complex tachycardia stable vs unstable management',
+    'post-ROSC targeted temperature management',
+    'post-ROSC hemodynamic optimization',
+  ],
+  excluded_decision_scopes: [
+    'pediatric cardiac arrest algorithms',
+    'neonatal resuscitation',
+    'BLS-only algorithms',
+    'drowning-specific resuscitation',
+    'pregnancy cardiac arrest (detailed)',
+  ],
+
+  recommendations: [
+    {
+      rec_id: 'PACK.AHA.ACLS.2020.REC.01',
+      display_id: 'AHA-ACLS-R1',
+      statement: 'For VF/pulseless VT, defibrillation should be performed as soon as possible. CPR should continue while the defibrillator is charging.',
+      normalized_claim: 'VF/pVT: immediate defibrillation is the definitive treatment. Minimize interruptions to CPR.',
+      strength: 'strong',
+      evidence_quality: 'high',
+      provenance: { section: 'Shockable Rhythms', page_or_location: 'Section 4.1' },
+    },
+    {
+      rec_id: 'PACK.AHA.ACLS.2020.REC.02',
+      display_id: 'AHA-ACLS-R2',
+      statement: 'Epinephrine 1mg IV/IO should be administered every 3-5 minutes during cardiac arrest. For non-shockable rhythms (PEA/asystole), epinephrine should be given as soon as feasible.',
+      normalized_claim: 'Epinephrine 1mg IV/IO every 3-5 minutes in cardiac arrest. Give early in non-shockable rhythms.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Vasopressors', page_or_location: 'Section 4.3' },
+    },
+    {
+      rec_id: 'PACK.AHA.ACLS.2020.REC.03',
+      display_id: 'AHA-ACLS-R3',
+      statement: 'Amiodarone or lidocaine may be considered for VF/pVT refractory to defibrillation. Amiodarone: first dose 300mg IV/IO bolus, second dose 150mg.',
+      normalized_claim: 'Refractory VF/pVT: amiodarone 300mg IV first dose, 150mg second dose. Lidocaine is alternative.',
+      strength: 'conditional',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Antiarrhythmics', page_or_location: 'Section 4.4' },
+    },
+    {
+      rec_id: 'PACK.AHA.ACLS.2020.REC.04',
+      display_id: 'AHA-ACLS-R4',
+      statement: 'Targeted temperature management (TTM) at 32-36°C is recommended for comatose adult patients with ROSC after cardiac arrest for at least 24 hours.',
+      normalized_claim: 'Post-ROSC: TTM at 32-36°C for >=24 hours in comatose patients after cardiac arrest.',
+      strength: 'strong',
+      evidence_quality: 'moderate',
+      provenance: { section: 'Post-Cardiac Arrest Care', page_or_location: 'Section 6.1' },
+    },
+  ],
+
+  diagnostic_criteria: [
+    {
+      criterion_id: 'PACK.AHA.ACLS.2020.DC.01',
+      display_id: 'AHA-ACLS-DC1',
+      name: 'Reversible Causes of Cardiac Arrest (H\'s and T\'s)',
+      components: [
+        'H\'s: Hypovolemia, Hypoxia, Hydrogen ion (acidosis), Hypo/Hyperkalemia, Hypothermia',
+        'T\'s: Tension pneumothorax, Tamponade (cardiac), Toxins, Thrombosis — pulmonary (PE), Thrombosis — coronary (MI)',
+      ],
+      interpretation: 'All cardiac arrest patients should be evaluated for reversible causes. PEA/asystole in particular should prompt aggressive search for H\'s and T\'s as treatment of the underlying cause is the primary intervention.',
+      normalized_claim: 'Reversible causes of arrest (H\'s and T\'s) must be identified and treated, especially in PEA/asystole where correction of the cause is the definitive treatment.',
+      provenance: { section: 'Reversible Causes', page_or_location: 'Section 4.5' },
+    },
+    {
+      criterion_id: 'PACK.AHA.ACLS.2020.DC.02',
+      display_id: 'AHA-ACLS-DC2',
+      name: 'Wide Complex Tachycardia Classification',
+      components: [
+        'Stable: adequate perfusion, no altered mental status, no chest pain, no hypotension',
+        'Unstable: hypotension (SBP <90), altered mental status, chest pain, acute heart failure',
+        'If uncertain whether monomorphic VT vs SVT with aberrancy, treat as VT',
+      ],
+      interpretation: 'Unstable wide complex tachycardia requires immediate synchronized cardioversion. Stable monomorphic VT may be treated with IV antiarrhythmics (amiodarone, procainamide) or elective cardioversion.',
+      normalized_claim: 'Unstable wide complex tachycardia: immediate synchronized cardioversion. Stable: antiarrhythmics (amiodarone or procainamide). When in doubt, treat as VT.',
+      provenance: { section: 'Tachycardia with a Pulse', page_or_location: 'Section 5.2' },
+    },
+  ],
+
+  thresholds: [
+    {
+      threshold_id: 'PACK.AHA.ACLS.2020.T.01',
+      display_id: 'AHA-ACLS-T1',
+      parameter: 'Epinephrine dosing interval',
+      value: '3-5',
+      unit: 'minutes',
+      clinical_meaning: 'Epinephrine 1mg IV/IO is repeated every 3-5 minutes throughout cardiac arrest. Earlier administration in non-shockable rhythms is associated with improved outcomes.',
+      normalized_claim: 'Epinephrine 1mg every 3-5 minutes in cardiac arrest; early administration in PEA/asystole improves outcomes.',
+      direction: 'range',
+      provenance: { section: 'Vasopressors', page_or_location: 'Section 4.3' },
+    },
+    {
+      threshold_id: 'PACK.AHA.ACLS.2020.T.02',
+      display_id: 'AHA-ACLS-T2',
+      parameter: 'Target temperature post-ROSC',
+      value: '32-36',
+      unit: '°C',
+      clinical_meaning: 'Comatose patients after ROSC should be maintained at 32-36°C for at least 24 hours. Fever prevention is critical; hyperthermia worsens neurological outcomes.',
+      normalized_claim: 'TTM target 32-36°C for >=24h post-ROSC. Actively prevent hyperthermia.',
+      direction: 'range',
+      provenance: { section: 'Post-Cardiac Arrest Care', page_or_location: 'Section 6.1' },
+    },
+  ],
+
+  treatment_steps: [
+    {
+      step_id: 'PACK.AHA.ACLS.2020.TX.01',
+      display_id: 'AHA-ACLS-TX1',
+      action: 'VF/pVT algorithm: defibrillation + CPR + epinephrine + amiodarone',
+      normalized_claim: 'VF/pVT: shock → 2min CPR → shock → 2min CPR + epi → shock → 2min CPR + amiodarone 300mg. Continue epi q3-5min. Second amiodarone dose 150mg.',
+      timing: 'Defibrillation as soon as rhythm identified; epinephrine after 2nd shock; amiodarone after 3rd shock',
+      condition: 'Shockable rhythm (VF or pulseless VT)',
+      drug_details: { drug: 'Epinephrine + Amiodarone', dose: 'Epi 1mg q3-5min; Amio 300mg then 150mg', route: 'IV/IO' },
+      provenance: { section: 'Shockable Rhythm Algorithm', page_or_location: 'Figure 4' },
+    },
+    {
+      step_id: 'PACK.AHA.ACLS.2020.TX.02',
+      display_id: 'AHA-ACLS-TX2',
+      action: 'PEA/Asystole algorithm: CPR + epinephrine + treat reversible causes',
+      normalized_claim: 'PEA/asystole: CPR + epi 1mg IV as soon as possible, repeat q3-5min. No defibrillation. Aggressively identify and treat H\'s and T\'s.',
+      timing: 'Epinephrine as soon as IV/IO access established',
+      condition: 'Non-shockable rhythm (PEA or asystole)',
+      drug_details: { drug: 'Epinephrine', dose: '1mg IV/IO every 3-5 minutes', route: 'IV/IO' },
+      provenance: { section: 'Non-Shockable Rhythm Algorithm', page_or_location: 'Figure 5' },
+    },
+    {
+      step_id: 'PACK.AHA.ACLS.2020.TX.03',
+      display_id: 'AHA-ACLS-TX3',
+      action: 'Unstable tachycardia: immediate synchronized cardioversion',
+      normalized_claim: 'Unstable tachycardia (hypotension, AMS, chest pain, acute HF): immediate synchronized cardioversion regardless of rhythm width or regularity.',
+      timing: 'Immediately upon identifying hemodynamic instability',
+      condition: 'Tachycardia with hemodynamic instability',
+      contraindications: ['Sinus tachycardia (treat underlying cause, do not cardiovert)'],
+      provenance: { section: 'Tachycardia with a Pulse', page_or_location: 'Section 5.1' },
+    },
+  ],
+
+  red_flags: [
+    {
+      flag_id: 'PACK.AHA.ACLS.2020.RF.01',
+      display_id: 'AHA-ACLS-RF1',
+      finding: 'Return of spontaneous circulation (ROSC) followed by recurrent arrest (re-arrest)',
+      implication: 'Re-arrest may indicate uncorrected reversible cause, recurrent arrhythmia, or ongoing ischemia. Most common re-arrest rhythm is VF.',
+      action: 'Resume CPR immediately. Reassess H\'s and T\'s. Consider antiarrhythmic infusion (amiodarone drip) if recurrent VF. Emergent coronary angiography if STEMI.',
+      urgency: 'immediate',
+      provenance: { section: 'Post-ROSC', page_or_location: 'Section 6.2' },
+    },
+    {
+      flag_id: 'PACK.AHA.ACLS.2020.RF.02',
+      display_id: 'AHA-ACLS-RF2',
+      finding: 'Torsades de pointes (polymorphic VT with prolonged QTc)',
+      implication: 'Torsades is a specific form of polymorphic VT associated with prolonged QT interval. Standard antiarrhythmics (amiodarone, procainamide) may worsen it.',
+      action: 'IV magnesium sulfate 2g. If unstable, defibrillation (not synchronized cardioversion). Correct electrolytes. Temporary overdrive pacing or isoproterenol to increase heart rate if recurrent.',
+      urgency: 'immediate',
+      provenance: { section: 'Tachycardia — Special Situations', page_or_location: 'Section 5.3' },
+    },
+  ],
+
+  severity_definitions: [
+    {
+      severity_id: 'PACK.AHA.ACLS.2020.SEV.01',
+      display_id: 'AHA-ACLS-SEV1',
+      level: 'Shockable cardiac arrest (VF/pVT)',
+      criteria: [
+        'Unresponsive, no pulse',
+        'Rhythm: ventricular fibrillation or pulseless ventricular tachycardia on monitor',
+        'Defibrillation is primary treatment',
+      ],
+      management_implications:
+        'Best prognosis of cardiac arrest rhythms. Immediate defibrillation + high-quality CPR. Epinephrine after 2nd shock, amiodarone after 3rd shock. Survival to discharge 25-40% with early defibrillation.',
+      provenance: { section: 'Shockable Rhythms', page_or_location: 'Section 4.1' },
+    },
+    {
+      severity_id: 'PACK.AHA.ACLS.2020.SEV.02',
+      display_id: 'AHA-ACLS-SEV2',
+      level: 'Non-shockable cardiac arrest (PEA/asystole)',
+      criteria: [
+        'Unresponsive, no pulse',
+        'Rhythm: organized electrical activity without pulse (PEA) or flat line (asystole)',
+        'Defibrillation is NOT indicated',
+      ],
+      management_implications:
+        'Worse prognosis than shockable rhythms. Focus on high-quality CPR + early epinephrine + identifying/treating reversible causes (H\'s and T\'s). Survival to discharge <15%. Asystole is often a terminal rhythm.',
+      provenance: { section: 'Non-Shockable Rhythms', page_or_location: 'Section 4.2' },
+    },
+  ],
+
+  source_pack_version: 1,
+  status: 'active',
+  last_normalized: '2026-04-16',
+  normalizer_version: 1,
+  normalization_notes: 'Phase 1 pack for ACLS/cardiac arrest. Covers VF/pVT and PEA/asystole algorithms, wide complex tachycardia, post-ROSC TTM.',
+
+  all_item_ids: [
+    'PACK.AHA.ACLS.2020.REC.01', 'PACK.AHA.ACLS.2020.REC.02', 'PACK.AHA.ACLS.2020.REC.03',
+    'PACK.AHA.ACLS.2020.REC.04',
+    'PACK.AHA.ACLS.2020.DC.01', 'PACK.AHA.ACLS.2020.DC.02',
+    'PACK.AHA.ACLS.2020.T.01', 'PACK.AHA.ACLS.2020.T.02',
+    'PACK.AHA.ACLS.2020.TX.01', 'PACK.AHA.ACLS.2020.TX.02', 'PACK.AHA.ACLS.2020.TX.03',
+    'PACK.AHA.ACLS.2020.RF.01', 'PACK.AHA.ACLS.2020.RF.02',
+    'PACK.AHA.ACLS.2020.SEV.01', 'PACK.AHA.ACLS.2020.SEV.02',
+  ],
+  all_display_ids: [
+    'AHA-ACLS-R1', 'AHA-ACLS-R2', 'AHA-ACLS-R3', 'AHA-ACLS-R4',
+    'AHA-ACLS-DC1', 'AHA-ACLS-DC2',
+    'AHA-ACLS-T1', 'AHA-ACLS-T2',
+    'AHA-ACLS-TX1', 'AHA-ACLS-TX2', 'AHA-ACLS-TX3',
+    'AHA-ACLS-RF1', 'AHA-ACLS-RF2',
+    'AHA-ACLS-SEV1', 'AHA-ACLS-SEV2',
+  ],
+};
