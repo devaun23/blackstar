@@ -45,6 +45,7 @@ export interface PipelineConfig {
   mockMode?: boolean;        // Use mock responses
   skipExplanation?: boolean; // Skip explanation writing + publish (harness mode)
   juryEnabled?: boolean;     // Enable multi-model jury on high-stakes validators
+  validatorSampleCount?: number; // Self-consistency sampling: run medical validator N times (default 1)
 }
 
 export interface AgentStepResult {

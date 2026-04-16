@@ -31,6 +31,12 @@ export async function getDueReviewCount(userId: string): Promise<number> {
 
 /**
  * Selects a question for retention mode — only items due for review.
+ *
+ * Variant selection (research-backed): Prefers questions the student hasn't
+ * seen before that test the same transfer_rule or confusion_set as the due
+ * dimension. This prevents memorization of surface features (BMC study on
+ * detrimental question bank patterns). Falls back to any matching question
+ * if no unseen variants exist.
  */
 export async function selectRetentionQuestion(
   userId: string
@@ -48,15 +54,126 @@ export async function selectRetentionQuestion(
 
   if (!dueRows || dueRows.length === 0) return null;
 
-  // Try to find a question for each due dimension
+  // Get all question IDs this student has ever answered (for variant selection)
+  const { data: allAttempts } = await supabase
+    .from('attempt_v2')
+    .select('question_id, item_draft_id')
+    .eq('user_id', userId);
+
+  const everAnswered = new Set<string>();
+  for (const a of allAttempts ?? []) {
+    if (a.question_id) everAnswered.add(a.question_id);
+    if (a.item_draft_id) everAnswered.add(a.item_draft_id);
+  }
+
+  // Try to find an UNSEEN variant for each due dimension first, then fall back to any match
   for (const row of dueRows) {
-    const result = await selectByDimensionMatch(
-      supabase,
-      row.dimension_type as DimensionType,
-      row.dimension_id,
-      'retention_due'
-    );
+    const dimType = row.dimension_type as DimensionType;
+    const dimId = row.dimension_id;
+
+    // For transfer_rule and confusion_set dimensions, prefer unseen variants
+    if (dimType === 'transfer_rule' || dimType === 'confusion_set') {
+      const variant = await selectUnseenVariant(supabase, dimType, dimId, everAnswered);
+      if (variant) return variant;
+    }
+
+    // Fall back to any matching question (may be one they've seen before)
+    const result = await selectByDimensionMatch(supabase, dimType, dimId, 'retention_due');
     if (result) return result;
+  }
+
+  return null;
+}
+
+/**
+ * Finds an unseen question testing the same transfer_rule or confusion_set.
+ * Prevents memorization by ensuring the student sees a different vignette
+ * each time the same concept comes up for review.
+ */
+async function selectUnseenVariant(
+  supabase: ReturnType<typeof createAdminClient>,
+  dimensionType: 'transfer_rule' | 'confusion_set',
+  dimensionId: string,
+  everAnswered: Set<string>,
+): Promise<SelectedQuestion | null> {
+  if (dimensionType === 'transfer_rule') {
+    // Find item_drafts targeting the same transfer rule via case_plan
+    const { data: drafts } = await supabase
+      .from('item_draft')
+      .select('id, case_plan!inner(target_transfer_rule_id)')
+      .eq('status', 'published')
+      .eq('case_plan.target_transfer_rule_id', dimensionId)
+      .limit(20);
+
+    if (drafts) {
+      const unseen = drafts.filter(d => !everAnswered.has(d.id));
+      if (unseen.length > 0) {
+        const pick = unseen[Math.floor(Math.random() * unseen.length)];
+        return {
+          questionId: pick.id,
+          questionType: 'item_draft',
+          strategy: { dimensionType, dimensionId, reason: 'retention_unseen_variant' },
+        };
+      }
+    }
+
+    // Also check questions table
+    const { data: questions } = await supabase
+      .from('questions')
+      .select('id')
+      .eq('transfer_rule_id', dimensionId)
+      .limit(20);
+
+    if (questions) {
+      const unseen = questions.filter(q => !everAnswered.has(q.id));
+      if (unseen.length > 0) {
+        const pick = unseen[Math.floor(Math.random() * unseen.length)];
+        return {
+          questionId: pick.id,
+          questionType: 'question',
+          strategy: { dimensionType, dimensionId, reason: 'retention_unseen_variant' },
+        };
+      }
+    }
+  }
+
+  if (dimensionType === 'confusion_set') {
+    const { data: drafts } = await supabase
+      .from('item_draft')
+      .select('id, case_plan!inner(target_confusion_set_id)')
+      .eq('status', 'published')
+      .eq('case_plan.target_confusion_set_id', dimensionId)
+      .limit(20);
+
+    if (drafts) {
+      const unseen = drafts.filter(d => !everAnswered.has(d.id));
+      if (unseen.length > 0) {
+        const pick = unseen[Math.floor(Math.random() * unseen.length)];
+        return {
+          questionId: pick.id,
+          questionType: 'item_draft',
+          strategy: { dimensionType, dimensionId, reason: 'retention_unseen_variant' },
+        };
+      }
+    }
+
+    const { data: questions } = await supabase
+      .from('questions')
+      .select('id')
+      .eq('confusion_set_id', dimensionId)
+      .limit(20);
+
+    if (questions) {
+      const unseen = questions.filter(q => !everAnswered.has(q.id));
+      if (unseen.length > 0) {
+        const pick = unseen[Math.floor(Math.random() * unseen.length)];
+        return {
+          questionId: pick.id,
+          questionType: 'question',
+          strategy: { dimensionType, dimensionId, reason: 'retention_unseen_variant' },
+        };
+      }
+    }
   }
 
   return null;

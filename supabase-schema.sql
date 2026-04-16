@@ -275,6 +275,7 @@ create table public.validator_report (
   score numeric(4,2),                         -- 0.00 - 10.00
   issues_found text[] not null default '{}',
   repair_instructions text,
+  consistency_score numeric(4,3),             -- Binary entropy of N-sample pass/fail (0=unanimous, 1.0=max uncertainty)
   raw_output jsonb,                           -- Full validator response for debugging
   created_at timestamptz default now() not null
 );
@@ -335,6 +336,8 @@ create table public.item_performance (
   avg_time_seconds numeric(7,2),
   distractor_distribution jsonb,              -- {"A": 0.12, "B": 0.25, ...}
   discrimination_index numeric(5,4),          -- Point-biserial correlation
+  item_difficulty numeric(5,4),               -- IRT b parameter (calibrate via 2PL when 50+ responses)
+  item_guessing numeric(4,3) default 0.200,   -- IRT c parameter (fixed for 5-choice MCQ)
   flagged_for_review boolean not null default false,
   retired boolean not null default false,
   updated_at timestamptz default now() not null

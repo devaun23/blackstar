@@ -11,6 +11,7 @@ interface MedicalValidatorInput {
   topic?: string;
   skeleton?: QuestionSkeletonRow; // v2: skeleton-aware consistency checks
   model?: string;
+  sampleCount?: number; // Self-consistency sampling: run N times and aggregate
 }
 
 export async function run(
@@ -23,6 +24,7 @@ export async function run(
     context,
     itemDraftId: input.draft.id,
     ...(input.model ? { model: input.model } : {}),
+    ...(input.sampleCount ? { sampleCount: input.sampleCount } : {}),
     buildTemplateVars: async () => {
       const vars: Record<string, string> = {
         item_draft: JSON.stringify(input.draft, null, 2),

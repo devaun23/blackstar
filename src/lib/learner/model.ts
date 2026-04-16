@@ -94,7 +94,7 @@ export async function updateAfterAttempt(
   // Simple Bayesian-ish mastery update
   const rawAccuracy = correctCount / totalAttempts;
   const smoothingWeight = Math.min(totalAttempts / 10, 1); // ramp up confidence
-  const masteryLevel = Math.max(0, Math.min(1,
+  let masteryLevel = Math.max(0, Math.min(1,
     rawAccuracy * smoothingWeight + 0.5 * (1 - smoothingWeight)
   ));
 
@@ -103,6 +103,17 @@ export async function updateAfterAttempt(
   const avgTimeMs = timeSpentMs != null
     ? Math.round((prevAvg * (totalAttempts - 1) + timeSpentMs) / totalAttempts)
     : current?.avg_time_ms ?? null;
+
+  // Continuous response time adjustment (research-backed: DTA-IRT, TP-IRT June 2025)
+  // A student who answers correctly in 15s vs 90s demonstrates different mastery levels.
+  // Apply a small penalty for slow correct answers once we have enough data.
+  // Max penalty: 15% mastery reduction for answers at or above TARGET_TIME_MS.
+  const TARGET_TIME_MS = 60_000; // 60 seconds — tunable per dimension in future
+  const TIME_PENALTY_WEIGHT = 0.15;
+  if (isCorrect && avgTimeMs != null && totalAttempts >= 3) {
+    const timeEfficiency = Math.min(TARGET_TIME_MS / Math.max(avgTimeMs, 1), 1);
+    masteryLevel = Math.max(0, masteryLevel - TIME_PENALTY_WEIGHT * (1 - timeEfficiency));
+  }
 
   // Update error frequency
   const errorFrequency = (current?.error_frequency ?? {}) as Record<string, number>;

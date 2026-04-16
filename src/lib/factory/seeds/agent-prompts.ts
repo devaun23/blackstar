@@ -529,8 +529,8 @@ Auto-fail conditions:
 - Correct answer is determinable without the hinge (fork is fake)
 
 Score 0-10 where 10 = perfect board-style decision fork, 0 = pure recall question.`,
-    user_prompt_template: `Item draft:\n{{item_draft}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nBlueprint node:\n{{blueprint_node}}\n\nValidate this item as a board-style decision fork. Return a JSON object with:\n- passed: boolean\n- score: number (0-10)\n- issues_found: string[] (list of specific issues, empty if none)\n- repair_instructions: string or null (specific instructions to fix issues)`,
-    notes: 'v1: Exam translation validation — tests whether item is a decision fork vs recall.',
+    user_prompt_template: `Item draft:\n{{item_draft}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nBlueprint node:\n{{blueprint_node}}\n\nSource context (guidelines and references for this topic):\n{{source_context}}\n\nValidate this item as a board-style decision fork. Use the source context to distinguish genuine clinical decision points from guideline recall — if the question simply asks students to recite a guideline recommendation rather than reason through a clinical fork, it fails.\n\nReturn a JSON object with:\n- passed: boolean\n- score: number (0-10)\n- issues_found: string[] (list of specific issues, empty if none)\n- repair_instructions: string or null (specific instructions to fix issues)`,
+    notes: 'v2: Source-grounded exam translation validation. Uses guideline context to distinguish decision forks from guideline recall (Jia 2026: RAG +5.6% on Step 2 CK).',
   },
 
   // ─── REPAIR AGENT ───

@@ -362,6 +362,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
     // Jury mode (P1/P2): On cycle 0, medical + exam_translation validators run through
     // a multi-model jury (Opus + Sonnet + Haiku). On subsequent cycles, single-model only.
     const useJury = config.juryEnabled ?? false;
+    const medicalSampleCount = config.validatorSampleCount ?? 1;
     const juryVerdicts: JuryVerdict[] = [];
     let passed = false;
     for (let cycle = 0; cycle < MAX_REPAIR_CYCLES; cycle++) {
@@ -380,6 +381,8 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
       const juryOnThisCycle = useJury && cycle === 0;
 
       // Medical validator — jury on first cycle if enabled
+      // Self-consistency sampling: when validatorSampleCount > 1, validator runs N times
+      // and returns majority vote + consistency_score (entropy) as uncertainty signal
       const medicalPromise = juryOnThisCycle
         ? trackStep('medical_validator', async () => {
             const verdict = await runJuryValidation(
@@ -406,6 +409,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
               card: card as AlgorithmCardRow,
               facts: facts as FactRowRow[],
               topic: node.topic,
+              sampleCount: medicalSampleCount,
             })
           );
 
@@ -494,7 +498,88 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
       };
       agentLog.push(disagreementLog as AgentLogEntry);
 
-      if (allPassed) {
+      // ─── Jury on Validator Disagreement (cycles 1+) ───
+      // Research (Council of AIs): facilitator-mediated re-deliberation catches more
+      // errors on ambiguous cases than mechanical score aggregation.
+      // Only fires when medical and exam_translation disagree on pass/fail.
+      const medicalResult = validatorResults[0];
+      const examTranslationResult = validatorResults[5];
+      const highStakesDisagree = useJury && cycle > 0
+        && medicalResult.passed !== examTranslationResult.passed;
+
+      if (highStakesDisagree) {
+        // Re-run ONLY the disagreeing validators through jury
+        const previousIssues = [
+          ...(!medicalResult.passed ? medicalResult.issues_found : []),
+          ...(!examTranslationResult.passed ? examTranslationResult.issues_found : []),
+        ].join('; ');
+
+        const juryContext = [
+          `Repair cycle ${cycle}. Previous issues: ${previousIssues}`,
+          `Stem: ${(draft as ItemDraftRow).stem}`,
+          `Correct: ${(draft as ItemDraftRow).correct_answer}`,
+        ].join('\n');
+
+        // Medical jury (only if it's the one that disagrees with exam_translation)
+        const medicalJuryVerdict = await runJuryValidation(
+          (model) => agents.medicalValidator.run(context, {
+            draft: draft as ItemDraftRow,
+            card: card as AlgorithmCardRow,
+            facts: facts as FactRowRow[],
+            topic: node.topic,
+            model,
+          }),
+          { ...DEFAULT_JURY_CONFIG, enabledValidators: ['medical'] },
+          juryContext,
+        );
+        juryVerdicts.push(medicalJuryVerdict);
+        totalTokens += medicalJuryVerdict.totalTokensUsed;
+
+        // Override the medical result with jury verdict
+        validatorResults[0] = {
+          ...medicalJuryVerdict.report,
+          reportId: `jury-medical-disagreement-${cycle}`,
+        };
+
+        // Exam translation jury
+        const examJuryVerdict = await runJuryValidation(
+          (model) => agents.examTranslationValidator.run(context, {
+            draft: draft as ItemDraftRow,
+            card: card as AlgorithmCardRow,
+            node,
+            model,
+          }),
+          { ...DEFAULT_JURY_CONFIG, enabledValidators: ['exam_translation'] },
+          juryContext,
+        );
+        juryVerdicts.push(examJuryVerdict);
+        totalTokens += examJuryVerdict.totalTokensUsed;
+
+        // Override exam_translation result with jury verdict
+        validatorResults[5] = {
+          ...examJuryVerdict.report,
+          reportId: `jury-exam-disagreement-${cycle}`,
+        };
+
+        // Log jury trigger
+        const juryTriggerLog: AgentLogEntry & Record<string, unknown> = {
+          agent: 'medical_validator' as AgentType,
+          started_at: new Date().toISOString(),
+          completed_at: new Date().toISOString(),
+          tokens_used: medicalJuryVerdict.totalTokensUsed + examJuryVerdict.totalTokensUsed,
+          status: 'completed',
+          note: `jury_disagreement_cycle_${cycle}`,
+          jury_trigger: 'disagreement',
+          medical_agreement: medicalJuryVerdict.agreement,
+          exam_agreement: examJuryVerdict.agreement,
+        };
+        agentLog.push(juryTriggerLog as AgentLogEntry);
+      }
+
+      // Re-check after potential jury override
+      const allPassedFinal = validatorResults.every((r) => r.passed);
+
+      if (allPassedFinal) {
         await supabase
           .from('item_draft')
           .update({ status: 'passed' })
@@ -583,12 +668,29 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
           }
         }
 
-        // Set to pending_review instead of published — human QA gate required (P2)
+        // Check if self-consistency sampling flagged uncertainty on the medical validator
+        // High consistency_score (entropy > 0.5) means the model disagreed with itself
+        // across samples — flag for priority human review even though it passed
+        let reviewStatus: 'pending_review' | 'flagged_uncertain' = 'pending_review';
+        if (medicalSampleCount > 1) {
+          const { data: medReport } = await supabase
+            .from('validator_report')
+            .select('consistency_score')
+            .eq('item_draft_id', draftId)
+            .eq('validator_type', 'medical')
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
+          if (medReport?.consistency_score != null && medReport.consistency_score > 0.5) {
+            reviewStatus = 'flagged_uncertain';
+          }
+        }
+
         await supabase
           .from('item_draft')
           .update({
             status: 'published',
-            review_status: 'pending_review',
+            review_status: reviewStatus,
           })
           .eq('id', draftId);
       }
