@@ -27,12 +27,14 @@ interface ItemDraftFields {
   explanation_error_diagnosis?: Record<string, unknown> | null;
   explanation_transfer_rule?: string | null;
   explanation_teaching_pearl?: string | null;
+  explanation_gap_coaching?: string | null;
 }
 
 interface ErrorTaxonomyRow {
   id: string;
   error_name: string;
   explanation_template: string;
+  palmerton_coaching_note?: string | null;
 }
 
 interface NormalizeDraftOptions {
@@ -119,11 +121,24 @@ export function normalizeItemDraftExplanation({
 
   const transferRule = draft.explanation_transfer_rule ?? transferRuleText ?? null;
 
+  // Resolve gap coaching: prefer draft-level, fallback to taxonomy-level
+  let gapCoaching: string | null = draft.explanation_gap_coaching ?? null;
+  if (!gapCoaching && errorTaxonomyRows && errorMap) {
+    for (const entry of Object.values(errorMap)) {
+      const row = errorTaxonomyRows.find((r) => r.error_name === entry.error_name);
+      if (row?.palmerton_coaching_note) {
+        gapCoaching = row.palmerton_coaching_note;
+        break;
+      }
+    }
+  }
+
   const layers: ExplanationLayers = {
     fix: {
       errorDiagnosis,
       transferRule,
       errorTemplate,
+      gapCoaching,
     },
     breakdown: {
       whyCorrect: draft.why_correct,
@@ -153,6 +168,7 @@ export function normalizeItemDraftExplanation({
     errorDiagnosis,
     teachingPearl: draft.explanation_teaching_pearl ?? null,
     errorTemplate,
+    gapCoaching,
     layers,
   };
 }
@@ -198,6 +214,7 @@ export function normalizeQuestionExplanation(
       errorDiagnosis: null,
       transferRule,
       errorTemplate: null,
+      gapCoaching: null,
     },
     breakdown: {
       whyCorrect,
@@ -227,6 +244,7 @@ export function normalizeQuestionExplanation(
     errorDiagnosis: null,
     teachingPearl: null,
     errorTemplate: null,
+    gapCoaching: null,
     layers,
   };
 }

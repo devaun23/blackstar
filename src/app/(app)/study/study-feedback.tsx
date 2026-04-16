@@ -90,6 +90,11 @@ export default function StudyFeedback({ question, selectedAnswer, onNext, repair
                   {layers.fix.transferRule}
                 </p>
               )}
+              {layers.fix.gapCoaching && (
+                <p className="mt-2 text-sm leading-relaxed text-zinc-400 border-l-2 border-zinc-600 pl-3">
+                  {layers.fix.gapCoaching}
+                </p>
+              )}
               {errorRepeatCount >= 3 && (
                 <p className="mt-1.5 text-xs font-medium text-amber-400">
                   This is a pattern. The rule above targets this specific error.

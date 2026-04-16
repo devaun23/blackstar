@@ -618,6 +618,7 @@ When serving an `item_draft`, the `/api/study/next` route:
 | `DISTILLATION_POLICY.md` | Source isolation: Tier C never reaches generating agents |
 | `REJECTION_RULES.md` | 19 auto-kill rules across 7 categories |
 | `SOURCE_POLICY.md` | Tier hierarchy: A (scope), B (truth), C (style) |
+| `PALMERTON_METHODOLOGY.md` | Pedagogical foundation: 3 transfer gaps (skills/noise/consistency), 10 test-taking skills, coaching framework |
 
 ---
 
@@ -751,6 +752,7 @@ scripts/
 ├── DISTILLATION_POLICY.md
 ├── REJECTION_RULES.md
 ├── SOURCE_POLICY.md
+├── PALMERTON_METHODOLOGY.md
 ├── supabase-migration-v2.sql
 ├── supabase-migration-v3.sql
 ├── supabase-migration-v4-content-outline.ts

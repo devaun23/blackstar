@@ -1,4 +1,5 @@
 import type { RepairAction, DimensionType } from '@/lib/types/database';
+import type { PalmertonGapType } from '@/lib/factory/seeds/error-taxonomy';
 import type { DimensionMastery } from './types';
 import { getWeakestDimensions } from './model';
 
@@ -18,6 +19,8 @@ export interface RepairContext {
   confusionSetId: string | null;
   // Correct option frame ID of the question just answered (to exclude from contrast)
   lastCorrectOptionFrameId: string | null;
+  // Palmerton gap type for the diagnosed cognitive error (optional — used as tie-breaker)
+  palmertonGapType?: PalmertonGapType | null;
 }
 
 export interface RepairDecision {
@@ -137,6 +140,37 @@ function diagnoseWrongAnswer(ctx: RepairContext): RepairDecision {
       targetDimensionType: null,
       targetDimensionId: null,
     };
+  }
+
+  // Priority 6: Gap-type-aware routing (Palmerton methodology tie-breaker)
+  // When no stronger signal exists, use the gap type to choose the best repair strategy
+  if (ctx.palmertonGapType) {
+    switch (ctx.palmertonGapType) {
+      case 'noise':
+        // Noise gap → prefer contrast to train discrimination, even without confusion_set match
+        return {
+          action: 'contrast',
+          reason: 'Noise gap error — contrast practice to sharpen discrimination',
+          targetDimensionType: ctx.diagnosedCognitiveErrorId ? 'cognitive_error' : null,
+          targetDimensionId: ctx.diagnosedCognitiveErrorId,
+        };
+      case 'skills':
+        // Skills gap → remediate with hinge-focused questions (drill interpretation)
+        return {
+          action: 'remediate',
+          reason: 'Skills gap error — drill interpretation until pattern is automatic',
+          targetDimensionType: ctx.diagnosedCognitiveErrorId ? 'cognitive_error' : null,
+          targetDimensionId: ctx.diagnosedCognitiveErrorId,
+        };
+      case 'consistency':
+        // Consistency gap → reinforce (process repetition, not new content)
+        return {
+          action: 'reinforce',
+          reason: 'Consistency gap error — reinforce process execution with similar question',
+          targetDimensionType: null,
+          targetDimensionId: null,
+        };
+    }
   }
 
   // Default: remediate

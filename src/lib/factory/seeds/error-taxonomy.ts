@@ -1,3 +1,5 @@
+export type PalmertonGapType = 'skills' | 'noise' | 'consistency';
+
 export interface ErrorTaxonomySeed {
   error_name: string;
   definition: string;
@@ -8,6 +10,9 @@ export interface ErrorTaxonomySeed {
   frequency_rank: number;
   detection_prompt: string;
   repair_strategy: string;
+  // v20 Palmerton methodology fields
+  palmerton_gap_type: PalmertonGapType;
+  palmerton_coaching_note: string;
 }
 
 export const errorTaxonomy: ErrorTaxonomySeed[] = [
@@ -20,6 +25,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 1,
     detection_prompt: 'Did the learner stop at the first plausible diagnosis without checking distinguishing features?',
     repair_strategy: 'Present the same clinical scenario with a subtle discriminating feature that changes the diagnosis. Force explicit comparison.',
+    palmerton_gap_type: 'noise',
+    palmerton_coaching_note: 'Noise Gap: You likely knew the right answer but stopped too early. Be the Judge, not the Lawyer — rule IN your top diagnosis by checking all supporting evidence before moving on.',
   },
   {
     error_name: 'anchoring',
@@ -30,6 +37,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 2,
     detection_prompt: 'Did the learner fixate on a salient but misleading detail while ignoring contradicting evidence?',
     repair_strategy: 'Present cases where the anchor is present but the actual diagnosis differs. Build the habit of checking all data.',
+    palmerton_gap_type: 'noise',
+    palmerton_coaching_note: 'Noise Gap: You fixated on one finding and let it override contradicting evidence. Weigh ALL the evidence like a judge — the best answer fits 80% of the data, not just the loudest detail.',
   },
   {
     error_name: 'wrong_algorithm_branch',
@@ -40,6 +49,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 3,
     detection_prompt: 'Did the learner identify the correct condition but pick the wrong management branch at a decision fork?',
     repair_strategy: 'Present the same algorithm with the branching criterion made explicit, then test with a case on the other side of the fork.',
+    palmerton_gap_type: 'skills',
+    palmerton_coaching_note: 'Skills Gap: You identified the condition correctly but couldn\'t navigate the decision fork. Drill the branching criteria until the fork point is automatic — finding → branch, no hesitation.',
   },
   {
     error_name: 'over_testing',
@@ -50,6 +61,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 5,
     detection_prompt: 'Did the learner order a test when existing information was sufficient to act?',
     repair_strategy: 'Present cases with clear clinical pictures and ask for the single next step. Reinforce when-to-act thresholds.',
+    palmerton_gap_type: 'consistency',
+    palmerton_coaching_note: 'Consistency Gap: You know when to act but defaulted to ordering more tests. The fix is process discipline — before ordering, ask: "Do I already have enough to act?" If yes, act.',
   },
   {
     error_name: 'under_triage',
@@ -60,6 +73,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 4,
     detection_prompt: 'Did the learner underestimate severity markers that should have triggered escalation?',
     repair_strategy: 'Present paired cases at different severity levels with the same condition. Drill severity thresholds explicitly.',
+    palmerton_gap_type: 'skills',
+    palmerton_coaching_note: 'Skills Gap: You couldn\'t interpret the severity markers from the vitals and findings. Drill severity thresholds until the pattern is automatic — vital signs → severity level, no guessing.',
   },
   {
     error_name: 'treating_labs_instead_of_patient',
@@ -70,6 +85,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 7,
     detection_prompt: 'Did the learner treat a lab value rather than the clinical condition?',
     repair_strategy: 'Present abnormal labs in asymptomatic patients. Reinforce thresholds for when lab correction is clinically indicated.',
+    palmerton_gap_type: 'consistency',
+    palmerton_coaching_note: 'Consistency Gap: You know the principle — treat the patient, not the lab — but didn\'t apply it here. Before treating any lab value, ask: "Is this patient symptomatic? Does this number need intervention?"',
   },
   {
     error_name: 'reflex_response_to_finding',
@@ -80,6 +97,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 6,
     detection_prompt: 'Did the learner reflexively apply a standard response without checking modifying context?',
     repair_strategy: 'Present the trigger finding in contexts where the standard response is wrong. Build conditional reasoning.',
+    palmerton_gap_type: 'consistency',
+    palmerton_coaching_note: 'Consistency Gap: You ran on autopilot — saw a trigger and reflexed to the standard response without checking context. The fix: pause after recognizing the trigger and ask "Does the full picture still support this action?"',
   },
   {
     error_name: 'misreading_hemodynamic_status',
@@ -90,6 +109,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 8,
     detection_prompt: 'Did the learner misinterpret hemodynamic status from the vital signs provided?',
     repair_strategy: 'Present vital sign patterns across shock stages. Drill recognition of compensated vs decompensated shock.',
+    palmerton_gap_type: 'skills',
+    palmerton_coaching_note: 'Skills Gap: You misread the hemodynamic picture from the vitals. Drill vital sign interpretation — HR, BP, pulse pressure, MAP — until you can instantly classify stable vs compensated vs decompensated.',
   },
   {
     error_name: 'skipping_required_diagnostic_step',
@@ -100,6 +121,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 9,
     detection_prompt: 'Did the learner skip a required diagnostic step before proceeding to treatment?',
     repair_strategy: 'Present cases where the correct answer is a prerequisite step, not the definitive treatment.',
+    palmerton_gap_type: 'consistency',
+    palmerton_coaching_note: 'Consistency Gap: You know the diagnostic sequence but skipped a required step. Before choosing treatment, run the checklist: "Have I confirmed the diagnosis? Have I completed prerequisites?" Don\'t jump ahead.',
   },
   {
     error_name: 'premature_escalation',
@@ -110,6 +133,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 10,
     detection_prompt: 'Did the learner escalate to invasive or specialist intervention when conservative management was appropriate?',
     repair_strategy: 'Present cases at different severity thresholds for the same condition. Drill indications for escalation vs conservative management.',
+    palmerton_gap_type: 'noise',
+    palmerton_coaching_note: 'Noise Gap: You chose the more aggressive option when conservative management was correct. Be the Judge — weigh ALL evidence. The aggressive option felt safer, but the clinical picture didn\'t warrant it.',
   },
   {
     error_name: 'wrong_priority_sequence',
@@ -120,6 +145,8 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 11,
     detection_prompt: 'Did the learner identify the right actions but sequence them incorrectly?',
     repair_strategy: 'Present multi-step management scenarios. Reinforce priority frameworks (ABCs, stabilize-before-diagnose).',
+    palmerton_gap_type: 'consistency',
+    palmerton_coaching_note: 'Consistency Gap: You identified the right actions but executed them in the wrong order. Before answering, run the priority check: Airway → Breathing → Circulation → stabilize before diagnose → diagnose before treat.',
   },
   {
     error_name: 'misreading_severity',
@@ -130,5 +157,7 @@ export const errorTaxonomy: ErrorTaxonomySeed[] = [
     frequency_rank: 12,
     detection_prompt: 'Did the learner misclassify the severity of the condition based on available criteria?',
     repair_strategy: 'Present cases with explicit severity criteria. Drill classification systems and their management implications.',
+    palmerton_gap_type: 'skills',
+    palmerton_coaching_note: 'Skills Gap: You misclassified severity because you couldn\'t interpret the criteria from the findings. Drill the classification systems for this condition until severity → management is automatic.',
   },
 ];

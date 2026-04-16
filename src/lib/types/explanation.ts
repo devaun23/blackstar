@@ -18,6 +18,7 @@ export interface FixLayer {
   errorDiagnosis: Record<string, { error_name: string; explanation: string }> | null;
   transferRule: string | null;
   errorTemplate: string | null;
+  gapCoaching: string | null;
 }
 
 export interface BreakdownLayer {
@@ -66,6 +67,9 @@ export interface RichExplanation {
 
   // Hydrated error template (filled from error_taxonomy.explanation_template)
   errorTemplate: string | null;
+
+  // Palmerton gap coaching (skills/noise/consistency-specific process coaching)
+  gapCoaching: string | null;
 
   // Grouped view for progressive disclosure UI
   layers: ExplanationLayers;

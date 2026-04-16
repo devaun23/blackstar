@@ -48,6 +48,8 @@ export const explanationOutputSchema = z.object({
   ).nullable().optional(),
   explanation_transfer_rule: z.string().nullable().optional(),
   explanation_teaching_pearl: z.string().nullable().optional(),
+  // v20 Palmerton gap coaching (skills/noise/consistency-specific process coaching)
+  explanation_gap_coaching: z.string().nullable().optional(),
 });
 
 export type ItemDraftInput = z.infer<typeof itemDraftSchema>;

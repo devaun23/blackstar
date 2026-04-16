@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { updateAfterAttempt } from '@/lib/learner/model';
 import { diagnoseRepairAction, getErrorRepeatCount } from '@/lib/learner/repair-engine';
+import { getTimingFeedback } from '@/lib/learner/timing-analysis';
 import { incrementSession } from '@/lib/session';
 import type { DimensionType, SessionMode } from '@/lib/types/database';
 
@@ -235,6 +236,17 @@ export async function POST(req: NextRequest) {
     dimensionMastery = masteryRow?.mastery_level ?? null;
   }
 
+  // Look up Palmerton gap type for the diagnosed error
+  let palmertonGapType: 'skills' | 'noise' | 'consistency' | null = null;
+  if (diagnosedCognitiveErrorId) {
+    const { data: gapRow } = await supabase
+      .from('error_taxonomy')
+      .select('palmerton_gap_type')
+      .eq('id', diagnosedCognitiveErrorId)
+      .single();
+    palmertonGapType = (gapRow?.palmerton_gap_type as typeof palmertonGapType) ?? null;
+  }
+
   const repairDecision = diagnoseRepairAction({
     userId: user_id,
     isCorrect,
@@ -247,6 +259,7 @@ export async function POST(req: NextRequest) {
     dimensionMastery,
     confusionSetId,
     lastCorrectOptionFrameId: correctOptionFrameId,
+    palmertonGapType,
   });
 
   // Update attempt with repair action
@@ -281,6 +294,22 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Timing feedback (Palmerton 2-minute rule)
+  let timingFeedback: string | null = null;
+  if (time_spent_ms) {
+    // Get user's average time for context
+    const { data: avgRow } = await supabase
+      .from('learner_model')
+      .select('avg_time_ms')
+      .eq('user_id', user_id)
+      .eq('dimension_type', 'topic')
+      .not('avg_time_ms', 'is', null)
+      .limit(1)
+      .single();
+
+    timingFeedback = getTimingFeedback(time_spent_ms, avgRow?.avg_time_ms ?? null);
+  }
+
   return NextResponse.json({
     attemptId: attempt.id,
     isCorrect,
@@ -297,5 +326,7 @@ export async function POST(req: NextRequest) {
     // Contrast loop metadata — client passes these to /study/next for contrast selection
     lastCorrectOptionFrameId: correctOptionFrameId,
     sessionComplete,
+    // Palmerton timing feedback
+    timingFeedback,
   });
 }

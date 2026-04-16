@@ -131,12 +131,16 @@ export interface ItemDraftRow {
   explanation_error_diagnosis: Record<string, unknown> | null;
   explanation_transfer_rule: string | null;
   explanation_teaching_pearl: string | null;
+  // v20 Palmerton gap coaching
+  explanation_gap_coaching: string | null;
   repair_count: number;
   // v15: Human review queue
   review_status: ReviewStatus | null;
   reviewed_by: string | null;
   reviewed_at: string | null;
   review_notes: string | null;
+  // v20: IRT variant tracking
+  variant_group_id: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -164,6 +168,9 @@ export interface ErrorTaxonomyRow {
   frequency_rank: number | null;
   detection_prompt: string | null;
   repair_strategy: string | null;
+  // v20 Palmerton gap type classification
+  palmerton_gap_type: 'skills' | 'noise' | 'consistency' | null;
+  palmerton_coaching_note: string | null;
   created_at: string;
 }
 
@@ -209,8 +216,27 @@ export interface ItemPerformanceRow {
   avg_time_seconds: number | null;
   distractor_distribution: Record<string, number> | null;
   discrimination_index: number | null;
+  // v19: IRT parameters
+  item_difficulty: number | null;
+  item_guessing: number | null;
+  // v20: Response-time calibration
+  expected_response_time_ms: number | null;
+  time_discrimination: number | null;
   flagged_for_review: boolean;
   retired: boolean;
+  updated_at: string;
+}
+
+export interface LearnerAbilityRow {
+  id: string;
+  user_id: string;
+  dimension_type: DimensionType;
+  dimension_id: string;
+  theta_ability: number;
+  se_theta: number;
+  response_count: number;
+  last_calibrated_at: string | null;
+  created_at: string;
   updated_at: string;
 }
 

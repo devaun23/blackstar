@@ -13,6 +13,7 @@ interface ExplanationWriterInput {
   facts: FactRowRow[];
   node?: BlueprintNodeRow;
   transferRuleText?: string;  // From case_plan — declared before the question was written
+  targetCognitiveErrorId?: string;  // From case_plan — for Palmerton gap coaching
 }
 
 /**
@@ -61,6 +62,28 @@ export async function run(
       // Pass the pre-declared transfer rule so the explanation references it, not invents one
       if (data.transferRuleText) {
         vars.transfer_rule_text = data.transferRuleText;
+      }
+
+      // Pass Palmerton coaching data for gap-specific explanation framing
+      if (data.targetCognitiveErrorId) {
+        const adminClient = createAdminClient();
+        const { data: errorRow } = await adminClient
+          .from('error_taxonomy')
+          .select('error_name, palmerton_gap_type, palmerton_coaching_note')
+          .eq('id', data.targetCognitiveErrorId)
+          .single();
+
+        if (errorRow) {
+          vars.target_cognitive_error = errorRow.error_name;
+          vars.palmerton_gap_type = errorRow.palmerton_gap_type ?? 'unknown';
+          vars.palmerton_coaching_note = errorRow.palmerton_coaching_note ?? '';
+        }
+      }
+
+      if (!vars.target_cognitive_error) {
+        vars.target_cognitive_error = 'Not specified';
+        vars.palmerton_gap_type = 'Not specified';
+        vars.palmerton_coaching_note = 'Not specified';
       }
 
       return vars;
