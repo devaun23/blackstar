@@ -298,6 +298,74 @@ export const pack: SourcePack = {
   normalizer_version: 1,
   normalization_notes: 'Phase 1 pack for sepsis. Covers Sepsis-3 definitions, Hour-1 bundle, fluid resuscitation, vasopressor escalation, corticosteroids, and lactate-guided therapy for question generation.',
 
+  drug_selection: [
+    {
+      selection_id: 'PACK.SSC.SEPSIS.2021.DS.01',
+      display_id: 'SSC-SEPSIS-DS1',
+      indication: 'First-line vasopressor in septic shock',
+      first_line: { drug: 'Norepinephrine', dose: '0.01-0.35 mcg/kg/min IV', route: 'Central line preferred', rationale: 'Superior to dopamine: lower arrhythmia risk (RR 0.48), lower mortality in shock subgroup analyses.' },
+      alternatives: [
+        { drug: 'Vasopressin', dose: '0.03 units/min IV (fixed, not titrated)', when: 'Add as adjunct when norepinephrine dose reaches 0.25-0.5 mcg/kg/min to reduce catecholamine exposure.' },
+        { drug: 'Epinephrine', dose: '0.01-0.2 mcg/kg/min IV', when: 'Add or substitute when cardiac dysfunction suspected (low cardiac output state) or inadequate response to norepinephrine + vasopressin.' },
+      ],
+      contraindicated: [
+        { drug: 'Dopamine', reason: 'Increased arrhythmia risk vs norepinephrine (RR 1.10 for arrhythmias). SSC 2021 recommends AGAINST dopamine except in highly selected patients (e.g., bradycardia with low risk of tachyarrhythmia).' },
+        { drug: 'Phenylephrine', reason: 'Pure alpha-agonist may decrease cardiac output. Reserve for norepinephrine-induced arrhythmia or salvage therapy only.' },
+      ],
+      selection_factors: [
+        'Cardiac dysfunction → add epinephrine (inotrope + vasopressor)',
+        'High catecholamine dose → add vasopressin (catecholamine-sparing)',
+        'Tachyarrhythmia on norepinephrine → consider vasopressin (no chronotropic effect)',
+        'Refractory shock → combine norepinephrine + vasopressin + epinephrine before considering phenylephrine or angiotensin II',
+      ],
+      normalized_claim: 'Norepinephrine is first-line vasopressor for septic shock. Vasopressin is adjunct at NE 0.25-0.5 mcg/kg/min. Epinephrine for cardiac dysfunction. Dopamine contraindicated (arrhythmia risk).',
+      provenance: { section: 'Hemodynamic Management', page_or_location: 'Section 4.3, Recommendation 37-41' },
+    },
+    {
+      selection_id: 'PACK.SSC.SEPSIS.2021.DS.02',
+      display_id: 'SSC-SEPSIS-DS2',
+      indication: 'IV fluid selection in septic shock resuscitation',
+      first_line: { drug: 'Balanced crystalloid (Lactated Ringer or Plasma-Lyte)', dose: '30 mL/kg within 3 hours', route: 'IV', rationale: 'SSC 2021 suggests balanced crystalloids over normal saline (weak recommendation). SMART trial showed lower composite of death, new renal replacement, or persistent renal dysfunction.' },
+      alternatives: [
+        { drug: 'Normal saline (0.9% NaCl)', dose: '30 mL/kg within 3 hours', when: 'Acceptable alternative. No definitive mortality difference vs balanced crystalloids, but higher risk of hyperchloremic metabolic acidosis in large volumes.' },
+        { drug: 'Albumin 4-5%', dose: 'Consider when large crystalloid volumes required (>30 mL/kg)', when: 'SSC 2021 suggests albumin in addition to crystalloids when patients require substantial volumes. Particularly beneficial in cirrhosis + sepsis.' },
+      ],
+      contraindicated: [
+        { drug: 'Hydroxyethyl starch (HES)', reason: 'SSC 2021 strong recommendation AGAINST. Increased renal injury and mortality in sepsis (VISEP, 6S, CHEST trials).' },
+        { drug: 'Gelatin', reason: 'SSC 2021 suggests against. Limited evidence, potential renal harm.' },
+      ],
+      selection_factors: [
+        'Cirrhosis + sepsis → albumin preferred (reduces mortality in SBP)',
+        'Hyperchloremia or AKI risk → balanced crystalloid over normal saline',
+        'Large volume resuscitation → add albumin to reduce total crystalloid volume',
+      ],
+      normalized_claim: 'Balanced crystalloids first-line for sepsis resuscitation. Albumin adjunct for large volumes or cirrhosis. HES and gelatin contraindicated.',
+      provenance: { section: 'Fluid Therapy', page_or_location: 'Section 4.2, Recommendation 23-28' },
+    },
+    {
+      selection_id: 'PACK.SSC.SEPSIS.2021.DS.03',
+      display_id: 'SSC-SEPSIS-DS3',
+      indication: 'Empiric antibiotic selection in sepsis/septic shock',
+      first_line: { drug: 'Broad-spectrum IV antibiotics', dose: 'Within 1 hour of recognition', route: 'IV', rationale: 'Each hour delay in antibiotics associated with measurable mortality increase. Cover most likely pathogens based on source.' },
+      alternatives: [
+        { drug: 'Double gram-negative coverage', when: 'Septic shock with high risk of MDR organisms (recent hospitalization, prior antibiotics, known colonization). Use two agents from different classes (e.g., piperacillin-tazobactam + amikacin).' },
+        { drug: 'Add MRSA coverage (vancomycin or linezolid)', when: 'Risk factors for MRSA: prior MRSA, IV drug use, indwelling catheter, recent hospitalization.' },
+      ],
+      contraindicated: [
+        { drug: 'Narrow-spectrum monotherapy', reason: 'Inadequate initial coverage increases mortality. De-escalate AFTER cultures return, not before.' },
+      ],
+      selection_factors: [
+        'Pulmonary source → cover typical + atypical (ceftriaxone + azithromycin or respiratory fluoroquinolone)',
+        'Abdominal source → cover gram-negatives + anaerobes (piperacillin-tazobactam or meropenem)',
+        'Urinary source → cover gram-negatives (ceftriaxone or fluoroquinolone)',
+        'Skin/soft tissue → cover gram-positives including MRSA if risk factors (vancomycin + piperacillin-tazobactam)',
+        'Unknown source → broad coverage (vancomycin + piperacillin-tazobactam or meropenem)',
+      ],
+      normalized_claim: 'IV antibiotics within 1 hour. Broad-spectrum empiric. Double gram-negative coverage for shock + MDR risk. De-escalate after cultures.',
+      provenance: { section: 'Antimicrobial Therapy', page_or_location: 'Section 4.1, Recommendation 17-22' },
+    },
+  ],
+
   all_item_ids: [
     'PACK.SSC.SEPSIS.2021.REC.01', 'PACK.SSC.SEPSIS.2021.REC.02', 'PACK.SSC.SEPSIS.2021.REC.03',
     'PACK.SSC.SEPSIS.2021.REC.04', 'PACK.SSC.SEPSIS.2021.REC.05', 'PACK.SSC.SEPSIS.2021.REC.06',

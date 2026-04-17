@@ -301,6 +301,81 @@ export const PACK_AHA_ACS_2023: SourcePack = {
     },
   ],
 
+  drug_selection: [
+    {
+      selection_id: 'PACK.AHA.ACS.2023.DS.01',
+      display_id: 'AHA-ACS-DS1',
+      indication: 'Antiplatelet therapy in ACS',
+      first_line: { drug: 'Aspirin 325mg loading + P2Y12 inhibitor', dose: 'ASA 325mg chewed, then 81mg daily', route: 'PO', rationale: 'Dual antiplatelet therapy (DAPT) is standard for all ACS. ASA loading reduces early mortality.' },
+      alternatives: [
+        { drug: 'Ticagrelor 180mg loading, then 90mg BID', when: 'Preferred P2Y12 inhibitor for most ACS patients (PLATO trial: superior to clopidogrel). Use regardless of PCI vs medical management.' },
+        { drug: 'Prasugrel 60mg loading, then 10mg daily', when: 'Alternative for PCI patients without prior stroke/TIA. Contraindicated if age ≥75 or weight <60kg (bleeding risk).' },
+        { drug: 'Clopidogrel 600mg loading, then 75mg daily', when: 'Use when ticagrelor and prasugrel are contraindicated (prior ICH, high bleeding risk, on oral anticoagulation).' },
+      ],
+      contraindicated: [
+        { drug: 'Prasugrel in prior stroke/TIA', reason: 'Net clinical harm (TRITON-TIMI 38). Increased ICH risk outweighs benefit.' },
+        { drug: 'Ticagrelor with strong CYP3A4 inhibitors', reason: 'Ketoconazole, clarithromycin significantly increase ticagrelor levels.' },
+        { drug: 'NSAIDs (ibuprofen, naproxen) with ASA', reason: 'Competitive COX-1 binding reduces ASA antiplatelet effect.' },
+      ],
+      selection_factors: [
+        'PCI planned → ticagrelor or prasugrel (not clopidogrel if possible)',
+        'Prior stroke/TIA → ticagrelor (NOT prasugrel)',
+        'High bleeding risk or on anticoagulation → clopidogrel (lowest bleeding)',
+        'Age ≥75 or weight <60kg → avoid prasugrel (bleeding)',
+        'Medical management (no PCI) → ticagrelor or clopidogrel',
+      ],
+      normalized_claim: 'DAPT for all ACS. Ticagrelor preferred P2Y12 for most. Prasugrel for PCI without prior stroke. Clopidogrel when others contraindicated.',
+      provenance: { section: 'Antiplatelet Therapy', page_or_location: 'Section 6.1-6.3' },
+    },
+    {
+      selection_id: 'PACK.AHA.ACS.2023.DS.02',
+      display_id: 'AHA-ACS-DS2',
+      indication: 'Reperfusion strategy selection in STEMI',
+      first_line: { drug: 'Primary PCI', dose: 'Door-to-balloon <90 min at PCI-capable center', route: 'Interventional', rationale: 'Superior to fibrinolysis when available within time window. Lower mortality, lower reinfarction, lower stroke.' },
+      alternatives: [
+        { drug: 'Fibrinolysis (tenecteplase, alteplase, reteplase)', when: 'PCI not available within 120 min of first medical contact. Door-to-needle <30 min. Best within 12h of symptom onset.' },
+        { drug: 'Transfer for PCI', when: 'Non-PCI center, but PCI achievable within 120 min including transfer time. Preferred over fibrinolysis if time window met.' },
+      ],
+      contraindicated: [
+        { drug: 'Fibrinolysis with active bleeding or recent surgery', reason: 'Absolute contraindication: active internal bleeding, suspected aortic dissection, prior ICH, ischemic stroke within 3 months, significant head/facial trauma within 3 months.' },
+        { drug: 'Fibrinolysis with recent major surgery (<3 weeks)', reason: 'Relative contraindication. Weigh ischemic benefit vs hemorrhagic risk.' },
+      ],
+      selection_factors: [
+        'PCI-capable center → primary PCI (door-to-balloon <90 min)',
+        'Non-PCI center, transfer <120 min → transfer for PCI',
+        'Non-PCI center, transfer >120 min → fibrinolysis (door-to-needle <30 min)',
+        'Recent surgery or bleeding → PCI strongly preferred over fibrinolysis',
+        'Late presentation (12-24h) with ongoing ischemia → PCI may still benefit',
+        'Cardiogenic shock → PCI regardless of time delays',
+      ],
+      normalized_claim: 'Primary PCI is first-line for STEMI. Fibrinolysis when PCI unavailable within 120 min. Cardiogenic shock → PCI regardless of delays.',
+      provenance: { section: 'Reperfusion Therapy', page_or_location: 'Section 5.1-5.3' },
+    },
+    {
+      selection_id: 'PACK.AHA.ACS.2023.DS.03',
+      display_id: 'AHA-ACS-DS3',
+      indication: 'Beta-blocker selection in ACS',
+      first_line: { drug: 'Metoprolol succinate or carvedilol', dose: 'Metoprolol 25mg PO daily, titrate to HR 55-60', route: 'PO', rationale: 'Oral beta-blocker within 24h for all ACS without contraindications. Reduces reinfarction and arrhythmia.' },
+      alternatives: [
+        { drug: 'Esmolol IV', when: 'Acute rate control needed for tachyarrhythmia in ACS. Ultra-short acting, titratable.' },
+      ],
+      contraindicated: [
+        { drug: 'IV beta-blocker in decompensated HF', reason: 'Can precipitate cardiogenic shock. Wait until hemodynamically stable.' },
+        { drug: 'Beta-blocker with active bronchospasm', reason: 'Can worsen bronchospasm. Use cardioselective (metoprolol) cautiously if needed, or avoid entirely in severe asthma/COPD exacerbation.' },
+        { drug: 'Beta-blocker with cocaine-induced ACS', reason: 'Unopposed alpha stimulation can worsen coronary vasospasm and hypertension. Use benzodiazepines and nitroglycerin instead.' },
+      ],
+      selection_factors: [
+        'Decompensated HF or cardiogenic shock → withhold until stable',
+        'Active bronchospasm → avoid or use cardioselective with extreme caution',
+        'Cocaine use → contraindicated (use benzodiazepines)',
+        'Bradycardia (HR <60) or heart block → withhold',
+        'Severe peripheral vascular disease → relative contraindication',
+      ],
+      normalized_claim: 'Oral beta-blocker within 24h for all ACS. Contraindicated in decompensated HF, active bronchospasm, cocaine ACS, and bradycardia.',
+      provenance: { section: 'Beta-Blocker Therapy', page_or_location: 'Section 6.5' },
+    },
+  ],
+
   source_pack_version: 1,
   status: 'active',
   last_normalized: '2026-04-14',

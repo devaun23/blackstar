@@ -83,6 +83,19 @@ export interface SeverityDefinition {
   provenance: Provenance;
 }
 
+/** Drug selection guidance — enables drug-comparison decision forks. */
+export interface DrugSelection {
+  selection_id: string;
+  display_id: string;
+  indication: string;
+  first_line: { drug: string; dose?: string; route?: string; rationale: string };
+  alternatives: { drug: string; dose?: string; when: string }[];
+  contraindicated: { drug: string; reason: string }[];
+  selection_factors?: string[];  // patient factors that change the choice
+  normalized_claim: string;
+  provenance: Provenance;
+}
+
 // ─── Source Pack ───
 
 export type PackStatus = 'draft' | 'validated' | 'active' | 'superseded';
@@ -108,6 +121,7 @@ export interface SourcePack {
   treatment_steps: TreatmentStep[];
   red_flags: RedFlag[];
   severity_definitions: SeverityDefinition[];
+  drug_selection?: DrugSelection[];
 
   // ─── Lifecycle ───
   source_pack_version: number;

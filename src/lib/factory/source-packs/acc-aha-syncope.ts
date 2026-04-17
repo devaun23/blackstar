@@ -292,6 +292,54 @@ export const PACK_ACCAHA_SYNC_2017: SourcePack = {
   status: 'active',
   last_normalized: '2026-04-16',
   normalizer_version: 1,
+  drug_selection: [
+    {
+      selection_id: 'PACK.ACCAHA.SYNC.2017.DS.01',
+      display_id: 'ACCAHA-SYNC-DS1',
+      indication: 'Medication management in recurrent vasovagal syncope',
+      first_line: { drug: 'Midodrine', dose: '5-10mg PO TID', route: 'PO', rationale: 'Alpha-1 agonist increases peripheral vascular resistance. Best evidence for recurrent vasovagal syncope refractory to conservative measures.' },
+      alternatives: [
+        { drug: 'Fludrocortisone', dose: '0.1-0.2mg PO daily', when: 'Volume expansion strategy for orthostatic component. Second-line after midodrine or for patients who cannot tolerate midodrine.' },
+        { drug: 'Droxidopa', dose: '100-600mg PO TID', when: 'Neurogenic orthostatic hypotension (autonomic failure, Parkinson disease). Not standard for vasovagal.' },
+      ],
+      contraindicated: [
+        { drug: 'Beta-blockers for vasovagal syncope', reason: 'POST trial showed no benefit over placebo for recurrent vasovagal syncope. Previously used but now NOT recommended.' },
+        { drug: 'SSRIs for vasovagal syncope', reason: 'Insufficient evidence. Some early positive studies not replicated.' },
+      ],
+      selection_factors: [
+        'Recurrent vasovagal refractory to conservative measures → midodrine',
+        'Orthostatic component predominant → fludrocortisone or midodrine',
+        'Supine hypertension → avoid fludrocortisone (worsens supine BP)',
+        'Neurogenic orthostatic hypotension → droxidopa',
+        'Cardiac syncope (arrhythmia) → treat underlying rhythm disorder, not pharmacotherapy for syncope',
+      ],
+      normalized_claim: 'Midodrine first-line for refractory vasovagal syncope. Beta-blockers NOT effective (POST trial). Treat cardiac syncope by addressing the arrhythmia.',
+      provenance: { section: 'Treatment of Vasovagal Syncope', page_or_location: 'Section 9.2' },
+    },
+    {
+      selection_id: 'PACK.ACCAHA.SYNC.2017.DS.02',
+      display_id: 'ACCAHA-SYNC-DS2',
+      indication: 'Disposition decision: admit vs discharge in syncope',
+      first_line: { drug: 'Admit for monitoring', rationale: 'Any high-risk feature warrants inpatient telemetry and workup. High-risk: structural heart disease, abnormal ECG, syncope during exertion, family history of sudden death, age >60 with no clear cause.' },
+      alternatives: [
+        { drug: 'Discharge with outpatient follow-up', when: 'Low-risk features: age <60, clear vasovagal trigger (prolonged standing, emotional stress, warm environment), normal ECG, normal physical exam, no structural heart disease.' },
+        { drug: 'Observation unit (6-24h)', when: 'Intermediate risk: single episode in patient >60 without clear etiology but no high-risk ECG findings. Serial troponins + telemetry monitoring.' },
+      ],
+      contraindicated: [
+        { drug: 'Discharge without ECG', reason: 'ALL syncope patients require at minimum a 12-lead ECG before disposition. Missed arrhythmia or structural disease is the highest-liability error.' },
+      ],
+      selection_factors: [
+        'Structural heart disease (HCM, severe AS, dilated CMP) → admit',
+        'Exertional syncope → admit (rule out arrhythmia, outflow obstruction)',
+        'Abnormal ECG (long QT, Brugada pattern, delta wave, bifascicular block) → admit',
+        'Clear vasovagal trigger + normal ECG + age <60 → discharge',
+        'Recurrent unexplained syncope → outpatient Holter or event monitor',
+      ],
+      normalized_claim: 'ECG mandatory for all syncope. Admit if high-risk features (structural heart disease, abnormal ECG, exertional, age >60 unexplained). Discharge if clear vasovagal + normal ECG + age <60.',
+      provenance: { section: 'Risk Stratification and Disposition', page_or_location: 'Section 7.1-7.3' },
+    },
+  ],
+
   normalization_notes: 'Phase 1 lightweight pack for syncope evaluation. Covers risk stratification, vasovagal vs cardiac differentiation, orthostatic diagnosis, and disposition decision-making for question generation.',
 
   all_item_ids: [

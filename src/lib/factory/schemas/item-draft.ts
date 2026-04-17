@@ -50,6 +50,8 @@ export const explanationOutputSchema = z.object({
   explanation_teaching_pearl: z.string().nullable().optional(),
   // v20 Palmerton gap coaching (skills/noise/consistency-specific process coaching)
   explanation_gap_coaching: z.string().nullable().optional(),
+  // v21 Counterfactual — teaches rule boundary: "If [X changed], answer shifts to [Y]"
+  explanation_counterfactual: z.string().nullable().optional(),
 });
 
 export type ItemDraftInput = z.infer<typeof itemDraftSchema>;

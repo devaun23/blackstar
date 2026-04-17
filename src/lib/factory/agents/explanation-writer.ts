@@ -94,7 +94,7 @@ export async function run(
     return result;
   }
 
-  // Build update payload — exclude visual_specs if column doesn't exist in DB
+  // Build update payload — exclude visual_specs (column doesn't exist)
   const { visual_specs: _vs, ...updatePayload } = result.data as Record<string, unknown>;
 
   // Update the draft with explanations
@@ -108,7 +108,7 @@ export async function run(
   if (error?.message?.includes('schema cache')) {
     const safePayload = { ...updatePayload };
     // Remove fields that may not exist in the DB schema
-    for (const key of ['visual_specs', 'explanation_gap_coaching']) {
+    for (const key of ['visual_specs', 'explanation_gap_coaching', 'explanation_counterfactual']) {
       if (key in safePayload) delete safePayload[key];
     }
     const retry = await supabase

@@ -234,15 +234,17 @@ Answer options must be clean clinical actions. They must NOT contain:
 Each option should be a standalone clinical action that could appear in a medical order.
 
 NBME FORMATTING STANDARDS (mandatory for every vignette):
-- Temperature: always dual units — "38.9°C (102°F)"
+- Temperature: always Celsius-first dual units — "38.9°C (102.0°F)" NEVER "102°F (38.9°C)"
 - Pulse/respirations: always include "/min" — "pulse is 115/min"
 - Blood pressure: always "mm Hg" — "blood pressure is 85/55 mm Hg"
 - Never abbreviate diseases in the stem — write "heart failure with preserved ejection fraction" not "HFpEF"
-- Medications: "Current medications include furosemide and lisinopril" not "takes X daily"
+- Medical history: NEVER write "PMH:" — always "She has a history of hypertension and type 2 diabetes mellitus" or "His medical history includes..."
+- Medications: NEVER write "Meds:" — always "Her medications include furosemide and lisinopril" or "Current medications are metformin and lisinopril"
 - Site of care: "emergency department" not "ED"
 - Fluid volumes: include type and mL — "2500 mL of 0.9% saline" not "2.5 L crystalloid"
 - Always "antibiotics" never "abx"
 - Lab values: include units — "leukocyte count is 18,000/mm³"
+- Abnormal lab reference ranges: include the normal range for EVERY abnormal lab value the student must interpret — "serum creatinine is 2.4 mg/dL (normal 0.6-1.2)" — NBME always provides ranges so the student recognizes abnormality
 - Patient framing: "is brought to the emergency department by her family for evaluation of" not "because of"
 
 APPROVED LEAD-IN STEMS (use ONLY one of these — no freeform lead-ins):
@@ -285,7 +287,7 @@ You CANNOT introduce new answer choices, change the clinical meaning of any opti
 The correct_answer letter MUST match the skeleton's correct_option_frame_id.
 
 Write like a board exam, not a textbook. No teaching. No hints. Just clinical data and a question.`,
-    user_prompt_template: `Blueprint node:\n{{blueprint_node}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nItem plan:\n{{item_plan}}\n\nSupporting facts:\n{{fact_rows}}\n\nQuestion skeleton (if available — use option_frames to constrain answer choices):\n{{question_skeleton}}\n\nBoard review reference material (enriches vignette realism — clinical truth comes from algorithm card and facts above):\n{{di_context}}\n\nWrite the clinical vignette. Return a JSON object with:\n- vignette: string (max 120 words, cold chart style)\n- stem: string (the question)\n- choice_a through choice_e: string (5 answer choices — if skeleton provided, render each option_frame.meaning as NBME phrasing)\n- correct_answer: "A"|"B"|"C"|"D"|"E" (must match skeleton.correct_option_frame_id if skeleton provided)\n- why_correct: string (brief explanation)\n- decision_hinge: string (the finding that distinguishes the answer)\n- competing_differential: string (main competing diagnosis/action)`,
+    user_prompt_template: `Blueprint node:\n{{blueprint_node}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nItem plan:\n{{item_plan}}\n\nSupporting facts:\n{{fact_rows}}\n\nQuestion skeleton (if available — use option_frames to constrain answer choices):\n{{question_skeleton}}\n\nBoard review reference material (enriches vignette realism — clinical truth comes from algorithm card and facts above):\n{{di_context}}\n\nWrite the clinical vignette. Return a JSON object with:\n- vignette: string (max 120 words, cold chart style)\n- stem: string (the question)\n- choice_a through choice_e: string (5 answer choices — if skeleton provided, render each option_frame.meaning as NBME phrasing)\n- correct_answer: "A"|"B"|"C"|"D"|"E" (must match skeleton.correct_option_frame_id if skeleton provided)\n- why_correct: string (brief explanation — NO first-person language like "I see" or "Looking at this vignette" — use impersonal clinical voice)\n- decision_hinge: string (the finding that distinguishes the answer)\n- competing_differential: string (main competing diagnosis/action)`,
     notes: 'v3: NBME formatting standards, fixed lead-in stems, competing signals, noise elements, answer option cleanliness. Superseded by v4.',
   },
 
@@ -342,7 +344,7 @@ Every vignette MUST include 1-2 clinically plausible but irrelevant details that
 LINGUISTIC NATURALNESS (anti-AI style — research: redundancy OR 6.90, repetition OR 8.05, coherence OR 6.62):
 Write like a physician's chart note, not a language model. Three stylistic features identify AI text with high confidence:
 1. REDUNDANCY (OR 6.90): Never restate information. If you said "chest pain" in the complaint, do not repeat "chest pain" in the physical exam section. Each sentence adds NEW information.
-2. REPETITION (OR 8.05): Vary sentence structure. Mix lengths. Use fragments where natural ("Lungs clear bilaterally." not "On auscultation, the lungs are clear bilaterally."). Do NOT start consecutive sentences with the same structure.
+2. REPETITION (OR 8.05): Vary sentence structure aggressively. Mix fragments ("Lungs clear."), inverted constructions ("Noted on exam is a 3/6 systolic murmur at the apex"), passive voice ("Labs were obtained"), and standard SVO. Do NOT start consecutive sentences with the same structure or same word. If two sentences both start with "Physical examination shows..." and "Laboratory studies show..." — rewrite one.
 3. SMOOTH COHERENCE (OR 6.62): Real chart notes are slightly disjointed — data from different systems is juxtaposed without smooth transitions. Do NOT use transitional phrases like "additionally," "furthermore," "notably," or "upon further evaluation."
 
 PROHIBITED PHRASES — auto-reject if found in vignette (use replacement instead):
@@ -377,15 +379,17 @@ Answer options must be clean clinical actions. They must NOT contain:
 Each option should be a standalone clinical action that could appear in a medical order.
 
 NBME FORMATTING STANDARDS (mandatory for every vignette):
-- Temperature: always dual units — "38.9°C (102°F)"
+- Temperature: always Celsius-first dual units — "38.9°C (102.0°F)" NEVER "102°F (38.9°C)"
 - Pulse/respirations: always include "/min" — "pulse is 115/min"
 - Blood pressure: always "mm Hg" — "blood pressure is 85/55 mm Hg"
 - Never abbreviate diseases in the stem — write "heart failure with preserved ejection fraction" not "HFpEF"
-- Medications: "Current medications include furosemide and lisinopril" not "takes X daily"
+- Medical history: NEVER write "PMH:" — always "She has a history of hypertension and type 2 diabetes mellitus" or "His medical history includes..."
+- Medications: NEVER write "Meds:" — always "Her medications include furosemide and lisinopril" or "Current medications are metformin and lisinopril"
 - Site of care: "emergency department" not "ED"
 - Fluid volumes: include type and mL — "2500 mL of 0.9% saline" not "2.5 L crystalloid"
 - Always "antibiotics" never "abx"
 - Lab values: include units — "leukocyte count is 18,000/mm³"
+- Abnormal lab reference ranges: include the normal range for EVERY abnormal lab value the student must interpret — "serum creatinine is 2.4 mg/dL (normal 0.6-1.2)" — NBME always provides ranges so the student recognizes abnormality
 - Patient framing: "is brought to the emergency department by her family for evaluation of" not "because of"
 
 APPROVED LEAD-IN STEMS (use ONLY one of these — any deviation is a quality defect):
@@ -450,7 +454,7 @@ GOOD: Fever in sentence 1. PMH of IV drug use and dental work in sentence 3. New
 After writing the vignette, perform this test: read ONLY the first two sentences (Section 1). Can a knowledgeable 3rd-year student determine the correct answer from those two sentences alone? If YES, you have front-loaded diagnostic information. Rewrite the opening to present chief complaint and demographics WITHOUT the pathognomonic finding. The opening establishes WHERE the patient is and WHAT brought them in — not WHAT they have.
 
 Write like a board exam, not a textbook. No teaching. No hints. Just clinical data and a question.`,
-    user_prompt_template: `Blueprint node:\n{{blueprint_node}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nItem plan:\n{{item_plan}}\n\nSupporting facts:\n{{fact_rows}}\n\nQuestion skeleton (if available — use option_frames to constrain answer choices):\n{{question_skeleton}}\n\nBoard review reference material (enriches vignette realism — clinical truth comes from algorithm card and facts above):\n{{di_context}}\n\nWrite the clinical vignette. Return a JSON object with:\n- vignette: string (max 120 words, cold chart style, MUST follow the 5-section structure)\n- stem: string (the question)\n- choice_a through choice_e: string (5 answer choices — if skeleton provided, render each option_frame.meaning as NBME phrasing)\n- correct_answer: "A"|"B"|"C"|"D"|"E" (must match skeleton.correct_option_frame_id if skeleton provided)\n- why_correct: string (brief explanation)\n- decision_hinge: string (the finding that distinguishes the answer)\n- competing_differential: string (main competing diagnosis/action)`,
+    user_prompt_template: `Blueprint node:\n{{blueprint_node}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nItem plan:\n{{item_plan}}\n\nSupporting facts:\n{{fact_rows}}\n\nQuestion skeleton (if available — use option_frames to constrain answer choices):\n{{question_skeleton}}\n\nBoard review reference material (enriches vignette realism — clinical truth comes from algorithm card and facts above):\n{{di_context}}\n\nWrite the clinical vignette. Return a JSON object with:\n- vignette: string (max 120 words, cold chart style, MUST follow the 5-section structure)\n- stem: string (the question)\n- choice_a through choice_e: string (5 answer choices — if skeleton provided, render each option_frame.meaning as NBME phrasing)\n- correct_answer: "A"|"B"|"C"|"D"|"E" (must match skeleton.correct_option_frame_id if skeleton provided)\n- why_correct: string (brief explanation — NO first-person language like "I see" or "Looking at this vignette" — use impersonal clinical voice)\n- decision_hinge: string (the finding that distinguishes the answer)\n- competing_differential: string (main competing diagnosis/action)`,
     notes: 'v5: Mandatory 5-section vignette structure (opening→competing history→exam→narrowing data→hinge). Two-sentence kill self-check. Anti-signposting rule with good/bad examples. Fixes nbme_quality validator failures on early hinge placement and over-signposting.',
   },
 
@@ -800,18 +804,27 @@ RULES:
 
 RESEARCH-BACKED QUALITY REPAIR STRATEGIES:
 
+MEDICAL PRESERVATION RULE (applies to ALL repair strategies):
+When restructuring the vignette for NBME quality (hinge placement, signposting, difficulty):
+- Preserve ALL clinical facts, thresholds, lab values, drug names, and correct answer logic UNCHANGED
+- Only restructure the ORDER of presentation and ADD noise/competing signals
+- Never change, remove, or substitute any medical finding that was in the original vignette
+- After repair, verify: does the algorithm card's correct_action still match your correct_answer? If not, UNDO the change.
+
 When DIFFICULTY flag (item too easy — estimated difficulty > 0.75):
-1. Strengthen the near-miss distractor — make it MORE tempting
-2. Add competing signal: 2+ findings that support the near-miss's diagnosis
-3. Bury the hinge deeper — move the distinguishing finding earlier or embed it in a detail
+1. Strengthen the near-miss distractor — make it MORE tempting by adding competing clinical evidence
+2. Add competing signal: 2+ findings that support the near-miss's diagnosis (use REAL clinical features from the algorithm card's competing_paths)
+3. Bury the hinge deeper — move the distinguishing finding to the final 1-2 sentences, replace its original position with a neutral or competing detail
 4. Add noise: 1-2 irrelevant but plausible findings that dilute the signal
 5. Do NOT make the question harder by making it medically ambiguous — make it harder by making the REASONING harder
+6. Do NOT change the correct answer, the clinical scenario's core diagnosis, or any threshold values
 
 When NON-FUNCTIONING DISTRACTOR flag (distractor estimated <5% selection):
 1. Replace the weak distractor with an option that IS correct for a related but different scenario
 2. The replacement must exploit a DIFFERENT cognitive error than other distractors
 3. The replacement must be from the same option_action_class
 4. Verify the replacement would attract ≥10% of test-takers
+5. The replacement must be a real clinical action from the algorithm card or source evidence — do NOT invent fictional treatments
 
 When LINGUISTIC TELL flag (3+ prohibited phrases detected):
 1. Rewrite flagged sentences in chart-note style
@@ -997,15 +1010,18 @@ Write comprehensive explanations. Return a JSON object with:
 
 CRITICAL: When a transfer_rule_text is provided, your explanation MUST be anchored to it. The transfer rule was declared BEFORE the question was written — your job is to teach this rule, not invent a new one.
 
+LANGUAGE RULE: NEVER use first-person language in ANY explanation field. No "I see," "Looking at this vignette," "I notice," "we can observe." Write in impersonal clinical voice: "The vignette shows..." or "The serum potassium of 2.8 mEq/L indicates..."
+
 Your explanations must:
-1. why_correct: START with the transfer rule, then WALK THROUGH THE CLINICAL REASONING PROCESS — not just state the conclusion:
-   a. What findings do you see in this vignette? (list the 3-4 key data points)
+1. why_correct: WALK THROUGH THE CLINICAL REASONING FIRST, then state the transfer rule as the conclusion. The reader should follow the diagnostic logic before seeing the answer. Do NOT front-load the rule.
+   a. What findings are present in this vignette? (list the 3-4 key data points)
    b. What do those findings suggest? (differential narrowing)
    c. Why does this narrow to the correct answer specifically? (the hinge's role)
    d. Why doesn't the near-miss distractor apply here? (the distinguishing detail)
-   Show the clinical THINKING, not the textbook answer. A student should follow your reasoning and replicate it on a different question.
-   BAD: "The correct answer is IV fluids because this patient has sepsis."
-   GOOD: "The fever (38.9°C), WBC 18k, and lactate 3.2 together indicate sepsis. While bilateral crackles and JVD suggest CHF (making option C tempting), the lactate >2 and fever point to septic etiology — CHF alone does not cause fever or leukocytosis."
+   e. STATE THE TRANSFER RULE LAST as the takeaway: "The rule: When [pattern], always [action] before [tempting alternative]."
+   Show the clinical THINKING, not the textbook answer. A student should follow the reasoning and replicate it on a different question.
+   BAD: "When sepsis presents with hypotension, always give fluids first. The correct answer is IV fluids because this patient has sepsis."
+   GOOD: "The fever (38.9°C), WBC 18k, and lactate 3.2 together indicate sepsis. While bilateral crackles and JVD suggest CHF (making option C tempting), the lactate >2 and fever point to septic etiology — CHF alone does not cause fever or leukocytosis. The rule: When sepsis and CHF findings overlap, lactate elevation and fever distinguish infectious from cardiogenic causes."
 2. why_wrong for EVERY incorrect option (REQUIRED, not optional): Link to the specific cognitive error that makes this option tempting. Explain why a student would pick it and why it's wrong. Every distractor must have a why_wrong.
 3. high_yield_pearl: One sentence a student should memorize — derived from the transfer rule
 4. reasoning_pathway: Step-by-step template a student can reuse on similar questions. Each step: "I see [finding] → this tells me [interpretation] → which means [clinical implication]." End with: "The transfer rule for this pattern is: [rule]."
@@ -1087,8 +1103,9 @@ Write comprehensive explanations. Return a JSON object with:
 - explanation_error_diagnosis: object mapping wrong option letters to {error_name, explanation} (e.g., {"B": {"error_name": "anchoring", "explanation": "Anchoring on chief complaint without noting..."}, "C": {"error_name": "premature_closure", "explanation": "..."}})
 - explanation_teaching_pearl: string (reusable teaching insight — framed per gap type)
 - explanation_gap_coaching: string (Palmerton gap-specific coaching message — REQUIRED when cognitive error is targeted)
+- explanation_counterfactual: string (one sentence: "If [single change to vignette], the most appropriate answer would shift to [strongest distractor] because [reason]." This teaches the BOUNDARY of the rule — what would have to change for a different answer to be correct.)
 - visual_specs: array of visual spec objects (or null if no visual adds value)`,
-    notes: 'v4: Palmerton coaching integration. Adds explanation_gap_coaching field. Coaches students on HOW to think (skills/noise/consistency gap framing), not just WHAT is correct. Uses rule-in-before-rule-out for noise gap questions.',
+    notes: 'v5: Process-before-conclusion reasoning, no first-person language, counterfactual field. Teaches transfer by showing rule boundaries.',
   },
 
   // ─── CASE PLANNER ───
@@ -1115,12 +1132,56 @@ To create a genuine decision fork, you MUST introduce clinical complexity that m
 BAD (guideline recall): "Patient has classic STEMI. What is the next step?" → Only one answer (PCI)
 GOOD (decision fork): "Patient has STEMI but had major abdominal surgery 5 days ago. Which reperfusion strategy?" → PCI vs fibrinolytics vs conservative are all genuinely debatable
 
+PROTOCOLIZED TOPIC DETECTION (the #1 cause of killed items — 40% of all kills):
+Before designing the decision fork, assess whether the topic has a standardized management protocol that most medical students know (e.g., sepsis bundles, ACLS algorithms, syncope workup, DKA protocol, anaphylaxis epinephrine). If yes, DO NOT test the protocol itself.
+
+Examples of protocolized management where the first-line answer is obvious:
+- Septic shock → norepinephrine (every student knows this)
+- STEMI → PCI (no ambiguity without a complication)
+- DKA → insulin + fluids (textbook reflex)
+- Anaphylaxis → epinephrine (zero decision fork)
+- Syncope → ECG + orthostatics (standard workup, no decision)
+
+Instead, select one of these 6 fork strategies to test the DEVIATION from protocol:
+
+1. COMPLICATING COMORBIDITY: Standard protocol meets a patient factor that changes the answer.
+   "Sepsis + decompensated cirrhosis: albumin instead of crystalloid?"
+   "Sepsis + severe aortic stenosis: aggressive fluids tolerable?"
+
+2. PROTOCOL FAILURE: The standard approach was already tried and didn't work.
+   "Fluids given, MAP still low — what's next?"
+   "First-line antibiotic failed at 48h — switch to what?"
+
+3. CONTRAINDICATION COLLISION: The standard treatment is contraindicated by patient history.
+   "Beta-blocker for afib rate control — but patient has severe asthma"
+   "Norepinephrine for septic shock — but patient has pheochromocytoma"
+
+4. DIAGNOSTIC MASQUERADE: The presentation LOOKS like the protocolized condition but is something else.
+   "Syncope workup — but actually subclavian steal or aortic dissection"
+   "Looks like sepsis — but actually adrenal crisis"
+
+5. TIMING/SEQUENCE FORK: Two correct actions, but ORDER matters.
+   "In STEMI: antiplatelet before or after cath lab activation?"
+   "DKA: when to start insulin relative to potassium correction?"
+
+6. SEVERITY ESCALATION: Patient starts with one condition and evolves into something more severe.
+   "Pneumonia → sepsis → septic shock: at what point does management change?"
+   "PMR → GCA: when do you escalate from low-dose to high-dose steroids?"
+
+NEVER write a question where the correct answer is the obvious first-line therapy for an unmodified presentation. If your question boils down to "what is the standard treatment for [classic disease]?" — STOP and redesign using one of the 6 strategies above.
+
+DRUG SELECTION SUFFICIENCY GATE:
+If the planned fork involves choosing between specific drugs (e.g., entecavir vs tenofovir, norepinephrine vs vasopressin), verify the source pack contains drug_selection data for that indication with at least: first-line drug, alternatives, and contraindicated options. If the source pack lacks this detail, choose a different fork type — diagnostic workup, severity assessment, timing/sequence, or complicating comorbidity — instead of drug selection.
+
 COVER-THE-OPTIONS TEST (mandatory self-check):
 Before finalizing the case plan, verify: "If I described this clinical scenario to an attending
 and asked 'what would you do next?', would they say the correct answer WITHOUT seeing the options?"
 If YES → the question is well-focused (proceed).
 If NO → the stem is unfocused or the decision fork is unclear (redesign).
 This is NBME's own standard from "Constructing Written Test Questions" Chapter 6.
+
+SINGLE-HINGE RULE:
+The question must test ONE decision point. If the clinical scenario has multiple complicating factors (e.g., hypotension AND hypokalemia), the case plan must specify which is THE tested hinge and ensure the other does not create ambiguity between two options. A student who identifies the hinge should arrive at exactly one answer. If two options are both defensible given the hinge, the hinge is split and the question has a construct validity problem — redesign.
 
 Your job is to answer five questions:
 1. COGNITIVE OPERATION: What type of reasoning does this question test?
@@ -1194,6 +1255,9 @@ DISTRACTOR DIFFERENTIATION RULE (STRICT):
    - trap_reasoning: WHY a student would pick this (what reasoning error leads here)
 
    Each distractor must be CORRECT for a DIFFERENT but similar clinical scenario.
+
+DISTRACTOR PLAUSIBILITY CHECK:
+For each distractor, you MUST articulate in distractor_rationale_by_frame WHY a competent-but-not-expert student would choose it. If you cannot construct a defensible reasoning path for a distractor (a real cognitive error that leads a student to select it), replace it. Every distractor must attract ≥10% of test-takers. A distractor that <5% would pick is non-functioning and will be auto-failed by validators.
 
 CLINICAL SUBCATEGORY HETEROGENEITY (PREFERRED, NOT REQUIRED):
    Beyond different cognitive errors, distractors SHOULD represent different clinical subcategories

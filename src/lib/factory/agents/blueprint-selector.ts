@@ -178,11 +178,34 @@ export async function run(
     )
     .join('\n');
 
+  // Fetch recently published topics to enforce diversity
+  const { data: recentPublished } = await supabase
+    .from('item_draft')
+    .select('blueprint_node_id')
+    .eq('status', 'published')
+    .order('created_at', { ascending: false })
+    .limit(10);
+
+  let recentTopics = '';
+  if (recentPublished && recentPublished.length > 0) {
+    const recentNodeIds = recentPublished.map(d => d.blueprint_node_id).filter(Boolean);
+    if (recentNodeIds.length > 0) {
+      const { data: recentNodes } = await supabase
+        .from('blueprint_node')
+        .select('topic')
+        .in('id', recentNodeIds);
+      if (recentNodes && recentNodes.length > 0) {
+        const uniqueTopics = [...new Set(recentNodes.map(n => n.topic))];
+        recentTopics = `\n\nRECENTLY PUBLISHED TOPICS (AVOID — pick a DIFFERENT topic for diversity):\n${uniqueTopics.map(t => `- ${t}`).join('\n')}`;
+      }
+    }
+  }
+
   return runAgent({
     agentType: 'blueprint_selector',
     context,
     input: {
-      candidates: candidatesSummary,
+      candidates: candidatesSummary + recentTopics,
       system_weights: systemWeights,
       competency_weights: competencyWeights,
     },
