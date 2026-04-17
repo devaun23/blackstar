@@ -6,6 +6,18 @@ import type { BlueprintNodeRow, AlgorithmCardRow, FactRowRow, ItemPlanRow, Quest
 import { runAgent } from '../agent-helpers';
 import { resolveDIContext } from '../di-loader';
 
+interface VariantMode {
+  /** The skeleton to create a variant of */
+  sourceSkeletonId: string;
+  /** Which clinical surface features to change */
+  surfaceChanges: {
+    differentAge?: boolean;
+    differentSex?: boolean;
+    differentSetting?: boolean;
+    differentPresentation?: boolean;
+  };
+}
+
 interface VignetteWriterInput {
   node: BlueprintNodeRow;
   card: AlgorithmCardRow;
@@ -13,6 +25,7 @@ interface VignetteWriterInput {
   facts: FactRowRow[];
   pipelineRunId: string;
   skeleton?: QuestionSkeletonRow; // v2: render from skeleton if provided
+  variantMode?: VariantMode; // v20: generate variant with different surface features
 }
 
 /**
@@ -41,6 +54,24 @@ export async function run(
       };
       if (data.skeleton) {
         vars.question_skeleton = JSON.stringify(data.skeleton, null, 2);
+      }
+      if (data.variantMode) {
+        const changesToMake = Object.entries(data.variantMode.surfaceChanges)
+          .filter(([, v]) => v)
+          .map(([k]) => k.replace('different', '').toLowerCase())
+          .join(', ');
+        vars.variant_instructions = [
+          'VARIANT GENERATION MODE: You are creating a VARIANT of an existing question.',
+          'The variant must test the SAME transfer rule, decision fork, and cognitive errors',
+          'but with DIFFERENT clinical surface features to prevent memorization.',
+          '',
+          `You MUST change: ${changesToMake || 'at least age, sex, or clinical setting'}`,
+          'You MUST preserve: the correct answer logic, the hinge type, the decision fork,',
+          'and the cognitive errors tested by each distractor.',
+          '',
+          'The variant should feel like a completely different patient scenario while testing',
+          'the exact same clinical reasoning pathway.',
+        ].join('\n');
       }
       return vars;
     },

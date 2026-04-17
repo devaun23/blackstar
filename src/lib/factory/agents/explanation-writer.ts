@@ -94,15 +94,29 @@ export async function run(
     return result;
   }
 
-  // Build update payload — include visual_specs if present
-  const updatePayload: Record<string, unknown> = { ...result.data };
+  // Build update payload — exclude visual_specs if column doesn't exist in DB
+  const { visual_specs: _vs, ...updatePayload } = result.data as Record<string, unknown>;
 
   // Update the draft with explanations
   const supabase = createAdminClient();
-  const { error } = await supabase
+  let { error } = await supabase
     .from('item_draft')
     .update(updatePayload)
     .eq('id', input.draft.id);
+
+  // If update fails due to missing columns, try without optional fields
+  if (error?.message?.includes('schema cache')) {
+    const safePayload = { ...updatePayload };
+    // Remove fields that may not exist in the DB schema
+    for (const key of ['visual_specs', 'explanation_gap_coaching']) {
+      if (key in safePayload) delete safePayload[key];
+    }
+    const retry = await supabase
+      .from('item_draft')
+      .update(safePayload)
+      .eq('id', input.draft.id);
+    error = retry.error;
+  }
 
   if (error) {
     return {

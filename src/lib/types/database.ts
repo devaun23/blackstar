@@ -454,6 +454,13 @@ export interface CasePlanRow {
   distractor_design: Record<string, unknown> | null;
   final_decisive_clue: string | null;
   explanation_teaching_goal: string | null;
+  // Image specification — designs question around visual interpretation
+  image_spec?: {
+    image_type: string;
+    description: string;
+    key_findings: string[];
+    interpretation_required: boolean;
+  } | null;
   created_at: string;
 }
 
@@ -479,6 +486,18 @@ export interface QuestionSkeletonRow {
   hinge_description: string;
   hinge_depth: HingeDepth;
   hinge_buried_by: string;
+  // Purpose-tagged vignette details — forces intentional psychometric design
+  planned_details?: Array<{
+    detail: string;
+    purpose: 'hinge' | 'supporting' | 'competing' | 'noise';
+    target_option?: string | null;
+  }> | null;
+  // Temporal ordering — required for sequencing questions
+  temporal_ordering?: Array<{
+    option_id: string;
+    sequence_position: number;
+    rationale: string;
+  }> | null;
   skeleton_validated: boolean;
   created_at: string;
 }

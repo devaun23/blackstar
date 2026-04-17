@@ -7,8 +7,8 @@ ALTER TABLE error_taxonomy
     CHECK (palmerton_gap_type IN ('skills', 'noise', 'consistency')),
   ADD COLUMN IF NOT EXISTS palmerton_coaching_note text;
 
--- Add gap coaching field to item_drafts for explanation output
-ALTER TABLE item_drafts
+-- Add gap coaching field to item_draft for explanation output
+ALTER TABLE item_draft
   ADD COLUMN IF NOT EXISTS explanation_gap_coaching text;
 
 -- Backfill gap types for existing error taxonomy rows

@@ -70,26 +70,23 @@ export async function run(
       .join('\n');
   }
 
-  // Query candidate nodes, ordered by coverage gap
-  let query = supabase
+  // ── Diversity-Enforced Candidate Selection ──
+  // Instead of ORDER BY published_count (which ties when all are 0 and
+  // returns insertion-order bias), we enforce one candidate per system.
+  // This guarantees Claude picks from a diverse slate of organ systems.
+
+  // Step 1: Fetch ALL nodes (or shelf-filtered) with minimal data
+  let allQuery = supabase
     .from('blueprint_node')
-    .select('*')
-    .order('published_count', { ascending: true })
-    .order('last_used_at', { ascending: true, nullsFirst: true })
-    .limit(10);
+    .select('id, shelf, system, topic, subtopic, task_type, clinical_setting, age_group, time_horizon, yield_tier, frequency_score, published_count, last_used_at');
 
   if (input.shelf) {
-    query = query.eq('shelf', input.shelf);
-  }
-  // yield_tier is a priority hint, not a hard gate — all tiers are eligible
-  // Pass it to the agent prompt so Claude can weight higher-tier nodes
-  if (input.yieldTier) {
-    query = query.order('yield_tier', { ascending: true });
+    allQuery = allQuery.eq('shelf', input.shelf);
   }
 
-  const { data: candidates, error } = await query;
+  const { data: allNodes, error } = await allQuery;
 
-  if (error || !candidates || candidates.length === 0) {
+  if (error || !allNodes || allNodes.length === 0) {
     return {
       success: false,
       data: null as unknown as BlueprintSelectorOutput,
@@ -98,7 +95,51 @@ export async function run(
     };
   }
 
-  const candidatesSummary = (candidates as BlueprintNodeRow[])
+  // Step 2: Pick one candidate per system (least-published, random tiebreak)
+  // Group by system → within each system, deduplicate by topic → pick lowest published_count
+  const systemBuckets = new Map<string, typeof allNodes>();
+  for (const node of allNodes) {
+    const bucket = systemBuckets.get(node.system) ?? [];
+    bucket.push(node);
+    systemBuckets.set(node.system, bucket);
+  }
+
+  const candidates: typeof allNodes = [];
+  for (const [, nodes] of systemBuckets) {
+    // Deduplicate by topic — keep only the least-published node per topic
+    const topicBest = new Map<string, (typeof nodes)[0]>();
+    for (const node of nodes) {
+      const existing = topicBest.get(node.topic);
+      if (!existing || node.published_count < existing.published_count) {
+        topicBest.set(node.topic, node);
+      }
+    }
+
+    // From the topic-deduped set, pick the one with lowest published_count
+    // Random tiebreak among ties (shuffle before sort)
+    const deduped = [...topicBest.values()];
+    // Fisher-Yates shuffle for random tiebreaking
+    for (let i = deduped.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deduped[i], deduped[j]] = [deduped[j], deduped[i]];
+    }
+    deduped.sort((a, b) => a.published_count - b.published_count);
+
+    if (deduped.length > 0) {
+      candidates.push(deduped[0]);
+    }
+  }
+
+  // Step 3: If we have more than 10 systems, trim to 10 (least-published first, random tiebreak)
+  // Shuffle for random tie-breaking, then sort by published_count
+  for (let i = candidates.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+  }
+  candidates.sort((a, b) => a.published_count - b.published_count);
+  const finalCandidates = candidates.slice(0, 10);
+
+  const candidatesSummary = (finalCandidates as BlueprintNodeRow[])
     .map((n) =>
       `- ID: ${n.id} | ${n.shelf} / ${n.system} / ${n.topic} | task: ${n.task_type} | setting: ${n.clinical_setting} | age: ${n.age_group} | tier: ${n.yield_tier} | published: ${n.published_count} | last_used: ${n.last_used_at ?? 'never'}`
     )

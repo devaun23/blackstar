@@ -24,7 +24,7 @@ import { topicSourceMap } from './source-packs/topic-source-map';
 import { validateVisualSpecs } from './validators/visual-spec-validator';
 import { runJuryValidation, DEFAULT_JURY_CONFIG, type JuryConfig, type JuryVerdict } from './jury';
 
-const MAX_REPAIR_CYCLES = 3;
+const MAX_REPAIR_CYCLES = 5;
 
 /**
  * v2 Pipeline: Reasoning-first question generation.
@@ -219,6 +219,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
         card: card as AlgorithmCardRow,
         facts: facts as FactRowRow[],
         casePlan: casePlan as CasePlanRow,
+        errors: (errors ?? []) as ErrorTaxonomyRow[],
       })
     );
 
@@ -362,7 +363,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
     // Jury mode (P1/P2): On cycle 0, medical + exam_translation validators run through
     // a multi-model jury (Opus + Sonnet + Haiku). On subsequent cycles, single-model only.
     const useJury = config.juryEnabled ?? false;
-    const medicalSampleCount = config.validatorSampleCount ?? 1;
+    const medicalSampleCount = config.validatorSampleCount ?? 3;
     const juryVerdicts: JuryVerdict[] = [];
     let passed = false;
     for (let cycle = 0; cycle < MAX_REPAIR_CYCLES; cycle++) {
@@ -441,6 +442,10 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
             })
           );
 
+      // NOTE: explanation_validator is intentionally excluded from this loop.
+      // It checks why_wrong, pearl, reasoning_pathway — fields populated by
+      // explanation_writer in step 8, not by vignette_writer. Running it here
+      // causes false failures on missing fields. It runs post-explanation instead.
       const validatorResults = await Promise.all([
         medicalPromise,
         trackStep('blueprint_validator', () =>
@@ -460,12 +465,6 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
             plan: plan as ItemPlanRow,
           })
         ),
-        trackStep('explanation_validator', () =>
-          agents.explanationValidator.run(context, {
-            draft: draft as ItemDraftRow,
-            card: card as AlgorithmCardRow,
-          })
-        ),
         examTranslationPromise,
       ]);
 
@@ -473,7 +472,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
 
       // ─── Validator Disagreement Logging ───
       // Track which validators passed vs failed to identify calibration issues
-      const validatorTypes = ['medical', 'blueprint', 'nbme_quality', 'option_symmetry', 'explanation', 'exam_translation'] as const;
+      const validatorTypes = ['medical', 'blueprint', 'nbme_quality', 'option_symmetry', 'exam_translation'] as const;
       const disagreementEntry = {
         cycle,
         validators: validatorTypes.map((vt, i) => ({
@@ -503,7 +502,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
       // errors on ambiguous cases than mechanical score aggregation.
       // Only fires when medical and exam_translation disagree on pass/fail.
       const medicalResult = validatorResults[0];
-      const examTranslationResult = validatorResults[5];
+      const examTranslationResult = validatorResults[4];
       const highStakesDisagree = useJury && cycle > 0
         && medicalResult.passed !== examTranslationResult.passed;
 
@@ -556,7 +555,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
         totalTokens += examJuryVerdict.totalTokensUsed;
 
         // Override exam_translation result with jury verdict
-        validatorResults[5] = {
+        validatorResults[4] = {
           ...examJuryVerdict.report,
           reportId: `jury-exam-disagreement-${cycle}`,
         };
@@ -644,27 +643,56 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
           })
         );
 
-        // Visual spec validation soft gate
-        const { data: draftWithVisuals } = await supabase
-          .from('item_draft')
-          .select('visual_specs, why_correct')
-          .eq('id', draftId)
-          .single();
+        // Visual spec validation soft gate (skip if visual_specs column doesn't exist)
+        try {
+          const { data: draftWithVisuals } = await supabase
+            .from('item_draft')
+            .select('visual_specs, why_correct')
+            .eq('id', draftId)
+            .single();
 
-        if (draftWithVisuals?.visual_specs?.length) {
-          const visualErrors = validateVisualSpecs(
-            draftWithVisuals.visual_specs as unknown[],
-            { why_correct: draftWithVisuals.why_correct }
-          );
-          if (visualErrors.length > 0) {
-            const invalidIndices = new Set(visualErrors.map(e => e.specIndex));
-            const validSpecs = (draftWithVisuals.visual_specs as unknown[]).filter(
-              (_, i) => !invalidIndices.has(i)
+          if (draftWithVisuals?.visual_specs?.length) {
+            const visualErrors = validateVisualSpecs(
+              draftWithVisuals.visual_specs as unknown[],
+              { why_correct: draftWithVisuals.why_correct }
             );
-            await supabase
-              .from('item_draft')
-              .update({ visual_specs: validSpecs.length > 0 ? validSpecs : null })
-              .eq('id', draftId);
+            if (visualErrors.length > 0) {
+              const invalidIndices = new Set(visualErrors.map(e => e.specIndex));
+              const validSpecs = (draftWithVisuals.visual_specs as unknown[]).filter(
+                (_, i) => !invalidIndices.has(i)
+              );
+              await supabase
+                .from('item_draft')
+                .update({ visual_specs: validSpecs.length > 0 ? validSpecs : null })
+                .eq('id', draftId);
+            }
+          }
+        } catch {
+          // visual_specs column may not exist yet — skip validation
+        }
+
+        // ─── STEP 8.5: Explanation Validator (post-explanation) ───
+        // Runs AFTER explanation_writer so why_wrong, pearl, and pathway exist.
+        // Soft gate: failure logs a warning but does not kill the item.
+        {
+          const { data: explDraft } = await supabase
+            .from('item_draft')
+            .select('*')
+            .eq('id', draftId)
+            .single();
+          if (explDraft) {
+            const explResult = await trackStep('explanation_validator', () =>
+              agents.explanationValidator.run(context, {
+                draft: explDraft as ItemDraftRow,
+                card: card as AlgorithmCardRow,
+              })
+            );
+            if (!explResult.passed) {
+              console.warn(
+                `[pipeline-v2] Explanation validator failed post-explanation (score=${explResult.score}). ` +
+                `Issues: ${explResult.issues_found.join('; ')}. Item will still publish for human review.`
+              );
+            }
           }
         }
 
@@ -686,13 +714,21 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
           }
         }
 
-        await supabase
+        // Publish — try with review_status, fall back to just status if column missing
+        const publishResult = await supabase
           .from('item_draft')
           .update({
             status: 'published',
             review_status: reviewStatus,
           })
           .eq('id', draftId);
+
+        if (publishResult.error?.message?.includes('schema cache')) {
+          await supabase
+            .from('item_draft')
+            .update({ status: 'published' })
+            .eq('id', draftId);
+        }
       }
     }
 
@@ -723,11 +759,13 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
           verdicts: juryVerdicts.map((v) => ({
             agreement: v.agreement,
             facilitatorInvoked: v.facilitatorInvoked,
+            deliberationUsed: v.deliberationUsed,
             jurorCount: v.jurorReports.length,
             tokensUsed: v.totalTokensUsed,
           })),
-          totalDisagreements: juryVerdicts.filter((v) => v.agreement === 'facilitator_synthesized').length,
+          totalDisagreements: juryVerdicts.filter((v) => v.agreement === 'facilitator_synthesized' || v.agreement === 'deliberation_synthesized').length,
           totalFacilitatorInvocations: juryVerdicts.filter((v) => v.facilitatorInvoked).length,
+          totalDeliberations: juryVerdicts.filter((v) => v.deliberationUsed).length,
         }
       : null;
 

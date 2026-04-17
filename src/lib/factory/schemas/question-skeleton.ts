@@ -39,6 +39,20 @@ export const questionSkeletonSchema = z.object({
   hinge_description: z.string().min(1),           // What the pivotal finding is
   hinge_depth: hingeDepthEnum,                    // Actual depth (skeleton_validator checks vs case_plan target)
   hinge_buried_by: z.string().min(1),             // What noise/detail obscures the hinge clue
+
+  // B1: Purpose-tagged vignette details — forces intentional psychometric design
+  planned_details: z.array(z.object({
+    detail: z.string().min(3),                        // e.g., "WBC 18,000", "bilateral crackles"
+    purpose: z.enum(['hinge', 'supporting', 'competing', 'noise']),
+    target_option: z.enum(['A', 'B', 'C', 'D', 'E']).nullable().optional(), // null for noise, required for competing
+  })).min(4).max(12).optional(),
+
+  // B2: Temporal ordering — required for management_sequencing or "first/next/initial" lead-ins
+  temporal_ordering: z.array(z.object({
+    option_id: z.enum(['A', 'B', 'C', 'D', 'E']),
+    sequence_position: z.number().int().min(1).max(5),
+    rationale: z.string().min(5),
+  })).length(5).nullable().optional(),
 });
 
 export const skeletonValidatorOutputSchema = z.object({

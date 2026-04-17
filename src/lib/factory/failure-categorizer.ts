@@ -100,6 +100,39 @@ export function buildRepairBrief(
   return lines.join('\n');
 }
 
+/**
+ * Priority ordering for failure categories.
+ * When multiple failures are present, the dominant category determines
+ * which specialized repair prompt is used.
+ *
+ * Priority: medical safety first, then answer validity, then structure/style.
+ */
+const CATEGORY_PRIORITY: FailureCategory[] = [
+  'medical_error',
+  'wrong_answer_keyed',
+  'multiple_correct',
+  'no_correct_answer',
+  'recall_not_decision',
+  'hinge_missing',
+  'scope_violation',
+  'stem_clue_leak',
+  'option_asymmetry',
+  'explanation_gap',
+];
+
+/**
+ * Returns the highest-priority failure category from a set of categorized failures.
+ * Used by the repair agent to select the most targeted repair prompt.
+ */
+export function getDominantCategory(
+  failures: { category: FailureCategory }[]
+): FailureCategory {
+  for (const cat of CATEGORY_PRIORITY) {
+    if (failures.some((f) => f.category === cat)) return cat;
+  }
+  return failures[0]?.category ?? 'medical_error';
+}
+
 const CATEGORY_DESCRIPTIONS: Record<FailureCategory, string> = {
   multiple_correct: 'More than one answer choice is clinically defensible',
   wrong_answer_keyed: 'The declared correct answer is not the best answer',

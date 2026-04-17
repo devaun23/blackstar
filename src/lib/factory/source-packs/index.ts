@@ -229,6 +229,126 @@ const PACK_REGISTRY: Record<string, () => Promise<SourcePack>> = {
     import('./uspstf-screening').then((m) => m.PACK_USPSTF_SCREEN_2024),
   'PACK.CDC.ADIMMUN.2024': () =>
     import('./cdc-adult-immun').then((m) => m.PACK_CDC_ADIMMUN_2024),
+
+  // ── DI/IC Accelerator Drafts — Electrolytes/Acid-Base ──
+  'PACK.ASN.HK.2023': () =>
+    import('./asn-hk').then((m) => m.PACK_ASN_HK_2023),
+  'PACK.ENDOCRINE.HYPOKALEMIA.2023': () =>
+    import('./endocrine-hypokalemia').then((m) => m.PACK_ENDOCRINE_HYPOKALEMIA_2023),
+  'PACK.ES.HYPOCA.2023': () =>
+    import('./es-hypoca').then((m) => m.PACK_ES_HYPOCA_2023),
+  'PACK.AACEP.AGMA.2023': () =>
+    import('./aacep-agma').then((m) => m.PACK_AACEP_AGMA_2023),
+  'PACK.AACE.METALK.2023': () =>
+    import('./aace-metalk').then((m) => m.PACK_AACE_METALK_2023),
+
+  // ── DI/IC Drafts — Toxicology ──
+  'PACK.AASLD.APAP.2023': () =>
+    import('./aasld-apap').then((m) => m.PACK_AASLD_APAP_2023),
+  'PACK.SAMHSA.OOD.2023': () =>
+    import('./samhsa-ood').then((m) => m.PACK_SAMHSA_OOD_2023),
+  'PACK.APA.ALCWD.2022': () =>
+    import('./apa-alcwd').then((m) => m.PACK_APA_ALCWD_2022),
+  'PACK.AANS.SS_NMS.2023': () =>
+    import('./aans-ss_nms').then((m) => m.PACK_AANS_SS_NMS_2023),
+
+  // ── DI/IC Drafts — Dermatology ──
+  'PACK.AAD.MEL.2019': () =>
+    import('./aad-mel').then((m) => m.PACK_AAD_MEL_2019),
+  'PACK.DERMATOLOGY.SJSTEN.2023': () =>
+    import('./dermatology-sjsten').then((m) => m.PACK_DERMATOLOGY_SJSTEN_2023),
+  'PACK.AAD.PSO.2019': () =>
+    import('./aad-pso').then((m) => m.PACK_AAD_PSO_2019),
+  'PACK.AAD.EN.2019': () =>
+    import('./aad-en').then((m) => m.PACK_AAD_EN_2019),
+
+  // ── DI/IC Drafts — Critical Care ──
+  'PACK.ACS.ANAPH.2023': () =>
+    import('./acs-anaph').then((m) => m.PACK_ACS_ANAPH_2023),
+  'PACK.ATS.ARDS.2012': () =>
+    import('./ats-ards').then((m) => m.PACK_ATS_ARDS_2012),
+  'PACK.ACS.HYPO.2022': () =>
+    import('./acs-hypo').then((m) => m.PACK_ACS_HYPO_2022),
+  'PACK.ACCP.TP.2019': () =>
+    import('./accp-tp').then((m) => m.PACK_ACCP_TP_2019),
+
+  // ── DI/IC Drafts — Pulmonary ──
+  'PACK.BTS.PE.2010': () =>
+    import('./bts-pe').then((m) => m.PACK_BTS_PE_2010),
+  'PACK.ATS.PNEUMOTHORAX.2023': () =>
+    import('./ats-pneumothorax').then((m) => m.PACK_ATS_PNEUMOTHORAX_2023),
+  'PACK.ATS.ILD.2022': () =>
+    import('./ats-ild').then((m) => m.PACK_ATS_ILD_2022),
+  'PACK.AASM.OSA.2020': () =>
+    import('./aasm-osa').then((m) => m.PACK_AASM_OSA_2020),
+  'PACK.ATS.SARC.2020': () =>
+    import('./ats-sarc').then((m) => m.PACK_ATS_SARC_2020),
+  'PACK.ESC.PAH.2022': () =>
+    import('./esc-pah').then((m) => m.PACK_ESC_PAH_2022),
+
+  // ── DI/IC Drafts — Gastroenterology ──
+  'PACK.AGA.PUD.2022': () =>
+    import('./aga-pud').then((m) => m.PACK_AGA_PUD_2022),
+  'PACK.ACG.SBO.2023': () =>
+    import('./acg-sbo').then((m) => m.PACK_ACG_SBO_2023),
+  'PACK.ACG.CD.2023': () =>
+    import('./acg-cd').then((m) => m.PACK_ACG_CD_2023),
+  'PACK.ACG.DIV.2020': () =>
+    import('./acg-div').then((m) => m.PACK_ACG_DIV_2020),
+
+  // ── DI/IC Drafts — Hepatology ──
+  'PACK.AASLD.AH.2019': () =>
+    import('./aasld-ah').then((m) => m.PACK_AASLD_AH_2019),
+  'PACK.ACG.DILI.2014': () =>
+    import('./acg-dili').then((m) => m.PACK_ACG_DILI_2014),
+  'PACK.AASLD.AIH.2019': () =>
+    import('./aasld-aih').then((m) => m.PACK_AASLD_AIH_2019),
+
+  // ── DI/IC Drafts — Nephrology ──
+  'PACK.AHA.RAS.2023': () =>
+    import('./aha-ras').then((m) => m.PACK_AHA_RAS_2023),
+  'PACK.AUA.NEPHRO.2019': () =>
+    import('./aua-nephro').then((m) => m.PACK_AUA_NEPHRO_2019),
+  'PACK.KDIGO.RTA.2021': () =>
+    import('./kdigo-rta').then((m) => m.PACK_KDIGO_RTA_2021),
+
+  // ── DI/IC Drafts — Hematology/Oncology ──
+  'PACK.ACG.IDA.2020': () =>
+    import('./acg-ida').then((m) => m.PACK_ACG_IDA_2020),
+  'PACK.AHS.B12DEF.2020': () =>
+    import('./ahs-b12def').then((m) => m.PACK_AHS_B12DEF_2020),
+  'PACK.ASH.HA.2023': () =>
+    import('./ash-ha').then((m) => m.PACK_ASH_HA_2023),
+  'PACK.ASH.PANCYTO.2023': () =>
+    import('./ash-pancyto').then((m) => m.PACK_ASH_PANCYTO_2023),
+  'PACK.NCCN.LYMPH.2023': () =>
+    import('./nccn-lymph').then((m) => m.PACK_NCCN_LYMPH_2023),
+  'PACK.ASH.THROMBOCYTOPENIA.2023': () =>
+    import('./ash-thrombocytopenia').then((m) => m.PACK_ASH_THROMBOCYTOPENIA_2023),
+
+  // ── DI/IC Drafts — Neurology ──
+  'PACK.MDS.PD.2019': () =>
+    import('./mds-pd').then((m) => m.PACK_MDS_PD_2019),
+  'PACK.AHA.SAH.2019': () =>
+    import('./aha-sah').then((m) => m.PACK_AHA_SAH_2019),
+
+  // ── DI/IC Drafts — Rheumatology ──
+  'PACK.ACR.CPPD.2023': () =>
+    import('./acr-cppd').then((m) => m.PACK_ACR_CPPD_2023),
+  'PACK.ACR.PMR_GCA.2023': () =>
+    import('./acr-pmr_gca').then((m) => m.PACK_ACR_PMR_GCA_2023),
+  'PACK.ACR.AS.2019': () =>
+    import('./acr-as').then((m) => m.PACK_ACR_AS_2019),
+
+  // ── DI/IC Drafts — Infectious Disease ──
+  'PACK.CDC.TB.2020': () =>
+    import('./cdc-tb').then((m) => m.PACK_CDC_TB_2020),
+
+  // ── DI/IC Drafts — Preventive/Screening ──
+  'PACK.USPSTF.CRC.2021': () =>
+    import('./uspstf-crc').then((m) => m.PACK_USPSTF_CRC_2021),
+  'PACK.ACOG.CCS.2020': () =>
+    import('./acog-ccs').then((m) => m.PACK_ACOG_CCS_2020),
 };
 
 /** Load a pack by ID. Returns null if not registered or not active. */

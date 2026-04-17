@@ -3,8 +3,11 @@ import { itemDraftSchema } from '@/lib/factory/schemas';
 import type { ItemDraftInput } from '@/lib/factory/schemas';
 import type { AgentContext, AgentOutput } from '@/lib/types/factory';
 import type { ItemDraftRow, AlgorithmCardRow, FactRowRow, ValidatorReportRow } from '@/lib/types/database';
-import { runAgent } from '../agent-helpers';
-import { inferFailureCategory, buildRepairBrief } from '../failure-categorizer';
+import { callClaude } from '../claude';
+import { fetchActivePrompt, fillTemplate } from '../prompts';
+import { getMockFixture } from '../mock-fixtures';
+import { inferFailureCategory, buildRepairBrief, getDominantCategory } from '../failure-categorizer';
+import { REPAIR_SYSTEM_OVERRIDES } from './repair-strategies';
 
 interface RepairAgentInput {
   draft: ItemDraftRow;
@@ -51,19 +54,53 @@ export async function run(
     failure_category: categorizedFailures[i].category,
   }));
 
-  const result = await runAgent({
-    agentType: 'repair_agent',
-    context,
-    input: { ...input, reportsJson, repairBrief },
-    outputSchema: itemDraftSchema,
-    buildUserMessage: (data) => ({
-      item_draft: JSON.stringify(data.draft, null, 2),
-      validator_reports: JSON.stringify(data.reportsJson, null, 2),
-      repair_brief: data.repairBrief,
-      algorithm_card: JSON.stringify(data.card, null, 2),
-      fact_rows: JSON.stringify(data.facts, null, 2),
-    }),
-  });
+  // Mock mode: return deterministic fixture without API call
+  if (context.mockMode) {
+    const fixture = getMockFixture('repair_agent');
+    if (fixture) {
+      const parsed = itemDraftSchema.safeParse(fixture);
+      if (parsed.success) {
+        return { success: true, data: parsed.data, tokensUsed: 0 };
+      }
+    }
+  }
+
+  // Route to specialized repair prompt based on dominant failure category
+  // (TeamMedAgents research: adaptive component selection outperforms comprehensive integration)
+  const dominantCategory = getDominantCategory(categorizedFailures);
+  const specializedOverride = REPAIR_SYSTEM_OVERRIDES[dominantCategory] ?? '';
+
+  const basePrompt = await fetchActivePrompt('repair_agent');
+  const systemPrompt = specializedOverride
+    ? `${basePrompt.system_prompt}\n\n${specializedOverride}`
+    : basePrompt.system_prompt;
+
+  const templateVars = {
+    item_draft: JSON.stringify(input.draft, null, 2),
+    validator_reports: JSON.stringify(reportsJson, null, 2),
+    repair_brief: repairBrief,
+    algorithm_card: JSON.stringify(input.card, null, 2),
+    fact_rows: JSON.stringify(input.facts, null, 2),
+  };
+
+  const userMessage = fillTemplate(basePrompt.user_prompt_template, templateVars);
+
+  let result: AgentOutput<ItemDraftInput>;
+  try {
+    const { data, tokensUsed } = await callClaude({
+      systemPrompt,
+      userMessage,
+      outputSchema: itemDraftSchema,
+    });
+    result = { success: true, data, tokensUsed };
+  } catch (err) {
+    result = {
+      success: false,
+      data: null as unknown as ItemDraftInput,
+      tokensUsed: 0,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
 
   if (!result.success) {
     return result;

@@ -10,16 +10,20 @@ export interface ReinforceTarget {
   dimensionType: DimensionType;
   dimensionId: string;
   excludeQuestionId: string; // Don't serve the same question
+  /** When set, prefer items from this variant group (same skeleton, different surface) */
+  preferVariantGroupId?: string;
 }
 
 export function buildReinforceTarget(
   dimensionType: DimensionType,
   dimensionId: string,
   lastQuestionId: string,
+  preferVariantGroupId?: string,
 ): ReinforceTarget {
   return {
     dimensionType,
     dimensionId,
     excludeQuestionId: lastQuestionId,
+    ...(preferVariantGroupId ? { preferVariantGroupId } : {}),
   };
 }

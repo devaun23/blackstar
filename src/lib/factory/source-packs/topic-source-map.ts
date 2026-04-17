@@ -682,6 +682,302 @@ export const topicSourceMap: Record<string, TopicSourceConfig> = {
     conflict_resolution: 'CDC/ACIP is the authority for adult immunizations.',
     precedence_rule: 'CDC sole authority.',
   },
+
+  // ── DI/IC Draft Packs — Electrolytes/Acid-Base ──
+  'Hyperkalemia': {
+    topic_id: 'TOPIC.MED.HK',
+    primary: 'PACK.ASN.HK.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ASN/KDIGO guidelines.',
+    precedence_rule: 'ASN sole authority (pending verification).',
+  },
+  'Hypokalemia': {
+    topic_id: 'TOPIC.MED.HYPOK',
+    primary: 'PACK.ENDOCRINE.HYPOKALEMIA.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against Endocrine Society guidelines.',
+    precedence_rule: 'Endocrine Society sole authority (pending verification).',
+  },
+  'Hypocalcemia': {
+    topic_id: 'TOPIC.MED.HYPOCA',
+    primary: 'PACK.ES.HYPOCA.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against Endocrine Society guidelines.',
+    precedence_rule: 'Endocrine Society sole authority (pending verification).',
+  },
+  'AG Metabolic Acidosis': {
+    topic_id: 'TOPIC.MED.AGMA',
+    primary: 'PACK.AACEP.AGMA.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against nephrology guidelines.',
+    precedence_rule: 'Pending verification.',
+  },
+  'Metabolic Alkalosis': {
+    topic_id: 'TOPIC.MED.METALK',
+    primary: 'PACK.AACE.METALK.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against nephrology guidelines.',
+    precedence_rule: 'Pending verification.',
+  },
+
+  // ── DI/IC Drafts — Toxicology ──
+  'Acetaminophen Overdose': {
+    topic_id: 'TOPIC.MED.APAP',
+    primary: 'PACK.AASLD.APAP.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against AASLD ALF guideline.',
+    precedence_rule: 'AASLD sole authority (pending verification).',
+  },
+  'Opioid Overdose': {
+    topic_id: 'TOPIC.MED.OOD',
+    primary: 'PACK.SAMHSA.OOD.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against SAMHSA/AHA guidelines.',
+    precedence_rule: 'SAMHSA sole authority (pending verification).',
+  },
+  'Alcohol Withdrawal': {
+    topic_id: 'TOPIC.MED.ALCWD',
+    primary: 'PACK.APA.ALCWD.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against APA/ASAM guidelines.',
+    precedence_rule: 'APA sole authority (pending verification).',
+  },
+  'Serotonin Syndrome vs NMS': {
+    topic_id: 'TOPIC.MED.SS_NMS',
+    primary: 'PACK.AANS.SS_NMS.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against toxicology guidelines.',
+    precedence_rule: 'Pending verification.',
+  },
+
+  // ── DI/IC Drafts — Dermatology ──
+  'Melanoma': {
+    topic_id: 'TOPIC.MED.MEL',
+    primary: 'PACK.AAD.MEL.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against AAD/NCCN guidelines.',
+    precedence_rule: 'AAD sole authority (pending verification).',
+  },
+  'SJS/TEN': {
+    topic_id: 'TOPIC.MED.SJSTEN',
+    primary: 'PACK.DERMATOLOGY.SJSTEN.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against dermatology guidelines.',
+    precedence_rule: 'Pending verification.',
+  },
+  'Psoriasis': {
+    topic_id: 'TOPIC.MED.PSO',
+    primary: 'PACK.AAD.PSO.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against AAD/NPF guidelines.',
+    precedence_rule: 'AAD sole authority (pending verification).',
+  },
+  'Erythema Nodosum': {
+    topic_id: 'TOPIC.MED.EN',
+    primary: 'PACK.AAD.EN.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against dermatology guidelines.',
+    precedence_rule: 'Pending verification.',
+  },
+
+  // ── DI/IC Drafts — Critical Care ──
+  'Anaphylaxis': {
+    topic_id: 'TOPIC.MED.ANAPH',
+    primary: 'PACK.ACS.ANAPH.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against WAO/AAAAI guidelines.',
+    precedence_rule: 'WAO sole authority (pending verification).',
+  },
+  'ARDS': {
+    topic_id: 'TOPIC.MED.ARDS',
+    primary: 'PACK.ATS.ARDS.2012',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ATS/ESICM guidelines.',
+    precedence_rule: 'ATS sole authority (pending verification).',
+  },
+  'Hypovolemic Shock': {
+    topic_id: 'TOPIC.MED.HVSHOCK',
+    primary: 'PACK.ACS.HYPO.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ATLS/SSC guidelines.',
+    precedence_rule: 'Pending verification.',
+  },
+  'Tension Pneumothorax': {
+    topic_id: 'TOPIC.MED.TENPTX',
+    primary: 'PACK.ACCP.TP.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ATLS/ACCP guidelines.',
+    precedence_rule: 'Pending verification.',
+  },
+
+  // ── DI/IC Drafts — Pulmonary ──
+  'Pleural Effusion': {
+    topic_id: 'TOPIC.MED.PLEFF',
+    primary: 'PACK.BTS.PE.2010',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against BTS/ATS guidelines.',
+    precedence_rule: 'BTS sole authority (pending verification).',
+  },
+  'Pneumothorax': {
+    topic_id: 'TOPIC.MED.PTX',
+    primary: 'PACK.ATS.PNEUMOTHORAX.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ATS/BTS guidelines.',
+    precedence_rule: 'ATS sole authority (pending verification).',
+  },
+  'Interstitial Lung Disease': {
+    topic_id: 'TOPIC.MED.ILD',
+    primary: 'PACK.ATS.ILD.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ATS/ERS guidelines.',
+    precedence_rule: 'ATS sole authority (pending verification).',
+  },
+  'Obstructive Sleep Apnea': {
+    topic_id: 'TOPIC.MED.OSA',
+    primary: 'PACK.AASM.OSA.2020',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against AASM guidelines.',
+    precedence_rule: 'AASM sole authority (pending verification).',
+  },
+  'Sarcoidosis': {
+    topic_id: 'TOPIC.MED.SARC',
+    primary: 'PACK.ATS.SARC.2020',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ATS/ERS guidelines.',
+    precedence_rule: 'ATS sole authority (pending verification).',
+  },
+  'Pulmonary Hypertension': {
+    topic_id: 'TOPIC.MED.PAH',
+    primary: 'PACK.ESC.PAH.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ESC/ERS guidelines.',
+    precedence_rule: 'ESC sole authority (pending verification).',
+  },
+
+  // ── DI/IC Drafts — Gastroenterology ──
+  'Peptic Ulcer Disease': {
+    topic_id: 'TOPIC.MED.PUD',
+    primary: 'PACK.AGA.PUD.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ACG/AGA guidelines.',
+    precedence_rule: 'ACG sole authority (pending verification).',
+  },
+  'Celiac Disease': {
+    topic_id: 'TOPIC.MED.CD',
+    primary: 'PACK.ACG.CD.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ACG guidelines.',
+    precedence_rule: 'ACG sole authority (pending verification).',
+  },
+  'Diverticulitis': {
+    topic_id: 'TOPIC.MED.DIV',
+    primary: 'PACK.ACG.DIV.2020',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against AGA/ACG guidelines.',
+    precedence_rule: 'AGA sole authority (pending verification).',
+  },
+
+  // ── DI/IC Drafts — Hepatology ──
+  'Alcoholic Hepatitis': {
+    topic_id: 'TOPIC.MED.AH',
+    primary: 'PACK.AASLD.AH.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against AASLD/ACG guidelines.',
+    precedence_rule: 'AASLD sole authority (pending verification).',
+  },
+  'Drug-Induced Liver Injury': {
+    topic_id: 'TOPIC.MED.DILI',
+    primary: 'PACK.ACG.DILI.2014',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ACG guidelines.',
+    precedence_rule: 'ACG sole authority (pending verification).',
+  },
+  'Autoimmune Hepatitis': {
+    topic_id: 'TOPIC.MED.AIH',
+    primary: 'PACK.AASLD.AIH.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against AASLD guidelines.',
+    precedence_rule: 'AASLD sole authority (pending verification).',
+  },
+
+  // ── DI/IC Drafts — Nephrology ──
+  'Renal Artery Stenosis': {
+    topic_id: 'TOPIC.MED.RAS',
+    primary: 'PACK.AHA.RAS.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against AHA/ACC guidelines.',
+    precedence_rule: 'AHA sole authority (pending verification).',
+  },
+  'Nephrolithiasis': {
+    topic_id: 'TOPIC.MED.NEPH',
+    primary: 'PACK.AUA.NEPHRO.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against AUA guidelines.',
+    precedence_rule: 'AUA sole authority (pending verification).',
+  },
+  'Renal Tubular Acidosis': {
+    topic_id: 'TOPIC.MED.RTA',
+    primary: 'PACK.KDIGO.RTA.2021',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against KDIGO guidelines.',
+    precedence_rule: 'KDIGO sole authority (pending verification).',
+  },
+
+  // ── DI/IC Drafts — Hematology/Oncology ──
+  'Iron Deficiency Anemia': {
+    topic_id: 'TOPIC.MED.IDA',
+    primary: 'PACK.ACG.IDA.2020',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ASH/ACG guidelines.',
+    precedence_rule: 'ASH sole authority (pending verification).',
+  },
+  'B12 Deficiency': {
+    topic_id: 'TOPIC.MED.B12',
+    primary: 'PACK.AHS.B12DEF.2020',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against hematology guidelines.',
+    precedence_rule: 'Pending verification.',
+  },
+  'Hemolytic Anemia': {
+    topic_id: 'TOPIC.MED.HA',
+    primary: 'PACK.ASH.HA.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ASH guidelines.',
+    precedence_rule: 'ASH sole authority (pending verification).',
+  },
+  'Pancytopenia': {
+    topic_id: 'TOPIC.MED.PANCYTO',
+    primary: 'PACK.ASH.PANCYTO.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ASH guidelines.',
+    precedence_rule: 'ASH sole authority (pending verification).',
+  },
+  'Lymphoma': {
+    topic_id: 'TOPIC.MED.LYMPH',
+    primary: 'PACK.NCCN.LYMPH.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against NCCN guidelines.',
+    precedence_rule: 'NCCN sole authority (pending verification).',
+  },
+  'Thrombocytopenia': {
+    topic_id: 'TOPIC.MED.TCP',
+    primary: 'PACK.ASH.THROMBOCYTOPENIA.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ASH guidelines.',
+    precedence_rule: 'ASH sole authority (pending verification).',
+  },
+
+  // ── DI/IC Drafts — Neurology ──
+  'Parkinson Disease': {
+    topic_id: 'TOPIC.MED.PD',
+    primary: 'PACK.MDS.PD.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against MDS/AAN guidelines.',
+    precedence_rule: 'MDS sole authority (pending verification).',
+  },
+  'Subarachnoid Hemorrhage': {
+    topic_id: 'TOPIC.MED.SAH',
+    primary: 'PACK.AHA.SAH.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against AHA/ASA guidelines.',
+    precedence_rule: 'AHA sole authority (pending verification).',
+  },
+
+  // ── DI/IC Drafts — Rheumatology ──
+  'Pseudogout': {
+    topic_id: 'TOPIC.MED.CPPD',
+    primary: 'PACK.ACR.CPPD.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ACR guidelines.',
+    precedence_rule: 'ACR sole authority (pending verification).',
+  },
+  'PMR/GCA': {
+    topic_id: 'TOPIC.MED.PMRGCA',
+    primary: 'PACK.ACR.PMR_GCA.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ACR/EULAR guidelines.',
+    precedence_rule: 'ACR sole authority (pending verification).',
+  },
+  'Ankylosing Spondylitis': {
+    topic_id: 'TOPIC.MED.AS',
+    primary: 'PACK.ACR.AS.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against ACR/ASAS guidelines.',
+    precedence_rule: 'ACR sole authority (pending verification).',
+  },
+
+  // ── DI/IC Drafts — Infectious Disease ──
+  'Tuberculosis': {
+    topic_id: 'TOPIC.MED.TB',
+    primary: 'PACK.CDC.TB.2020',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against CDC/ATS/IDSA guidelines.',
+    precedence_rule: 'CDC sole authority (pending verification).',
+  },
+
+  // ── DI/IC Drafts — Preventive/Screening ──
+  'Colon Cancer Screening': {
+    topic_id: 'TOPIC.MED.CRC',
+    primary: 'PACK.USPSTF.CRC.2021',
+    conflict_resolution: 'DRAFT — DI/IC-derived. Verify against USPSTF/ACG guidelines.',
+    precedence_rule: 'USPSTF sole authority (pending verification).',
+  },
 };
 
 // ─── Topic Alias Resolution ───
@@ -691,68 +987,178 @@ export const topicSourceMap: Record<string, TopicSourceConfig> = {
 
 const topicAliases: Record<string, string> = {
   // Cardiology
+  'Stable Angina': 'Acute Coronary Syndrome',
+  'Unstable Angina / NSTEMI': 'Acute Coronary Syndrome',
+  'STEMI': 'Acute Coronary Syndrome',
+  'CHF Exacerbation': 'Heart Failure',
+  'Diastolic Heart Failure (HFpEF)': 'Heart Failure',
+  'Atrial Flutter': 'Atrial Fibrillation',
+  'Supraventricular Tachycardia': 'Cardiac Arrest / ACLS',
+  'Ventricular Tachycardia': 'Cardiac Arrest / ACLS',
+  'Ventricular Fibrillation': 'Cardiac Arrest / ACLS',
+  'AV Blocks': 'Cardiac Arrest / ACLS',
+  'Long QT Syndrome': 'Cardiac Arrest / ACLS',
+  'Aortic Aneurysm': 'Peripheral Artery Disease',
+  'Chest Pain': 'Acute Coronary Syndrome',
   'Aortic Stenosis': 'Valvular Heart Disease',
-  'Aortic Dissection': 'Valvular Heart Disease',      // closest pack available
+  'Aortic Dissection': 'Valvular Heart Disease',
+  'Mitral Regurgitation': 'Valvular Heart Disease',
+  'Mitral Stenosis': 'Valvular Heart Disease',
+  'Cardiac Tamponade': 'Pericardial Disease',
+  'Myocarditis': 'Pericardial Disease',
+  'Hypertrophic Cardiomyopathy': 'Heart Failure',
+  'Dilated Cardiomyopathy': 'Heart Failure',
+  'Shock (Cardiogenic)': 'Acute Coronary Syndrome',
   'Pericarditis': 'Pericardial Disease',
 
   // Endocrinology — multi-topic packs
   'DKA': 'DKA / HHS',
   'HHS': 'DKA / HHS',
+  'Diabetic Ketoacidosis': 'DKA / HHS',
+  'Hyperosmolar Hyperglycemic State': 'DKA / HHS',
   'Hyperthyroidism': 'Thyroid Disease',
   'Hypothyroidism': 'Thyroid Disease',
   'Thyroid Storm': 'Thyroid Disease',
+  'Thyroid Nodule': 'Thyroid Disease',
+  'Thyroid Cancer': 'Thyroid Disease',
+  'Myxedema Coma': 'Thyroid Disease',
   'Adrenal Insufficiency': 'Adrenal Insufficiency / Cushing',
   'Cushing Syndrome': 'Adrenal Insufficiency / Cushing',
+  'Adrenal Crisis': 'Adrenal Insufficiency / Cushing',
   'Hypercalcemia': 'Hypercalcemia / Hyperparathyroidism',
+  'Primary Hyperparathyroidism': 'Hypercalcemia / Hyperparathyroidism',
+  'Diabetic Neuropathy': 'Diabetic Nephropathy',   // diabetes complications pack
+  'Diabetic Retinopathy': 'Diabetic Nephropathy',
+  'Pituitary Adenoma': 'Adrenal Insufficiency / Cushing',
+  'Hypopituitarism': 'Adrenal Insufficiency / Cushing',
+  'Diabetes Insipidus': 'Hypokalemia',             // electrolyte pack
+  'SIADH': 'Hypokalemia',                           // electrolyte pack
+  'Metabolic Syndrome': 'Type 2 Diabetes',
   'Osteoporosis': 'Osteoporosis',
   'Type 2 Diabetes': 'Type 2 Diabetes',
 
   // Pulmonary
   'COPD Exacerbation': 'COPD',
   'Asthma Exacerbation': 'Asthma',
+  'Respiratory Failure': 'ARDS',
+  'Mechanical Ventilation': 'ARDS',
+  'Idiopathic Pulmonary Fibrosis': 'Interstitial Lung Disease',
+  'Cough (Chronic)': 'Asthma',            // most common cause; GINA covers
+  'Dyspnea': 'Heart Failure',             // broad symptom, HF is top ddx
+  'Hemoptysis': 'Pulmonary Embolism',     // PE is must-rule-out
 
   // Neurology
+  'Stroke (Ischemic)': 'Acute Ischemic Stroke',
   'Ischemic Stroke': 'Acute Ischemic Stroke',
+  'Transient Ischemic Attack': 'TIA',
+  'Seizures / Epilepsy': 'Epilepsy / Status Epilepticus',
   'Seizure': 'Epilepsy / Status Epilepticus',
   'Status Epilepticus': 'Epilepsy / Status Epilepticus',
+  'Headache (Migraine)': 'Headache / Migraine',
+  'Headache (Tension)': 'Headache / Migraine',
+  'Headache (Cluster)': 'Headache / Migraine',
   'Migraine': 'Headache / Migraine',
   'Myasthenia Gravis': 'GBS / Myasthenia Gravis',
+  'Guillain-Barré Syndrome': 'GBS / Myasthenia Gravis',
   'Guillain-Barre Syndrome': 'GBS / Myasthenia Gravis',
+  'Alzheimer Disease': 'Dementia',
+  'Delirium': 'Dementia',
+  'Normal Pressure Hydrocephalus': 'Dementia',
   'Delirium vs Dementia': 'Dementia',
+  'Increased Intracranial Pressure': 'Subarachnoid Hemorrhage',
+  'Epidural Hematoma': 'Trauma',
+  'Subdural Hematoma': 'Trauma',
+  'Concussion / Traumatic Brain Injury': 'Trauma',
+  'Spinal Cord Compression': 'Trauma',
+  'Cauda Equina Syndrome': 'Trauma',
 
   // Nephrology
   'Chronic Kidney Disease': 'CKD',
   'Nephrotic Syndrome': 'Nephrotic / Nephritic Syndrome',
   'Nephritic Syndrome': 'Nephrotic / Nephritic Syndrome',
   'RPGN': 'Nephrotic / Nephritic Syndrome',
+  'Hypernatremia': 'Hyperkalemia',                 // electrolyte pack
+  'Hyponatremia': 'Hypokalemia',                   // electrolyte pack
+  'Metabolic Acidosis': 'AG Metabolic Acidosis',
+  'Respiratory Acidosis': 'COPD',                   // respiratory cause
+  'Respiratory Alkalosis': 'Pulmonary Embolism',    // PE classic presentation
+  'Urinary Incontinence': 'CKD',                    // renal pack scope
+  'Polycystic Kidney Disease': 'CKD',
 
   // Hematology
   'DVT Anticoagulation': 'DVT / Anticoagulation',
+  'Deep Vein Thrombosis / PE (Coagulation)': 'DVT / Anticoagulation',
+  'Anticoagulation Management': 'DVT / Anticoagulation',
+  'Immune Thrombocytopenic Purpura (ITP)': 'Thrombocytopenia',
+  'Thrombotic Thrombocytopenic Purpura (TTP)': 'TTP / HUS / HIT / DIC',
+  'Heparin-Induced Thrombocytopenia': 'TTP / HUS / HIT / DIC',
+  'Disseminated Intravascular Coagulation': 'TTP / HUS / HIT / DIC',
   'HIT': 'TTP / HUS / HIT / DIC',
   'TTP': 'TTP / HUS / HIT / DIC',
   'DIC': 'TTP / HUS / HIT / DIC',
+  'Folate Deficiency': 'B12 Deficiency',         // same workup pathway
+  'Thalassemia': 'Iron Deficiency Anemia',        // microcytic anemia ddx
+  'G6PD Deficiency': 'Hemolytic Anemia',
+  'Leukemia (Acute)': 'Lymphoma',                 // heme malignancy pack
+  'Leukemia (Chronic)': 'Lymphoma',
+  'Multiple Myeloma': 'Lymphoma',
+  'Transfusion Reactions': 'Sickle Cell Disease',  // SCD pack covers transfusion
+  'Blood Product Selection': 'Sickle Cell Disease',
+  'Hemophilia': 'TTP / HUS / HIT / DIC',          // coagulation disorders
+  'Von Willebrand Disease': 'TTP / HUS / HIT / DIC',
 
   // Infectious Disease
+  'Meningitis (Bacterial)': 'Bacterial Meningitis',
   'Meningitis': 'Bacterial Meningitis',
   'C. difficile': 'C. difficile',
   'Clostridioides difficile': 'C. difficile',
+  'Clostridioides difficile Infection': 'C. difficile',
   'UTI/Pyelonephritis': 'UTI / Pyelonephritis',
+  'Urinary Tract Infection': 'UTI / Pyelonephritis',
+  'Pyelonephritis': 'UTI / Pyelonephritis',
   'Cellulitis': 'Skin / Soft Tissue Infections',
+  'Cellulitis / Skin Infections': 'Skin / Soft Tissue Infections',
   'HIV': 'HIV / AIDS',
   'Sexually Transmitted Infections': 'STI',
+  'COVID-19': 'Community-Acquired Pneumonia',     // respiratory illness workup
+  'Fever of Unknown Origin': 'Sepsis / Shock',
 
   // GI
   'Inflammatory Bowel Disease': 'IBD',
+  'Inflammatory Bowel Disease (Crohn)': 'IBD',
+  'Inflammatory Bowel Disease (Ulcerative Colitis)': 'IBD',
+  'GI Bleed (Upper)': 'GI Bleed',
+  'GI Bleed (Lower)': 'GI Bleed',
+  'Spontaneous Bacterial Peritonitis': 'Cirrhosis / SBP',
+  'Hepatic Encephalopathy': 'Cirrhosis / SBP',
+  'Esophageal Varices': 'Cirrhosis / SBP',
+  'Cholelithiasis': 'Cholecystitis / Cholangitis',
+  'Irritable Bowel Syndrome': 'GERD',             // functional GI overlap
+  'Barrett Esophagus': 'GERD',
+  'Abdominal Pain (Acute)': 'Acute Pancreatitis',  // broad ddx, AP is prototypical
+  'Diarrhea (Acute)': 'C. difficile',
+  'Diarrhea (Chronic)': 'IBD',
+  'Jaundice': 'Cirrhosis / SBP',
+  'Acute Mesenteric Ischemia': 'Diverticulitis / Mesenteric Ischemia',
+  'Ischemic Colitis': 'Diverticulitis / Mesenteric Ischemia',
+  'Large Bowel Obstruction': 'Small Bowel Obstruction',  // similar workup
+  'Colorectal Cancer': 'Colon Cancer Screening',
 
   // Rheumatology
+  'Systemic Lupus Erythematosus': 'SLE',
+  'Scleroderma': 'Vasculitis',                     // closest rheum pack
   'Vasculitis': 'Vasculitis',
 
-  // Critical Care — route to existing packs
+  // Critical Care / Multisystem — route to existing packs
   'Septic Shock': 'Sepsis / Shock',
   'Sepsis': 'Sepsis / Shock',
-  'Cardiogenic Shock': 'Acute Coronary Syndrome',    // ACS pack covers cardiogenic shock
+  'Cardiogenic Shock': 'Acute Coronary Syndrome',
   'Massive PE': 'Pulmonary Embolism',
   'Distributive Shock': 'Sepsis / Shock',
+  'Drug Overdose / Toxicology': 'Acetaminophen Overdose',
+  'Hypothermia': 'Trauma',                          // ATLS covers environmental
+  'Heat Stroke': 'Sepsis / Shock',                  // similar stabilization
+  'Amyloidosis': 'CKD',                             // renal manifestation common
 
   // Preventive — route to preventive packs
   'Lipid Management': 'Dyslipidemia',
@@ -778,8 +1184,16 @@ const topicAliases: Record<string, string> = {
   'Placental Abruption': 'Placental Disorders',
   'PROM': 'PROM / PPROM',
   'PPROM': 'PROM / PPROM',
+  'Premature Rupture of Membranes': 'PROM / PPROM',
   'Shoulder Dystocia': 'Labor Management',
   'C-Section': 'Labor Management',
+  'Normal Labor and Delivery': 'Labor Management',
+  'Cesarean Delivery Indications': 'Labor Management',
+  'Fetal Heart Rate Monitoring': 'Labor Management',
+  'Spontaneous Abortion': 'Ectopic Pregnancy',     // early pregnancy pack
+  'Postpartum Depression': 'Postpartum Hemorrhage', // postpartum pack
+  'Mastitis': 'Postpartum Hemorrhage',              // postpartum pack
+  'Gestational Trophoblastic Disease': 'Ectopic Pregnancy',
   'Ovarian Torsion': 'Ovarian Mass',
 
   // Pediatrics aliases
@@ -805,12 +1219,43 @@ const topicAliases: Record<string, string> = {
   'Anorexia Nervosa': 'Eating Disorders',
   'Bulimia Nervosa': 'Eating Disorders',
   'NMS': 'Schizophrenia',
+  'Intimate Partner Violence': 'USPSTF Screening',  // USPSTF covers screening
+
+  // Immune
+  'Allergic Rhinitis': 'Anaphylaxis',               // allergy pack
+  'Drug Allergies': 'Anaphylaxis',
+  'Food Allergies': 'Anaphylaxis',
+  'Hypersensitivity Reactions': 'Anaphylaxis',
+  'Angioedema': 'Anaphylaxis',
+
+  // Musculoskeletal & Dermatology
+  'Compartment Syndrome': 'Trauma',
+  'Low Back Pain': 'Ankylosing Spondylitis',        // MSK pack
+  'Fractures (Hip)': 'Trauma',
+  'Fractures (General)': 'Trauma',
+  'Soft Tissue Injuries': 'Trauma',
+  'Basal Cell Carcinoma': 'Melanoma',               // derm oncology pack
+  'Squamous Cell Carcinoma (Skin)': 'Melanoma',
+  'Dermatitis': 'Psoriasis',                        // derm pack
+  'Pressure Ulcers': 'Skin / Soft Tissue Infections',
 
   // Preventive aliases
   'Cancer Screening': 'USPSTF Screening',
   'Breast Cancer Screening': 'USPSTF Screening',
   'Colorectal Cancer Screening': 'USPSTF Screening',
   'Lung Cancer Screening': 'USPSTF Screening',
+  'Screening Guidelines': 'USPSTF Screening',
+
+  // Pediatrics additional
+  'Febrile Seizures': 'Febrile Seizures',
+
+  // Urology — route to closest clinical packs
+  'Benign Prostatic Hyperplasia': 'UTI / Pyelonephritis',
+  'Testicular Torsion': 'Appendicitis',             // acute surgical abdomen equivalent
+  'Testicular Cancer': 'Lymphoma',                   // oncology pack
+  'Renal Cell Carcinoma': 'CKD',
+  'Bladder Cancer': 'CKD',
+  'Prostate Cancer': 'USPSTF Screening',             // screening guidelines
 };
 
 /**

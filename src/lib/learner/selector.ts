@@ -89,6 +89,8 @@ export async function selectRetentionQuestion(
  * Finds an unseen question testing the same transfer_rule or confusion_set.
  * Prevents memorization by ensuring the student sees a different vignette
  * each time the same concept comes up for review.
+ *
+ * Priority: variant_group_id (strongest signal) → case_plan linkage → questions table
  */
 async function selectUnseenVariant(
   supabase: ReturnType<typeof createAdminClient>,
@@ -96,6 +98,12 @@ async function selectUnseenVariant(
   dimensionId: string,
   everAnswered: Set<string>,
 ): Promise<SelectedQuestion | null> {
+  // Phase 0: variant_group_id lookup (strongest variant signal, from v20 IRT plumbing)
+  // Find a previously answered draft for this dimension, get its variant_group_id,
+  // then find unseen drafts in the same variant group.
+  const variantGroupResult = await selectVariantGroupMatch(supabase, dimensionType, dimensionId, everAnswered);
+  if (variantGroupResult) return variantGroupResult;
+
   if (dimensionType === 'transfer_rule') {
     // Find item_drafts targeting the same transfer rule via case_plan
     const { data: drafts } = await supabase
@@ -171,6 +179,64 @@ async function selectUnseenVariant(
           questionId: pick.id,
           questionType: 'question',
           strategy: { dimensionType, dimensionId, reason: 'retention_unseen_variant' },
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Finds an unseen draft in the same variant_group as a previously answered draft.
+ * variant_group_id groups items that test the same transfer_rule/confusion_set
+ * with different clinical surface features — the strongest anti-memorization signal.
+ */
+async function selectVariantGroupMatch(
+  supabase: ReturnType<typeof createAdminClient>,
+  dimensionType: DimensionType,
+  dimensionId: string,
+  everAnswered: Set<string>,
+): Promise<SelectedQuestion | null> {
+  // Find a draft the student has answered for this dimension that has a variant_group_id
+  const casePlanField = dimensionType === 'transfer_rule'
+    ? 'target_transfer_rule_id'
+    : 'target_confusion_set_id';
+
+  const { data: answeredDrafts } = await supabase
+    .from('item_draft')
+    .select(`id, variant_group_id, case_plan!inner(${casePlanField})`)
+    .eq('status', 'published')
+    .not('variant_group_id', 'is', null)
+    .eq(`case_plan.${casePlanField}`, dimensionId)
+    .limit(20);
+
+  if (!answeredDrafts || answeredDrafts.length === 0) return null;
+
+  // Filter to drafts the student has actually answered
+  const answeredWithGroup = answeredDrafts.filter(d => everAnswered.has(d.id) && d.variant_group_id);
+  if (answeredWithGroup.length === 0) return null;
+
+  // Collect all variant_group_ids from answered drafts
+  const variantGroupIds = new Set(answeredWithGroup.map(d => d.variant_group_id as string));
+
+  // Find unseen drafts in any of those variant groups
+  for (const groupId of variantGroupIds) {
+    const { data: variants } = await supabase
+      .from('item_draft')
+      .select('id')
+      .eq('variant_group_id', groupId)
+      .eq('status', 'published')
+      .limit(20);
+
+    if (variants) {
+      const unseen = variants.filter(v => !everAnswered.has(v.id));
+      if (unseen.length > 0) {
+        const pick = unseen[Math.floor(Math.random() * unseen.length)];
+        return {
+          questionId: pick.id,
+          questionType: 'item_draft',
+          strategy: { dimensionType, dimensionId, reason: 'variant_group_unseen' },
         };
       }
     }

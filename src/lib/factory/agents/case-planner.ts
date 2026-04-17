@@ -92,15 +92,30 @@ export async function run(
     return { ...result, data: null as unknown as CasePlanInput & { casePlanId: string } };
   }
 
-  // Write case plan to DB
+  // Write case plan to DB — only include fields that exist in the case_plan table schema
   const supabase = createAdminClient();
+  const casePlanFields = [
+    'cognitive_operation_type', 'transfer_rule_text', 'hinge_depth_target',
+    'decision_fork_type', 'decision_fork_description', 'option_action_class',
+    'option_frames', 'correct_option_frame_id', 'distractor_rationale_by_frame',
+    'forbidden_option_classes', 'target_transfer_rule_id', 'target_confusion_set_id',
+    'target_cognitive_error_id', 'target_hinge_clue_type_id', 'target_action_class_id',
+    'ambiguity_level', 'distractor_strength', 'clinical_complexity',
+    'ambiguity_strategy', 'distractor_design', 'final_decisive_clue',
+    'explanation_teaching_goal',
+  ] as const;
+  const dbPayload: Record<string, unknown> = {
+    blueprint_node_id: input.node.id,
+    algorithm_card_id: input.card.id,
+  };
+  for (const key of casePlanFields) {
+    if (key in result.data) {
+      dbPayload[key] = (result.data as Record<string, unknown>)[key];
+    }
+  }
   const { data: plan, error } = await supabase
     .from('case_plan')
-    .insert({
-      blueprint_node_id: input.node.id,
-      algorithm_card_id: input.card.id,
-      ...result.data,
-    })
+    .insert(dbPayload)
     .select('id')
     .single();
 

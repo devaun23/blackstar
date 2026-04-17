@@ -83,6 +83,15 @@ export const casePlanSchema = z.object({
   distractor_design: z.record(z.string(), z.unknown()).nullable().optional(),
   final_decisive_clue: z.string().nullable().optional(),
   explanation_teaching_goal: z.string().nullable().optional(),
+
+  // B3: Image specification — designs question around visual interpretation even before image generation
+  image_spec: z.object({
+    image_type: z.enum(['ecg', 'cxr', 'ct', 'skin_lesion', 'lab_panel', 'pathology',
+                         'peripheral_smear', 'xray', 'mri', 'ultrasound']),
+    description: z.string().min(10),
+    key_findings: z.array(z.string().min(3)).min(1).max(5),
+    interpretation_required: z.boolean(),
+  }).nullable().optional(),
 });
 
 export type OptionFrame = z.infer<typeof optionFrameSchema>;
