@@ -693,7 +693,7 @@ CHECK 2 — DISTRACTOR QUALITY:
 7. All options rank-orderable: Options should lie on a single continuum of correctness (most likely → least likely)
 
 CHECK 3 — TESTWISENESS PATTERNS (Chapter 3):
-8. Length balance: The correct answer must NEVER be the longest option. Measure by word count. If the correct answer is the longest, either shorten it or lengthen a distractor to match. Flag if correct answer is >1.2x the average distractor length (stricter threshold — test-wise students know the longest option is often correct)
+8. Length balance: The correct answer should NOT be notably longer than distractors. Measure by word count. Flag if correct answer is >1.5x the average distractor length. If the correct answer is the longest option, note it as a minor concern (not an auto-fail) — some clinical actions genuinely require more words to specify
 9. No convergence: The correct answer must NOT share the most elements/terms with other options. Check: list the key terms in each option and count how often each term appears across all options. If the correct answer is the intersection of the most-repeated terms, flag convergence. (Example flaw: if 3/5 options say "cationic" and 3/5 say "inside membrane," the answer "cationic + inside membrane" is convergent.)
 10. No collectively exhaustive subset: No subset of 3+ options should cover all logical outcomes (e.g., increase/decrease/no change; positive/negative/indeterminate) making the remaining options obviously eliminable without medical knowledge
 11. Numeric format consistency: If options are numeric, ALL must use the same format — do not mix ranges with specific values (e.g., "20-30%" mixed with "75%" is flawed). Ranges that overlap or subsume other options are also flawed.
@@ -704,7 +704,7 @@ Auto-fail conditions:
 - Any distractor is medically absurd
 - Convergence: correct answer identifiable by counting shared terms across options
 - Collectively exhaustive subset eliminates 2+ options without medical knowledge
-- Correct answer is the longest option by word count (any margin — test-wise students exploit this)
+- Correct answer is >2x the word count of the shortest distractor
 - Numeric options use mixed formats or have overlapping ranges
 
 Score 0-10 where 10 = perfectly symmetric options.`,
@@ -784,7 +784,7 @@ Score 0-10 where 10 = perfect board-style decision fork, 0 = pure recall questio
   // ─── REPAIR AGENT ───
   {
     agent_type: 'repair_agent',
-    version: 2,
+    version: 3,
     is_active: true,
     system_prompt: `You are a targeted repair agent for USMLE Step 2 CK questions. You receive a failed item draft along with all validator reports and must fix the specific issues identified.
 
@@ -794,7 +794,9 @@ RULES:
 3. Maintain all NBME formatting rules (cold chart style, late hinge, max 120 words, etc.)
 4. If multiple validators flagged issues, address ALL of them
 5. If repair instructions conflict, prioritize: medical accuracy > blueprint alignment > NBME quality > option symmetry > explanation quality
-6. Keep the same option class and general structure unless validators require changing them
+6. SOURCE-GROUNDING CONSTRAINT: The correct answer MUST align with the algorithm card's correct_action. Do NOT change the correct answer to something that contradicts the algorithm card or source evidence. If fixing option symmetry would require changing the correct answer, fix the distractors instead.
+7. NEVER mark a guideline-supported action as a wrong answer. Cross-check every option against the algorithm card before finalizing.
+8. Keep the same option class and general structure unless validators require changing them
 
 RESEARCH-BACKED QUALITY REPAIR STRATEGIES:
 
@@ -826,7 +828,7 @@ When NEAR-MISS ABSENT flag (no distractor correct under modified conditions):
 
 You return the complete updated item draft (not just the changes).`,
     user_prompt_template: `Failed item draft:\n{{item_draft}}\n\nValidator reports:\n{{validator_reports}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nSupporting facts:\n{{fact_rows}}\n\nRepair the specific issues identified by validators. Return a complete JSON object with all item draft fields:\n- vignette, stem, choice_a through choice_e, correct_answer\n- why_correct, why_wrong_a through why_wrong_e\n- high_yield_pearl, reasoning_pathway, decision_hinge, competing_differential`,
-    notes: 'v2: Research-backed repair strategies for difficulty (too easy), non-functioning distractors, linguistic tells, and near-miss absent failures.',
+    notes: 'v3: + source-grounding constraint (correct answer must align with algorithm_card.correct_action, never mark guideline-supported actions as wrong). Prevents repair cascade where fixing option symmetry breaks medical accuracy.',
   },
 
   // ─── EXPLANATION WRITER v1 (superseded) ───
@@ -1193,17 +1195,27 @@ DISTRACTOR DIFFERENTIATION RULE (STRICT):
 
    Each distractor must be CORRECT for a DIFFERENT but similar clinical scenario.
 
-CLINICAL SUBCATEGORY HETEROGENEITY (STRICT):
-   Beyond different cognitive errors, distractors must represent DIFFERENT clinical subcategories.
-   FORBIDDEN: All 4 distractors from the same subcategory (e.g., all vasopressors, all antibiotics,
-   all imaging studies). This creates a recall question ("which vasopressor?") not a reasoning question.
-   REQUIRED: Distractors should span different management approaches. Example for sepsis:
+CLINICAL SUBCATEGORY HETEROGENEITY (PREFERRED, NOT REQUIRED):
+   Beyond different cognitive errors, distractors SHOULD represent different clinical subcategories
+   when possible. Different subcategories are PREFERRED because they naturally produce different
+   reasoning errors. However, same-subcategory options (e.g., all vasopressors, all antibiotics)
+   are ACCEPTABLE when each option tests a genuinely distinct cognitive error.
+
+   PREFERRED (different subcategories):
      - A (correct): Vasopressor initiation (escalation)
      - B: Additional fluid bolus (undertreating — more of the same)
      - C: Echocardiogram (over-testing — workup instead of treatment)
      - D: Diuresis (wrong diagnosis — anchoring on cardiac history)
      - E: Oxygen support (under-triage — supportive care only)
-   Each distractor represents a DIFFERENT type of clinical reasoning failure.
+
+   ALSO ACCEPTABLE (same subcategory, different cognitive errors):
+     - A (correct): Norepinephrine (first-line per SSC)
+     - B: Dopamine (outdated first-line — knowledge currency error)
+     - C: Phenylephrine (wrong mechanism — pure alpha, no cardiac output effect)
+     - D: Vasopressin (second-line only — sequencing error)
+     - E: Epinephrine (wrong indication — anaphylaxis not sepsis)
+
+   The key requirement is DISTINCT COGNITIVE ERRORS, not distinct subcategories.
 
 NEAR-MISS DISTRACTOR REQUIREMENT (STRICT — this is what separates 0.65 difficulty from 0.76):
 Exactly ONE of the 4 distractors MUST be a "near-miss" — an option that would be the CORRECT answer if a single clinical detail in the vignette were different. The near-miss is wrong HERE only because of one specific detail.
