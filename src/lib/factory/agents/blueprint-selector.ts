@@ -4,6 +4,8 @@ import type { BlueprintSelectorOutput } from '@/lib/factory/schemas';
 import type { AgentContext, AgentOutput } from '@/lib/types/factory';
 import type { BlueprintNodeRow, ContentSystemRow } from '@/lib/types/database';
 import { runAgent } from '../agent-helpers';
+import { topicSourceMap, resolveTopicKey } from '../source-packs/topic-source-map';
+import { loadPack } from '../source-packs/index';
 
 interface BlueprintSelectorInput {
   shelf?: string;
@@ -84,14 +86,45 @@ export async function run(
     allQuery = allQuery.eq('shelf', input.shelf);
   }
 
-  const { data: allNodes, error } = await allQuery;
+  const { data: rawNodes, error } = await allQuery;
 
-  if (error || !allNodes || allNodes.length === 0) {
+  if (error || !rawNodes || rawNodes.length === 0) {
     return {
       success: false,
       data: null as unknown as BlueprintSelectorOutput,
       tokensUsed: 0,
       error: error?.message ?? 'No blueprint nodes found',
+    };
+  }
+
+  // Step 1.5: Filter to nodes with active source packs.
+  // Only consider nodes whose topic resolves to a source pack that is currently active.
+  // This prevents the selector from picking topics with draft-only packs that will
+  // fail at the source sufficiency gate.
+  const activePackCache = new Map<string, boolean>();
+  const allNodes: typeof rawNodes = [];
+  for (const node of rawNodes) {
+    const resolvedKey = resolveTopicKey(node.topic);
+    if (!activePackCache.has(resolvedKey)) {
+      const config = topicSourceMap[resolvedKey];
+      if (!config) {
+        activePackCache.set(resolvedKey, false);
+      } else {
+        const pack = await loadPack(config.primary);
+        activePackCache.set(resolvedKey, pack !== null);
+      }
+    }
+    if (activePackCache.get(resolvedKey)) {
+      allNodes.push(node);
+    }
+  }
+
+  if (allNodes.length === 0) {
+    return {
+      success: false,
+      data: null as unknown as BlueprintSelectorOutput,
+      tokensUsed: 0,
+      error: 'No blueprint nodes with active source packs found',
     };
   }
 

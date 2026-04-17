@@ -38,6 +38,10 @@ export const optionFrameSchema = z.object({
   id: z.enum(['A', 'B', 'C', 'D', 'E']),
   class: z.string().min(1),           // must match option_action_class
   meaning: z.string().min(5),         // clinical meaning of this option (e.g., "transfer for PCI immediately")
+  // Near-miss distractor fields (exactly one distractor should have near_miss: true)
+  near_miss: z.boolean().optional(),              // true for the near-miss distractor
+  pivot_detail: z.string().nullable().optional(),  // what single detail change makes this correct
+  correct_if: z.string().nullable().optional(),    // the modified scenario where this IS correct
 });
 
 export const casePlanSchema = z.object({
@@ -77,6 +81,9 @@ export const casePlanSchema = z.object({
   ambiguity_level: z.number().int().min(1).max(5),
   distractor_strength: z.number().int().min(1).max(5),
   clinical_complexity: z.number().int().min(1).max(5),
+
+  // Estimated difficulty index (0.0-1.0, target 0.55-0.70)
+  estimated_difficulty: z.number().min(0).max(1).optional(),
 
   // Strategy
   ambiguity_strategy: z.string().nullable().optional(),

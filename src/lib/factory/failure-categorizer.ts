@@ -46,6 +46,19 @@ export function inferFailureCategory(report: FailedReport): FailureCategory {
 
   // NBME quality validator failures
   if (report.validator_type === 'nbme_quality') {
+    // Research-backed quality categories (check these first — they're more specific)
+    if (matchesAny(combined, ['too easy', 'difficulty', 'estimated', 'pathognomonic', 'obvious'])) {
+      return 'too_easy';
+    }
+    if (matchesAny(combined, ['non-functioning distractor', 'non_functioning', '<5%', 'weak distractor'])) {
+      return 'non_functioning_distractor';
+    }
+    if (matchesAny(combined, ['prohibited phrase', 'presents with', 'notably', 'linguistic', 'ai tell', 'sentence repetition'])) {
+      return 'linguistic_tells';
+    }
+    if (matchesAny(combined, ['near-miss absent', 'near_miss', 'no near-miss', 'no distractor'])) {
+      return 'near_miss_absent';
+    }
     if (matchesAny(combined, ['clue', 'cue', 'testwise', 'grammatical', 'length'])) {
       return 'stem_clue_leak';
     }
@@ -117,6 +130,10 @@ const CATEGORY_PRIORITY: FailureCategory[] = [
   'scope_violation',
   'stem_clue_leak',
   'option_asymmetry',
+  'too_easy',
+  'non_functioning_distractor',
+  'near_miss_absent',
+  'linguistic_tells',
   'explanation_gap',
 ];
 
@@ -144,6 +161,10 @@ const CATEGORY_DESCRIPTIONS: Record<FailureCategory, string> = {
   recall_not_decision: 'Tests fact recall instead of clinical decision-making',
   explanation_gap: 'Explanation fails to teach the reasoning pathway',
   hinge_missing: 'No clear decision hinge differentiates the correct answer',
+  too_easy: 'Estimated difficulty >0.75 — pathognomonic presentation, weak distractors, or missing competing signal',
+  non_functioning_distractor: 'One or more distractors estimated <5% selection rate — effectively a 3-4 option item',
+  linguistic_tells: '3+ AI stylistic markers detected — prohibited phrases, sentence repetition, or overly smooth coherence',
+  near_miss_absent: 'No distractor would be correct under slightly modified conditions — lacks genuine competition',
 };
 
 const REPAIR_STRATEGIES: Record<FailureCategory, string> = {
@@ -157,4 +178,8 @@ const REPAIR_STRATEGIES: Record<FailureCategory, string> = {
   recall_not_decision: 'Rewrite to test a clinical decision with competing plausible options, not a factual lookup. The question must have a genuine decision fork.',
   explanation_gap: 'Ensure why_correct explains the reasoning chain, not just the fact. Each why_wrong must reference the specific cognitive error that makes that option wrong.',
   hinge_missing: 'Add a pivotal clinical finding that changes the management decision. The hinge should be present but not immediately obvious.',
+  too_easy: 'Strengthen the near-miss distractor, add 2+ competing signal findings, bury the hinge deeper, and add 1-2 noise elements. Make REASONING harder, not medicine more ambiguous.',
+  non_functioning_distractor: 'Replace weak distractor with an option correct for a related but different scenario. Must exploit a different cognitive error and attract ≥10% of test-takers.',
+  linguistic_tells: 'Rewrite flagged sentences in chart-note style. Remove prohibited phrases, vary sentence structure/length, remove smooth transitions. Do NOT change clinical content.',
+  near_miss_absent: 'Redesign one distractor as a near-miss (correct if one detail changes). Specify the pivot detail, ensure the hinge distinguishes it, and add competing signal.',
 };

@@ -714,6 +714,48 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
           }
         }
 
+        // ─── Extract difficulty estimation + near-miss data (v20 research metrics) ───
+        const qualityUpdate: Record<string, unknown> = {};
+
+        // Parse difficulty estimate from NBME quality validator issues
+        const { data: nbmeReports } = await supabase
+          .from('validator_report')
+          .select('issues_found')
+          .eq('item_draft_id', draftId)
+          .eq('validator_type', 'nbme_quality')
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (nbmeReports?.issues_found) {
+          for (const issue of nbmeReports.issues_found as string[]) {
+            const diffMatch = issue.match(/DIFFICULTY:.*?estimated\s+(\d+)%/i);
+            if (diffMatch) {
+              qualityUpdate.estimated_difficulty = parseInt(diffMatch[1], 10) / 100;
+            }
+          }
+        }
+
+        // Extract near-miss option from case_plan option_frames
+        if (casePlan) {
+          const frames = (casePlan as Record<string, unknown>).option_frames as Array<Record<string, unknown>> | undefined;
+          if (frames) {
+            const nearMissFrame = frames.find((f) => f.near_miss === true);
+            if (nearMissFrame) {
+              qualityUpdate.near_miss_option = nearMissFrame.id;
+              qualityUpdate.near_miss_pivot_detail = nearMissFrame.pivot_detail ?? null;
+            }
+          }
+        }
+
+        // Write quality metrics to item_draft (best-effort — don't fail publish on missing columns)
+        if (Object.keys(qualityUpdate).length > 0) {
+          await supabase
+            .from('item_draft')
+            .update(qualityUpdate)
+            .eq('id', draftId);
+        }
+
         // Publish — try with review_status, fall back to just status if column missing
         const publishResult = await supabase
           .from('item_draft')

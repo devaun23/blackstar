@@ -16,9 +16,14 @@ export const failureCategoryEnum = z.enum([
   'option_asymmetry',      // Answer choices are not parallel in structure/length/specificity
   'stem_clue_leak',        // The stem contains grammatical or logical cues to the answer
   'scope_violation',       // Question topic outside the target exam content outline
-  'recall_not_decision',   // Tests fact recall instead of clinical decision-making
-  'explanation_gap',       // Explanation doesn't teach the reasoning pathway
-  'hinge_missing',         // No clear decision hinge in the vignette
+  'recall_not_decision',          // Tests fact recall instead of clinical decision-making
+  'explanation_gap',              // Explanation doesn't teach the reasoning pathway
+  'hinge_missing',                // No clear decision hinge in the vignette
+  // Research-backed quality categories (2024-2026 blinded comparison studies)
+  'too_easy',                     // Estimated difficulty > 0.75 — item doesn't make students hesitate
+  'non_functioning_distractor',   // Distractor estimated <5% selection — effectively 4-option or 3-option item
+  'linguistic_tells',             // AI stylistic markers detectable (redundancy, repetition, coherence)
+  'near_miss_absent',             // No distractor would be correct under slightly modified conditions
 ]);
 
 export type FailureCategory = z.infer<typeof failureCategoryEnum>;

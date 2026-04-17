@@ -96,14 +96,19 @@ export async function runValidator(options: {
     }
 
     const supabase = createAdminClient();
-    const { data: report, error } = await supabase
+    // Only include known DB columns (exclude fields the DB may not have)
+    const reportPayload: Record<string, unknown> = {
+      item_draft_id: itemDraftId,
+      validator_type: validatorType,
+      passed: result.data.passed,
+      score: result.data.score,
+      issues_found: result.data.issues_found,
+      repair_instructions: result.data.repair_instructions ?? null,
+      raw_output: result.data as unknown as Record<string, unknown>,
+    };
+    let { data: report, error } = await supabase
       .from('validator_report')
-      .insert({
-        item_draft_id: itemDraftId,
-        validator_type: validatorType,
-        ...result.data,
-        raw_output: result.data as unknown as Record<string, unknown>,
-      })
+      .insert(reportPayload)
       .select('id')
       .single();
 
@@ -152,25 +157,38 @@ export async function runValidator(options: {
     successfulSamples.map((r) => r.data)
   );
 
-  // Write aggregate report + raw samples to DB
+  // Write aggregate report + raw samples to DB — only include known columns
   const supabase = createAdminClient();
-  const { data: report, error } = await supabase
-    .from('validator_report')
-    .insert({
-      item_draft_id: itemDraftId,
-      validator_type: validatorType,
-      ...aggregate,
+  const aggPayload: Record<string, unknown> = {
+    item_draft_id: itemDraftId,
+    validator_type: validatorType,
+    passed: aggregate.passed,
+    score: aggregate.score,
+    issues_found: aggregate.issues_found,
+    repair_instructions: aggregate.repair_instructions ?? null,
+    raw_output: {
+      aggregate,
       consistency_score: consistencyScore,
-      raw_output: {
-        aggregate,
-        consistency_score: consistencyScore,
-        sample_count: sampleCount,
-        successful_samples: successfulSamples.length,
-        samples: successfulSamples.map((r) => r.data),
-      } as unknown as Record<string, unknown>,
-    })
+      sample_count: sampleCount,
+      successful_samples: successfulSamples.length,
+      samples: successfulSamples.map((r) => r.data),
+    } as unknown as Record<string, unknown>,
+  };
+  // Try including consistency_score if column exists, fall back without it
+  let { data: report, error } = await supabase
+    .from('validator_report')
+    .insert({ ...aggPayload, consistency_score: consistencyScore })
     .select('id')
     .single();
+  if (error?.message?.includes('schema cache')) {
+    const retry = await supabase
+      .from('validator_report')
+      .insert(aggPayload)
+      .select('id')
+      .single();
+    report = retry.data;
+    error = retry.error;
+  }
 
   if (error || !report) {
     return {

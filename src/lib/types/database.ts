@@ -141,6 +141,10 @@ export interface ItemDraftRow {
   review_notes: string | null;
   // v20: IRT variant tracking
   variant_group_id: string | null;
+  // v20: Research-backed MCQ quality metrics
+  estimated_difficulty: number | null;
+  near_miss_option: 'A' | 'B' | 'C' | 'D' | 'E' | null;
+  near_miss_pivot_detail: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -154,6 +158,8 @@ export interface ValidatorReportRow {
   issues_found: string[];
   repair_instructions: string | null;
   raw_output: Record<string, unknown> | null;
+  // v20: Research-backed distractor functioning estimates
+  distractor_estimates: Record<string, number> | null;
   created_at: string;
 }
 

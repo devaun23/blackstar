@@ -978,6 +978,200 @@ export const topicSourceMap: Record<string, TopicSourceConfig> = {
     conflict_resolution: 'DRAFT — DI/IC-derived. Verify against USPSTF/ACG guidelines.',
     precedence_rule: 'USPSTF sole authority (pending verification).',
   },
+  // ── Gap Closure — New dedicated packs (2026-04-16) ──
+
+  'Aortic Aneurysm': {
+    topic_id: 'TOPIC.SURG.AAA',
+    primary: 'PACK.AHA.AAA.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AHA/SVS sole authority.',
+  },
+  'Lung Abscess': {
+    topic_id: 'TOPIC.MED.LA',
+    primary: 'PACK.IDSA.LA.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'IDSA sole authority.',
+  },
+  'Bronchiectasis': {
+    topic_id: 'TOPIC.MED.BRONCH',
+    primary: 'PACK.ATS.BRONCH.2017',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'ATS/ERS sole authority.',
+  },
+  'Lung Cancer': {
+    topic_id: 'TOPIC.MED.LC',
+    primary: 'PACK.ACCP.LC.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'ACCP/NCCN sole authority.',
+  },
+  'Pancreatic Cancer': {
+    topic_id: 'TOPIC.SURG.PANC',
+    primary: 'PACK.NCCN.PANC.2024',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'NCCN sole authority.',
+  },
+  'Non-Alcoholic Fatty Liver Disease': {
+    topic_id: 'TOPIC.MED.NAFLD',
+    primary: 'PACK.AASLD.NAFLD.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AASLD sole authority.',
+  },
+  'Hepatocellular Carcinoma': {
+    topic_id: 'TOPIC.MED.HCC',
+    primary: 'PACK.AASLD.HCC.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AASLD/NCCN sole authority.',
+  },
+  'Achalasia': {
+    topic_id: 'TOPIC.MED.ACHAL',
+    primary: 'PACK.AGA.ACHAL.2020',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AGA sole authority.',
+  },
+  'Gastric Cancer': {
+    topic_id: 'TOPIC.SURG.GC',
+    primary: 'PACK.AGA.GC.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AGA/NCCN sole authority.',
+  },
+  'Gastroparesis': {
+    topic_id: 'TOPIC.MED.GASTROPARESIS',
+    primary: 'PACK.AGA.GASTROPARESIS.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AGA sole authority.',
+  },
+  'Esophageal Cancer': {
+    topic_id: 'TOPIC.SURG.EC',
+    primary: 'PACK.NCCN.EC.2024',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'NCCN sole authority.',
+  },
+  'Primary Aldosteronism': {
+    topic_id: 'TOPIC.MED.PA',
+    primary: 'PACK.ENDOCRINE.PA.2020',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'Endocrine Society sole authority.',
+  },
+  'Diabetes Insipidus': {
+    topic_id: 'TOPIC.MED.DI',
+    primary: 'PACK.ENDO.DI.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'Endocrine Society sole authority.',
+  },
+  'SIADH': {
+    topic_id: 'TOPIC.MED.SIADH',
+    primary: 'PACK.ESE.SIADH.2024',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'ESE sole authority.',
+  },
+  'Testicular Torsion': {
+    topic_id: 'TOPIC.SURG.TT',
+    primary: 'PACK.AUA.TT.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AUA sole authority.',
+  },
+  'Renal Cell Carcinoma': {
+    topic_id: 'TOPIC.MED.RCC',
+    primary: 'PACK.AUA.RCC.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AUA/NCCN sole authority.',
+  },
+  'Brain Abscess': {
+    topic_id: 'TOPIC.MED.BA',
+    primary: 'PACK.IDSA.BA.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'IDSA sole authority.',
+  },
+  'Bell Palsy': {
+    topic_id: 'TOPIC.NEURO.BP',
+    primary: 'PACK.AAN.BP.2012',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AAN sole authority.',
+  },
+  'Trigeminal Neuralgia': {
+    topic_id: 'TOPIC.NEURO.TN',
+    primary: 'PACK.AAN.TN.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AAN sole authority.',
+  },
+  'Brain Tumors': {
+    topic_id: 'TOPIC.NEURO.BT',
+    primary: 'PACK.WHO.BRAINTUMOR.2021',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'WHO/NCCN sole authority.',
+  },
+  'Vertigo (Peripheral vs Central)': {
+    topic_id: 'TOPIC.NEURO.VERTIGO',
+    primary: 'PACK.AAO.VERTIGO.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AAO/AAN sole authority.',
+  },
+  'Glaucoma': {
+    topic_id: 'TOPIC.OPHTH.GLAU',
+    primary: 'PACK.AAO.GLAU.2020',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AAO sole authority.',
+  },
+  'Retinal Detachment': {
+    topic_id: 'TOPIC.OPHTH.RD',
+    primary: 'PACK.AAO.RD.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AAO sole authority.',
+  },
+  'Hemophilia': {
+    topic_id: 'TOPIC.MED.HEM',
+    primary: 'PACK.WFH.HEM.2020',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'WFH sole authority.',
+  },
+  'Von Willebrand Disease': {
+    topic_id: 'TOPIC.MED.VWD',
+    primary: 'PACK.ASH.VWD.2021',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'ASH/ISTH sole authority.',
+  },
+  'Multiple Myeloma': {
+    topic_id: 'TOPIC.MED.MM',
+    primary: 'PACK.NCCN.MM.2024',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'NCCN sole authority.',
+  },
+  'Leukemia': {
+    topic_id: 'TOPIC.MED.LEUK',
+    primary: 'PACK.ASH.LEUK.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'ASH/NCCN sole authority.',
+  },
+  'Transplant Rejection': {
+    topic_id: 'TOPIC.MED.TRANSPLANT',
+    primary: 'PACK.UNOS.TRANSPLANT_REJ.2023',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'UNOS/AST sole authority.',
+  },
+  'Compartment Syndrome': {
+    topic_id: 'TOPIC.SURG.CS',
+    primary: 'PACK.AAFOS.CS.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AAOS sole authority.',
+  },
+  'Postpartum Depression': {
+    topic_id: 'TOPIC.OB.PPD',
+    primary: 'PACK.ACOG.PPD.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'ACOG sole authority.',
+  },
+  'Obesity Management': {
+    topic_id: 'TOPIC.MED.OBM',
+    primary: 'PACK.AMA.OBM.2022',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'AMA/Endocrine Society sole authority.',
+  },
+  'Pain Management': {
+    topic_id: 'TOPIC.MED.PAIN',
+    primary: 'PACK.WHO.PAIN.2019',
+    conflict_resolution: 'DRAFT — DI/IC-derived.',
+    precedence_rule: 'WHO/APS sole authority.',
+  },
 };
 
 // ─── Topic Alias Resolution ───
@@ -1031,8 +1225,7 @@ const topicAliases: Record<string, string> = {
   'Diabetic Retinopathy': 'Diabetic Nephropathy',
   'Pituitary Adenoma': 'Adrenal Insufficiency / Cushing',
   'Hypopituitarism': 'Adrenal Insufficiency / Cushing',
-  'Diabetes Insipidus': 'Hypokalemia',             // electrolyte pack
-  'SIADH': 'Hypokalemia',                           // electrolyte pack
+  // Diabetes Insipidus and SIADH now have dedicated packs
   'Metabolic Syndrome': 'Type 2 Diabetes',
   'Osteoporosis': 'Osteoporosis',
   'Type 2 Diabetes': 'Type 2 Diabetes',
@@ -1099,13 +1292,12 @@ const topicAliases: Record<string, string> = {
   'Folate Deficiency': 'B12 Deficiency',         // same workup pathway
   'Thalassemia': 'Iron Deficiency Anemia',        // microcytic anemia ddx
   'G6PD Deficiency': 'Hemolytic Anemia',
-  'Leukemia (Acute)': 'Lymphoma',                 // heme malignancy pack
-  'Leukemia (Chronic)': 'Lymphoma',
-  'Multiple Myeloma': 'Lymphoma',
+  'Leukemia (Acute)': 'Leukemia',
+  'Leukemia (Chronic)': 'Leukemia',
+  // Multiple Myeloma now has dedicated pack
   'Transfusion Reactions': 'Sickle Cell Disease',  // SCD pack covers transfusion
   'Blood Product Selection': 'Sickle Cell Disease',
-  'Hemophilia': 'TTP / HUS / HIT / DIC',          // coagulation disorders
-  'Von Willebrand Disease': 'TTP / HUS / HIT / DIC',
+  // Hemophilia and VWD now have dedicated packs
 
   // Infectious Disease
   'Meningitis (Bacterial)': 'Bacterial Meningitis',
@@ -1229,7 +1421,7 @@ const topicAliases: Record<string, string> = {
   'Angioedema': 'Anaphylaxis',
 
   // Musculoskeletal & Dermatology
-  'Compartment Syndrome': 'Trauma',
+  // Compartment Syndrome now has dedicated pack
   'Low Back Pain': 'Ankylosing Spondylitis',        // MSK pack
   'Fractures (Hip)': 'Trauma',
   'Fractures (General)': 'Trauma',
@@ -1251,7 +1443,7 @@ const topicAliases: Record<string, string> = {
 
   // Urology — route to closest clinical packs
   'Benign Prostatic Hyperplasia': 'UTI / Pyelonephritis',
-  'Testicular Torsion': 'Appendicitis',             // acute surgical abdomen equivalent
+  // Testicular Torsion now has dedicated pack
   'Testicular Cancer': 'Lymphoma',                   // oncology pack
   'Renal Cell Carcinoma': 'CKD',
   'Bladder Cancer': 'CKD',

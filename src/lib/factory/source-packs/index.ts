@@ -349,6 +349,69 @@ const PACK_REGISTRY: Record<string, () => Promise<SourcePack>> = {
     import('./uspstf-crc').then((m) => m.PACK_USPSTF_CRC_2021),
   'PACK.ACOG.CCS.2020': () =>
     import('./acog-ccs').then((m) => m.PACK_ACOG_CCS_2020),
+
+  // ── Step 4 Packs (priority gaps — 2026-04-16) ──
+  'PACK.AAN.VM.2023': () => import('./aan-vm').then((m) => m.PACK_AAN_VM_2023),
+  'PACK.ADA.DN.2023': () => import('./ada-dn').then((m) => m.PACK_ADA_DN_2023),
+  'PACK.ADA.HYPOGLY.2023': () => import('./ada-hypogly').then((m) => m.PACK_ADA_HYPOGLY_2023),
+  'PACK.ADA.T1DM.2023': () => import('./ada-t1dm').then((m) => m.PACK_ADA_T1DM_2023),
+  'PACK.AGA.CP.2020': () => import('./aga-cp').then((m) => m.PACK_AGA_CP_2020),
+  'PACK.AHA.HS.2019': () => import('./aha-hs').then((m) => m.PACK_AHA_HS_2019),
+  'PACK.AHA.HTN_EMER.2017': () => import('./aha-htn_emer').then((m) => m.PACK_AHA_HTN_EMER_2017),
+  'PACK.ASH.ACD.2023': () => import('./ash-acd').then((m) => m.PACK_ASH_ACD_2023),
+  'PACK.ATS.ASPIR.2019': () => import('./ats-aspir').then((m) => m.PACK_ATS_ASPIR_2019),
+  'PACK.ATS.HAP.2016': () => import('./ats-hap').then((m) => m.PACK_ATS_HAP_2016),
+  'PACK.IDSA.ENC.2023': () => import('./idsa-enc').then((m) => m.PACK_IDSA_ENC_2023),
+  'PACK.IDSA.SA.2023': () => import('./idsa-sa').then((m) => m.PACK_IDSA_SA_2023),
+  'PACK.OARSI.OA.2019': () => import('./oarsi-oa').then((m) => m.PACK_OARSI_OA_2019),
+
+  // ── Gap Closure Batches (2026-04-16) ──
+
+  // Cardiovascular / Respiratory
+  'PACK.AHA.AAA.2022': () => import('./aha-aaa').then((m) => m.PACK_AHA_AAA_2022),
+  'PACK.IDSA.LA.2023': () => import('./idsa-la').then((m) => m.PACK_IDSA_LA_2023),
+  'PACK.ATS.BRONCH.2017': () => import('./ats-bronch').then((m) => m.PACK_ATS_BRONCH_2017),
+  'PACK.ACCP.LC.2023': () => import('./accp-lc').then((m) => m.PACK_ACCP_LC_2023),
+
+  // GI / Hepatology
+  'PACK.NCCN.PANC.2024': () => import('./nccn-panc').then((m) => m.PACK_NCCN_PANC_2024),
+  'PACK.AASLD.NAFLD.2023': () => import('./aasld-nafld').then((m) => m.PACK_AASLD_NAFLD_2023),
+  'PACK.AASLD.HCC.2022': () => import('./aasld-hcc').then((m) => m.PACK_AASLD_HCC_2022),
+  'PACK.AGA.ACHAL.2020': () => import('./aga-achal').then((m) => m.PACK_AGA_ACHAL_2020),
+  'PACK.AGA.GC.2022': () => import('./aga-gc').then((m) => m.PACK_AGA_GC_2022),
+  'PACK.AGA.GASTROPARESIS.2022': () => import('./aga-gastroparesis').then((m) => m.PACK_AGA_GASTROPARESIS_2022),
+  'PACK.NCCN.EC.2024': () => import('./nccn-ec').then((m) => m.PACK_NCCN_EC_2024),
+
+  // Endocrine
+  'PACK.ENDOCRINE.PA.2020': () => import('./endocrine-pa').then((m) => m.PACK_ENDOCRINE_PA_2020),
+  'PACK.ENDO.DI.2019': () => import('./endo-di').then((m) => m.PACK_ENDO_DI_2019),
+  'PACK.ESE.SIADH.2024': () => import('./ese-siadh').then((m) => m.PACK_ESE_SIADH_2024),
+
+  // Urology
+  'PACK.AUA.TT.2023': () => import('./aua-tt').then((m) => m.PACK_AUA_TT_2023),
+  'PACK.AUA.RCC.2023': () => import('./aua-rcc').then((m) => m.PACK_AUA_RCC_2023),
+
+  // Neurology / Ophthalmology / ENT
+  'PACK.IDSA.BA.2023': () => import('./idsa-ba').then((m) => m.PACK_IDSA_BA_2023),
+  'PACK.AAN.BP.2012': () => import('./aan-bp').then((m) => m.PACK_AAN_BP_2012),
+  'PACK.AAN.TN.2019': () => import('./aan-tn').then((m) => m.PACK_AAN_TN_2019),
+  'PACK.WHO.BRAINTUMOR.2021': () => import('./who-braintumor').then((m) => m.PACK_WHO_BRAINTUMOR_2021),
+  'PACK.AAO.VERTIGO.2019': () => import('./aao-vertigo').then((m) => m.PACK_AAO_VERTIGO_2019),
+  'PACK.AAO.GLAU.2020': () => import('./aao-glau').then((m) => m.PACK_AAO_GLAU_2020),
+  'PACK.AAO.RD.2019': () => import('./aao-rd').then((m) => m.PACK_AAO_RD_2019),
+
+  // Hematology
+  'PACK.WFH.HEM.2020': () => import('./wfh-hem').then((m) => m.PACK_WFH_HEM_2020),
+  'PACK.ASH.VWD.2021': () => import('./ash-vwd').then((m) => m.PACK_ASH_VWD_2021),
+  'PACK.NCCN.MM.2024': () => import('./nccn-mm').then((m) => m.PACK_NCCN_MM_2024),
+  'PACK.ASH.LEUK.2023': () => import('./ash-leuk').then((m) => m.PACK_ASH_LEUK_2023),
+
+  // Transplant / Ortho / OB / General
+  'PACK.UNOS.TRANSPLANT_REJ.2023': () => import('./unos-transplant_rej').then((m) => m.PACK_UNOS_TRANSPLANT_REJ_2023),
+  'PACK.AAFOS.CS.2019': () => import('./aafos-cs').then((m) => m.PACK_AAFOS_CS_2019),
+  'PACK.ACOG.PPD.2022': () => import('./acog-ppd').then((m) => m.PACK_ACOG_PPD_2022),
+  'PACK.AMA.OBM.2022': () => import('./ama-obm').then((m) => m.PACK_AMA_OBM_2022),
+  'PACK.WHO.PAIN.2019': () => import('./who-pain').then((m) => m.PACK_WHO_PAIN_2019),
 };
 
 /** Load a pack by ID. Returns null if not registered or not active. */

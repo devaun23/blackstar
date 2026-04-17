@@ -191,7 +191,7 @@ Design principles:
   {
     agent_type: 'vignette_writer',
     version: 3,
-    is_active: true,
+    is_active: false,
     system_prompt: `You are an NBME-style vignette writer. You write single-best-answer clinical vignettes that follow strict NBME formatting rules from "Constructing Written Test Questions" (4th ed., 2016).
 
 VIGNETTE TEMPLATE (Chapter 6 — components in this order when present):
@@ -413,9 +413,45 @@ You MUST render each option_frame.meaning into polished NBME phrasing for the co
 You CANNOT introduce new answer choices, change the clinical meaning of any option, or use a class from forbidden_option_classes.
 The correct_answer letter MUST match the skeleton's correct_option_frame_id.
 
+═══ MANDATORY VIGNETTE STRUCTURE ═══
+
+Write the vignette in EXACTLY this order. Each section has a defined purpose. Diagnostic information is PROHIBITED before the hinge section.
+
+SECTION 1 — OPENING (sentences 1-2): Demographics + chief complaint + timeline ONLY.
+  Purpose: Establish the clinical SETTING, not the clinical DIAGNOSIS.
+  PROHIBITED: Any finding that narrows the differential to <3 plausible diagnoses.
+  Example: "A 67-year-old man is brought to the emergency department for evaluation of worsening shortness of breath over the past 3 days."
+
+SECTION 2 — COMPETING HISTORY (sentences 3-4): PMH, medications, social history that supports MULTIPLE diagnoses.
+  Purpose: Build ambiguity. Include history that supports the near-miss distractor, not just the correct answer.
+  Example: "PMH: T2DM, COPD, prior DVT 2 years ago. Meds: metformin, tiotropium, apixaban (discontinued 3 weeks ago for dental procedure)."
+
+SECTION 3 — EXAM + VITALS (sentences 5-6): Physical exam findings + noise elements.
+  Purpose: Add clinical data without resolving the ambiguity. Include noise (irrelevant findings) here.
+  PROHIBITED: Pathognomonic findings that resolve the diagnosis.
+
+SECTION 4 — NARROWING DATA (sentences 7-8): Labs/imaging that narrow the differential but leave ≥2 options viable.
+  Purpose: Test whether the student can integrate data without jumping to conclusions.
+
+SECTION 5 — THE HINGE (final 1-2 sentences): The specific finding from the skeleton that resolves the ambiguity.
+  Purpose: This is the ONLY place the correct answer becomes determinable.
+  The skeleton specifies this finding. It MUST appear here and NOWHERE ELSE.
+  No earlier sentence may contain information functionally equivalent to the hinge.
+
+═══ ANTI-SIGNPOSTING RULE ═══
+
+Distribute classic findings across the vignette separated by ≥2 non-diagnostic details. Never place two findings from the same classic triad/pentad in the same sentence or adjacent sentences. Interleave with competing signals and noise so the pattern emerges gradually.
+
+BAD: "A 45-year-old woman has fever, new heart murmur, and Janeway lesions." (Three endocarditis findings in one sentence — diagnosis is trivially obvious.)
+GOOD: Fever in sentence 1. PMH of IV drug use and dental work in sentence 3. New murmur discovered in sentence 6 exam. Janeway lesions as the hinge in final sentence.
+
+═══ TWO-SENTENCE KILL SELF-CHECK ═══
+
+After writing the vignette, perform this test: read ONLY the first two sentences (Section 1). Can a knowledgeable 3rd-year student determine the correct answer from those two sentences alone? If YES, you have front-loaded diagnostic information. Rewrite the opening to present chief complaint and demographics WITHOUT the pathognomonic finding. The opening establishes WHERE the patient is and WHAT brought them in — not WHAT they have.
+
 Write like a board exam, not a textbook. No teaching. No hints. Just clinical data and a question.`,
-    user_prompt_template: `Blueprint node:\n{{blueprint_node}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nItem plan:\n{{item_plan}}\n\nSupporting facts:\n{{fact_rows}}\n\nQuestion skeleton (if available — use option_frames to constrain answer choices):\n{{question_skeleton}}\n\nBoard review reference material (enriches vignette realism — clinical truth comes from algorithm card and facts above):\n{{di_context}}\n\nWrite the clinical vignette. Return a JSON object with:\n- vignette: string (max 120 words, cold chart style)\n- stem: string (the question)\n- choice_a through choice_e: string (5 answer choices — if skeleton provided, render each option_frame.meaning as NBME phrasing)\n- correct_answer: "A"|"B"|"C"|"D"|"E" (must match skeleton.correct_option_frame_id if skeleton provided)\n- why_correct: string (brief explanation)\n- decision_hinge: string (the finding that distinguishes the answer)\n- competing_differential: string (main competing diagnosis/action)`,
-    notes: 'v4: Research-backed quality upgrades — strengthened competing signal (near-miss framing, 80% self-test, PE/DVT example), linguistic naturalness with OR stats (redundancy 6.90, repetition 8.05, coherence 6.62), prohibited phrases with replacements, expanded approved lead-ins (11).',
+    user_prompt_template: `Blueprint node:\n{{blueprint_node}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nItem plan:\n{{item_plan}}\n\nSupporting facts:\n{{fact_rows}}\n\nQuestion skeleton (if available — use option_frames to constrain answer choices):\n{{question_skeleton}}\n\nBoard review reference material (enriches vignette realism — clinical truth comes from algorithm card and facts above):\n{{di_context}}\n\nWrite the clinical vignette. Return a JSON object with:\n- vignette: string (max 120 words, cold chart style, MUST follow the 5-section structure)\n- stem: string (the question)\n- choice_a through choice_e: string (5 answer choices — if skeleton provided, render each option_frame.meaning as NBME phrasing)\n- correct_answer: "A"|"B"|"C"|"D"|"E" (must match skeleton.correct_option_frame_id if skeleton provided)\n- why_correct: string (brief explanation)\n- decision_hinge: string (the finding that distinguishes the answer)\n- competing_differential: string (main competing diagnosis/action)`,
+    notes: 'v5: Mandatory 5-section vignette structure (opening→competing history→exam→narrowing data→hinge). Two-sentence kill self-check. Anti-signposting rule with good/bad examples. Fixes nbme_quality validator failures on early hinge placement and over-signposting.',
   },
 
   // ─── MEDICAL VALIDATOR ───
@@ -1116,16 +1152,23 @@ DIFFICULTY DECOMPOSITION:
 6. OPTION FRAMES — STRICT HOMOGENEITY RULE:
 Pre-specify ALL 5 answer choices (A-E). EVERY option MUST be from the SAME action class.
 
-HOMOGENEITY MEANS:
-- If option_action_class is "medications": ALL 5 options are specific drugs or drug combinations
-- If option_action_class is "immediate_interventions": ALL 5 are immediate clinical actions at the same level of specificity
-- If option_action_class is "diagnostic_tests": ALL 5 are specific tests
-- If option_action_class is "reperfusion_strategies": ALL 5 are specific reperfusion approaches
+HOMOGENEITY MEANS all 5 options are THE SAME TYPE OF THING:
+- "vasopressors": norepinephrine, vasopressin, epinephrine, dobutamine, phenylephrine
+- "antibiotic_regimens": vanc+pip-tazo, vanc+cefepime, vanc+meropenem, ceftriaxone+azithromycin, monotherapy levofloxacin
+- "resuscitation_fluids": normal saline, lactated Ringer's, albumin, packed RBCs, hydroxyethyl starch
+- "antiarrhythmics": amiodarone, procainamide, lidocaine, sotalol, flecainide
+- "reperfusion_strategies": primary PCI, fibrinolysis with alteplase, fibrinolysis with tenecteplase, rescue PCI after failed fibrinolysis, conservative management
+- "diagnostic_tests": CT angiography, V/Q scan, d-dimer, lower extremity ultrasound, echocardiography
+
+CRITICAL: Do NOT use broad classes like "immediate_interventions" or "management_steps." These are too broad and lead to mixing drugs with procedures with diagnostics. Instead, pick a NARROW subcategory where all 5 options are genuinely the same type of clinical action.
+
+If a topic involves multiple management categories (e.g., Sepsis needs fluids AND vasopressors AND antibiotics), pick THE ONE category where the decision is hardest and most nuanced. The other categories become background facts in the vignette.
 
 HOMOGENEITY FAILURES (auto-fail):
-- Mixing a procedure (PCI) with medications (aspirin) with diagnostics (echocardiogram) — these are DIFFERENT classes
-- Mixing specific drugs with general categories — "aspirin 325mg" next to "supportive care"
+- Mixing a procedure (intubation) with medications (norepinephrine) with diagnostics (CT scan) — these are DIFFERENT classes even if all are "immediate"
+- Mixing specific drugs with general categories — "norepinephrine infusion" next to "hemodynamic support"
 - Having one option that is clearly absurd or clearly from a different stage of care
+- Using "management_steps" or "immediate_interventions" as the option_action_class — TOO BROAD
 
 Each option_frame requires:
    - id: "A" through "E"
