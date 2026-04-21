@@ -27,6 +27,35 @@ export interface Question {
   competing_differential: string | null;
   visual_specs: unknown[] | null;
   blueprint_node: { shelf: string; topic: string } | null;
+  // v22 UWorld-equivalent explanation depth
+  medicine_deep_dive: {
+    pathophysiology: string;
+    diagnostic_criteria: string;
+    management_algorithm: string;
+    monitoring_and_complications: string;
+    high_yield_associations: string;
+  } | null;
+  comparison_table: {
+    confusion_set_id: string | null;
+    condition_a: string;
+    condition_b: string;
+    rows: Array<{ feature: string; condition_a_value: string; condition_b_value: string }>;
+  } | null;
+  pharmacology_notes: Array<{
+    drug: string;
+    appears_as: 'correct_answer' | 'distractor';
+    mechanism: string;
+    major_side_effects: string[];
+    critical_contraindications: string[];
+    monitoring: string;
+    key_interaction: string | null;
+  }> | null;
+  image_pointer: {
+    image_type: string;
+    reference_id: string;
+    license_tag: string;
+    alt_text: string;
+  } | null;
 }
 
 type Phase = 'answering' | 'reviewing' | 'complete';

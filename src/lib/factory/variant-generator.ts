@@ -19,9 +19,127 @@ import type {
   ItemPlanRow,
   QuestionSkeletonRow,
   BlueprintNodeRow,
+  ConfusionSetRow,
+  CasePlanRow,
 } from '@/lib/types/database';
 import * as agents from './agents';
+import { topicSourceMap } from './source-packs/topic-source-map';
+import { loadPack } from './source-packs/index';
+import type { SourcePack } from './source-packs/types';
+import type { DrugOption } from './agents/explanation-writer';
 import { randomUUID } from 'crypto';
+
+/**
+ * v22 — Regenerate ONLY the explanation fields on an existing item_draft.
+ * Preserves vignette/options/correct_answer; re-runs explanation_writer v5
+ * against the expanded contract (medicine_deep_dive, comparison_table,
+ * pharmacology_notes, image_pointer). Intended for upgrading already-published
+ * items to the new shape without re-validating the vignette.
+ */
+export async function regenerateExplanationOnly(
+  sourceDraftId: string,
+): Promise<{ success: boolean; error?: string; tokensUsed: number }> {
+  const supabase = createAdminClient();
+  const context: AgentContext = { pipelineRunId: randomUUID(), mockMode: false };
+
+  const { data: draftData, error: draftErr } = await supabase
+    .from('item_draft')
+    .select('*')
+    .eq('id', sourceDraftId)
+    .single();
+  if (draftErr || !draftData) {
+    return { success: false, error: `draft not found: ${draftErr?.message}`, tokensUsed: 0 };
+  }
+  const draft = draftData as ItemDraftRow;
+  if (!draft.case_plan_id) {
+    return { success: false, error: 'draft has no case_plan_id — only v2 drafts can be explanation-regenerated', tokensUsed: 0 };
+  }
+
+  const [casePlanResult, nodeResult] = await Promise.all([
+    supabase.from('case_plan').select('*').eq('id', draft.case_plan_id).single(),
+    supabase.from('blueprint_node').select('*').eq('id', draft.blueprint_node_id).single(),
+  ]);
+  if (!casePlanResult.data || !nodeResult.data) {
+    return { success: false, error: 'case_plan or blueprint_node missing', tokensUsed: 0 };
+  }
+  const casePlan = casePlanResult.data as CasePlanRow & { target_confusion_set_id?: string | null };
+  const node = nodeResult.data as BlueprintNodeRow;
+
+  const [cardResult, factsResult] = await Promise.all([
+    supabase.from('algorithm_card').select('*').eq('id', casePlan.algorithm_card_id).single(),
+    supabase.from('fact_row').select('*').eq('algorithm_card_id', casePlan.algorithm_card_id),
+  ]);
+  if (!cardResult.data) {
+    return { success: false, error: 'algorithm_card missing', tokensUsed: 0 };
+  }
+  const card = cardResult.data as AlgorithmCardRow;
+  const facts = (factsResult.data ?? []) as FactRowRow[];
+
+  let confusionSet: ConfusionSetRow | null = null;
+  if (casePlan.target_confusion_set_id) {
+    const { data: cs } = await supabase
+      .from('confusion_sets')
+      .select('*')
+      .eq('id', casePlan.target_confusion_set_id)
+      .single();
+    confusionSet = (cs as ConfusionSetRow | null) ?? null;
+  }
+
+  // Inline drug-option resolution (mirrors pipeline-v2 logic)
+  const config = topicSourceMap[node.topic];
+  const drugOptions: DrugOption[] = [];
+  if (config) {
+    const packIds = [config.primary, ...(config.secondary ?? []).map((s) => s.source_pack_id)];
+    const packs = (await Promise.all(packIds.map((id) => loadPack(id)))).filter(
+      (p): p is SourcePack => p !== null,
+    );
+    const selections = packs.flatMap((p) => p.drug_selection ?? []);
+    const options = [
+      { letter: 'A' as const, text: draft.choice_a ?? '' },
+      { letter: 'B' as const, text: draft.choice_b ?? '' },
+      { letter: 'C' as const, text: draft.choice_c ?? '' },
+      { letter: 'D' as const, text: draft.choice_d ?? '' },
+      { letter: 'E' as const, text: draft.choice_e ?? '' },
+    ];
+    const seen = new Set<string>();
+    for (const opt of options) {
+      const lower = opt.text.toLowerCase();
+      for (const sel of selections) {
+        if (!sel.pharmacology) continue;
+        const candidates = [sel.first_line.drug, ...sel.alternatives.map((a) => a.drug)];
+        for (const drugName of candidates) {
+          const token = drugName.split(/[\s,(]+/)[0]?.toLowerCase();
+          if (!token || token.length < 4) continue;
+          if (lower.includes(token) && !seen.has(token)) {
+            seen.add(token);
+            drugOptions.push({
+              drug: drugName,
+              appears_as: opt.letter === draft.correct_answer ? 'correct_answer' : 'distractor',
+              pharmacology: sel.pharmacology,
+            });
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  const result = await agents.explanationWriter.run(context, {
+    draft,
+    card,
+    facts,
+    node,
+    transferRuleText: casePlan.transfer_rule_text,
+    confusionSet,
+    drugOptions,
+  });
+
+  return {
+    success: result.success,
+    error: result.success ? undefined : result.error,
+    tokensUsed: result.tokensUsed,
+  };
+}
 
 interface VariantConfig {
   mockMode?: boolean;

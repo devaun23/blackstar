@@ -83,6 +83,15 @@ export interface SeverityDefinition {
   provenance: Provenance;
 }
 
+/** Per-drug board-testable pharmacology (v22 — consumed by explanation_writer). */
+export interface DrugPharmacology {
+  mechanism: string;                         // one clean sentence
+  major_side_effects: string[];              // ≥2 that a board would test
+  critical_contraindications: string[];      // absolute contraindications
+  monitoring: string;                        // labs/vitals/ECG + intervals
+  key_interaction: string | null;            // the single most important interaction
+}
+
 /** Drug selection guidance — enables drug-comparison decision forks. */
 export interface DrugSelection {
   selection_id: string;
@@ -92,6 +101,7 @@ export interface DrugSelection {
   alternatives: { drug: string; dose?: string; when: string }[];
   contraindicated: { drug: string; reason: string }[];
   selection_factors?: string[];  // patient factors that change the choice
+  pharmacology?: DrugPharmacology;  // v22 board-testable teaching for the first_line drug
   normalized_claim: string;
   provenance: Provenance;
 }

@@ -12,7 +12,7 @@ export async function GET(request: Request) {
 
   let query = supabase
     .from('item_draft')
-    .select('id, vignette, stem, choice_a, choice_b, choice_c, choice_d, choice_e, correct_answer, why_correct, why_wrong_a, why_wrong_b, why_wrong_c, why_wrong_d, why_wrong_e, high_yield_pearl, reasoning_pathway, blueprint_node_id, blueprint_node(shelf, system, topic)')
+    .select('id, vignette, stem, choice_a, choice_b, choice_c, choice_d, choice_e, correct_answer, why_correct, why_wrong_a, why_wrong_b, why_wrong_c, why_wrong_d, why_wrong_e, high_yield_pearl, reasoning_pathway, medicine_deep_dive, comparison_table, pharmacology_notes, image_pointer, blueprint_node_id, blueprint_node(shelf, system, topic)')
     .eq('status', 'published')
     .order('created_at', { ascending: false });
 

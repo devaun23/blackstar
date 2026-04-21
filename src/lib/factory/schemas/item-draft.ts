@@ -52,6 +52,40 @@ export const explanationOutputSchema = z.object({
   explanation_gap_coaching: z.string().nullable().optional(),
   // v21 Counterfactual — teaches rule boundary: "If [X changed], answer shifts to [Y]"
   explanation_counterfactual: z.string().nullable().optional(),
+  // v22 UWorld-equivalent depth — medicine_deep_dive is strictly required so a missing
+  // field forces Zod retry inside callClaude instead of silently writing null.
+  medicine_deep_dive: z.object({
+    pathophysiology: z.string().min(80, 'pathophysiology must be at least 80 chars (2-3 sentences)'),
+    diagnostic_criteria: z.string().min(40),
+    management_algorithm: z.string().min(120, 'full management, not just the tested step'),
+    monitoring_and_complications: z.string().min(40),
+    high_yield_associations: z.string().min(20),
+  }),
+  comparison_table: z.object({
+    confusion_set_id: z.string().uuid().nullable(),
+    condition_a: z.string(),
+    condition_b: z.string(),
+    rows: z.array(z.object({
+      feature: z.string(),
+      condition_a_value: z.string(),
+      condition_b_value: z.string(),
+    })).min(5, 'at least 5 discriminating features').max(8),
+  }).nullable().optional(),
+  pharmacology_notes: z.array(z.object({
+    drug: z.string(),
+    appears_as: z.enum(['correct_answer', 'distractor']),
+    mechanism: z.string().min(20),
+    major_side_effects: z.array(z.string()).min(2),
+    critical_contraindications: z.array(z.string()),
+    monitoring: z.string(),
+    key_interaction: z.string().nullable(),
+  })).nullable().optional(),
+  image_pointer: z.object({
+    image_type: z.enum(['ecg','cxr','ct','mri','ultrasound','skin_lesion','pathology','peripheral_smear','xray','lab_panel']),
+    reference_id: z.string(),
+    license_tag: z.string(),
+    alt_text: z.string(),
+  }).nullable().optional(),
 });
 
 export type ItemDraftInput = z.infer<typeof itemDraftSchema>;

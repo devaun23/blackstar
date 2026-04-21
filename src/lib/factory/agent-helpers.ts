@@ -16,9 +16,10 @@ export async function runAgent<TIn, TOut extends z.ZodType>(options: {
   input: TIn;
   outputSchema: TOut;
   model?: string;
+  maxTokens?: number;
   buildUserMessage: (input: TIn) => Record<string, string> | Promise<Record<string, string>>;
 }): Promise<AgentOutput<z.infer<TOut>>> {
-  const { agentType, context, input, outputSchema, buildUserMessage, model } = options;
+  const { agentType, context, input, outputSchema, buildUserMessage, model, maxTokens } = options;
 
   const startTime = Date.now();
 
@@ -44,6 +45,7 @@ export async function runAgent<TIn, TOut extends z.ZodType>(options: {
       userMessage,
       outputSchema,
       ...(model ? { model } : {}),
+      ...(maxTokens ? { maxTokens } : {}),
     });
 
     return {

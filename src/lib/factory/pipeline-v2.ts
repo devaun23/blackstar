@@ -17,12 +17,74 @@ import type {
   AgentLogEntry,
   CasePlanRow,
   QuestionSkeletonRow,
+  ConfusionSetRow,
 } from '@/lib/types/database';
 import * as agents from './agents';
 import { checkSourceSufficiency } from './source-packs/sufficiency';
 import { topicSourceMap } from './source-packs/topic-source-map';
+import { loadPack } from './source-packs/index';
+import type { SourcePack } from './source-packs/types';
+import type { DrugOption } from './agents/explanation-writer';
 import { validateVisualSpecs } from './validators/visual-spec-validator';
 import { runJuryValidation, DEFAULT_JURY_CONFIG, type JuryConfig, type JuryVerdict } from './jury';
+
+/**
+ * Resolve all drug_selection entries across the packs that cover this topic,
+ * then match draft options (A-E) against drug names. Returns DrugOption[] with
+ * board-testable pharmacology for every matching drug. Empty array means no
+ * pharmacology_notes will be generated (e.g. diagnosis-only question).
+ */
+async function resolveDrugOptions(
+  topic: string,
+  draft: ItemDraftRow
+): Promise<DrugOption[]> {
+  const config = topicSourceMap[topic];
+  if (!config) return [];
+  const packIds = [config.primary, ...(config.secondary ?? []).map((s) => s.source_pack_id)];
+  const packs = (await Promise.all(packIds.map((id) => loadPack(id)))).filter(
+    (p): p is SourcePack => p !== null
+  );
+  const selections = packs.flatMap((p) => p.drug_selection ?? []);
+
+  const options: Array<{ letter: 'A'|'B'|'C'|'D'|'E'; text: string }> = [
+    { letter: 'A', text: draft.choice_a ?? '' },
+    { letter: 'B', text: draft.choice_b ?? '' },
+    { letter: 'C', text: draft.choice_c ?? '' },
+    { letter: 'D', text: draft.choice_d ?? '' },
+    { letter: 'E', text: draft.choice_e ?? '' },
+  ];
+
+  const matched: DrugOption[] = [];
+  const seenDrugs = new Set<string>();
+
+  for (const opt of options) {
+    const lowerOpt = opt.text.toLowerCase();
+    for (const sel of selections) {
+      if (!sel.pharmacology) continue;
+      // Try matching against first_line.drug and alternative drug names
+      const candidates = [
+        sel.first_line.drug,
+        ...sel.alternatives.map((a) => a.drug),
+      ];
+      for (const drugName of candidates) {
+        // Token-match against the first word of the drug name (handles "Aspirin 325mg ...")
+        const primaryToken = drugName.split(/[\s,(]+/)[0]?.toLowerCase();
+        if (!primaryToken || primaryToken.length < 4) continue;
+        if (lowerOpt.includes(primaryToken) && !seenDrugs.has(primaryToken)) {
+          seenDrugs.add(primaryToken);
+          matched.push({
+            drug: drugName,
+            appears_as: opt.letter === draft.correct_answer ? 'correct_answer' : 'distractor',
+            pharmacology: sel.pharmacology,
+          });
+          break;
+        }
+      }
+    }
+  }
+
+  return matched;
+}
 
 const MAX_REPAIR_CYCLES = 5;
 
@@ -159,22 +221,76 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
       }
     }
 
-    // ─── STEP 2: Algorithm Extraction ───
-    const extractionOutput = await trackStep('algorithm_extractor', () =>
-      agents.algorithmExtractor.run(context, node)
-    );
-
-    const { data: card } = await supabase
+    // ─── STEP 2: Algorithm Extraction (with caching) ───
+    // Check for a recent algorithm card for this topic to skip redundant extraction.
+    // Same topic produces the same clinical algorithm — no need to re-extract every run.
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const { data: cachedCard } = await supabase
       .from('algorithm_card')
-      .select('*')
-      .eq('id', extractionOutput.algorithmCardId)
-      .single();
-    const { data: facts } = await supabase
-      .from('fact_row')
-      .select('*')
-      .eq('algorithm_card_id', extractionOutput.algorithmCardId);
+      .select('id')
+      .eq('topic', node.topic)
+      .gte('created_at', sevenDaysAgo)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
 
-    if (!card || !facts) throw new Error('Failed to fetch card/facts after extraction');
+    let card: AlgorithmCardRow;
+    let facts: FactRowRow[];
+
+    if (cachedCard) {
+      // Reuse cached card — skip the API call entirely
+      const { data: cachedCardFull } = await supabase
+        .from('algorithm_card')
+        .select('*')
+        .eq('id', cachedCard.id)
+        .single();
+      const { data: cachedFacts } = await supabase
+        .from('fact_row')
+        .select('*')
+        .eq('algorithm_card_id', cachedCard.id);
+
+      if (cachedCardFull && cachedFacts) {
+        card = cachedCardFull as AlgorithmCardRow;
+        facts = cachedFacts as FactRowRow[];
+        // Log cache hit
+        const cacheLog: AgentLogEntry = {
+          agent: 'algorithm_extractor',
+          started_at: new Date().toISOString(),
+          completed_at: new Date().toISOString(),
+          tokens_used: 0,
+          status: 'completed',
+        };
+        agentLog.push(cacheLog);
+        steps.push({
+          agent: 'algorithm_extractor',
+          success: true,
+          tokensUsed: 0,
+          durationMs: 0,
+          output: { algorithmCardId: cachedCard.id, cached: true },
+        });
+      } else {
+        throw new Error('Failed to fetch cached card/facts');
+      }
+    } else {
+      // No cache — run extraction
+      const extractionOutput = await trackStep('algorithm_extractor', () =>
+        agents.algorithmExtractor.run(context, node)
+      );
+
+      const { data: freshCard } = await supabase
+        .from('algorithm_card')
+        .select('*')
+        .eq('id', extractionOutput.algorithmCardId)
+        .single();
+      const { data: freshFacts } = await supabase
+        .from('fact_row')
+        .select('*')
+        .eq('algorithm_card_id', extractionOutput.algorithmCardId);
+
+      if (!freshCard || !freshFacts) throw new Error('Failed to fetch card/facts after extraction');
+      card = freshCard as AlgorithmCardRow;
+      facts = freshFacts as FactRowRow[];
+    }
 
     // ─── PRE-FETCH: Ontology lookups for case planner ───
     const [
@@ -359,6 +475,74 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
       }
     }
 
+    // ─── STEP 6.75: Answer Position Randomization ───
+    // Shuffle choice positions so the correct answer isn't always A.
+    // NBME distributes correct answers roughly equally across A-E.
+    {
+      const { data: shuffleDraft } = await supabase
+        .from('item_draft')
+        .select('correct_answer, choice_a, choice_b, choice_c, choice_d, choice_e, why_wrong_a, why_wrong_b, why_wrong_c, why_wrong_d, why_wrong_e')
+        .eq('id', draftId)
+        .single();
+
+      if (shuffleDraft) {
+        const letters = ['A', 'B', 'C', 'D', 'E'] as const;
+        const currentCorrect = shuffleDraft.correct_answer?.toUpperCase() as typeof letters[number];
+
+        // Fisher-Yates shuffle to get a random permutation
+        const shuffled = [...letters];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+
+        // Build the mapping: original position → new position
+        // shuffled[i] is the original letter that goes to position letters[i]
+        const choiceKey = (l: string) => `choice_${l.toLowerCase()}` as keyof typeof shuffleDraft;
+        const whyKey = (l: string) => `why_wrong_${l.toLowerCase()}` as keyof typeof shuffleDraft;
+
+        const newChoices: Record<string, string | null> = {};
+        const newWhyWrongs: Record<string, string | null> = {};
+        let newCorrect = currentCorrect;
+
+        for (let i = 0; i < 5; i++) {
+          const targetPos = letters[i];      // new position (A, B, C, D, E)
+          const sourcePos = shuffled[i];      // original position being moved here
+          newChoices[choiceKey(targetPos)] = shuffleDraft[choiceKey(sourcePos)] as string | null;
+          newWhyWrongs[whyKey(targetPos)] = shuffleDraft[whyKey(sourcePos)] as string | null;
+          if (sourcePos === currentCorrect) {
+            newCorrect = targetPos;
+          }
+        }
+
+        await supabase
+          .from('item_draft')
+          .update({
+            ...newChoices,
+            ...newWhyWrongs,
+            correct_answer: newCorrect,
+          })
+          .eq('id', draftId);
+
+        // Also update skeleton option_frames to match the new ordering
+        const skel = skeleton as QuestionSkeletonRow;
+        if (skel.option_frames?.length === 5) {
+          const newFrames = letters.map((targetPos, i) => {
+            const sourcePos = shuffled[i];
+            const sourceFrame = skel.option_frames!.find(f => f.id === sourcePos);
+            return sourceFrame ? { ...sourceFrame, id: targetPos } : skel.option_frames![i];
+          });
+          await supabase
+            .from('question_skeleton')
+            .update({
+              option_frames: newFrames,
+              correct_option_frame_id: newCorrect,
+            })
+            .eq('id', skeleton.id);
+        }
+      }
+    }
+
     // ─── STEP 7: Validation Loop ───
     // Jury mode (P1/P2): On cycle 0, medical + exam_translation validators run through
     // a multi-model jury (Opus + Sonnet + Haiku). On subsequent cycles, single-model only.
@@ -366,6 +550,8 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
     const medicalSampleCount = config.validatorSampleCount ?? 3;
     const juryVerdicts: JuryVerdict[] = [];
     let passed = false;
+    // Track scores across cycles for flat-line early kill
+    const cycleScores: Array<{ failCount: number; totalScore: number }> = [];
     for (let cycle = 0; cycle < MAX_REPAIR_CYCLES; cycle++) {
       const { data: draft } = await supabase
         .from('item_draft')
@@ -575,7 +761,17 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
         agentLog.push(juryTriggerLog as AgentLogEntry);
       }
 
-      // Re-check after potential jury override
+      // ─── Soft pass for nbme_quality polish issues ───
+      // nbme_quality at score ≥5 is a polish issue (sentence structure, prohibited phrases),
+      // not a hard quality failure (medical accuracy, hinge validity). Let it pass the pipeline
+      // and defer polish to human review, instead of sending to repair (which breaks medical accuracy).
+      const nbmeResult = validatorResults[2]; // index 2 = nbme_quality
+      if (!nbmeResult.passed && nbmeResult.score !== null && nbmeResult.score >= 5) {
+        nbmeResult.passed = true;
+        console.log(`[pipeline-v2] nbme_quality soft-pass: score ${nbmeResult.score} ≥ 5 (polish issues deferred to human review)`);
+      }
+
+      // Re-check after potential jury override + soft pass
       const allPassedFinal = validatorResults.every((r) => r.passed);
 
       if (allPassedFinal) {
@@ -594,6 +790,32 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
           .update({ status: 'killed' })
           .eq('id', draftId);
         break;
+      }
+
+      // ─── Flat-line early kill ───
+      // Track aggregate scores across cycles. If no improvement over 2 consecutive
+      // cycles, the question is unfixable — kill early instead of burning 3 more cycles.
+      const failCount = validatorResults.filter((r) => !r.passed).length;
+      const totalScore = validatorResults.reduce((sum, r) => sum + (r.score ?? 0), 0);
+      cycleScores.push({ failCount, totalScore });
+
+      if (cycleScores.length >= 3) {
+        const last3 = cycleScores.slice(-3);
+        const scoresFlat = last3.every((s) =>
+          Math.abs(s.totalScore - last3[0].totalScore) < 2.5 &&
+          s.failCount === last3[0].failCount
+        );
+        if (scoresFlat) {
+          console.warn(
+            `[pipeline-v2] Flat-line detected: scores unchanged for 3 cycles ` +
+            `(${last3.map(s => `${s.failCount}F/${s.totalScore.toFixed(1)}`).join(' → ')}). Killing early.`
+          );
+          await supabase
+            .from('item_draft')
+            .update({ status: 'killed' })
+            .eq('id', draftId);
+          break;
+        }
       }
 
       if (cycle >= MAX_REPAIR_CYCLES - 1) {
@@ -633,6 +855,19 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
         .single();
 
       if (passedDraft) {
+        // v22 — resolve full confusion_set row and drug options for the writer's deep-dive layer
+        let confusionSet: ConfusionSetRow | null = null;
+        const cp = casePlan as CasePlanRow & { target_confusion_set_id?: string | null };
+        if (cp.target_confusion_set_id) {
+          const { data: cs } = await supabase
+            .from('confusion_sets')
+            .select('*')
+            .eq('id', cp.target_confusion_set_id)
+            .single();
+          confusionSet = (cs as ConfusionSetRow | null) ?? null;
+        }
+        const drugOptions = await resolveDrugOptions(node.topic, passedDraft as ItemDraftRow);
+
         await trackStep('explanation_writer', () =>
           agents.explanationWriter.run(context, {
             draft: passedDraft as ItemDraftRow,
@@ -640,6 +875,8 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
             facts: facts as FactRowRow[],
             node,
             transferRuleText: (casePlan as CasePlanRow).transfer_rule_text,
+            confusionSet,
+            drugOptions,
           })
         );
 

@@ -2,10 +2,18 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { explanationOutputSchema } from '@/lib/factory/schemas';
 import type { ExplanationOutput } from '@/lib/factory/schemas';
 import type { AgentContext, AgentOutput } from '@/lib/types/factory';
-import type { ItemDraftRow, AlgorithmCardRow, FactRowRow, BlueprintNodeRow } from '@/lib/types/database';
+import type { ItemDraftRow, AlgorithmCardRow, FactRowRow, BlueprintNodeRow, ConfusionSetRow } from '@/lib/types/database';
+import type { DrugPharmacology } from '@/lib/factory/source-packs/types';
 import { runAgent } from '../agent-helpers';
 import { getVisualCoverage } from '../seeds/visual-coverage';
 import { resolveDIContext } from '../di-loader';
+
+/** Drug appearing in the draft's options, paired with its board-testable pharmacology. */
+export interface DrugOption {
+  drug: string;
+  appears_as: 'correct_answer' | 'distractor';
+  pharmacology: DrugPharmacology;
+}
 
 interface ExplanationWriterInput {
   draft: ItemDraftRow;
@@ -14,6 +22,29 @@ interface ExplanationWriterInput {
   node?: BlueprintNodeRow;
   transferRuleText?: string;  // From case_plan — declared before the question was written
   targetCognitiveErrorId?: string;  // From case_plan — for Palmerton gap coaching
+  confusionSet?: ConfusionSetRow | null;  // v22 — drives comparison_table output
+  drugOptions?: DrugOption[];  // v22 — drives pharmacology_notes output
+}
+
+/** Render confusion-set context for the prompt. "NONE" if not applicable. */
+function renderConfusionSetBlock(cs: ConfusionSetRow | null | undefined): string {
+  if (!cs) return 'NONE';
+  const conditions = Array.isArray(cs.conditions) ? (cs.conditions as string[]) : [];
+  const clues = Array.isArray(cs.discriminating_clues) ? cs.discriminating_clues as unknown[] : [];
+  const traps = Array.isArray(cs.common_traps) ? cs.common_traps : [];
+  return JSON.stringify({
+    name: cs.name,
+    condition_a: conditions[0] ?? '',
+    condition_b: conditions[1] ?? '',
+    discriminating_clues_hint: clues,
+    common_traps: traps,
+  }, null, 2);
+}
+
+/** Render drug-options context for the prompt. "NONE" if no drug options. */
+function renderDrugOptionsBlock(drugOptions: DrugOption[] | undefined): string {
+  if (!drugOptions || drugOptions.length === 0) return 'NONE';
+  return JSON.stringify(drugOptions, null, 2);
 }
 
 /**
@@ -30,6 +61,9 @@ export async function run(
     context,
     input,
     outputSchema: explanationOutputSchema,
+    // v22 — UWorld-depth output needs headroom: deep-dive + comparison table + pharmacology cards
+    // often exceed the 4096 default. 12k leaves slack for repair and retry.
+    maxTokens: 12000,
     buildUserMessage: async (data) => {
       const topic = data.node?.topic ?? '';
       const diContext = topic ? await resolveDIContext(topic) : '';
@@ -86,6 +120,10 @@ export async function run(
         vars.palmerton_coaching_note = 'Not specified';
       }
 
+      // v22 — confusion-set context and drug-options context for the deep-dive layer
+      vars.confusion_set_block = renderConfusionSetBlock(data.confusionSet);
+      vars.drug_options_block = renderDrugOptionsBlock(data.drugOptions);
+
       return vars;
     },
   });
@@ -104,11 +142,17 @@ export async function run(
     .update(updatePayload)
     .eq('id', input.draft.id);
 
-  // If update fails due to missing columns, try without optional fields
+  // If update fails due to missing columns, try without fields whose DB columns
+  // may not yet exist. v22 columns (medicine_deep_dive etc.) ARE in the schema
+  // post-migration, so they stay in the payload; the strip covers only columns
+  // that were never added (explanation_counterfactual) or are known-volatile.
   if (error?.message?.includes('schema cache')) {
     const safePayload = { ...updatePayload };
-    // Remove fields that may not exist in the DB schema
-    for (const key of ['visual_specs', 'explanation_gap_coaching', 'explanation_counterfactual']) {
+    for (const key of [
+      'visual_specs',
+      'explanation_gap_coaching',
+      'explanation_counterfactual',
+    ]) {
       if (key in safePayload) delete safePayload[key];
     }
     const retry = await supabase

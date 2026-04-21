@@ -133,6 +133,35 @@ export interface ItemDraftRow {
   explanation_teaching_pearl: string | null;
   // v20 Palmerton gap coaching
   explanation_gap_coaching: string | null;
+  // v22 UWorld-equivalent explanation depth
+  medicine_deep_dive: {
+    pathophysiology: string;
+    diagnostic_criteria: string;
+    management_algorithm: string;
+    monitoring_and_complications: string;
+    high_yield_associations: string;
+  } | null;
+  comparison_table: {
+    confusion_set_id: string | null;
+    condition_a: string;
+    condition_b: string;
+    rows: Array<{ feature: string; condition_a_value: string; condition_b_value: string }>;
+  } | null;
+  pharmacology_notes: Array<{
+    drug: string;
+    appears_as: 'correct_answer' | 'distractor';
+    mechanism: string;
+    major_side_effects: string[];
+    critical_contraindications: string[];
+    monitoring: string;
+    key_interaction: string | null;
+  }> | null;
+  image_pointer: {
+    image_type: 'ecg'|'cxr'|'ct'|'mri'|'ultrasound'|'skin_lesion'|'pathology'|'peripheral_smear'|'xray'|'lab_panel';
+    reference_id: string;
+    license_tag: string;
+    alt_text: string;
+  } | null;
   repair_count: number;
   // v15: Human review queue
   review_status: ReviewStatus | null;
