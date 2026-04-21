@@ -359,6 +359,73 @@ export async function selectNextQuestion(
     return selectAssessmentQuestion(opts.sessionId);
   }
 
+  // ─── Calibration mode: diagnostic sweep for new users ───
+  // First 15 questions rotate through content systems to establish baseline mastery.
+  // After 15 attempts across ≥3 systems, adaptive routing takes over.
+  {
+    const { count: totalAttempts } = await supabase
+      .from('attempt_v2')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId);
+
+    if ((totalAttempts ?? 0) < 15) {
+      // Get systems the user has already been tested on
+      const { data: answeredDrafts } = await supabase
+        .from('attempt_v2')
+        .select('item_draft_id')
+        .eq('user_id', userId);
+
+      const answeredIds = new Set((answeredDrafts ?? []).map(a => a.item_draft_id).filter(Boolean));
+
+      // Find published questions from systems not yet covered
+      const { data: candidates } = await supabase
+        .from('item_draft')
+        .select('id, blueprint_node_id')
+        .eq('status', 'published')
+        .not('id', 'in', `(${[...answeredIds].join(',') || '00000000-0000-0000-0000-000000000000'})`)
+        .limit(50);
+
+      if (candidates && candidates.length > 0) {
+        // Get blueprint nodes to check systems
+        const nodeIds = [...new Set(candidates.map(c => c.blueprint_node_id).filter(Boolean))];
+        const { data: nodes } = await supabase
+          .from('blueprint_node')
+          .select('id, system')
+          .in('id', nodeIds);
+
+        const nodeSystemMap = new Map((nodes ?? []).map(n => [n.id, n.system]));
+
+        // Get systems already covered
+        const coveredSystems = new Set<string>();
+        for (const id of answeredIds) {
+          const { data: draft } = await supabase
+            .from('item_draft')
+            .select('blueprint_node_id')
+            .eq('id', id)
+            .single();
+          if (draft?.blueprint_node_id) {
+            const system = nodeSystemMap.get(draft.blueprint_node_id);
+            if (system) coveredSystems.add(system);
+          }
+        }
+
+        // Prefer questions from uncovered systems
+        const uncoveredCandidates = candidates.filter(c => {
+          const system = nodeSystemMap.get(c.blueprint_node_id ?? '');
+          return system && !coveredSystems.has(system);
+        });
+
+        const pool = uncoveredCandidates.length > 0 ? uncoveredCandidates : candidates;
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        return {
+          questionId: pick.id,
+          questionType: 'item_draft',
+          strategy: { dimensionType: 'topic', dimensionId: 'calibration', reason: 'calibration_sweep' },
+        };
+      }
+    }
+  }
+
   // 1. If we have a repair action from the last attempt, follow it (highest priority)
   if (lastRepairAction && lastDimensionType && lastDimensionId) {
     const repairResult = await selectForRepair(

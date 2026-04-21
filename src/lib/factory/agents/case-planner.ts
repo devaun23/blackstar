@@ -113,6 +113,23 @@ export async function run(
       dbPayload[key] = (result.data as Record<string, unknown>)[key];
     }
   }
+
+  // Compute variant_group_id: hash of transfer_rule_id + confusion_set_id
+  // Questions in the same variant group test the same rule/confusion set and
+  // should be treated as variants for spaced review (never served in same session).
+  const trId = dbPayload.target_transfer_rule_id as string | null;
+  const csId = dbPayload.target_confusion_set_id as string | null;
+  if (trId || csId) {
+    const raw = `${trId ?? 'none'}:${csId ?? 'none'}`;
+    // Simple hash → UUID-like string for variant_group_id
+    let hash = 0;
+    for (let i = 0; i < raw.length; i++) {
+      hash = ((hash << 5) - hash + raw.charCodeAt(i)) | 0;
+    }
+    const hex = Math.abs(hash).toString(16).padStart(8, '0');
+    dbPayload.variant_group_id = `${hex.slice(0, 8)}-${hex.slice(0, 4)}-4${hex.slice(1, 4)}-a${hex.slice(1, 4)}-${hex.padEnd(12, '0').slice(0, 12)}`;
+  }
+
   const { data: plan, error } = await supabase
     .from('case_plan')
     .insert(dbPayload)
