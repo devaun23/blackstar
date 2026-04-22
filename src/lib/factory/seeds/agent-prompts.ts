@@ -1818,7 +1818,7 @@ Return a JSON object with EVERY field populated. Re-emit all fields on retries.
       "action_class_id": UUID or null (optional)
     }
 - correct_option_frame_id: "A"-"E" (from case_plan; must equal the id of the frame with archetype="correct")
-- error_mapping: object mapping each wrong-option letter to { error_name: string, is_primary_competitor?: boolean } — use non-null strings (not null). For the correct option's letter, use the string "correct" as the error_name. Never emit null values inside this object.
+- error_mapping: object mapping each option letter to a STRING error name (NOT an object). Shape: {"A": "correct", "B": "reflex_response_to_finding", "C": "...", "D": "...", "E": "..."}. For the correct option's letter, use the literal string "correct". DO NOT wrap values as objects. DO NOT use null — use string values only.
 - hinge_placement: string (REQUIRED — where the hinge appears)
 - hinge_description: string (REQUIRED — what the pivotal finding is)
 - hinge_depth: "surface"|"moderate"|"deep" (must match case_plan.hinge_depth_target)
@@ -2006,10 +2006,12 @@ Board review reference material (enriches question design — clinical truth com
 Design the cognitive architecture. Return a single JSON object. EVERY field below is REQUIRED unless marked (optional) — do NOT omit any required field. If you previously returned JSON and a required field was missing, re-emit with ALL fields present in this new attempt:
 
 {
-  "cognitive_operation_type": "rule_application" | "threshold_recognition" | "diagnosis_disambiguation" | "management_sequencing" | "risk_stratification",
+  "cognitive_operation_type": "rule_application" | "threshold_recognition" | "diagnosis_disambiguation" | "management_sequencing" | "risk_stratification"
+    (note: "management_sequencing" is a COGNITIVE operation, not a decision fork type. If the question tests sequencing, set decision_fork_type to "timing_decision" or "management_tradeoff" — NEVER use "management_sequencing" as a decision_fork_type value),
   "transfer_rule_text": string (>=10 chars, format: "When [pattern], always [action] before [tempting alternative]"),
   "hinge_depth_target": "surface" | "moderate" | "deep",
-  "decision_fork_type": "competing_diagnoses" | "management_tradeoff" | "contraindication" | "timing_decision" | "severity_ambiguity",
+  "decision_fork_type": "competing_diagnoses" | "management_tradeoff" | "contraindication" | "timing_decision" | "severity_ambiguity"
+    (STRICT: only these 5 values. "management_sequencing" is NOT a valid decision_fork_type — use "timing_decision" or "management_tradeoff" for sequencing questions),
   "decision_fork_description": string (>=10 chars),
   "option_action_class": string (narrow category, e.g. "vasopressors", NOT "management_steps"),
   "option_frames": [
