@@ -44,6 +44,8 @@ export interface PipelineConfig {
   yieldTier?: string;        // Filter for selector
   mockMode?: boolean;        // Use mock responses
   skipExplanation?: boolean; // Skip explanation writing + publish (harness mode)
+  skipRubricEvaluator?: boolean; // v26: Skip Master Rubric evaluation (dev/harness mode)
+  skipRubricScorer?: boolean; // v26: Skip HealthBench-style 8-dim rubric scoring (dev/harness/cost mode — adds ~4k tokens/item)
   juryEnabled?: boolean;     // Enable multi-model jury on high-stakes validators
   validatorSampleCount?: number; // Self-consistency sampling: run medical validator N times (default 1)
   // v23: Elite-Tutor Rule 2 — batch-time difficulty hint; passed to case_planner v5

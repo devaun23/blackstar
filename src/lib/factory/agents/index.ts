@@ -15,3 +15,13 @@ export * as explanationWriter from './explanation-writer';
 export * as casePlanner from './case-planner';
 export * as skeletonWriter from './skeleton-writer';
 export * as skeletonValidator from './skeleton-validator';
+
+// v25 safety gate
+export * as contraindicationValidator from './contraindication-validator';
+
+// v26 measurement science
+export * as coverageValidator from './coverage-validator';
+export * as rubricScorer from './rubric-scorer';
+
+// v26 Master Rubric — publish-decision authority
+export * as rubricEvaluator from './rubric-evaluator';

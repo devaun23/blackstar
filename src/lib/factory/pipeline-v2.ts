@@ -23,6 +23,7 @@ import * as agents from './agents';
 import { checkSourceSufficiency } from './source-packs/sufficiency';
 import { topicSourceMap } from './source-packs/topic-source-map';
 import { loadPack } from './source-packs/index';
+import { getSourcePackIds } from './source-loader';
 import type { SourcePack } from './source-packs/types';
 import type { DrugOption } from './agents/explanation-writer';
 import { validateVisualSpecs } from './validators/visual-spec-validator';
@@ -395,12 +396,16 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
 
     let draftId = vignetteOutput.itemDraftId;
 
-    // Link draft to case_plan and skeleton
+    // Link draft to case_plan and skeleton, and snapshot the source packs
+    // consulted at generation time. Persisted (not re-derived at read time) so
+    // the historical record survives future topicSourceMap changes.
+    const sourcePacksUsed = getSourcePackIds(node.topic);
     await supabase
       .from('item_draft')
       .update({
         case_plan_id: casePlan.id,
         question_skeleton_id: skeleton.id,
+        source_packs_used: sourcePacksUsed,
       })
       .eq('id', draftId);
 
@@ -555,6 +560,12 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
     let passed = false;
     // Track scores across cycles for flat-line early kill
     const cycleScores: Array<{ failCount: number; totalScore: number }> = [];
+    // v25 CCV circuit breaker: count absolute-contraindication auto-rejects on this
+    // algorithm_card within this pipeline run. At count >= 2 we escalate to human
+    // review instead of asking case_planner to try yet again — a registry entry that
+    // rejects twice is either mis-classified or flags a card that can't be safely
+    // keyed with this intervention, and more cycles won't help.
+    let ccvAbsoluteRejectCount = 0;
     for (let cycle = 0; cycle < MAX_REPAIR_CYCLES; cycle++) {
       const { data: draft } = await supabase
         .from('item_draft')
@@ -655,13 +666,32 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
           })
         ),
         examTranslationPromise,
+        // v25: Contraindication Cross-Check Validator (CCV). Safety gate.
+        // Runs inside the loop so it re-fires after every repair cycle — a repair
+        // that introduces "post-op day 5" into a thrombolysis stem must not bypass
+        // the gate. See src/lib/factory/agents/contraindication-validator.ts.
+        trackStep('contraindication_validator' as AgentType, () =>
+          agents.contraindicationValidator.run(context, {
+            draft: draft as ItemDraftRow,
+            card: card as AlgorithmCardRow,
+          })
+        ),
+        // v26: Q-matrix coverage validator. Deterministic — no Claude call.
+        // Guards against pipeline regression producing items the learner engine
+        // can't route on. Hard-gates topic+cognitive_error+hinge_clue_type+
+        // action_class; soft-warns transfer_rule+confusion_set.
+        trackStep('coverage_validator' as unknown as AgentType, () =>
+          agents.coverageValidator.run(context, {
+            draft: draft as ItemDraftRow,
+          })
+        ),
       ]);
 
       const allPassed = validatorResults.every((r) => r.passed);
 
       // ─── Validator Disagreement Logging ───
       // Track which validators passed vs failed to identify calibration issues
-      const validatorTypes = ['medical', 'blueprint', 'nbme_quality', 'option_symmetry', 'exam_translation'] as const;
+      const validatorTypes = ['medical', 'blueprint', 'nbme_quality', 'option_symmetry', 'exam_translation', 'contraindication', 'coverage'] as const;
       const disagreementEntry = {
         cycle,
         validators: validatorTypes.map((vt, i) => ({
@@ -772,6 +802,66 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
       if (!nbmeResult.passed && nbmeResult.score !== null && nbmeResult.score >= 5) {
         nbmeResult.passed = true;
         console.log(`[pipeline-v2] nbme_quality soft-pass: score ${nbmeResult.score} ≥ 5 (polish issues deferred to human review)`);
+      }
+
+      // ─── v25 CCV routing override ───
+      // CCV is validator index 5. Its result carries structured trigger data in
+      // raw_output, but the relevant routing is derivable from issues_found +
+      // score alone:
+      //   - trigger_found='unknown' (no registry match on an intervention OR
+      //     fail-closed on Claude error) -> always human review; no repair can fix it.
+      //   - trigger_found='yes' with ANY relative-severity trigger -> human review;
+      //     MS4 decides whether to drop the stem detail or change the key.
+      //   - trigger_found='yes' with only absolute-severity triggers -> repair loop
+      //     for the first 2 attempts (case_planner can try a different key or drop
+      //     the triggering stem detail), then escalate at attempt 3.
+      // The CCV writes the raw structured data into validator_report.raw_output,
+      // so the routing below reads from there rather than re-running analysis.
+      const ccvResult = validatorResults[5];
+      const ccvRaw = (ccvResult as unknown as { raw_output?: unknown }).raw_output;
+      // The CCV return type is a superset of ValidatorReportInput; the extra
+      // fields (trigger_found, triggers) live on the same object.
+      const ccvFull = ccvResult as unknown as {
+        passed: boolean;
+        score: number;
+        issues_found: string[];
+        trigger_found?: 'yes' | 'no' | 'unknown';
+        triggers?: Array<{ severity: 'absolute' | 'relative' | 'unknown' }>;
+      };
+      void ccvRaw;
+      const ccvTriggerFound = ccvFull.trigger_found ?? 'no';
+      const ccvTriggers = ccvFull.triggers ?? [];
+      const hasRelative = ccvTriggers.some((t) => t.severity === 'relative' || t.severity === 'unknown');
+      const hasAbsolute = ccvTriggers.some((t) => t.severity === 'absolute');
+
+      if (ccvTriggerFound === 'unknown' || (ccvTriggerFound === 'yes' && hasRelative)) {
+        console.warn(
+          `[pipeline-v2] CCV routed to needs_human_review: trigger_found=${ccvTriggerFound}, ` +
+          `relative=${hasRelative}. Issues: ${ccvFull.issues_found.join(' | ')}`
+        );
+        await supabase
+          .from('item_draft')
+          .update({ status: 'needs_human_review' })
+          .eq('id', draftId);
+        break;
+      }
+
+      if (ccvTriggerFound === 'yes' && hasAbsolute && !hasRelative) {
+        ccvAbsoluteRejectCount += 1;
+        if (ccvAbsoluteRejectCount >= 2) {
+          console.warn(
+            `[pipeline-v2] CCV circuit breaker: ${ccvAbsoluteRejectCount} absolute rejects on card ` +
+            `${(card as AlgorithmCardRow).id}. Escalating to needs_human_review instead of further repair.`
+          );
+          await supabase
+            .from('item_draft')
+            .update({ status: 'needs_human_review' })
+            .eq('id', draftId);
+          break;
+        }
+        // Otherwise fall through — CCV's passed=false routes through the normal
+        // repair path below, carrying repair_instructions that name the triggering
+        // stem detail and the contraindication it violates.
       }
 
       // Re-check after potential jury override + soft pass
@@ -997,19 +1087,120 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
             .eq('id', draftId);
         }
 
+        // ─── STEP 8b: Multi-criterion Rubric Scorer (HealthBench-style) ───
+        // Produces 1-5 scaled scores across 8 criteria + overall mean. Feeds
+        // its overall score into the Master Rubric Evaluator as one input
+        // among many, and its rubric row persists for human-review queue
+        // ordering (lowest overall_score → review first). Opt-out via
+        // config.skipRubricScorer (adds ~4k tokens/item).
+        let rubricScorerOverall: number | null = null;
+        if (!config.skipRubricScorer) {
+          const { data: scorerDraft } = await supabase
+            .from('item_draft')
+            .select('*')
+            .eq('id', draftId)
+            .single();
+          if (scorerDraft) {
+            const scorerResult = await trackStep('rubric_scorer' as AgentType, () =>
+              agents.rubricScorer.run(context, {
+                draft: scorerDraft as ItemDraftRow,
+                card: card as AlgorithmCardRow,
+              })
+            );
+            rubricScorerOverall = scorerResult.overall_score;
+            if (scorerResult.flagged) {
+              console.warn(
+                `[pipeline-v2] Rubric scorer flagged item ${draftId.slice(0, 8)} ` +
+                `(overall ${scorerResult.overall_score}). Lowest sub-scores will show in item_rubric_score.`
+              );
+            }
+          }
+        }
+
+        // ─── STEP 9: Master Rubric Evaluator (publish-decision authority) ───
+        // Final meta-evaluator. Deterministic hard-gates → aggregate existing
+        // validator reports into 7 domain scores → LLM-grade 3 new domains +
+        // sub-rubrics → deriveMasterRubricDecision() → item_draft.status.
+        // See BLACKSTAR_RUBRIC_INTEGRATION.md.
+        let rubricDecision: 'publish' | 'revise' | 'major_revision' | 'reject' = 'publish';
+        if (!config.skipRubricEvaluator) {
+          const { data: finalDraft } = await supabase
+            .from('item_draft')
+            .select('*')
+            .eq('id', draftId)
+            .single();
+
+          const { data: allValidatorReports } = await supabase
+            .from('validator_report')
+            .select('*')
+            .eq('item_draft_id', draftId)
+            .order('created_at', { ascending: false });
+
+          const reportsByType: Partial<Record<string, ValidatorReportRow>> = {};
+          for (const r of (allValidatorReports ?? []) as ValidatorReportRow[]) {
+            if (!reportsByType[r.validator_type]) {
+              reportsByType[r.validator_type] = r;
+            }
+          }
+
+          const cognitiveErrorNames: string[] = [];
+          if ((casePlan as CasePlanRow | null)?.target_cognitive_error_id) {
+            const { data: errRow } = await supabase
+              .from('error_taxonomy')
+              .select('error_name')
+              .eq('id', (casePlan as CasePlanRow).target_cognitive_error_id!)
+              .single();
+            if (errRow?.error_name) cognitiveErrorNames.push(errRow.error_name);
+          }
+
+          const rubricResult = await trackStep('rubric_evaluator' as AgentType, () =>
+            agents.rubricEvaluator.run(context, {
+              draft: (finalDraft ?? passedDraft) as ItemDraftRow,
+              casePlan: casePlan as CasePlanRow | null,
+              node: node ?? null,
+              confusionSet,
+              cognitiveErrorNames,
+              validatorReports: reportsByType,
+              rubricScorerOverall,
+            })
+          );
+
+          if (rubricResult && 'publish_decision' in rubricResult) {
+            rubricDecision = rubricResult.publish_decision;
+          } else {
+            console.warn('[pipeline-v2] rubric_evaluator returned no decision; routing to major_revision');
+            rubricDecision = 'major_revision';
+          }
+        }
+
+        // Publish status driven by Master Rubric decision.
+        //   publish        → status='published', review_status='pending_review' or flagged
+        //   revise         → status='published', review_status='needs_revision'
+        //   major_revision → status='needs_human_review'
+        //   reject         → status='killed'
+        let publishStatus: 'published' | 'needs_human_review' | 'killed' = 'published';
+        let publishReviewStatus: 'pending_review' | 'flagged_uncertain' | 'needs_revision' = reviewStatus;
+        if (rubricDecision === 'revise') {
+          publishReviewStatus = 'needs_revision';
+        } else if (rubricDecision === 'major_revision') {
+          publishStatus = 'needs_human_review';
+        } else if (rubricDecision === 'reject') {
+          publishStatus = 'killed';
+        }
+
         // Publish — try with review_status, fall back to just status if column missing
         const publishResult = await supabase
           .from('item_draft')
           .update({
-            status: 'published',
-            review_status: reviewStatus,
+            status: publishStatus,
+            review_status: publishReviewStatus,
           })
           .eq('id', draftId);
 
         if (publishResult.error?.message?.includes('schema cache')) {
           await supabase
             .from('item_draft')
-            .update({ status: 'published' })
+            .update({ status: publishStatus })
             .eq('id', draftId);
         }
       }
