@@ -28,7 +28,7 @@ export interface StudyQuestion {
   option_d: string;
   option_e: string;
   correct_answer: string;
-  error_map: Record<string, string>;
+  error_map: Record<string, string | { error_id: string; error_name: string; meaning: string }>;
   transfer_rule_text: string;
   explanation_decision: string;
   explanation_options: string;
@@ -37,6 +37,15 @@ export interface StudyQuestion {
   error_bucket: string;
   difficulty: string;
   richExplanation?: RichExplanation | null;
+}
+
+/** Safely extract error name from error_map entry (handles both string and object shapes). */
+function resolveErrorName(
+  entry: string | { error_name: string } | null | undefined,
+): string | null {
+  if (!entry) return null;
+  if (typeof entry === 'string') return entry;
+  return entry.error_name ?? null;
 }
 
 type Phase = 'loading' | 'answering' | 'reviewing' | 'complete' | 'assessment-review';
@@ -260,70 +269,81 @@ export default function StudySession({
     if (!selected || !current) return;
     setSubmitting(true);
 
-    const timeMs = Date.now() - startTime.current;
-    const isCorrect = selected === current.correct_answer;
-    const errorType = isCorrect
-      ? null
-      : current.error_map[selected] ?? null;
+    try {
+      const timeMs = Date.now() - startTime.current;
+      const isCorrect = selected === current.correct_answer;
+      const errorType = isCorrect
+        ? null
+        : resolveErrorName(current.error_map[selected]);
 
-    const res = await fetch('/api/study/attempt-v2', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user_id: userId,
-        question_type: questionType,
-        question_id: current.id,
-        selected_answer: selected,
-        time_spent_ms: timeMs,
-        session_id: sessionId,
-        session_mode: sessionMode,
-      }),
-    });
+      const res = await fetch('/api/study/attempt-v2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: userId,
+          question_type: questionType,
+          question_id: current.id,
+          selected_answer: selected,
+          time_spent_ms: timeMs,
+          session_id: sessionId,
+          session_mode: sessionMode,
+        }),
+      });
 
-    const result = await res.json();
-
-    const repair: RepairInfo | null = result.repairAction
-      ? {
-          action: result.repairAction,
-          reason: result.repairReason,
-          targetDimensionType: result.repairTargetDimensionType,
-          targetDimensionId: result.repairTargetDimensionId,
-        }
-      : null;
-
-    setLastRepair(repair);
-    setLastErrorRepeatCount(result.errorRepeatCount ?? 0);
-    setLastDimensionMastery(typeof result.dimensionMastery === 'number' ? result.dimensionMastery : null);
-    setLastEasyMiss(!!result.easyRecognitionMiss && !isCorrect);
-
-    const record: AttemptRecord = {
-      questionId: current.id,
-      question: current,
-      selected,
-      correct: current.correct_answer,
-      isCorrect,
-      errorType,
-      errorRepeatCount: result.errorRepeatCount ?? 0,
-      timeMs,
-      repairAction: repair?.action ?? null,
-      repairReason: repair?.reason ?? null,
-      transferRuleText: current.transfer_rule_text,
-    };
-    setAttempts(prev => [...prev, record]);
-    setCompletedCount(c => c + 1);
-    setSubmitting(false);
-
-    // Assessment mode: skip feedback, auto-advance or complete
-    if (sessionMode === 'assessment') {
-      if (result.sessionComplete || completedCount + 1 >= targetCount) {
-        setPhase('assessment-review');
-      } else {
-        fetchNext();
+      if (!res.ok) {
+        console.error('[handleSubmit] API error:', res.status, await res.text().catch(() => ''));
+        setSubmitting(false);
+        return;
       }
-      return;
-    }
 
-    setPhase('reviewing');
+      const result = await res.json();
+
+      const repair: RepairInfo | null = result.repairAction
+        ? {
+            action: result.repairAction,
+            reason: result.repairReason,
+            targetDimensionType: result.repairTargetDimensionType,
+            targetDimensionId: result.repairTargetDimensionId,
+          }
+        : null;
+
+      setLastRepair(repair);
+      setLastErrorRepeatCount(result.errorRepeatCount ?? 0);
+      setLastDimensionMastery(typeof result.dimensionMastery === 'number' ? result.dimensionMastery : null);
+      setLastEasyMiss(!!result.easyRecognitionMiss && !isCorrect);
+
+      const record: AttemptRecord = {
+        questionId: current.id,
+        question: current,
+        selected,
+        correct: current.correct_answer,
+        isCorrect,
+        errorType,
+        errorRepeatCount: result.errorRepeatCount ?? 0,
+        timeMs,
+        repairAction: repair?.action ?? null,
+        repairReason: repair?.reason ?? null,
+        transferRuleText: current.transfer_rule_text,
+      };
+      setAttempts(prev => [...prev, record]);
+      setCompletedCount(c => c + 1);
+      setSubmitting(false);
+
+      // Assessment mode: skip feedback, auto-advance or complete
+      if (sessionMode === 'assessment') {
+        if (result.sessionComplete || completedCount + 1 >= targetCount) {
+          setPhase('assessment-review');
+        } else {
+          fetchNext();
+        }
+        return;
+      }
+
+      setPhase('reviewing');
+    } catch (err) {
+      console.error('[handleSubmit] Unexpected error:', err);
+      setSubmitting(false);
+    }
   };
 
   handleSubmitRef.current = handleSubmit;
