@@ -9,9 +9,10 @@ export type TimeHorizon = 'immediate' | 'hours' | 'days' | 'weeks' | 'chronic';
 export type YieldTier = 'tier_1' | 'tier_2' | 'tier_3';
 export type FactType = 'threshold' | 'drug_choice' | 'contraindication' | 'diagnostic_criterion' | 'risk_factor' | 'complication' | 'management_step';
 export type ConfidenceLevel = 'high' | 'moderate' | 'low';
-export type ItemStatus = 'draft' | 'validating' | 'passed' | 'failed' | 'repaired' | 'published' | 'killed';
-export type ValidatorType = 'medical' | 'blueprint' | 'nbme_quality' | 'option_symmetry' | 'explanation_quality' | 'exam_translation';
-export type AgentType = 'blueprint_selector' | 'algorithm_extractor' | 'item_planner' | 'vignette_writer' | 'medical_validator' | 'nbme_quality_validator' | 'blueprint_validator' | 'option_symmetry_validator' | 'explanation_validator' | 'exam_translation_validator' | 'repair_agent' | 'explanation_writer' | 'case_planner' | 'skeleton_writer' | 'skeleton_validator';
+export type ItemStatus = 'draft' | 'validating' | 'passed' | 'failed' | 'repaired' | 'published' | 'killed' | 'needs_human_review';
+export type ValidatorType = 'medical' | 'blueprint' | 'nbme_quality' | 'option_symmetry' | 'explanation_quality' | 'exam_translation' | 'contraindication' | 'coverage' | 'master_rubric';
+export type AgentType = 'blueprint_selector' | 'algorithm_extractor' | 'item_planner' | 'vignette_writer' | 'medical_validator' | 'nbme_quality_validator' | 'blueprint_validator' | 'option_symmetry_validator' | 'explanation_validator' | 'exam_translation_validator' | 'repair_agent' | 'explanation_writer' | 'case_planner' | 'skeleton_writer' | 'skeleton_validator' | 'contraindication_validator' | 'rubric_scorer' | 'rubric_evaluator';
+export type PublishDecision = 'publish' | 'revise' | 'major_revision' | 'reject';
 export type DimensionType = 'topic' | 'transfer_rule' | 'confusion_set' | 'cognitive_error' | 'action_class' | 'hinge_clue_type';
 export type RepairAction = 'advance' | 'reinforce' | 'contrast' | 'remediate' | 'transfer_test';
 export type CardStatus = 'draft' | 'truth_verified' | 'translation_verified' | 'generation_ready' | 'retired';
@@ -212,6 +213,23 @@ export interface ValidatorReportRow {
   raw_output: Record<string, unknown> | null;
   // v20: Research-backed distractor functioning estimates
   distractor_estimates: Record<string, number> | null;
+  created_at: string;
+}
+
+// v26: Blackstar Master Rubric — canonical scoring + publish_decision routing.
+// Matches src/lib/factory/schemas/master-rubric.ts (masterRubricScoreSchema).
+// See BLACKSTAR_MASTER_RUBRIC.md at repo root for the human-readable spec.
+export interface RubricScoreRow {
+  id: string;
+  item_draft_id: string;
+  rubric_version: string;   // default 'master_v1'
+  hard_gate_pass: boolean;
+  total_score: number;      // 0-100
+  publish_decision: PublishDecision;
+  /** Full JSON object matching masterRubricScoreSchema — canonical form. */
+  score_object: Record<string, unknown>;
+  grader_model: string | null;
+  agent_prompt_version: number | null;
   created_at: string;
 }
 
