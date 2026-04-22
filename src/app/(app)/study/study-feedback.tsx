@@ -2,6 +2,15 @@
 
 import { useState } from 'react';
 import type { StudyQuestion } from './study-session';
+
+/** Safely extract error name from error_map entry (handles both string and object shapes). */
+function resolveErrorName(
+  entry: string | { error_name: string } | null | undefined,
+): string | null {
+  if (!entry) return null;
+  if (typeof entry === 'string') return entry;
+  return entry.error_name ?? null;
+}
 import { getLayerConfig, isLayerVisible } from './feedback/section-order';
 import ResultBanner from './feedback/result-banner';
 import WhyCorrectSection from './feedback/why-correct-section';
@@ -55,7 +64,7 @@ export default function StudyFeedback({ question, selectedAnswer, onNext, repair
   const isCorrect = selectedAnswer === question.correct_answer;
   const errorType = isCorrect
     ? null
-    : question.error_map[selectedAnswer] ?? null;
+    : resolveErrorName(question.error_map[selectedAnswer]);
 
   const rich = question.richExplanation;
   const config = getLayerConfig(repairInfo?.action ?? null, isCorrect);
