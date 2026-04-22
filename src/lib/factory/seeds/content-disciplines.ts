@@ -1,7 +1,10 @@
 /**
- * USMLE Step 2 CK Discipline Specifications (2025 outline)
+ * USMLE Step 2 CK Discipline Specifications (Jan 2026 outline)
  * 5 disciplines with exam weight ranges and shelf mappings.
- * Source: USMLE Step 2 CK Content Description and General Information Booklet
+ * Source: USMLE Step 2 CK Content Outline and Specifications (last updated Jan 2026)
+ *
+ * NOTE: Discipline weights overlap (a pediatric surgery question counts toward
+ * both Surgery and Pediatrics), so ranges sum to >100%.
  */
 export interface ContentDisciplineSeed {
   code: string;
@@ -26,7 +29,7 @@ export const contentDisciplines: ContentDisciplineSeed[] = [
     code: 'surgery',
     display_name: 'Surgery',
     usmle_label: 'Surgery',
-    weight_min: 8, weight_max: 14,
+    weight_min: 20, weight_max: 30,
     maps_to_shelves: ['surgery'],
     sort_order: 2,
   },
@@ -34,7 +37,7 @@ export const contentDisciplines: ContentDisciplineSeed[] = [
     code: 'pediatrics',
     display_name: 'Pediatrics',
     usmle_label: 'Pediatrics',
-    weight_min: 6, weight_max: 12,
+    weight_min: 17, weight_max: 27,
     maps_to_shelves: ['pediatrics'],
     sort_order: 3,
   },
@@ -42,7 +45,7 @@ export const contentDisciplines: ContentDisciplineSeed[] = [
     code: 'obstetrics_gynecology',
     display_name: 'Obstetrics & Gynecology',
     usmle_label: 'Obstetrics & Gynecology',
-    weight_min: 6, weight_max: 12,
+    weight_min: 10, weight_max: 20,
     maps_to_shelves: ['obgyn'],
     sort_order: 4,
   },
@@ -50,7 +53,7 @@ export const contentDisciplines: ContentDisciplineSeed[] = [
     code: 'psychiatry',
     display_name: 'Psychiatry',
     usmle_label: 'Psychiatry',
-    weight_min: 5, weight_max: 10,
+    weight_min: 10, weight_max: 15,
     maps_to_shelves: ['psychiatry'],
     sort_order: 5,
   },

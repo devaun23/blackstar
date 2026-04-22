@@ -8,6 +8,7 @@ import AssessmentReview from './assessment-review';
 import type { SessionMode, DimensionType } from '@/lib/types/database';
 import type { RichExplanation } from '@/lib/types/explanation';
 import { getComponentVisibility, type SelfLabel } from './feedback/section-order';
+import type { ErrorSignature } from '@/lib/learner/error-signature';
 import AnchorRule from './feedback/anchor-rule';
 import IllnessScript from './feedback/illness-script';
 import ConceptCard from './feedback/concept-card';
@@ -62,6 +63,10 @@ export interface AttemptRecord {
   repairAction: string | null;
   repairReason: string | null;
   transferRuleText: string;
+  // "Why YOU missed it" signature from attempt-v2. Carried so that
+  // retrospective review (assessment-review.tsx) can render the same
+  // signature-driven lead banner as the live reviewing phase.
+  errorSignature?: ErrorSignature | null;
 }
 
 interface RepairInfo {
@@ -128,6 +133,17 @@ const REPAIR_HINTS: Record<string, string> = {
   advance: '',
 };
 
+// Personalized "why YOU missed it" copy keyed to ErrorSignature.primary_lead.
+// Only actionable leads get a banner — pattern_teaching and reinforcement
+// fall through to the standard flow without adding UI noise.
+const LEAD_MESSAGES: Record<string, string> = {
+  calibration_feedback: 'You were confident, but this one is a classic trap. Slow down the hinge next time.',
+  hinge_reveal: 'The decisive clue was buried — look for it later in the vignette.',
+  contrast_option: 'The attractive wrong answer is the differential pair. Draw the distinction.',
+  anchoring_clue: 'You locked on to an early finding. The reframe comes from a later clue.',
+  next_best_step: 'Wrong step in the sequence — the ordering principle is what this tests.',
+};
+
 export default function StudySession({
   userId,
   sessionId,
@@ -157,6 +173,10 @@ export default function StudySession({
   const [lastEasyMiss, setLastEasyMiss] = useState(false);
   // v24 — mastery returned from attempt-v2 drives adaptive explanation depth
   const [lastDimensionMastery, setLastDimensionMastery] = useState<number | null>(null);
+  // "Why YOU missed it" signature — populated from attempt-v2 response,
+  // drives the lead-banner rendered above the error badge in the reviewing phase.
+  const [lastErrorSignature, setLastErrorSignature] = useState<ErrorSignature | null>(null);
+  const [lastTimingFeedback, setLastTimingFeedback] = useState<string | null>(null);
   const startTime = useRef(Date.now());
   const handleSubmitRef = useRef<() => void>(() => {});
 
@@ -311,6 +331,8 @@ export default function StudySession({
       setLastErrorRepeatCount(result.errorRepeatCount ?? 0);
       setLastDimensionMastery(typeof result.dimensionMastery === 'number' ? result.dimensionMastery : null);
       setLastEasyMiss(!!result.easyRecognitionMiss && !isCorrect);
+      setLastErrorSignature((result.errorSignature as ErrorSignature | undefined) ?? null);
+      setLastTimingFeedback(result.timingFeedback ?? null);
 
       const record: AttemptRecord = {
         questionId: current.id,
@@ -324,6 +346,7 @@ export default function StudySession({
         repairAction: repair?.action ?? null,
         repairReason: repair?.reason ?? null,
         transferRuleText: current.transfer_rule_text,
+        errorSignature: (result.errorSignature as ErrorSignature | undefined) ?? null,
       };
       setAttempts(prev => [...prev, record]);
       setCompletedCount(c => c + 1);
@@ -694,6 +717,28 @@ export default function StudySession({
                 <span className="text-[10px] text-zinc-500">{REPAIR_HINTS[lastRepair.action]}</span>
               )}
             </div>
+          )}
+
+          {/* "Why YOU missed it" lead banner. Only renders when the signature
+              flags something actionable (overconfidence, hinge miss, anchoring,
+              wrong action class, confusion pair) — pattern_teaching and
+              reinforcement fall through silently. */}
+          {phase === 'reviewing' && !isCorrect && lastErrorSignature && LEAD_MESSAGES[lastErrorSignature.primary_lead] && (
+            <div className="mt-2 rounded-md border border-amber-900/40 bg-amber-950/30 px-3 py-2">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-400">
+                Why you missed it
+              </p>
+              <p className="mt-0.5 text-xs leading-relaxed text-amber-100">
+                {LEAD_MESSAGES[lastErrorSignature.primary_lead]}
+              </p>
+            </div>
+          )}
+
+          {/* Timing feedback — Palmerton 2-minute rule */}
+          {phase === 'reviewing' && lastTimingFeedback && (
+            <p className="mt-2 text-[11px] leading-snug text-zinc-500">
+              {lastTimingFeedback}
+            </p>
           )}
 
           {/* v23 Rule 10 — Question-writer intent, one-line footer below error badge */}

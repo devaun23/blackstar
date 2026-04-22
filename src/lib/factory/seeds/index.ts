@@ -30,6 +30,14 @@ export type { ConfusionSetSeed } from './confusion-sets';
 export { transferRules } from './transfer-rules';
 export type { TransferRuleSeed } from './transfer-rules';
 
+// v25 CCV — contraindication registry (safety gate)
+export { contraindicationSeeds } from './contraindications';
+export type { ContraindicationSeed, ContraindicationEntry } from './contraindications';
+
+// Exam structure metadata (format, timing, scoring)
+export { STEP2CK_EXAM_STRUCTURE } from './exam-structure';
+export type { ExamStructureMetadata, QuestionFormat } from './exam-structure';
+
 // Exam content specs — spec-layer metadata for Medicine expansion
 export {
   MEDICINE_NODES,

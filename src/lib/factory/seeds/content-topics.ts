@@ -1,7 +1,7 @@
 /**
- * USMLE Step 2 CK Content Topic Catalog (2025 outline)
+ * USMLE Step 2 CK Content Topic Catalog (Jan 2026 outline)
  * Full testable universe organized by content_system.code.
- * Source: USMLE Step 2 CK Content Description and General Information Booklet
+ * Source: USMLE Step 2 CK Content Outline and Specifications (last updated Jan 2026)
  *
  * Each topic maps to a content_system via system_code.
  * is_high_yield flags topics that appear frequently on exams.
@@ -375,26 +375,53 @@ export const contentTopics: ContentTopicSeed[] = [
   { system_code: 'social_sciences', topic_name: 'Disability Determination', category: 'Legal', is_high_yield: false },
 
   // ═══════════════════════════════════════════
-  // GENERAL PRINCIPLES
+  // MULTISYSTEM — formerly General Principles (pharmacology, cross-system)
   // ═══════════════════════════════════════════
-  { system_code: 'general_principles', topic_name: 'Pharmacokinetics', category: 'Pharmacology', is_high_yield: false },
-  { system_code: 'general_principles', topic_name: 'Pharmacodynamics', category: 'Pharmacology', is_high_yield: false },
-  { system_code: 'general_principles', topic_name: 'Drug-Drug Interactions', category: 'Pharmacology', is_high_yield: true },
-  { system_code: 'general_principles', topic_name: 'Adverse Drug Reactions', category: 'Pharmacology', is_high_yield: true },
-  { system_code: 'general_principles', topic_name: 'Pain Management', category: 'General', is_high_yield: true },
-  { system_code: 'general_principles', topic_name: 'Wound Healing', category: 'General', is_high_yield: false },
-  { system_code: 'general_principles', topic_name: 'Inflammation', category: 'General', is_high_yield: false },
-  { system_code: 'general_principles', topic_name: 'Neoplasia (General Principles)', category: 'General', is_high_yield: false },
-  { system_code: 'general_principles', topic_name: 'Genetic Disorders', category: 'Genetics', is_high_yield: false },
-  { system_code: 'general_principles', topic_name: 'Immunology Basics', category: 'Immunology', is_high_yield: false },
+  { system_code: 'multisystem', topic_name: 'Pharmacokinetics', category: 'Pharmacology', is_high_yield: false },
+  { system_code: 'multisystem', topic_name: 'Pharmacodynamics', category: 'Pharmacology', is_high_yield: false },
+  { system_code: 'multisystem', topic_name: 'Drug-Drug Interactions', category: 'Pharmacology', is_high_yield: true },
+  { system_code: 'multisystem', topic_name: 'Adverse Drug Reactions', category: 'Pharmacology', is_high_yield: true },
+  { system_code: 'multisystem', topic_name: 'Pain Management', category: 'General', is_high_yield: true },
+  { system_code: 'multisystem', topic_name: 'Wound Healing', category: 'General', is_high_yield: false },
+  { system_code: 'multisystem', topic_name: 'Inflammation', category: 'General', is_high_yield: false },
+  { system_code: 'multisystem', topic_name: 'Neoplasia (General Principles)', category: 'General', is_high_yield: false },
+  { system_code: 'human_development', topic_name: 'Genetic Disorders', category: 'Genetics', is_high_yield: false },
+  { system_code: 'immune', topic_name: 'Immunology Basics', category: 'Immunology', is_high_yield: false },
 
   // ═══════════════════════════════════════════
-  // NUTRITIONAL & DIGESTIVE
+  // GASTROINTESTINAL — formerly Nutritional & Digestive (nutrition topics)
   // ═══════════════════════════════════════════
-  { system_code: 'nutritional', topic_name: 'Malnutrition', category: 'Nutrition', is_high_yield: false },
-  { system_code: 'nutritional', topic_name: 'Vitamin Deficiencies', category: 'Nutrition', is_high_yield: true },
-  { system_code: 'nutritional', topic_name: 'Obesity Management', category: 'Nutrition', is_high_yield: true },
-  { system_code: 'nutritional', topic_name: 'Eating Disorders', category: 'Nutrition', is_high_yield: false },
-  { system_code: 'nutritional', topic_name: 'Refeeding Syndrome', category: 'Nutrition', is_high_yield: false },
-  { system_code: 'nutritional', topic_name: 'Enteral and Parenteral Nutrition', category: 'Nutrition', is_high_yield: false },
+  { system_code: 'gastrointestinal', topic_name: 'Malnutrition', category: 'Nutrition', is_high_yield: false },
+  { system_code: 'gastrointestinal', topic_name: 'Vitamin Deficiencies', category: 'Nutrition', is_high_yield: true },
+  { system_code: 'gastrointestinal', topic_name: 'Obesity Management', category: 'Nutrition', is_high_yield: true },
+  { system_code: 'behavioral_health', topic_name: 'Eating Disorders', category: 'Behavioral', is_high_yield: false },
+  { system_code: 'gastrointestinal', topic_name: 'Refeeding Syndrome', category: 'Nutrition', is_high_yield: false },
+  { system_code: 'gastrointestinal', topic_name: 'Enteral and Parenteral Nutrition', category: 'Nutrition', is_high_yield: false },
+
+  // ═══════════════════════════════════════════
+  // HUMAN DEVELOPMENT (new Jan 2026)
+  // ═══════════════════════════════════════════
+  { system_code: 'human_development', topic_name: 'Growth & Development Milestones', category: 'Development', is_high_yield: true },
+  { system_code: 'human_development', topic_name: 'Congenital Anomalies', category: 'Congenital', is_high_yield: false },
+  { system_code: 'human_development', topic_name: 'Fetal Development', category: 'Embryology', is_high_yield: false },
+  { system_code: 'human_development', topic_name: 'Developmental Delay', category: 'Development', is_high_yield: true },
+  { system_code: 'human_development', topic_name: 'Chromosomal Abnormalities', category: 'Genetics', is_high_yield: true },
+
+  // ═══════════════════════════════════════════
+  // BEHAVIORAL HEALTH (new Jan 2026)
+  // ═══════════════════════════════════════════
+  { system_code: 'behavioral_health', topic_name: 'Major Depressive Disorder', category: 'Mood Disorders', is_high_yield: true },
+  { system_code: 'behavioral_health', topic_name: 'Bipolar Disorder', category: 'Mood Disorders', is_high_yield: true },
+  { system_code: 'behavioral_health', topic_name: 'Generalized Anxiety Disorder', category: 'Anxiety Disorders', is_high_yield: true },
+  { system_code: 'behavioral_health', topic_name: 'Panic Disorder', category: 'Anxiety Disorders', is_high_yield: false },
+  { system_code: 'behavioral_health', topic_name: 'Obsessive-Compulsive Disorder', category: 'Anxiety Disorders', is_high_yield: false },
+  { system_code: 'behavioral_health', topic_name: 'Post-Traumatic Stress Disorder', category: 'Trauma-Related', is_high_yield: true },
+  { system_code: 'behavioral_health', topic_name: 'Schizophrenia', category: 'Psychotic Disorders', is_high_yield: true },
+  { system_code: 'behavioral_health', topic_name: 'Substance Use Disorders', category: 'Substance Use', is_high_yield: true },
+  { system_code: 'behavioral_health', topic_name: 'Personality Disorders', category: 'Personality', is_high_yield: false },
+  { system_code: 'behavioral_health', topic_name: 'Somatic Symptom Disorder', category: 'Somatic', is_high_yield: false },
+  { system_code: 'behavioral_health', topic_name: 'Attention-Deficit/Hyperactivity Disorder', category: 'Neurodevelopmental', is_high_yield: true },
+  { system_code: 'behavioral_health', topic_name: 'Autism Spectrum Disorder', category: 'Neurodevelopmental', is_high_yield: false },
+  { system_code: 'behavioral_health', topic_name: 'Adjustment Disorder', category: 'Trauma-Related', is_high_yield: false },
+  { system_code: 'behavioral_health', topic_name: 'Suicidal Ideation Assessment', category: 'Emergencies', is_high_yield: true },
 ];
