@@ -6,7 +6,9 @@ const metacognitiveSchema = z.object({
   session_id: z.string().uuid(),
   question_id: z.string().uuid(),
   confidence_post: z.number().int().min(1).max(5).optional(),
-  self_labeled_error: z.string().optional(),
+  self_labeled_error: z.string().max(64).optional(),
+  // v23 Rule 6 — free-text "what were you thinking" capture
+  what_were_you_thinking: z.string().max(1000).optional(),
 });
 
 /**
@@ -20,13 +22,14 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: parsed.error.issues }, { status: 400 });
   }
 
-  const { session_id, question_id, confidence_post, self_labeled_error } = parsed.data;
+  const { session_id, question_id, confidence_post, self_labeled_error, what_were_you_thinking } = parsed.data;
 
   const supabase = createAdminClient();
 
   const update: Record<string, unknown> = {};
   if (confidence_post !== undefined) update.confidence_post = confidence_post;
   if (self_labeled_error !== undefined) update.self_labeled_error = self_labeled_error;
+  if (what_were_you_thinking !== undefined) update.what_were_you_thinking = what_were_you_thinking;
 
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ error: 'No fields to update' }, { status: 400 });

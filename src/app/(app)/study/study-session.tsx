@@ -7,6 +7,16 @@ import { Skeleton } from '@/components/ui/skeleton';
 import AssessmentReview from './assessment-review';
 import type { SessionMode, DimensionType } from '@/lib/types/database';
 import type { RichExplanation } from '@/lib/types/explanation';
+import { getComponentVisibility, type SelfLabel } from './feedback/section-order';
+import AnchorRule from './feedback/anchor-rule';
+import IllnessScript from './feedback/illness-script';
+import ConceptCard from './feedback/concept-card';
+import ManagementProtocol from './feedback/management-protocol';
+import TrapsSection from './feedback/traps-section';
+import PharmacologySection from './feedback/pharmacology-section';
+import ContrastTable from './feedback/contrast-table';
+
+const EXPLANATION_V7_ENABLED = process.env.NEXT_PUBLIC_EXPLANATION_V7 === 'true';
 
 export interface StudyQuestion {
   id: string;
@@ -60,6 +70,11 @@ interface StudySessionProps {
   targetDimensionType?: DimensionType;
   targetDimensionId?: string;
   timeLimitSeconds?: number;
+  // v23 Rule 8 — optional per-question timer in practice mode.
+  // Assessment mode always enforces the countdown regardless of this flag.
+  perQuestionTimer?: boolean;
+  // Per-question countdown target for assessment mode (default 90s — elite tutor rule).
+  perQuestionSeconds?: number;
   onSessionEnd: () => void;
 }
 
@@ -112,6 +127,8 @@ export default function StudySession({
   targetDimensionType,
   targetDimensionId,
   timeLimitSeconds,
+  perQuestionTimer = false,
+  perQuestionSeconds = 90,
   onSessionEnd,
 }: StudySessionProps) {
   const [phase, setPhase] = useState<Phase>('loading');
@@ -124,17 +141,52 @@ export default function StudySession({
   const [submitting, setSubmitting] = useState(false);
   const [completedCount, setCompletedCount] = useState(0);
   const [selfLabel, setSelfLabel] = useState<string | null>(null);
+  // v23 Rule 6 — free-text "what were you thinking" capture on wrong answers
+  const [whatWereYouThinking, setWhatWereYouThinking] = useState('');
   const [lastErrorRepeatCount, setLastErrorRepeatCount] = useState(0);
+  // v23 Rule 2 — easy_recognition miss flag from the attempt API; copy-variant on feedback
+  const [lastEasyMiss, setLastEasyMiss] = useState(false);
+  // v24 — mastery returned from attempt-v2 drives adaptive explanation depth
+  const [lastDimensionMastery, setLastDimensionMastery] = useState<number | null>(null);
   const startTime = useRef(Date.now());
   const handleSubmitRef = useRef<() => void>(() => {});
 
-  // Assessment timer
+  // Assessment session-wide timer
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   useEffect(() => {
     if (sessionMode !== 'assessment') return;
     const interval = setInterval(() => setElapsedSeconds(s => s + 1), 1000);
     return () => clearInterval(interval);
   }, [sessionMode]);
+
+  // v23 Rule 8 — per-question timer.
+  // Practice: count-up from 0, no auto-submit. Assessment: countdown from perQuestionSeconds
+  // with amber warning at 30s and force-submit at 0s.
+  const [perQuestionElapsed, setPerQuestionElapsed] = useState(0);
+  const showPerQuestionTimer = sessionMode === 'assessment' || perQuestionTimer;
+  useEffect(() => {
+    if (!showPerQuestionTimer || phase !== 'answering') return;
+    setPerQuestionElapsed(0);
+    const interval = setInterval(() => setPerQuestionElapsed(s => s + 1), 1000);
+    return () => clearInterval(interval);
+  }, [showPerQuestionTimer, phase, current?.id]);
+
+  // Assessment-mode force-submit at 0s
+  useEffect(() => {
+    if (sessionMode !== 'assessment' || phase !== 'answering') return;
+    const remaining = perQuestionSeconds - perQuestionElapsed;
+    if (remaining <= 0) {
+      // Auto-score: treat missing selection as incorrect by picking the letter
+      // that isn't the correct answer. This preserves session integrity.
+      if (!selected && current) {
+        const wrongLetters = (['A', 'B', 'C', 'D', 'E'] as const).filter(l => l !== current.correct_answer);
+        setSelected(wrongLetters[0] ?? 'A');
+        setTimeout(() => handleSubmitRef.current(), 50);
+      } else if (selected) {
+        handleSubmitRef.current();
+      }
+    }
+  }, [perQuestionElapsed, sessionMode, phase, selected, current, perQuestionSeconds]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -170,6 +222,7 @@ export default function StudySession({
     setPhase('loading');
     setSelected(null);
     setSelfLabel(null);
+    setWhatWereYouThinking('');
 
     const params = new URLSearchParams({ userId, sessionMode, sessionId });
 
@@ -240,6 +293,8 @@ export default function StudySession({
 
     setLastRepair(repair);
     setLastErrorRepeatCount(result.errorRepeatCount ?? 0);
+    setLastDimensionMastery(typeof result.dimensionMastery === 'number' ? result.dimensionMastery : null);
+    setLastEasyMiss(!!result.easyRecognitionMiss && !isCorrect);
 
     const record: AttemptRecord = {
       questionId: current.id,
@@ -274,7 +329,7 @@ export default function StudySession({
   handleSubmitRef.current = handleSubmit;
 
   const handleNext = async () => {
-    if (selfLabel && attempts.length > 0) {
+    if ((selfLabel || whatWereYouThinking.trim()) && attempts.length > 0) {
       const lastAttempt = attempts[attempts.length - 1];
       await fetch('/api/study/attempt-v2/metacognitive', {
         method: 'PATCH',
@@ -282,11 +337,14 @@ export default function StudySession({
         body: JSON.stringify({
           session_id: sessionId,
           question_id: lastAttempt.questionId,
-          self_labeled_error: selfLabel,
+          self_labeled_error: selfLabel ?? undefined,
+          // v23 Rule 6 — free-text metacognitive capture
+          what_were_you_thinking: whatWereYouThinking.trim() || undefined,
         }),
       }).catch(() => {});
     }
     setSelfLabel(null);
+    setWhatWereYouThinking('');
     fetchNext();
   };
 
@@ -450,6 +508,23 @@ export default function StudySession({
                 {Math.floor(elapsedSeconds / 60)}:{(elapsedSeconds % 60).toString().padStart(2, '0')}
               </span>
             )}
+            {/* v23 Rule 8 — per-question timer */}
+            {showPerQuestionTimer && phase === 'answering' && (() => {
+              if (sessionMode === 'assessment') {
+                const remaining = Math.max(0, perQuestionSeconds - perQuestionElapsed);
+                const m = Math.floor(remaining / 60);
+                const s = (remaining % 60).toString().padStart(2, '0');
+                const color =
+                  remaining <= 10 ? 'text-[var(--color-incorrect-base)] animate-pulse font-semibold'
+                  : remaining <= 30 ? 'text-amber-400'
+                  : 'text-zinc-400';
+                return <span className={`font-mono text-xs ${color}`}>{m}:{s}</span>;
+              }
+              // Practice count-up
+              const m = Math.floor(perQuestionElapsed / 60);
+              const s = (perQuestionElapsed % 60).toString().padStart(2, '0');
+              return <span className="font-mono text-xs text-zinc-500">{m}:{s}</span>;
+            })()}
             {current.system_topic && (
               <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] text-zinc-500">
                 {current.system_topic}
@@ -555,6 +630,35 @@ export default function StudySession({
             })}
           </div>
 
+          {/* v23 Rule 4 — Down-to-two discrimination card on wrong answers when data is present */}
+          {phase === 'reviewing' && !isCorrect && rich?.downToTwo && (
+            <div className="mt-3 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+                Down to two — {rich.downToTwo.competitorOption} vs {current.correct_answer}
+              </p>
+              <p className="mt-1 text-xs font-medium text-[var(--color-text-primary)]">
+                {rich.downToTwo.tippingDetail}
+              </p>
+              <p className="mt-1 text-[11px] italic leading-snug text-zinc-400">
+                {rich.downToTwo.counterfactual}
+              </p>
+            </div>
+          )}
+
+          {/* v23 Rule 2 — Easy-miss content-gap signal: distinct messaging, NOT a softened correction */}
+          {phase === 'reviewing' && lastEasyMiss && (
+            <div className="mt-2 rounded-md border border-amber-700/50 bg-amber-950/30 px-3 py-2">
+              <p className="text-xs font-semibold text-amber-300">
+                Pattern-recognition check — content gap flagged in {current.system_topic.replace(/_/g, ' ')}
+              </p>
+              {rich?.easyRecognitionCheck && (
+                <p className="mt-1 text-[11px] leading-snug text-amber-200/80">
+                  {rich.easyRecognitionCheck}
+                </p>
+              )}
+            </div>
+          )}
+
           {/* Error badge — compact, below options */}
           {phase === 'reviewing' && errorType && (
             <div className="mt-2 flex items-center gap-1.5 flex-wrap">
@@ -571,6 +675,70 @@ export default function StudySession({
               )}
             </div>
           )}
+
+          {/* v23 Rule 10 — Question-writer intent, one-line footer below error badge */}
+          {phase === 'reviewing' && rich?.questionWriterIntent && (
+            <p className="mt-2 text-[11px] leading-snug text-zinc-500 border-l border-zinc-700 pl-2 italic">
+              {rich.questionWriterIntent}
+            </p>
+          )}
+
+          {/* v7 — 7-component adaptive explanation stack. Behind flag; reactive to selfLabel. */}
+          {EXPLANATION_V7_ENABLED && phase === 'reviewing' && rich?.components && (() => {
+            const c = rich.components;
+            const vis = getComponentVisibility({
+              masteryLevel: lastDimensionMastery,
+              selfLabel: selfLabel as SelfLabel,
+              isCorrect,
+              hasConfusionSet: c.contrast !== null,
+              hasDrugs: c.pharmacology !== null && c.pharmacology.length > 0,
+              errorName: errorType,
+            });
+            return (
+              <div className="mt-4 space-y-3">
+                <AnchorRule anchor={c.anchor} />
+
+                {/* Reasoning: compressed (expert) or full (novice/targeted) */}
+                {vis.reasoning.state !== 'hidden' && (
+                  <div className="rounded-[var(--radius-card)] border border-zinc-800 bg-[var(--color-surface-base)] p-[var(--space-card-padding)]">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
+                      {vis.reasoning.mode === 'compressed' ? 'Hinge' : 'Reasoning'}
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-[var(--color-text-primary)]">
+                      {vis.reasoning.mode === 'compressed' && c.reasoningCompressed
+                        ? c.reasoningCompressed
+                        : c.reasoningFull}
+                    </p>
+                    {c.decisionHinge && vis.reasoning.mode === 'full' && (
+                      <p className="mt-2 text-xs leading-relaxed text-zinc-400 border-l-2 border-zinc-700 pl-2">
+                        <span className="text-[var(--color-text-muted)]">Decision hinge: </span>
+                        {c.decisionHinge}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {c.pattern && (
+                  <IllnessScript script={c.pattern} state={vis.pattern} />
+                )}
+                {c.concept && (
+                  <ConceptCard concept={c.concept} state={vis.concept} />
+                )}
+                {c.contrast && (
+                  <ContrastTable contrast={c.contrast} state={vis.contrast} />
+                )}
+                {c.algorithm && c.algorithm.length > 0 && (
+                  <ManagementProtocol steps={c.algorithm} state={vis.algorithm} />
+                )}
+                {c.traps && c.traps.length > 0 && (
+                  <TrapsSection traps={c.traps} state={vis.traps} />
+                )}
+                {c.pharmacology && c.pharmacology.length > 0 && (
+                  <PharmacologySection entries={c.pharmacology} state={vis.pharmacology} />
+                )}
+              </div>
+            );
+          })()}
         </div>
       </div>
 
@@ -605,6 +773,19 @@ export default function StudySession({
                       </button>
                     ))}
                   </div>
+                </div>
+              )}
+              {/* v23 Rule 6 — free-text reasoning capture, optional, does not gate advance */}
+              {!isCorrect && (
+                <div className="mb-2">
+                  <input
+                    type="text"
+                    value={whatWereYouThinking}
+                    onChange={(e) => setWhatWereYouThinking(e.target.value)}
+                    placeholder="What were you thinking? (optional)"
+                    maxLength={1000}
+                    className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-xs text-zinc-200 placeholder:text-zinc-600 focus:border-zinc-600 focus:outline-none"
+                  />
                 </div>
               )}
               <button

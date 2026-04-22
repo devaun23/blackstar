@@ -40,8 +40,9 @@ export function UserMenu({ user, collapsed }: UserMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={
+        render={(props) => (
           <Button
+            {...props}
             variant="ghost"
             className={cn(
               'w-full justify-start gap-2 px-2',
@@ -64,7 +65,7 @@ export function UserMenu({ user, collapsed }: UserMenuProps) {
               </div>
             )}
           </Button>
-        }
+        )}
       />
       <DropdownMenuContent align="end" side={collapsed ? 'right' : 'top'} className="w-56">
         <div className="px-2 py-1.5">

@@ -49,7 +49,21 @@ export function SidebarNav({ collapsed }: SidebarNavProps) {
           return (
             <li key={href}>
               <Tooltip>
-                <TooltipTrigger render={linkContent} />
+                <TooltipTrigger render={(props) => (
+                <Link
+                  {...props}
+                  href={href}
+                  className={cn(
+                    'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                    isActive
+                      ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                      : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground',
+                    'justify-center px-2',
+                  )}
+                >
+                  <Icon className="h-4 w-4 shrink-0" />
+                </Link>
+              )} />
                 <TooltipContent side="right">
                   {label}
                 </TooltipContent>

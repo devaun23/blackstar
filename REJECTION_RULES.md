@@ -32,6 +32,13 @@ Auto-kill criteria that immediately disqualify a generated question. These are e
 | R-NBME-03 | Only 1 option is plausible (others are absurd or nonsensical) | nbme_quality_validator |
 | R-NBME-04 | Classic buzzword makes answer trivially obvious (e.g., "butterfly rash" → lupus) | nbme_quality_validator |
 
+## Category 3b: Reasoning Depth Kills (Rule 1)
+
+| Rule | Description | Validator |
+|------|-------------|-----------|
+| R-REAS-01 | Single-step question (`case_plan.reasoning_step_count < 2`) — answerable from one decision instead of a chain | nbme_quality_validator |
+| R-REAS-02 | Any `reasoning_steps[].clinical_signal` is not resolvable from stem text (hidden knowledge leap) | nbme_quality_validator |
+
 ## Category 4: Option Quality Kills
 
 | Rule | Description | Validator |
@@ -39,6 +46,8 @@ Auto-kill criteria that immediately disqualify a generated question. These are e
 | R-OPT-01 | Options mix different action classes (medications with diagnostic tests) | option_symmetry_validator |
 | R-OPT-02 | Any distractor is medically absurd or nonsensical | option_symmetry_validator |
 | R-OPT-03 | One option is significantly longer/more detailed than others (longest-answer pattern) | option_symmetry_validator |
+| R-OPT-04 | No `archetype='primary_competitor'` designated in `case_plan.option_frames` (Rule 3) | option_symmetry_validator |
+| R-OPT-05 | More than one `archetype='zebra'`, or zebra designated without a genuinely exotic clinical identity (Rule 3) | option_symmetry_validator |
 
 ## Category 5: Explanation Quality Kills
 
@@ -46,6 +55,9 @@ Auto-kill criteria that immediately disqualify a generated question. These are e
 |------|-------------|-----------|
 | R-EXP-01 | Explanation is a disease lecture instead of a decision explanation | explanation_validator |
 | R-EXP-02 | why_correct simply restates the answer without clinical reasoning | explanation_validator |
+| R-EXP-03 | Missing or empty `down_to_two_discrimination` (Rule 4) | explanation_validator |
+| R-EXP-04 | Missing `question_writer_intent` or not in "prioritize X over Y when Z" template (Rule 10) | explanation_validator |
+| R-EXP-05 | `medicine_deep_dive` not teachable-from-scratch (Rule 5) — a student new to the topic cannot answer a sibling item after reading it | explanation_validator |
 
 ## Category 6: Source Policy Kills
 

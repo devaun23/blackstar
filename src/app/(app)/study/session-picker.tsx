@@ -20,6 +20,8 @@ interface SessionPickerProps {
     targetDimensionType?: DimensionType;
     targetDimensionId?: string;
     timeLimitSeconds?: number;
+    // v23 Rule 8 — practice-mode per-question timer toggle
+    perQuestionTimer?: boolean;
   }) => void;
 }
 
@@ -28,6 +30,8 @@ export default function SessionPicker({ userId, onSessionCreated }: SessionPicke
   const [dueCount, setDueCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  // v23 Rule 8 — practice per-question timer, off by default
+  const [perQuestionTimer, setPerQuestionTimer] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -68,6 +72,8 @@ export default function SessionPicker({ userId, onSessionCreated }: SessionPicke
         mode: session.mode,
         targetCount: session.target_count,
         timeLimitSeconds: session.time_limit_seconds ?? undefined,
+        // v23 Rule 8 — only relevant for training/retention; assessment always enforces
+        perQuestionTimer: mode === 'assessment' ? false : perQuestionTimer,
       });
     }
     setCreating(false);
@@ -110,6 +116,17 @@ export default function SessionPicker({ userId, onSessionCreated }: SessionPicke
         <p className="mt-3 text-xs text-zinc-600">
           Mixes review + new material automatically. End anytime.
         </p>
+
+        {/* v23 Rule 8 — optional per-question timer for practice mode. Off by default. */}
+        <label className="mt-6 flex items-center justify-center gap-2 text-xs text-zinc-500 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={perQuestionTimer}
+            onChange={(e) => setPerQuestionTimer(e.target.checked)}
+            className="h-3.5 w-3.5 accent-[var(--color-accent-base)]"
+          />
+          Show per-question timer
+        </label>
 
         <div className="mt-10 border-t border-zinc-800 pt-6">
           <button

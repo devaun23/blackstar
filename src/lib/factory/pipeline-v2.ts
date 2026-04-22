@@ -86,7 +86,9 @@ async function resolveDrugOptions(
   return matched;
 }
 
-const MAX_REPAIR_CYCLES = 5;
+// Empirical data (2026-04-22): cycle 4 converts at 4 passes / 55 kills (~7%) — not worth the spend.
+// Items that don't pass by cycle 3 typically have structural issues repair can't fix.
+const MAX_REPAIR_CYCLES = 3;
 
 /**
  * v2 Pipeline: Reasoning-first question generation.
@@ -318,6 +320,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
         actionClasses: actionClassRows ?? [],
         confusionSets: confusionSets ?? [],
         transferRules: transferRules ?? [],
+        difficultyClassHint: config.difficultyClassHint,
       })
     );
 
@@ -875,6 +878,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
             facts: facts as FactRowRow[],
             node,
             transferRuleText: (casePlan as CasePlanRow).transfer_rule_text,
+            casePlan: casePlan as CasePlanRow,
             confusionSet,
             drugOptions,
           })

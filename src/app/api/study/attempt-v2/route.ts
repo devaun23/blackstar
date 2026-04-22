@@ -18,6 +18,9 @@ const attemptV2Schema = z.object({
   session_mode: z.enum(['retention', 'training', 'assessment']).optional(),
   // Contrast loop instrumentation — client reports if this was a contrast question
   is_contrast_question: z.boolean().optional(),
+  // v23 Rule 6 — metacognitive capture on wrong answers (optional, client may omit)
+  self_labeled_error: z.string().max(64).optional(),
+  what_were_you_thinking: z.string().max(1000).optional(),
 });
 
 /**
@@ -35,6 +38,7 @@ export async function POST(req: NextRequest) {
     user_id, question_type, question_id, selected_answer,
     time_spent_ms, confidence_pre, session_id, session_mode,
     is_contrast_question,
+    self_labeled_error, what_were_you_thinking,
   } = parsed.data;
 
   const supabase = createAdminClient();
@@ -201,6 +205,9 @@ export async function POST(req: NextRequest) {
       is_contrast_question: isContrastQ,
       contrast_success: isContrastQ ? isCorrect : null,
       confusion_set_id: confusionSetId,
+      // v23 Rule 6 — metacognitive capture (null when client omits or answer correct)
+      self_labeled_error: self_labeled_error ?? null,
+      what_were_you_thinking: what_were_you_thinking ?? null,
     })
     .select('id')
     .single();
@@ -310,6 +317,46 @@ export async function POST(req: NextRequest) {
     timingFeedback = getTimingFeedback(time_spent_ms, avgRow?.avg_time_ms ?? null);
   }
 
+  // v23 Rule 9 — user_progression_phase drives the selector system-clustering behavior.
+  // The generated column is derived from total_attempts on any learner_model row.
+  // We aggregate across dimensions to get the user's global phase.
+  let userProgressionPhase: 'system_clustered' | 'partially_mixed' | 'fully_random' = 'system_clustered';
+  {
+    const { data: phaseRow } = await supabase
+      .from('learner_model')
+      .select('total_attempts')
+      .eq('user_id', user_id)
+      .eq('dimension_type', 'topic')
+      .order('total_attempts', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    const totalAttempts = phaseRow?.total_attempts ?? 0;
+    userProgressionPhase =
+      totalAttempts < 200 ? 'system_clustered'
+      : totalAttempts < 800 ? 'partially_mixed'
+      : 'fully_random';
+  }
+
+  // v23 Rule 2 — easy-miss signal: if the user missed an item tagged
+  // easy_recognition, repair shifts to content-gap remediation rather than a
+  // cognitive-error correction.
+  let easyRecognitionMiss = false;
+  if (!isCorrect && question_type === 'item_draft') {
+    const { data: draftDiff } = await supabase
+      .from('item_draft')
+      .select('case_plan_id')
+      .eq('id', question_id)
+      .single();
+    if (draftDiff?.case_plan_id) {
+      const { data: cp } = await supabase
+        .from('case_plan')
+        .select('difficulty_class')
+        .eq('id', draftDiff.case_plan_id)
+        .single();
+      easyRecognitionMiss = cp?.difficulty_class === 'easy_recognition';
+    }
+  }
+
   return NextResponse.json({
     attemptId: attempt.id,
     isCorrect,
@@ -328,5 +375,12 @@ export async function POST(req: NextRequest) {
     sessionComplete,
     // Palmerton timing feedback
     timingFeedback,
+    // v23 Rule 9 — guides selector system-clustering
+    userProgressionPhase,
+    // v23 Rule 2 — easy-miss content-gap signal (UI copies this)
+    easyRecognitionMiss,
+    // v24 — drives adaptive explanation display depth (<0.4 novice / 0.4-0.7 targeted / >0.7 expert)
+    dimensionMastery,
+    topicDimensionId: topicDim?.id ?? null,
   });
 }

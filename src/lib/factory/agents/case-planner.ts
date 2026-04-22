@@ -17,6 +17,8 @@ interface CasePlannerInput {
   actionClasses?: { id: string; name: string; priority_rank: number }[];
   confusionSets?: { id: string; name: string }[];
   transferRules?: { id: string; rule_text: string }[];
+  // v23 Rule 2 — batch-time difficulty hint
+  difficultyClassHint?: 'easy_recognition' | 'decision_fork' | 'hard_discrimination';
 }
 
 /**
@@ -84,6 +86,7 @@ export async function run(
         confusion_sets: JSON.stringify(data.confusionSets ?? [], null, 2),
         transfer_rules: JSON.stringify(data.transferRules ?? [], null, 2),
         di_context: diContext || 'No board review reference content available for this topic.',
+        difficulty_class_hint: data.difficultyClassHint ?? 'not specified — use your judgment',
       };
     },
   });
@@ -103,6 +106,8 @@ export async function run(
     'ambiguity_level', 'distractor_strength', 'clinical_complexity',
     'ambiguity_strategy', 'distractor_design', 'final_decisive_clue',
     'explanation_teaching_goal',
+    // v23 Elite-Tutor rules
+    'reasoning_step_count', 'reasoning_steps', 'difficulty_class',
   ] as const;
   const dbPayload: Record<string, unknown> = {
     blueprint_node_id: input.node.id,
@@ -114,27 +119,36 @@ export async function run(
     }
   }
 
-  // Compute variant_group_id: hash of transfer_rule_id + confusion_set_id
-  // Questions in the same variant group test the same rule/confusion set and
-  // should be treated as variants for spaced review (never served in same session).
+  // Try to insert with variant_group_id if the column exists
   const trId = dbPayload.target_transfer_rule_id as string | null;
   const csId = dbPayload.target_confusion_set_id as string | null;
+  let variantGroupId: string | null = null;
   if (trId || csId) {
     const raw = `${trId ?? 'none'}:${csId ?? 'none'}`;
-    // Simple hash → UUID-like string for variant_group_id
     let hash = 0;
     for (let i = 0; i < raw.length; i++) {
       hash = ((hash << 5) - hash + raw.charCodeAt(i)) | 0;
     }
     const hex = Math.abs(hash).toString(16).padStart(8, '0');
-    dbPayload.variant_group_id = `${hex.slice(0, 8)}-${hex.slice(0, 4)}-4${hex.slice(1, 4)}-a${hex.slice(1, 4)}-${hex.padEnd(12, '0').slice(0, 12)}`;
+    variantGroupId = `${hex.slice(0, 8)}-${hex.slice(0, 4)}-4${hex.slice(1, 4)}-a${hex.slice(1, 4)}-${hex.padEnd(12, '0').slice(0, 12)}`;
   }
 
-  const { data: plan, error } = await supabase
+  // Insert — try with variant_group_id, fall back without if column doesn't exist
+  let { data: plan, error } = await supabase
     .from('case_plan')
-    .insert(dbPayload)
+    .insert(variantGroupId ? { ...dbPayload, variant_group_id: variantGroupId } : dbPayload)
     .select('id')
     .single();
+
+  if (error?.message?.includes('schema cache') || error?.message?.includes('variant_group_id')) {
+    const retry = await supabase
+      .from('case_plan')
+      .insert(dbPayload)
+      .select('id')
+      .single();
+    plan = retry.data;
+    error = retry.error;
+  }
 
   if (error || !plan) {
     return {

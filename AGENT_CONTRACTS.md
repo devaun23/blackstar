@@ -386,3 +386,46 @@ Each agent has a bounded role. This document defines what each agent may and may
 
 **Pass criteria:** Explanations focus on decision logic, not disease teaching. Each why_wrong is specific to that option.
 **Fail criteria:** Disease lecture instead of decision explanation. Generic why_wrong. Reasoning pathway is vague.
+
+---
+
+## Elite-Tutor Rule Contracts (additive to v1/v2 contracts above)
+
+The following contract obligations layer on top of the existing v1/v2 agent roles and are enforced by the validators listed. See `ELITE_TUTOR_PRINCIPLES.md` for the full rule spec.
+
+### Case Planner (additions)
+
+Additional required outputs in `case_plan`:
+
+- `reasoning_step_count: int (2–4)` — the number of sequential decisions the item requires (Rule 1).
+- `reasoning_steps[]` — ordered array of `{ step_number, what_student_must_recognize, clinical_signal }`. Each `clinical_signal` must be a concrete datum resolvable from the vignette text.
+- `difficulty_class: 'easy_recognition' | 'decision_fork' | 'hard_discrimination'` (Rule 2).
+- `option_frames[].archetype: 'correct' | 'primary_competitor' | 'near_miss' | 'zebra' | 'implausible' | 'neutral'` — exactly one `correct`, exactly one `primary_competitor`, 0–1 `zebra` (Rule 3).
+
+**May NOT decide:** whether a rule applies to this item (all rules apply to every item).
+**Fail criteria:** R-REAS-01, R-OPT-04, R-OPT-05.
+
+### Skeleton Writer (additions)
+
+Additional required outputs in `question_skeleton`:
+
+- `planned_details[].target_option_archetype` — mirrors the case_plan archetype tag so each hinge/competing/noise detail is allocated to a specific archetype.
+
+**Fail criteria:** Archetype allocation inconsistent with `case_plan.option_frames` (e.g., hinge detail targets a `neutral` archetype instead of `primary_competitor`).
+
+### Explanation Writer (additions)
+
+Additional required outputs:
+
+- `down_to_two_discrimination: { competitor_option, tipping_detail, counterfactual }` (Rule 4). `counterfactual` must state the modified scenario where `competitor_option` would be correct and must reference at least one concrete stem detail.
+- `question_writer_intent: string (20–200 chars)` (Rule 10). Must follow the template "This question tests whether you prioritize X over Y when Z" and must not simply restate the transfer rule.
+- `easy_recognition_check: string | null` — required when `case_plan.difficulty_class === 'easy_recognition'`; null otherwise. One-line pattern the competent student should recognize on sight.
+
+**Pass criteria:** All three fields populated per their constraints; `medicine_deep_dive` passes the teachable-from-scratch rubric.
+**Fail criteria:** R-EXP-03, R-EXP-04, R-EXP-05.
+
+### New Validator Responsibilities
+
+- **NBME Quality Validator** — enforces R-REAS-01, R-REAS-02; confirms hinge is at or after reasoning step 2.
+- **Option Symmetry Validator** — enforces R-OPT-04, R-OPT-05; confirms `primary_competitor` length within 15% of `correct`; confirms `zebra` (if present) is recognizably exotic.
+- **Explanation Validator** — enforces R-EXP-03, R-EXP-04, R-EXP-05; runs `teachable_from_scratch` rubric; validates `question_writer_intent` template.

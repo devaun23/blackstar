@@ -20,6 +20,23 @@ Build an AI-powered question factory that mirrors how NBME creates board exam it
 
 7. **Cognitive error targeting.** Every question is designed to exploit a specific cognitive error (anchoring, premature closure, etc.). The most common wrong answer should feel right to someone making that error.
 
+## Ten Operating Rules
+
+Every published item must satisfy the ten elite-tutor rules that govern *how questions teach*. See `ELITE_TUTOR_PRINCIPLES.md` for the full spec with enforcement levers.
+
+1. **Multi-step reasoning** — every item decomposes into 2–4 linked decisions.
+2. **30% easy pattern recognition** — the bank requires `easy_recognition` items to detect content gaps.
+3. **One zebra maximum** — distractors carry explicit archetypes; exactly one `primary_competitor`, at most one `zebra`.
+4. **Teach the "down to two"** — every explanation names the tipping detail + counterfactual.
+5. **Explanations ARE the textbook** — teachable from scratch, not feedback addenda.
+6. **Capture reasoning, not just answers** — free-text `what_were_you_thinking` on wrong answers.
+7. **No softened feedback** — the emotional sting of being wrong drives retention.
+8. **Timer visible in practice, enforced in assessment** — 90s countdown with auto-submit.
+9. **System-focused → mixed progression** — automatic, driven by `user_progression_phase`.
+10. **Question-writer intent on every explanation** — "This question tests whether you prioritize X over Y when Z."
+
+**Success criterion:** Every published item satisfies all ten rules; violations are auto-kills (see `REJECTION_RULES.md` R-REAS-01 through R-EXP-05).
+
 ## Anti-Patterns
 
 - **Topic drift:** Generating questions outside the blueprint because Claude thinks they're interesting.

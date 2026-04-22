@@ -2,7 +2,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { explanationOutputSchema } from '@/lib/factory/schemas';
 import type { ExplanationOutput } from '@/lib/factory/schemas';
 import type { AgentContext, AgentOutput } from '@/lib/types/factory';
-import type { ItemDraftRow, AlgorithmCardRow, FactRowRow, BlueprintNodeRow, ConfusionSetRow } from '@/lib/types/database';
+import type { ItemDraftRow, AlgorithmCardRow, FactRowRow, BlueprintNodeRow, ConfusionSetRow, CasePlanRow } from '@/lib/types/database';
 import type { DrugPharmacology } from '@/lib/factory/source-packs/types';
 import { runAgent } from '../agent-helpers';
 import { getVisualCoverage } from '../seeds/visual-coverage';
@@ -24,6 +24,7 @@ interface ExplanationWriterInput {
   targetCognitiveErrorId?: string;  // From case_plan — for Palmerton gap coaching
   confusionSet?: ConfusionSetRow | null;  // v22 — drives comparison_table output
   drugOptions?: DrugOption[];  // v22 — drives pharmacology_notes output
+  casePlan?: CasePlanRow;     // v23 — supplies difficulty_class + option archetypes for Rule 2 / Rule 4
 }
 
 /** Render confusion-set context for the prompt. "NONE" if not applicable. */
@@ -33,6 +34,7 @@ function renderConfusionSetBlock(cs: ConfusionSetRow | null | undefined): string
   const clues = Array.isArray(cs.discriminating_clues) ? cs.discriminating_clues as unknown[] : [];
   const traps = Array.isArray(cs.common_traps) ? cs.common_traps : [];
   return JSON.stringify({
+    id: cs.id,  // UUID — model must echo this verbatim into comparison_table.confusion_set_id, NEVER invent a slug
     name: cs.name,
     condition_a: conditions[0] ?? '',
     condition_b: conditions[1] ?? '',
@@ -124,6 +126,17 @@ export async function run(
       vars.confusion_set_block = renderConfusionSetBlock(data.confusionSet);
       vars.drug_options_block = renderDrugOptionsBlock(data.drugOptions);
 
+      // v23 — supply case_plan so writer knows difficulty_class (Rule 2) and
+      // option_frames archetypes (Rule 4 primary_competitor identification)
+      vars.case_plan = data.casePlan
+        ? JSON.stringify({
+            difficulty_class: data.casePlan.difficulty_class,
+            reasoning_steps: data.casePlan.reasoning_steps,
+            option_frames: data.casePlan.option_frames,
+            correct_option_frame_id: data.casePlan.correct_option_frame_id,
+          }, null, 2)
+        : 'Not supplied — infer difficulty_class as decision_fork and identify primary_competitor from draft context';
+
       return vars;
     },
   });
@@ -152,6 +165,12 @@ export async function run(
       'visual_specs',
       'explanation_gap_coaching',
       'explanation_counterfactual',
+      // v24 — strip if migration hasn't landed yet during v7 rollout
+      'anchor_rule',
+      'illness_script',
+      'reasoning_compressed',
+      'management_protocol',
+      'traps',
     ]) {
       if (key in safePayload) delete safePayload[key];
     }

@@ -11,17 +11,20 @@ const SELF_LABEL_OPTIONS = [
 
 interface MetacognitiveInputsProps {
   isCorrect: boolean;
-  onReady: (data: { selfLabeledError?: string }) => void;
+  onReady: (data: { selfLabeledError?: string; whatWereYouThinking?: string }) => void;
 }
 
 export default function MetacognitiveInputs({ isCorrect, onReady }: MetacognitiveInputsProps) {
   const [selfLabel, setSelfLabel] = useState<string | null>(null);
+  const [thinking, setThinking] = useState('');
 
   const handleNext = () => {
     onReady({
       selfLabeledError: selfLabel ?? undefined,
+      whatWereYouThinking: thinking.trim() || undefined,
     });
     setSelfLabel(null);
+    setThinking('');
   };
 
   return (
@@ -48,6 +51,21 @@ export default function MetacognitiveInputs({ isCorrect, onReady }: Metacognitiv
                 </button>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* v23 Rule 6 — free-text reasoning capture on wrong answers. Optional; does not gate advance. */}
+        {!isCorrect && (
+          <div className="mb-2.5">
+            <input
+              type="text"
+              value={thinking}
+              onChange={(e) => setThinking(e.target.value)}
+              placeholder="What were you thinking? (optional)"
+              autoFocus
+              maxLength={1000}
+              className="w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-xs text-zinc-200 placeholder:text-zinc-600 focus:border-zinc-600 focus:outline-none"
+            />
           </div>
         )}
 

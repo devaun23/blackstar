@@ -46,6 +46,8 @@ export interface PipelineConfig {
   skipExplanation?: boolean; // Skip explanation writing + publish (harness mode)
   juryEnabled?: boolean;     // Enable multi-model jury on high-stakes validators
   validatorSampleCount?: number; // Self-consistency sampling: run medical validator N times (default 1)
+  // v23: Elite-Tutor Rule 2 — batch-time difficulty hint; passed to case_planner v5
+  difficultyClassHint?: 'easy_recognition' | 'decision_fork' | 'hard_discrimination';
 }
 
 export interface AgentStepResult {

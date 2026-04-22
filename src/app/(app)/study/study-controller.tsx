@@ -12,6 +12,7 @@ interface ActiveSession {
   targetDimensionType?: DimensionType;
   targetDimensionId?: string;
   timeLimitSeconds?: number;
+  perQuestionTimer?: boolean;
 }
 
 export default function StudyController({ userId }: { userId: string }) {
@@ -54,6 +55,7 @@ export default function StudyController({ userId }: { userId: string }) {
         sessionMode={activeSession.mode}
         targetCount={activeSession.targetCount}
         timeLimitSeconds={activeSession.timeLimitSeconds}
+        perQuestionTimer={activeSession.perQuestionTimer}
         onSessionEnd={() => setActiveSession(null)}
       />
     );

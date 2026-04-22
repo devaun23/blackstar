@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { hingeDepthEnum } from './case-plan';
+import { hingeDepthEnum, optionArchetypeEnum } from './case-plan';
 
 // Frame-anchored option — each slot inherits from case_plan.option_frames
 // The skeleton writer fills cognitive_error_id per distractor; the vignette writer fills rendered_text
@@ -14,6 +14,7 @@ const skeletonOptionFrameSchema = z.object({
   id: z.enum(['A', 'B', 'C', 'D', 'E']),
   class: z.string().min(1),                               // must match option_action_class
   meaning: z.string().min(5),                              // clinical meaning (from case_plan)
+  archetype: optionArchetypeEnum,                          // Rule 3 — mirrored from case_plan.option_frames
   cognitive_error_id: nullableUuid,                        // null for the correct option
   action_class_id: nullableUuid.optional(),
   rendered_text: z.string().nullable().optional(),         // NBME-polished wording (vignette_writer fills this)
@@ -45,6 +46,8 @@ export const questionSkeletonSchema = z.object({
     detail: z.string().min(3),                        // e.g., "WBC 18,000", "bilateral crackles"
     purpose: z.enum(['hinge', 'supporting', 'competing', 'noise']),
     target_option: z.enum(['A', 'B', 'C', 'D', 'E']).nullable().optional(), // null for noise, required for competing
+    // Rule 3 mirror — the archetype of target_option in case_plan; optional (noise has no target)
+    target_option_archetype: optionArchetypeEnum.nullable().optional(),
   })).min(4).max(12).optional(),
 
   // B2: Temporal ordering — required for management_sequencing or "first/next/initial" lead-ins

@@ -35,11 +35,11 @@ export function MobileNav({ user, className }: MobileNavProps) {
     <header className={cn('flex h-14 items-center border-b border-border bg-sidebar px-4', className)}>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
-          render={
-            <Button variant="ghost" size="icon" className="h-8 w-8">
+          render={(props) => (
+            <Button {...props} variant="ghost" size="icon" className="h-8 w-8">
               <Menu className="h-5 w-5" />
             </Button>
-          }
+          )}
         />
         <SheetContent side="left" className="w-64 p-0">
           <SheetTitle className="sr-only">Navigation</SheetTitle>

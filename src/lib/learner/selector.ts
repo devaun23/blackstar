@@ -329,6 +329,120 @@ async function getServedIds(
 }
 
 /**
+ * v23 Rule 9 — derive the user's progression phase from total attempts.
+ * <200 → system_clustered, <800 → partially_mixed, ≥800 → fully_random.
+ * Reads the max total_attempts across topic dimensions (the broadest proxy).
+ */
+async function getUserProgressionPhase(
+  supabase: ReturnType<typeof createAdminClient>,
+  userId: string,
+): Promise<'system_clustered' | 'partially_mixed' | 'fully_random'> {
+  const { data: row } = await supabase
+    .from('learner_model')
+    .select('total_attempts')
+    .eq('user_id', userId)
+    .eq('dimension_type', 'topic')
+    .order('total_attempts', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  const total = row?.total_attempts ?? 0;
+  if (total < 200) return 'system_clustered';
+  if (total < 800) return 'partially_mixed';
+  return 'fully_random';
+}
+
+/**
+ * v23 Rule 9 — system-clustered selection.
+ * Early users (first ~200 attempts) learn from same-system blocks of 4-6 questions
+ * before switching systems. This builds pattern density before cross-system mixing.
+ * Returns null if no candidate matches — caller falls through to adaptive flow.
+ */
+async function selectClusteredBySystem(
+  supabase: ReturnType<typeof createAdminClient>,
+  userId: string,
+  servedIds: Set<string>,
+): Promise<SelectedQuestion | null> {
+  // Get the last 3 attempts' systems to infer the current cluster
+  const { data: recent } = await supabase
+    .from('attempt_v2')
+    .select('item_draft_id, created_at')
+    .eq('user_id', userId)
+    .not('item_draft_id', 'is', null)
+    .order('created_at', { ascending: false })
+    .limit(6);
+
+  if (!recent || recent.length === 0) return null;
+
+  // Look up systems for recent drafts
+  const draftIds = recent.map(r => r.item_draft_id).filter(Boolean) as string[];
+  const { data: drafts } = await supabase
+    .from('item_draft')
+    .select('id, blueprint_node_id')
+    .in('id', draftIds);
+  const nodeIds = [...new Set((drafts ?? []).map(d => d.blueprint_node_id).filter(Boolean) as string[])];
+  if (nodeIds.length === 0) return null;
+
+  const { data: nodes } = await supabase
+    .from('blueprint_node')
+    .select('id, system')
+    .in('id', nodeIds);
+  const nodeSystemMap = new Map((nodes ?? []).map(n => [n.id, n.system]));
+
+  // Determine the current cluster system (most common in last 3 attempts)
+  const recentSystems: string[] = [];
+  for (const r of recent.slice(0, 3)) {
+    const draft = (drafts ?? []).find(d => d.id === r.item_draft_id);
+    const system = draft?.blueprint_node_id ? nodeSystemMap.get(draft.blueprint_node_id) : undefined;
+    if (system) recentSystems.push(system);
+  }
+  if (recentSystems.length === 0) return null;
+
+  const systemCounts: Record<string, number> = {};
+  for (const s of recentSystems) systemCounts[s] = (systemCounts[s] ?? 0) + 1;
+  const currentSystem = Object.entries(systemCounts).sort((a, b) => b[1] - a[1])[0]?.[0];
+  if (!currentSystem) return null;
+
+  // Count consecutive attempts in this system — switch after 4-6
+  let consecutive = 0;
+  for (const r of recent) {
+    const draft = (drafts ?? []).find(d => d.id === r.item_draft_id);
+    const system = draft?.blueprint_node_id ? nodeSystemMap.get(draft.blueprint_node_id) : undefined;
+    if (system === currentSystem) consecutive++;
+    else break;
+  }
+  if (consecutive >= 5) return null;  // let main flow pick a new system
+
+  // Find an unseen published item in the current system
+  const { data: sameSystemNodes } = await supabase
+    .from('blueprint_node')
+    .select('id')
+    .eq('system', currentSystem);
+  const sameSystemIds = (sameSystemNodes ?? []).map(n => n.id);
+  if (sameSystemIds.length === 0) return null;
+
+  const { data: candidates } = await supabase
+    .from('item_draft')
+    .select('id, blueprint_node_id')
+    .eq('status', 'published')
+    .in('blueprint_node_id', sameSystemIds)
+    .limit(50);
+
+  const unseen = (candidates ?? []).filter(c => !servedIds.has(c.id));
+  if (unseen.length === 0) return null;
+
+  const pick = unseen[Math.floor(Math.random() * unseen.length)];
+  return {
+    questionId: pick.id,
+    questionType: 'item_draft',
+    strategy: {
+      dimensionType: 'topic',
+      dimensionId: currentSystem,
+      reason: `system_clustered_${currentSystem}_${consecutive + 1}`,
+    },
+  };
+}
+
+/**
  * Selects the next question for adaptive delivery.
  *
  * Strategy:
@@ -432,6 +546,18 @@ export async function selectNextQuestion(
       supabase, lastRepairAction, lastDimensionType, lastDimensionId, lastCorrectOptionFrameId, servedIds
     );
     if (repairResult) return repairResult;
+  }
+
+  // v23 Rule 9 — System-clustering phase gate.
+  // user_progression_phase derives from total_attempts across any learner_model dimension.
+  // In 'system_clustered' (< 200 attempts) we bias selection to the same system as the
+  // previous 2-3 attempts so early users build pattern density. In 'partially_mixed'
+  // (< 800) we allow cross-system but maintain topic-diversity. In 'fully_random'
+  // (≥ 800) we skip this gate entirely and fall through to the standard adaptive flow.
+  const progressionPhase = await getUserProgressionPhase(supabase, userId);
+  if (progressionPhase === 'system_clustered') {
+    const clustered = await selectClusteredBySystem(supabase, userId, servedIds);
+    if (clustered) return clustered;
   }
 
   // 2. Auto-mix: ~30% retention / ~70% training

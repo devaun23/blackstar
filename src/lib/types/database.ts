@@ -174,6 +174,29 @@ export interface ItemDraftRow {
   estimated_difficulty: number | null;
   near_miss_option: 'A' | 'B' | 'C' | 'D' | 'E' | null;
   near_miss_pivot_detail: string | null;
+  // v23: Elite-Tutor rules (Rule 4 / 10 / 2)
+  down_to_two_discrimination: {
+    competitor_option: 'A' | 'B' | 'C' | 'D' | 'E';
+    tipping_detail: string;
+    counterfactual: string;
+  } | null;
+  question_writer_intent: string | null;
+  easy_recognition_check: string | null;
+  // v24: 7-component adaptive explanation display
+  anchor_rule: string | null;
+  illness_script: string | null;
+  reasoning_compressed: string | null;
+  management_protocol: Array<{
+    step_num: number;
+    action: string;
+    criterion: string | null;
+  }> | null;
+  traps: Array<{
+    trap_name: string;
+    validation: string;
+    correction: string;
+    maps_to_option: 'A' | 'B' | 'C' | 'D' | 'E' | null;
+  }> | null;
   created_at: string;
   updated_at: string;
 }
@@ -458,6 +481,15 @@ export type DecisionForkType =
   | 'timing_decision'
   | 'severity_ambiguity';
 
+export type DifficultyClass = 'easy_recognition' | 'decision_fork' | 'hard_discrimination';
+export type OptionArchetype =
+  | 'correct'
+  | 'primary_competitor'
+  | 'near_miss'
+  | 'zebra'
+  | 'implausible'
+  | 'neutral';
+
 export interface CasePlanRow {
   id: string;
   blueprint_node_id: string;
@@ -469,8 +501,26 @@ export interface CasePlanRow {
   decision_fork_type: DecisionForkType;
   decision_fork_description: string;
   option_action_class: string;
+  // v23: Elite-Tutor Rule 1 — multi-step reasoning chain
+  reasoning_step_count: number | null;
+  reasoning_steps: Array<{
+    step_number: number;
+    what_student_must_recognize: string;
+    clinical_signal: string;
+  }> | null;
+  // v23: Elite-Tutor Rule 2 — difficulty class
+  difficulty_class: DifficultyClass | null;
   // Pre-specified option frames — answer semantics are system-controlled
-  option_frames: Array<{ id: string; class: string; meaning: string }>;
+  // v23: archetype added for Elite-Tutor Rule 3
+  option_frames: Array<{
+    id: string;
+    class: string;
+    meaning: string;
+    archetype?: OptionArchetype;
+    near_miss?: boolean;
+    pivot_detail?: string | null;
+    correct_if?: string | null;
+  }>;
   correct_option_frame_id: string;
   distractor_rationale_by_frame?: Record<string, string>;
   forbidden_option_classes?: string[];
@@ -539,6 +589,8 @@ export interface QuestionSkeletonRow {
 
 // --- v10 Learner Model row types ---
 
+export type UserProgressionPhase = 'system_clustered' | 'partially_mixed' | 'fully_random';
+
 export interface LearnerModelRow {
   id: string;
   user_id: string;
@@ -552,6 +604,8 @@ export interface LearnerModelRow {
   next_review_due: string;
   avg_time_ms: number | null;
   error_frequency: Record<string, number> | null;
+  // v23: Rule 9 — generated from total_attempts (<200 / <800 / ≥800)
+  user_progression_phase: UserProgressionPhase | null;
   created_at: string;
   updated_at: string;
 }
@@ -577,6 +631,8 @@ export interface AttemptV2Row {
   is_contrast_question: boolean;
   contrast_success: boolean | null;
   confusion_set_id: string | null;
+  // v23: Rule 6 — free-text metacognitive capture on wrong answers
+  what_were_you_thinking: string | null;
   created_at: string;
 }
 
