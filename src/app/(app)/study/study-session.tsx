@@ -492,7 +492,7 @@ export default function StudySession({
 
   const isCorrect = phase === 'reviewing' ? selected === current.correct_answer : false;
   const errorType = phase === 'reviewing' && !isCorrect
-    ? current.error_map[selected!] ?? null
+    ? resolveErrorName(current.error_map[selected!])
     : null;
   const correctCount = attempts.filter(a => a.isCorrect).length;
 
