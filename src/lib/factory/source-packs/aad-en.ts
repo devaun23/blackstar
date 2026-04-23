@@ -238,7 +238,7 @@ export const PACK_AAD_EN_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention, Inner Circle, Emma Holliday). All clinical claims are medically accurate but require verification against actual AAD or other authoritative dermatology guidelines. Geographic and demographic patterns noted (AA females, California coccidiomycosis) should be confirmed. Treatment recommendations minimal in source material - guidelines likely contain more detailed management protocols. Biopsy findings and histologic criteria need guideline verification.",

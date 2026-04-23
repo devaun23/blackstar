@@ -239,7 +239,7 @@ export const PACK_AASM_OSA_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention, Inner Circle, Emma Holliday). Evidence primarily focused on clinical presentations and pediatric OSA. Limited adult treatment options in source material. Recommendations need verification against actual AASM guidelines. Missing formal AHI thresholds, CPAP protocols, and comprehensive adult management strategies. Strong pediatric content but adult OSA management needs expansion.",

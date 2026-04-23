@@ -222,7 +222,7 @@ export const PACK_ENDOCRINE_PA_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T15:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Created from board review sources (DI/IC). Key items identified include classic clinical triad, PAC:PRA ratio screening, and treatment differentiation between adenoma vs hyperplasia. Missing specific threshold values, detailed drug dosing, and confirmatory testing procedures that need verification against actual Endocrine Society guidelines. Several clinical pearls about licorice ingestion and Cushing's overlap noted but not fully integrated pending guideline review.",

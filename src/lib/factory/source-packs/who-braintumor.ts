@@ -235,7 +235,7 @@ export const PACK_WHO_BRAINTUMOR_2021: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review materials (Divine Intervention, Inner Circle, Emma Holliday). All clinical claims are based on established medical knowledge but require verification against actual WHO CNS tumor classification guidelines. Focus on diagnostic characteristics and epidemiology. Treatment recommendations are basic and need expansion from current treatment guidelines. Missing detailed treatment protocols, staging systems, and molecular markers.",

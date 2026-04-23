@@ -1105,6 +1105,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
               agents.rubricScorer.run(context, {
                 draft: scorerDraft as ItemDraftRow,
                 card: card as AlgorithmCardRow,
+                ...(config.evaluatorModel ? { model: config.evaluatorModel } : {}),
               })
             );
             rubricScorerOverall = scorerResult.overall_score;
@@ -1162,6 +1163,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
               cognitiveErrorNames,
               validatorReports: reportsByType,
               rubricScorerOverall,
+              ...(config.evaluatorModel ? { model: config.evaluatorModel } : {}),
             })
           );
 

@@ -280,7 +280,7 @@ export const PACK_IDSA_SA_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). Key items include arthrocentesis recommendations, WBC threshold >50k, empiric antibiotic protocols, and organism-specific treatments. Requires verification against actual IDSA septic arthritis guidelines. Missing formal diagnostic criteria and severity classifications from guidelines. Red flag section needs expansion with more emergency presentations.",

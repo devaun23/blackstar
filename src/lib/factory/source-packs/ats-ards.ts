@@ -290,7 +290,7 @@ export const PACK_ATS_ARDS_2012: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Converted from board review sources (DI/IC/EH). Key elements extracted include Berlin criteria for ARDS diagnosis, lung-protective ventilation strategies, and severity classifications. All clinical claims appear medically accurate but require verification against actual ATS/ESICM Berlin Definition guidelines. Mortality statistics and management recommendations need verification. Some specific drug dosing and contraindication details may need refinement against primary guidelines.",

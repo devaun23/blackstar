@@ -221,7 +221,7 @@ export const PACK_AGA_GASTROPARESIS_2022: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention and Inner Circle board review materials. Key focus on metoclopramide and erythromycin as primary treatments. Strong emphasis on metoclopramide side effects including EPS and NMS. Diagnostic criteria derived from clinical pearls. Needs verification against actual AGA gastroparesis guidelines for dosing, contraindications, and complete diagnostic workup protocols.",

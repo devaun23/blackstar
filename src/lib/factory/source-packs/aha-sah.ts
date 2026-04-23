@@ -217,7 +217,7 @@ export const PACK_AHA_SAH_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review materials (Divine Intervention, Inner Circle, Emma Holliday). Key items extracted include: diagnostic workup with CT/LP, nimodipine for vasospasm prevention, BP management, and classic presentation patterns. Notable associations mentioned include ADPKD, MVP, and anterior communicating artery aneurysms. Requires verification against actual AHA/ASA guidelines for dosing details, specific protocols, and evidence grading. Some clinical pearls may need expansion into formal recommendations.",

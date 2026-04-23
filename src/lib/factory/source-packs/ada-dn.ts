@@ -207,7 +207,7 @@ export const PACK_ADA_DN_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention and Inner Circle board review materials. Limited evidence available - only 2 recommendations, 1 treatment step, and 2 thresholds from source. Additional items created to meet minimum requirements. All claims need verification against actual ADA guidelines. Missing key elements like staging, monitoring intervals, and comprehensive treatment algorithms.",

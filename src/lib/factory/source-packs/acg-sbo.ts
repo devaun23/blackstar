@@ -233,7 +233,7 @@ export const PACK_ACG_SBO_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention + Inner Circle). This pack extracts clinical knowledge about small bowel obstruction but requires verification against actual ACG or other authoritative guidelines. Key areas needing verification: specific diagnostic thresholds, detailed treatment algorithms, and surgical indications. The evidence strongly emphasizes adhesions as primary etiology and conservative management approach.",

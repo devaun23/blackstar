@@ -198,6 +198,8 @@ export interface ItemDraftRow {
     correction: string;
     maps_to_option: 'A' | 'B' | 'C' | 'D' | 'E' | null;
   }> | null;
+  // v27: source pack provenance (snapshotted at generation time)
+  source_packs_used: string[];
   created_at: string;
   updated_at: string;
 }
@@ -667,5 +669,81 @@ export interface LearningSessionRow {
   time_limit_seconds: number | null;
   started_at: string;
   completed_at: string | null;
+  created_at: string;
+}
+
+// --- v28 Policy layer, experiments, events, attributes, simulator ---
+// Hand-maintained until supabase gen types is re-run after v28 is applied.
+
+export interface ExperimentRow {
+  id: string;
+  name: string;
+  description: string | null;
+  arms: string[];
+  is_active: boolean;
+  started_at: string;
+  ended_at: string | null;
+}
+
+export interface ExperimentAssignmentRow {
+  user_id: string;
+  experiment_id: string;
+  arm: string;
+  assigned_at: string;
+}
+
+export type PolicyDecisionType = 'action' | 'selection';
+
+export interface PolicyDecisionRow {
+  id: string;
+  user_id: string;
+  attempt_id: string | null;
+  decision_type: PolicyDecisionType;
+  policy_name: string;
+  experiment_id: string | null;
+  arm: string;
+  context_snapshot: Record<string, unknown>;
+  choice: Record<string, unknown>;
+  created_at: string;
+}
+
+export interface AttemptEventRow {
+  id: string;
+  attempt_id: string;
+  event_type: string;
+  ts: string;
+  metadata: Record<string, unknown> | null;
+}
+
+export interface AttributeMasteryRow {
+  user_id: string;
+  attribute_id: string;
+  attribute_type: string;
+  mastery_level: number;
+  attempts: number;
+  correct: number;
+  last_seen_at: string | null;
+}
+
+export interface SimulatorRunRow {
+  id: string;
+  persona_id: string;
+  policy_name: string;
+  n_items: number;
+  metrics: Record<string, unknown>;
+  git_sha: string | null;
+  created_at: string;
+}
+
+export interface SimulatedResponseRow {
+  id: string;
+  simulator_run_id: string;
+  persona_id: string;
+  policy_name: string;
+  item_draft_id: string | null;
+  selected_answer: string;
+  is_correct: boolean;
+  simulated_time_ms: number | null;
+  simulated_confidence: number | null;
   created_at: string;
 }

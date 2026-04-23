@@ -175,6 +175,7 @@ export async function run(
     rubricScorerOverall,
     hardGatePass: true,
     metadataComplete,
+    v23StrictMissingCount: gates.metadataDetail.v23StrictMissing.length,
   });
 
   // ── Step 3: LLM grade the 3 new domains + both sub-rubrics ───────────────
@@ -222,6 +223,14 @@ export async function run(
 
   const decision = deriveMasterRubricDecision(true, scores, totalScore);
 
+  // Annotate notes with v23-strict metadata gaps so reviewers can see why
+  // production_readiness was docked below 10.
+  const v23Gaps = gates.metadataDetail.v23StrictMissing;
+  const v23Note = v23Gaps.length > 0
+    ? `v23_strict_missing: ${v23Gaps.join(', ')}. `
+    : '';
+  const composedNotes = (v23Note + (llm.notes ?? '')).trim() || null;
+
   const finalScore: MasterRubricScore = {
     item_id: draft.id,
     hard_gate_pass: true,
@@ -230,7 +239,7 @@ export async function run(
     total_score: totalScore,
     publish_decision: decision,
     metadata,
-    notes: llm.notes,
+    notes: composedNotes,
     explanation_sub_scores: llm.explanation_sub_scores,
     learner_modeling_sub_scores: llm.learner_modeling_sub_scores,
   };

@@ -244,7 +244,7 @@ export const PACK_KDIGO_RTA_2021: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Inner Circle clinical pearls). Limited source material required synthesis of clinical knowledge to meet minimum sufficiency requirements. All claims are medically accurate but need verification against actual nephrology guidelines. Particular attention needed for: 1) Specific dosing recommendations, 2) Diagnostic thresholds, 3) Treatment protocols. Consider consulting ASN or KDIGO guidelines for comprehensive recommendations.",

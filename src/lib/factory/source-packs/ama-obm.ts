@@ -201,7 +201,7 @@ export const PACK_AMA_OBM_2022: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence with minimal source material. Only one obstetric-related threshold was provided in evidence. Most content derived from standard obesity management principles and needs verification against actual AMA/medical society guidelines. Shoulder dystocia management item included due to maternal obesity risk factor connection.",

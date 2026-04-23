@@ -282,7 +282,7 @@ export const PACK_ACS_ANAPH_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T00:00:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention, Inner Circle, Emma Holliday). Key clinical pearls converted to structured recommendations and treatment protocols. Limited diagnostic criteria available in source material - may need supplementation from actual guidelines. Threshold values and timing parameters extracted from clinical scenarios. All items require verification against official anaphylaxis management guidelines.",

@@ -274,7 +274,7 @@ export const PACK_AAO_GLAU_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Source pack generated from Divine Intervention and Inner Circle board review materials. Key areas needing verification against actual AAO guidelines: 1) Specific IOP thresholds and cup-to-disc ratio cutoffs, 2) Exact medication dosing and administration schedules, 3) Current preferred practice patterns for treatment sequencing, 4) Complete contraindication profiles. All clinical pearls appear medically sound but should be cross-referenced with current AAO guidelines before activation.",

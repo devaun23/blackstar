@@ -7,6 +7,8 @@ import type { DrugPharmacology } from '@/lib/factory/source-packs/types';
 import { runAgent } from '../agent-helpers';
 import { getVisualCoverage } from '../seeds/visual-coverage';
 import { resolveDIContext } from '../di-loader';
+import { resolveSourceContext } from '../source-loader';
+import { NBME_STEM_ANCHORS } from '../nbme-style-anchors';
 
 /** Drug appearing in the draft's options, paired with its board-testable pharmacology. */
 export interface DrugOption {
@@ -68,12 +70,22 @@ export async function run(
     maxTokens: 12000,
     buildUserMessage: async (data) => {
       const topic = data.node?.topic ?? '';
-      const diContext = topic ? await resolveDIContext(topic) : '';
+      // Fetch DI/IC/AMBOSS/NBME evidence items and guideline source-pack prose in parallel.
+      // skipEnrichment on source_context avoids duplicating the DI items (which already
+      // flow in via di_context), while still surfacing full guideline text.
+      const [diContext, sourceContext] = topic
+        ? await Promise.all([
+            resolveDIContext(topic),
+            resolveSourceContext(topic, { skipEnrichment: true }),
+          ])
+        : ['', ''];
       const vars: Record<string, string> = {
         item_draft: JSON.stringify(data.draft, null, 2),
         algorithm_card: JSON.stringify(data.card, null, 2),
         fact_rows: JSON.stringify(data.facts, null, 2),
         di_context: diContext || 'No board review reference content available for this topic.',
+        source_context: sourceContext || 'No primary-source guideline prose available for this topic.',
+        nbme_style_anchors: NBME_STEM_ANCHORS,
       };
 
       // Inject visual guidance if coverage exists for this topic

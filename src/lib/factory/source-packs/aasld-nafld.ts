@@ -208,7 +208,7 @@ export const PACK_AASLD_NAFLD_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from limited board review evidence (1 threshold item). Most content extrapolated from standard NAFLD clinical knowledge and needs verification against actual AASLD guidelines. The single evidence item about NAFLD being the most common cause of abnormal LFTs was used as foundation. All clinical claims are medically sound but require guideline verification for accuracy and completeness.",

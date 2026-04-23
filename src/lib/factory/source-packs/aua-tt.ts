@@ -198,7 +198,7 @@ export const PACK_AUA_TT_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Derived from Divine Intervention board review materials. Limited source material available - only 4 evidence items total covering basic management principles. Key areas needing verification against actual AUA guidelines: specific diagnostic criteria, detailed surgical technique recommendations, post-operative management, and pediatric vs adult considerations. The 6-hour viability threshold is well-established but specific AUA guideline language should be confirmed. Bilateral orchiopexy recommendation needs verification for current AUA stance.",

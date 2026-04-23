@@ -267,7 +267,7 @@ export const PACK_ACG_CD_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Normalized from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). Key clinical features include malabsorption syndrome with fat-soluble vitamin deficiencies, iron deficiency anemia, dermatitis herpetiformis, and strong association with autoimmune conditions. Diagnostic approach emphasizes serology (anti-tTG, anti-endomysial) followed by duodenal biopsy. Treatment centers on strict gluten-free diet with supportive care for nutritional deficiencies. Requires verification against current ACG guidelines for accuracy of recommendations and thresholds.",

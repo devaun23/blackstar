@@ -5,6 +5,8 @@ import type { AgentContext, AgentOutput } from '@/lib/types/factory';
 import type { BlueprintNodeRow, AlgorithmCardRow, FactRowRow, ItemPlanRow, QuestionSkeletonRow } from '@/lib/types/database';
 import { runAgent } from '../agent-helpers';
 import { resolveDIContext } from '../di-loader';
+import { NBME_STEM_ANCHORS } from '../nbme-style-anchors';
+import { formatNbmeLeadInsBlock } from '../nbme-lead-in-templates';
 
 interface VariantMode {
   /** The skeleton to create a variant of */
@@ -42,8 +44,16 @@ export async function run(
     input,
     outputSchema: itemDraftSchema,
     buildUserMessage: async (data) => {
+      // Include NBME case_presentation + distractor_rule types so the writer sees
+      // how NBME actually structures vignettes and wrong-option design.
       const diContext = await resolveDIContext(data.node.topic, {
-        itemTypes: ['clinical_pearl', 'treatment_protocol', 'comparison_table'],
+        itemTypes: [
+          'clinical_pearl',
+          'treatment_protocol',
+          'comparison_table',
+          'case_presentation',
+          'distractor_rule',
+        ],
       });
       const vars: Record<string, string> = {
         blueprint_node: JSON.stringify(data.node, null, 2),
@@ -51,6 +61,10 @@ export async function run(
         item_plan: JSON.stringify(data.plan, null, 2),
         fact_rows: JSON.stringify(data.facts, null, 2),
         di_context: diContext || 'No board review reference content available for this topic.',
+        nbme_style_anchors: NBME_STEM_ANCHORS,
+        // Task-type-filtered NBME lead-ins from the 2024 Item-Writing Guide, Appendix B.
+        // Narrows the lead-in phrasing to ones actually used on NBME exams.
+        nbme_lead_ins: formatNbmeLeadInsBlock(data.node.task_type),
       };
       if (data.skeleton) {
         vars.question_skeleton = JSON.stringify(data.skeleton, null, 2);

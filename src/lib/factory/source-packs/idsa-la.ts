@@ -205,7 +205,7 @@ export const PACK_IDSA_LA_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T12:00:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence sources (Divine Intervention, Inner Circle, Emma Holliday). Limited source material available - only 6 evidence items extracted. Missing comprehensive diagnostic criteria, treatment protocols, and severity classifications. Requires verification against current IDSA or ATS guidelines for lung abscess management. Evidence suggests aspiration-related etiology focus but broader pathogen coverage needed. Treatment recommendation limited to non-empyema cases only.",

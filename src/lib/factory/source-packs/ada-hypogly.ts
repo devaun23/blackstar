@@ -293,7 +293,7 @@ export const PACK_ADA_HYPOGLY_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T00:00:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention, Inner Circle, Emma Holliday). Contains comprehensive coverage of hypoglycemia diagnosis and management. Key areas requiring verification: specific glucose thresholds, medication dosing protocols, exact ADA position statement recommendations. Strong coverage of neonatal hypoglycemia, drug-induced hypoglycemia, and differential diagnosis. Limited red flags identified in source material.",

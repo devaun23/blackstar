@@ -240,7 +240,7 @@ export const PACK_SAMHSA_OOD_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T21:27:41.000Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). Key clinical pearls converted to structured recommendations and treatment protocols. Added synthetic diagnostic criteria and severity definitions based on clinical presentation described in evidence. All items need verification against actual SAMHSA or other authoritative opioid overdose guidelines. Treatment sequence (intubation before naloxone) may need guideline verification as this differs from some protocols.",

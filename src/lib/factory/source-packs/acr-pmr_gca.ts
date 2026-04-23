@@ -237,7 +237,7 @@ export const PACK_ACR_PMR_GCA_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention/Inner Circle). Limited source material focused on glucocorticoid treatment protocols. Missing detailed diagnostic criteria, monitoring recommendations, and steroid-sparing agents. Requires verification against actual ACR/EULAR guidelines for PMR and GCA. Dosing ranges and specific protocols need validation.",

@@ -233,7 +233,7 @@ export const PACK_AASLD_AH_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28T12:00:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Source pack created from board review evidence items. Clinical presentation and diagnostic criteria well-represented. Treatment recommendations limited to supportive care - may need expansion with corticosteroid protocols and severity scoring systems from actual guideline. Laboratory thresholds and red flags derived from provided evidence but need verification against AASLD guidelines for completeness and accuracy.",

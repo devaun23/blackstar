@@ -231,7 +231,7 @@ export const PACK_AGA_CP_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Created from board review evidence (DI/IC/EH sources). Key areas needing guideline verification: 1) Specific diagnostic criteria and thresholds, 2) Treatment dosing and timing recommendations, 3) Severity classification systems, 4) Risk stratification approaches. Most common cause (alcoholism) consistently noted across sources. Pediatric CF association well-established. Pancreatic enzyme replacement and fat-soluble vitamins are standard therapy but specific protocols need verification.",

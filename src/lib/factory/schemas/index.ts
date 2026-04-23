@@ -13,6 +13,33 @@ export type { ItemDraftInput, ExplanationOutput } from './item-draft';
 export { validatorReportSchema, validatorTypeEnum } from './validator-report';
 export type { ValidatorReportInput } from './validator-report';
 
+export {
+  contraindicationReportSchema,
+  contraindicationTriggerSchema,
+  contraindicationSeverityEnum,
+  contraindicationSourceEnum,
+  contraindicationConfidenceEnum,
+  triggerFoundEnum,
+} from './contraindication-report';
+export type {
+  ContraindicationReportInput,
+  ContraindicationTrigger,
+} from './contraindication-report';
+
+// v26 multi-criterion rubric
+export {
+  rubricOutputSchema,
+  rubricSubScoresSchema,
+  rubricCriterionScoreSchema,
+  RUBRIC_VERSION,
+  RUBRIC_CRITERIA,
+} from './rubric-score';
+export type {
+  RubricOutput,
+  RubricSubScores,
+  RubricCriterion,
+} from './rubric-score';
+
 export { casePlanSchema, optionFrameSchema, cognitiveOperationEnum, hingeDepthEnum, decisionForkTypeEnum } from './case-plan';
 export type { CasePlanInput, OptionFrame } from './case-plan';
 

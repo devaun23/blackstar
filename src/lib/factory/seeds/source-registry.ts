@@ -97,6 +97,14 @@ export const sourceRegistry: SourceRegistrySeed[] = [
     url: 'https://www.usmle.org/prepare-your-exam',
     notes: 'Defines physician task distribution across Step 2 CK. Informs task_type weighting in blueprint generation.',
   },
+  {
+    category: 'review',
+    name: 'Cho et al. 2024 — KT + LLMs Systematic Review',
+    allowed_use: 'scope',
+    priority_rank: 8,
+    url: 'https://arxiv.org/abs/2412.09248',
+    notes: 'Systematic review of Knowledge Tracing taxonomy (BKT/FAM/DKT/attention/graph) + LLM integration patterns. Methodology reference only — never cite for clinical facts. Audit doc: docs/ARCHITECTURE_AUDIT_KT_LLM_PAPER_2026-04-22.md. Memory: reference_kt_llm_systematic_review.md.',
+  },
 
   // --- Content sources (guidelines, references, review notes) ---
   // Priority determines conflict resolution: lower number wins.

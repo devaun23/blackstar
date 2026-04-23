@@ -213,7 +213,7 @@ export const PACK_AACE_METALK_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). Key areas covered include primary hyperaldosteronism, diuretic-induced alkalosis, hyperemesis gravidarum, and basic treatment principles. All medical claims appear accurate but need verification against actual AACE or relevant endocrine society guidelines. Limited red flags and severity definitions available from source material.",

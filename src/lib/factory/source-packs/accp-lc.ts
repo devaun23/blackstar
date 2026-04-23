@@ -300,7 +300,7 @@ export const PACK_ACCP_LC_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Normalized from Divine Intervention/Inner Circle/Emma Holliday board review evidence. Key areas requiring verification: (1) Exact screening age criteria - sources show both 50-80 and 55-80 years, (2) Pack-year thresholds vary between 20 and 30, (3) Treatment protocols need verification against current NCCN/ACCP guidelines, (4) Paraneoplastic syndrome management details, (5) All provenance marked as derived from board review sources and requires verification against actual guidelines.",

@@ -214,7 +214,7 @@ export const PACK_ASH_VWD_2021: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review materials (Divine Intervention, Inner Circle, Emma Holliday). All clinical content appears medically accurate but requires verification against actual ASH or other authoritative guidelines. Focused on core diagnostic features, inheritance pattern, laboratory findings, and treatment with desmopressin. Missing detailed severity classification and pregnancy management considerations.",

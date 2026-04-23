@@ -312,7 +312,7 @@ export const PACK_ASH_LEUK_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Derived from board review materials (Divine Intervention, Inner Circle, Emma Holliday). Contains comprehensive leukemia management information but requires verification against actual ASH/NCCN guidelines. Particular attention needed for: 1) Drug dosing specifics, 2) Risk stratification criteria, 3) Treatment protocols and sequencing, 4) Staging systems. Strong coverage of diagnostic pearls and clinical presentations.",

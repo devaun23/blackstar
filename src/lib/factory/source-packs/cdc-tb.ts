@@ -281,7 +281,7 @@ export const PACK_CDC_TB_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Converted board review evidence from Divine Intervention and Emma Holliday sources. Key areas needing verification: (1) Specific dosing recommendations for RIPE regimen, (2) Duration variations for different TB forms, (3) Contraindications and monitoring requirements, (4) Pediatric considerations mentioned but not fully captured, (5) Drug-resistant TB protocols not included. All clinical claims are medically accurate but should be verified against current CDC/ATS guidelines for precise recommendations and dosing.",

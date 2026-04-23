@@ -222,7 +222,7 @@ export const PACK_AHS_B12DEF_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Converted from Divine Intervention/Inner Circle board review materials. Key items include B12 physiology, causes (vegan diet, pernicious anemia, Crohn's), diagnostic markers (MMA, homocysteine), and neurological manifestations. Need to verify specific threshold values, dosing regimens, and treatment protocols against official hematology guidelines. Schilling test information included but may need updating as test is rarely used clinically.",

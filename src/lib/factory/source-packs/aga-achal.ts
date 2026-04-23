@@ -274,7 +274,7 @@ export const PACK_AGA_ACHAL_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). Key areas needing verification: (1) Specific manometric criteria and thresholds, (2) Detailed treatment protocols and sequencing, (3) Complications and contraindications, (4) Integration with current AGA/ACG guidelines. Evidence strongly emphasizes Chagas disease association which may need regional context. All medical claims appear sound but require validation against current guidelines.",

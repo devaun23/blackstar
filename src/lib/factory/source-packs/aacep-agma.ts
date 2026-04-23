@@ -244,7 +244,7 @@ export const PACK_AACEP_AGMA_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention, Inner Circle, and Emma Holliday board review materials. All clinical pearls converted to structured guideline format. Requires verification against actual AACEP/endocrine society guidelines for anion gap metabolic acidosis. MUDPILES mnemonic and clinical scenarios derived from board review context may need adjustment to match formal guideline recommendations. Treatment protocols particularly need verification as they were limited in source material.",

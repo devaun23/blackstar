@@ -231,7 +231,7 @@ export const PACK_APA_ALCWD_2022: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Created from board review sources (Divine Intervention, Inner Circle, Emma Holliday). Key points extracted: benzodiazepine preference for treatment, timing of withdrawal seizures, medication selection for cirrhotic patients, and beta-blocker considerations. Requires verification against actual APA or other authoritative guidelines for alcohol withdrawal management. Limited diagnostic criteria and severity definitions from source material.",

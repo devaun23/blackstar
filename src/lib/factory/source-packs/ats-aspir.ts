@@ -242,7 +242,7 @@ export const PACK_ATS_ASPIR_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (DI/IC). Key items extracted: CURB-65 criteria for hospitalization, anaerobic pathogen coverage with clindamycin, risk factors identification. Missing: specific dosing regimens, duration of therapy, prevention strategies. Requires verification against actual ATS guidelines for accuracy and completeness. Some clinical pearls may need integration into formal recommendation structure.",

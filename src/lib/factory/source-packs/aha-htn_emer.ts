@@ -241,7 +241,7 @@ export const PACK_AHA_HTN_EMER_2017: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Created from Divine Intervention and Inner Circle board review evidence. Key items identified: BP threshold >180/120, end-organ damage requirement, first-line agents (nitroprusside, labetalol, nicardipine/clevidipine), cyanide toxicity risk with nitroprusside, 25% BP reduction goal in 24hrs, contraindication for hydralazine. All claims derived from board review sources and require verification against actual AHA/ACC guidelines before activation.",

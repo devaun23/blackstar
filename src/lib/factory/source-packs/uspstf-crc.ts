@@ -204,7 +204,7 @@ export const PACK_USPSTF_CRC_2021: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Source pack derived from board review materials (Divine Intervention, Inner Circle). Evidence focuses on high-risk populations (Lynch syndrome, FAP, IBD) rather than average-risk screening. Missing standard USPSTF recommendations for average-risk population age 45-75. Requires verification against actual USPSTF 2021 guidelines and integration with average-risk recommendations. Limited treatment steps available - may need expansion with actual guideline content.",

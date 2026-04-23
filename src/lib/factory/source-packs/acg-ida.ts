@@ -279,7 +279,7 @@ export const PACK_ACG_IDA_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (DI/IC/EH). Key limitations: 1) Treatment section sparse - needs expansion with iron dosing, route selection, duration; 2) Missing prevention strategies and dietary counseling; 3) Pediatric considerations limited; 4) Need verification of thresholds and management protocols against actual ACG guidelines; 5) Red flags section needs expansion with additional alarm symptoms; 6) Missing drug interactions and contraindications for iron therapy.",

@@ -275,7 +275,7 @@ export const PACK_AAD_MEL_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention, Inner Circle, and Emma Holliday board review materials. Key items extracted include ABCDE criteria, Breslow depth prognostic significance, melanoma subtypes, and surgical margin recommendations. Surgical margins and adjuvant therapy recommendations need verification against current AAD guidelines. Missing red flag criteria should be expanded from guideline review. Treatment step details for immunotherapy protocols require guideline verification.",

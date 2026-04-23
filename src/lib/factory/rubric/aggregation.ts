@@ -99,12 +99,17 @@ export function aggregateExplanationQuality(
 export function aggregateProductionReadiness(
   hardGatePass: boolean,
   metadataComplete: boolean,
+  /** v23-era fields missing but not gate-failing (reasoning_steps, difficulty_class, etc.). */
+  v23StrictMissingCount = 0,
 ): number {
-  // Production readiness is a deterministic check: if hard gates pass and
-  // all metadata is populated, it's ready. Scoring bands give partial credit.
-  if (!metadataComplete) return 4;   // Needs structured repair
-  if (!hardGatePass) return 0;        // Cannot be reliably ingested
-  return 10;                          // Ready to publish
+  // Production readiness is a deterministic check:
+  //   - CORE metadata missing → hard gate already fired, 0
+  //   - V23_STRICT missing → dock 1 point per missing field (max -4)
+  //   - Clean → 10
+  if (!hardGatePass) return 0;
+  if (!metadataComplete) return 4;                      // Needs structured repair (legacy CORE gap)
+  const dock = Math.min(4, v23StrictMissingCount);
+  return 10 - dock;
 }
 
 // ─── Composite ──────────────────────────────────────────────────────────────
@@ -114,6 +119,7 @@ export interface AggregationInput {
   rubricScorerOverall: number | null;
   hardGatePass: boolean;
   metadataComplete: boolean;
+  v23StrictMissingCount?: number;
 }
 
 /**
@@ -136,6 +142,6 @@ export function aggregateExistingDomains(
     option_set_quality_symmetry: aggregateOptionSetQualitySymmetry(r.option_symmetry),
     key_integrity:               aggregateKeyIntegrity(r.medical, r.option_symmetry),
     explanation_quality:         aggregateExplanationQuality(r.explanation_quality, input.rubricScorerOverall),
-    production_readiness:        aggregateProductionReadiness(input.hardGatePass, input.metadataComplete),
+    production_readiness:        aggregateProductionReadiness(input.hardGatePass, input.metadataComplete, input.v23StrictMissingCount ?? 0),
   };
 }

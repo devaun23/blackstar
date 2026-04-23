@@ -225,7 +225,7 @@ export const PACK_ASH_ACD_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention, Inner Circle, Emma Holliday). Focus on laboratory diagnosis and pathophysiology of ACD. Limited treatment information available from sources - treatment steps derived from pathophysiology understanding. Needs verification against actual ASH or other hematology society guidelines. Red flags and severity definitions are clinically-derived and need guideline validation.",

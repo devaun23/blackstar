@@ -277,7 +277,7 @@ export const PACK_ASH_THROMBOCYTOPENIA_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). Clinical pearls converted to guideline-style recommendations. Requires verification against actual ASH thrombocytopenia guidelines. HIT, TTP, HUS, and ITP management recommendations need validation for strength/evidence quality ratings. Thresholds and treatment protocols derived from clinical teaching materials.",

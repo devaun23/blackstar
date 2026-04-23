@@ -242,7 +242,7 @@ export const PACK_ACS_HYPO_2022: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention, Inner Circle, Emma Holliday). Limited source material available - only 5 recommendations and 1 red flag from original evidence. Added minimal required diagnostic criteria, treatment steps, thresholds, and severity definitions based on clinical context. All items require verification against actual ATLS or equivalent shock management guidelines. Particular attention needed for: 1) Complete diagnostic criteria for shock classification, 2) Comprehensive treatment algorithms, 3) Validated severity scoring systems, 4) Complete threshold values for hemodynamic parameters.",

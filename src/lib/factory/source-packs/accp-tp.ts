@@ -256,7 +256,7 @@ export const PACK_ACCP_TP_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Normalized from Divine Intervention and Inner Circle board review materials. Key treatment protocols and clinical recognition criteria extracted. Requires verification against actual ACCP/BTS pneumothorax guidelines for accuracy of specific recommendations, thresholds, and procedural details. Special attention needed for: 1) Exact anatomical landmarks for needle decompression, 2) Size thresholds for conservative vs. invasive management, 3) Specific monitoring protocols for thoracostomy patients.",

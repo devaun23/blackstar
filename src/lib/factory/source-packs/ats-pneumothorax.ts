@@ -315,7 +315,7 @@ export const PACK_ATS_PNEUMOTHORAX_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention + Inner Circle). Key clinical pearls converted to structured recommendations and treatment protocols. High-yield emergency management principles captured. Requires verification against actual ATS pneumothorax guidelines for accuracy of specific thresholds and protocols. Population-specific recommendations (HIV patients, mechanical ventilation) may need additional guideline verification.",

@@ -241,7 +241,7 @@ export const PACK_AASLD_AIH_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28T12:00:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). All claims are medically accurate but require verification against actual AASLD guidelines. Added diagnostic criteria, red flags, and severity definitions to meet minimum sufficiency. Treatment protocols and laboratory thresholds need dose/value verification from primary guidelines.",

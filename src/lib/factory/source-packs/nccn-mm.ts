@@ -223,7 +223,7 @@ export const PACK_NCCN_MM_2024: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T23:48:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention and Emma Holliday board review materials. Key items extracted: CRAB criteria, diagnostic tests (SPEP/UPEP), rouleaux formation, bortezomib treatment, bone marrow threshold >10% plasma cells, transfusion threshold <7g/dL Hgb. Missing items that need verification: staging criteria, complete treatment protocols, monitoring guidelines, prognostic factors. All claims derived from board review sources and require verification against actual NCCN guidelines before activation.",

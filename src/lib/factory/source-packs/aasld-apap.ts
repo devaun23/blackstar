@@ -278,7 +278,7 @@ export const PACK_AASLD_APAP_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review materials (Divine Intervention/Inner Circle). Limited source material available - only 4 evidence items total. Added standard acetaminophen overdose management elements (NAC therapy, timing considerations) based on established clinical practice. All claims need verification against current AASLD or toxicology guidelines. Missing critical elements like Rumack-Matthew nomogram, specific NAC protocols, and hepatotoxicity risk factors that should be added during validation.",

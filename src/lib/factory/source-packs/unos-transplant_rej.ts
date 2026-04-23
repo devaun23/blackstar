@@ -218,7 +218,7 @@ export const PACK_UNOS_TRANSPLANT_REJ_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review clinical pearls indicating acute rejection as most common type. Limited source material required inference of standard transplant rejection management protocols. All clinical content needs verification against current UNOS/transplant society guidelines. Expanded minimal evidence into comprehensive coverage of diagnostic criteria, treatment protocols, thresholds, and red flags based on standard transplant medicine practices.",

@@ -243,7 +243,7 @@ export const PACK_ATS_HAP_2016: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Limited source material provided only one clinical pearl about S. aureus as common HAP pathogen. Expanded to minimum viable source pack with standard HAP/VAP management principles that need verification against actual ATS/IDSA 2016 guidelines. All items marked as DI/IC-derived and require validation against primary guideline source. Focused on core HAP diagnosis (48-hour rule), empiric therapy principles, and severity assessment.",

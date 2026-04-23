@@ -264,7 +264,7 @@ export const PACK_AAO_VERTIGO_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention and Inner Circle board review materials. Limited treatment steps available - focused mainly on diagnostic pearls and clinical associations. Otitis externa management included from pediatric cases. All clinical claims derived from board review sources and require verification against actual AAO-HNS guidelines. Missing formal diagnostic criteria for vestibular neuritis and labyrinthitis - only clinical pearls available.",

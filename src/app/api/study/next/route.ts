@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { selectNextQuestion } from '@/lib/learner/selector';
+import { getSelectionPolicy } from '@/lib/learner/policy';
+import { getAssignment } from '@/lib/learner/experiment';
 import { normalizeItemDraftExplanation, normalizeQuestionExplanation } from '@/lib/api/normalize-explanation';
 import type { RepairAction, DimensionType, SessionMode } from '@/lib/types/database';
 
@@ -27,20 +28,20 @@ export async function GET(req: NextRequest) {
   const forceDimensionType = searchParams.get('forceDimensionType') as DimensionType | null;
   const forceDimensionId = searchParams.get('forceDimensionId');
 
-  const selection = await selectNextQuestion(
+  const experiment = await getAssignment(userId);
+  const selectionPolicy = getSelectionPolicy(experiment);
+  const selection = await selectionPolicy.choose({
     userId,
     lastRepairAction,
     lastDimensionType,
     lastDimensionId,
     lastCorrectOptionFrameId,
-    {
-      sessionMode,
-      sessionId,
-      forceDimension: forceDimensionType && forceDimensionId
-        ? { type: forceDimensionType, id: forceDimensionId }
-        : null,
-    },
-  );
+    sessionMode,
+    sessionId,
+    forceDimension: forceDimensionType && forceDimensionId
+      ? { type: forceDimensionType, id: forceDimensionId }
+      : null,
+  });
 
   if (!selection) {
     return NextResponse.json({ error: 'No questions available' }, { status: 404 });

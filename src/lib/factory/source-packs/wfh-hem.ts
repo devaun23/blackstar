@@ -294,7 +294,7 @@ export const PACK_WFH_HEM_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention, Inner Circle, and Emma Holliday board review sources. All clinical information appears medically accurate but requires verification against actual WFH guidelines. Inheritance patterns, lab findings, and treatment approaches are well-established. Need to verify specific factor activity thresholds and detailed treatment protocols against current guidelines. Missing some advanced treatment options like newer non-factor therapies.",

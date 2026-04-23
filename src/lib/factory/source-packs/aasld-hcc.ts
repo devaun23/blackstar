@@ -241,7 +241,7 @@ export const PACK_AASLD_HCC_2022: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention, Inner Circle). Key content includes HCC risk factors (Hep B/C, cirrhosis), primary prevention via Hep B vaccination, surveillance protocols for cirrhotic patients, diagnostic approach with AFP and imaging, and clinical features of advanced disease. Several treatment protocols and specific management guidelines need verification against current AASLD guidelines. Red flags focused on bloody ascites and cachexia as markers of advanced disease.",

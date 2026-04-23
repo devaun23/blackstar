@@ -256,7 +256,7 @@ export const PACK_ENDOCRINE_HYPOKALEMIA_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-01",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention + Inner Circle). Key points normalized: hypomagnesemia correction requirement, primary hyperaldosteronism workup, digoxin toxicity risk, EKG changes as red flags. Missing formal diagnostic thresholds and detailed treatment protocols - needs verification against actual Endocrine Society/ASN guidelines. RTA associations and diuretic effects well-documented in source material.",

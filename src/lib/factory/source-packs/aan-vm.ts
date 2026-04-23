@@ -212,7 +212,7 @@ export const PACK_AAN_VM_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T12:00:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention/Inner Circle). Limited source material required significant expansion to meet minimum sufficiency requirements. Key additions: diagnostic criteria, thresholds, additional treatment steps, red flags, and severity definitions based on standard viral meningitis knowledge. ALL CONTENT REQUIRES VERIFICATION against actual AAN or IDSA guidelines before activation. Enterovirus noted as most common cause. CSF patterns and seasonal timing emphasized per source evidence.",

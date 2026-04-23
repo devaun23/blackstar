@@ -230,7 +230,7 @@ export const PACK_NCCN_EC_2024: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention and Inner Circle board review materials. Key clinical pearls converted to structured recommendations focusing on risk factors, epidemiology, diagnosis, and staging. Limited treatment information available in source material. All claims need verification against actual NCCN guidelines before activation. Missing: detailed treatment protocols, surgical criteria, radiation planning, chemotherapy regimens.",

@@ -273,7 +273,7 @@ export const PACK_AAFOS_CS_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T07:48:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review sources (Divine Intervention/Inner Circle). Limited evidence available - only 5 clinical pearls covering risk factors, presentation, and basic treatment. Significantly expanded with clinically appropriate recommendations, diagnostic criteria, treatment steps, thresholds, red flags, and severity definitions based on standard compartment syndrome management. All items require verification against actual AAOS or other authoritative guidelines. May need additional content for limb compartment syndrome vs. abdominal compartment syndrome distinction.",

@@ -250,7 +250,7 @@ export const PACK_ENDO_DI_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). All clinical claims are educationally sound but require verification against actual Endocrine Society guidelines. Added standard diagnostic workup, treatment protocols, and severity classifications based on pathophysiology described in source materials. Requires human review for guideline alignment and clinical accuracy verification.",

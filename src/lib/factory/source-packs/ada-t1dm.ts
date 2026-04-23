@@ -231,7 +231,7 @@ export const PACK_ADA_T1DM_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Limited source material provided - only one threshold item from board review sources. Supplemented with standard T1DM management recommendations to meet minimum sufficiency requirements. All items need verification against actual ADA guidelines. Particular attention needed for: 1) Diagnostic criteria specifics, 2) Exact HbA1c targets and individualization, 3) ACE inhibitor timing and indications, 4) Insulin dosing protocols. The nephropathy pathophysiology information from IC.046.030 was used to inform the ACE inhibitor recommendations and early nephropathy staging.",

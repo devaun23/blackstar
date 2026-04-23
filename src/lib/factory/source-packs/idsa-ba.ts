@@ -249,7 +249,7 @@ export const PACK_IDSA_BA_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention and Inner Circle board review materials. Key elements identified: classic triad presentation, MRI as gold standard, combination therapy with drainage/antibiotics/steroids, and association with otitis media. Requires verification against actual IDSA guidelines for accuracy of recommendations, drug dosing, and contraindications. TB enhancement pattern and specific temperature thresholds need guideline confirmation.",

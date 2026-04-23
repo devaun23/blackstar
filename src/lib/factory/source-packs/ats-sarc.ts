@@ -194,7 +194,7 @@ export const PACK_ATS_SARC_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). Key areas needing verification: specific treatment protocols, dosing guidelines, staging systems, monitoring recommendations. Demographics show predilection for African American females. Multiple organ system involvement documented including eyes (anterior uveitis), skin (erythema nodosum, lupus pernio), lungs (restrictive pattern), and heart (restrictive cardiomyopathy). Histologic hallmark is non-caseating granulomas.",

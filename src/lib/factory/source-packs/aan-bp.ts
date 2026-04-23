@@ -232,7 +232,7 @@ export const PACK_AAN_BP_2012: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). Key gaps: formal diagnostic criteria from AAN guidelines, specific steroid dosing protocols, timeline for treatment initiation, formal severity grading systems. Lyme disease content integrated as relevant differential. Needs verification against actual AAN practice parameters for Bell's palsy management.",

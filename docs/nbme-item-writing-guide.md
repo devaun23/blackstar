@@ -1,5 +1,12 @@
 # Constructing Written Test Questions for the Basic and Clinical Sciences
 
+> **⚠ SUPERSEDED — use `nbme-item-writing-guide-2024.md` (6th edition, October 2024).**
+> This 4th-edition file is retained for historical reference only. The 2024 edition introduces
+> patient-characteristics guidance, updated technical-flaw categorization (irrelevant difficulty vs.
+> testwise cues), refined 5 rules, and expanded task-competency lead-in templates. The factory
+> reads `src/lib/factory/nbme-style-anchors.ts` and `src/lib/factory/nbme-lead-in-templates.ts`
+> which are now derived from the 2024 edition.
+
 **Source:** National Board of Medical Examiners (NBME), 4th Edition, 2016
 
 **Editors:** Miguel A. Paniagua, MD & Kimberly A. Swygert, PhD

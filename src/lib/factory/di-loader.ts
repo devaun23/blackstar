@@ -78,6 +78,7 @@ export async function resolveDIContext(
     inner_circle: 'UWorld Inner Circle Notes',
     amboss: 'AMBOSS Step 2 CK Notes',
     emma_holliday: 'Emma Holliday Review Notes',
+    nbme: 'NBME CCSS Items (official content-outline examples)',
   };
 
   const lines: string[] = [];

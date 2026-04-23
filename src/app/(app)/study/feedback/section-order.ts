@@ -2,6 +2,8 @@
 // Progressive disclosure: Fix → Breakdown → Medicine
 // Pure function — no React dependency, easy to test.
 
+import type { ErrorSignature, ExplanationLead } from '@/lib/learner/error-signature';
+
 export type LayerState = 'open' | 'collapsed' | 'hidden';
 export type SectionVisibility = 'open' | 'collapsed' | 'emphasized' | 'hidden';
 
@@ -16,10 +18,24 @@ export interface LayerConfig {
     errorDiagnosis: boolean;
     transferRule: boolean;
     decisionHinge: boolean;
+    calibrationFeedback: boolean;
+    nextBestStep: boolean;
   };
+  // "Why YOU missed it" lead — names which component should visually lead
+  // the feedback view. Derived from the error signature; null when no signature
+  // was supplied (back-compat with existing callers).
+  primaryLead: ExplanationLead | null;
 }
 
 type RepairAction = 'advance' | 'reinforce' | 'contrast' | 'remediate' | 'transfer_test';
+
+const EMPTY_EMPHASIZE = {
+  errorDiagnosis: false,
+  transferRule: false,
+  decisionHinge: false,
+  calibrationFeedback: false,
+  nextBestStep: false,
+};
 
 const LAYER_CONFIGS: Record<RepairAction, LayerConfig> = {
   advance: {
@@ -27,35 +43,40 @@ const LAYER_CONFIGS: Record<RepairAction, LayerConfig> = {
     breakdown: 'collapsed',
     medicine: 'open',
     optionScope: 'none',
-    emphasize: { errorDiagnosis: false, transferRule: false, decisionHinge: false },
+    emphasize: { ...EMPTY_EMPHASIZE },
+    primaryLead: null,
   },
   reinforce: {
     fix: 'open',
     breakdown: 'open',
     medicine: 'collapsed',
     optionScope: 'none',
-    emphasize: { errorDiagnosis: false, transferRule: true, decisionHinge: false },
+    emphasize: { ...EMPTY_EMPHASIZE, transferRule: true },
+    primaryLead: null,
   },
   contrast: {
     fix: 'open',
     breakdown: 'open',
     medicine: 'collapsed',
     optionScope: 'selected',
-    emphasize: { errorDiagnosis: true, transferRule: false, decisionHinge: true },
+    emphasize: { ...EMPTY_EMPHASIZE, errorDiagnosis: true, decisionHinge: true },
+    primaryLead: null,
   },
   remediate: {
     fix: 'open',
     breakdown: 'open',
     medicine: 'collapsed',
     optionScope: 'all',
-    emphasize: { errorDiagnosis: true, transferRule: true, decisionHinge: false },
+    emphasize: { ...EMPTY_EMPHASIZE, errorDiagnosis: true, transferRule: true },
+    primaryLead: null,
   },
   transfer_test: {
     fix: 'open',
     breakdown: 'collapsed',
     medicine: 'collapsed',
     optionScope: 'none',
-    emphasize: { errorDiagnosis: false, transferRule: true, decisionHinge: false },
+    emphasize: { ...EMPTY_EMPHASIZE, transferRule: true },
+    primaryLead: null,
   },
 };
 
@@ -65,7 +86,8 @@ const DEFAULT_CORRECT: LayerConfig = {
   breakdown: 'collapsed',
   medicine: 'open',
   optionScope: 'none',
-  emphasize: { errorDiagnosis: false, transferRule: false, decisionHinge: false },
+  emphasize: { ...EMPTY_EMPHASIZE },
+  primaryLead: null,
 };
 
 const DEFAULT_INCORRECT: LayerConfig = {
@@ -73,17 +95,72 @@ const DEFAULT_INCORRECT: LayerConfig = {
   breakdown: 'collapsed',
   medicine: 'collapsed',
   optionScope: 'all',
-  emphasize: { errorDiagnosis: true, transferRule: true, decisionHinge: false },
+  emphasize: { ...EMPTY_EMPHASIZE, errorDiagnosis: true, transferRule: true },
+  primaryLead: null,
 };
+
+// Apply an error signature to a base config. The signature's primary_lead
+// steers which sections get emphasized AND is surfaced directly so the UI
+// can render a "why YOU missed it" lead banner above the normal layers.
+//
+// Priority: the signature LAYERS on top of the repair-derived config — it
+// does not replace it. Example: a `contrast` repair with an overconfident
+// signature keeps the same open/collapsed layout but also emphasizes
+// calibration feedback so the learner sees "you were confident, and here's
+// the trap" before the contrast teaching.
+function applySignature(base: LayerConfig, sig: ErrorSignature | null | undefined): LayerConfig {
+  if (!sig) return base;
+
+  const emphasize = { ...base.emphasize };
+  switch (sig.primary_lead) {
+    case 'calibration_feedback':
+      emphasize.calibrationFeedback = true;
+      emphasize.errorDiagnosis = true;
+      break;
+    case 'hinge_reveal':
+      emphasize.decisionHinge = true;
+      break;
+    case 'contrast_option':
+      emphasize.errorDiagnosis = true;
+      // Also shift the breakdown open so the contrast is visible without a tap
+      break;
+    case 'anchoring_clue':
+      emphasize.errorDiagnosis = true;
+      emphasize.decisionHinge = true;
+      break;
+    case 'next_best_step':
+      emphasize.nextBestStep = true;
+      emphasize.transferRule = true;
+      break;
+    case 'pattern_teaching':
+    case 'reinforcement':
+      // No extra emphasis — default flow is already right.
+      break;
+  }
+
+  // If the signature calls for contrast but the repair action collapsed the
+  // breakdown, open it so the contrast actually renders.
+  const breakdown =
+    (sig.primary_lead === 'contrast_option' || sig.primary_lead === 'anchoring_clue')
+      && base.breakdown === 'collapsed'
+      ? 'open'
+      : base.breakdown;
+
+  return { ...base, breakdown, emphasize, primaryLead: sig.primary_lead };
+}
 
 export function getLayerConfig(
   repairAction: string | null,
   isCorrect: boolean,
+  errorSignature?: ErrorSignature | null,
 ): LayerConfig {
-  if (repairAction && repairAction in LAYER_CONFIGS) {
-    return LAYER_CONFIGS[repairAction as RepairAction];
-  }
-  return isCorrect ? DEFAULT_CORRECT : DEFAULT_INCORRECT;
+  const base =
+    repairAction && repairAction in LAYER_CONFIGS
+      ? LAYER_CONFIGS[repairAction as RepairAction]
+      : isCorrect
+        ? DEFAULT_CORRECT
+        : DEFAULT_INCORRECT;
+  return applySignature(base, errorSignature ?? null);
 }
 
 export function isLayerOpen(state: LayerState): boolean {

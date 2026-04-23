@@ -175,12 +175,27 @@ function formatForAgent(
   return sections.join('\n');
 }
 
+interface SourceContextOptions {
+  /**
+   * Skip the board-review (DI/IC/AMBOSS/NBME) enrichment block.
+   * Use when the caller is fetching di_context separately to avoid duplication.
+   * Default: false (enrichment included).
+   */
+  skipEnrichment?: boolean;
+}
+
 /**
  * Resolve the full source context for a topic, formatted for agent consumption.
- * Combines guideline source packs with board review enrichment (DI/IC).
+ * Combines guideline source packs with board review enrichment (DI/IC/AMBOSS/NBME).
  * Returns empty string if no source pack is configured (will be caught by sufficiency gate).
+ *
+ * Pass `{ skipEnrichment: true }` when the caller will fetch di_context separately,
+ * to avoid printing the same board-review items twice in the agent prompt.
  */
-export async function resolveSourceContext(topic: string): Promise<string> {
+export async function resolveSourceContext(
+  topic: string,
+  options?: SourceContextOptions,
+): Promise<string> {
   const resolvedKey = resolveTopicKey(topic);
   const config = topicSourceMap[resolvedKey];
   if (!config) return '';
@@ -201,20 +216,44 @@ export async function resolveSourceContext(topic: string): Promise<string> {
 
   const guidelineContext = formatForAgent(primaryPack, secondaryPacks, config);
 
-  // Enrich with board review sources (DI/IC) — supplementary context, NOT primary authority.
-  // Agents may reference DI/IC for test-taking patterns and clinical associations,
+  if (options?.skipEnrichment) {
+    return guidelineContext;
+  }
+
+  // Enrich with board review sources (DI/IC/AMBOSS/NBME) — supplementary context, NOT primary authority.
+  // Agents may reference review notes for test-taking patterns and clinical associations,
   // but medical facts must cite the guideline source pack.
   let enrichment = '';
   try {
     const { resolveDIContext } = await import('./di-loader');
-    // Use both the original topic name and resolved key for broader coverage
     const diContext = await resolveDIContext(topic, { maxItems: 30 });
     if (diContext) {
       enrichment = `\n\n${'═'.repeat(50)}\nBOARD REVIEW ENRICHMENT (supplementary — cite guidelines for medical facts)\n${'═'.repeat(50)}\n${diContext}`;
     }
   } catch {
-    // DI/IC enrichment is optional — graceful degradation
+    // Enrichment is optional — graceful degradation
   }
 
   return guidelineContext + enrichment;
+}
+
+/**
+ * Return the list of source_pack_ids (primary + secondaries) that would be
+ * consulted for this topic under the current topicSourceMap. Intended for
+ * persistence on item_draft.source_packs_used at generation time, so the
+ * historical record survives future changes to topicSourceMap.
+ *
+ * Returns empty array if the topic has no configured pack. Unlike
+ * resolveSourceContext, does NOT load pack contents — this is a pure
+ * metadata lookup meant to be cheap and call from the hot path.
+ */
+export function getSourcePackIds(topic: string): string[] {
+  const resolvedKey = resolveTopicKey(topic);
+  const config = topicSourceMap[resolvedKey];
+  if (!config) return [];
+  const ids = [config.primary];
+  if (config.secondary) {
+    for (const sec of config.secondary) ids.push(sec.source_pack_id);
+  }
+  return ids;
 }

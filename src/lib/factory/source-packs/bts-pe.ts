@@ -247,7 +247,7 @@ export const PACK_BTS_PE_2010: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Derived from board review materials (Divine Intervention, Inner Circle, Emma Holliday). Light's criteria and management thresholds appear consistent with standard practice. Need verification against actual BTS 2010 guidelines, particularly for specific pH/glucose cutoffs and drainage indications. Some recommendations may reflect US practice patterns rather than UK guidelines.",

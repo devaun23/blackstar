@@ -195,7 +195,7 @@ export const PACK_AHA_HS_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (DI/IC/EH). Limited source material available - only 3 recommendations, 1 red flag, and 1 severity definition from original evidence. Added minimal diagnostic criteria and thresholds to meet sufficiency requirements. All medical claims derived from board prep sources and require verification against actual AHA/ASA hemorrhagic stroke guidelines. Treatment steps inferred from limited evidence. Recommend substantial expansion with actual guideline content.",

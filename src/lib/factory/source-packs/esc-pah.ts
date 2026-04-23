@@ -265,7 +265,7 @@ export const PACK_ESC_PAH_2022: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Normalized from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). Key points extracted: diagnostic thresholds (mPAP >20-25 mmHg), three main drug classes for PAH treatment, genetic association with BMPR2 mutation, demographic pattern (young females for idiopathic PAH), and clinical signs (loud P2, parasternal heave). Updated pressure threshold from >25 to >20 mmHg based on current guidelines. Requires verification against actual ESC/ERS guidelines for accuracy of recommendations, drug dosing, and severity classifications.",

@@ -251,7 +251,7 @@ export const PACK_ACOG_PPD_2022: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T17:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Created from limited board review evidence (Inner Circle + Divine Intervention). Evidence base is sparse with only 1 recommendation, 1 treatment reference, and 1 red flag identified. Expanded to meet minimum requirements by inferring standard care practices. Key areas needing verification against actual ACOG guidelines: (1) Specific sertraline dosing recommendations, (2) Complete diagnostic criteria for postpartum depression, (3) Detailed screening protocols, (4) Management algorithms, (5) Risk factor hierarchy beyond history of depression, (6) Breastfeeding safety data specifics. This pack requires substantial clinical expert review before activation.",

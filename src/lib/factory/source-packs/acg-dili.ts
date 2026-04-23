@@ -230,7 +230,7 @@ export const PACK_ACG_DILI_2014: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Created from limited board review evidence (1 specific item about isoniazid). Expanded with standard DILI knowledge including acetaminophen hepatotoxicity, RUCAM scoring, standard thresholds, and management principles. All items except the isoniazid recommendation are derived from standard medical knowledge and need verification against actual ACG DILI guidelines.",

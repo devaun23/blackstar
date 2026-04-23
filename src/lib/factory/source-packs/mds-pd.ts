@@ -251,7 +251,7 @@ export const PACK_MDS_PD_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Converted board review evidence from Divine Intervention and Inner Circle sources. Key areas needing verification: (1) Treatment sequencing and dosing guidelines, (2) Diagnostic criteria validation against MDS criteria, (3) Psychosis management protocols, (4) Drug-induced Parkinsonism differential diagnosis criteria. Source material provides good clinical pearls but lacks detailed dosing and monitoring protocols.",

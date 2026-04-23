@@ -30,6 +30,9 @@ export const FAILURE_CODES = {
   'VAL-OPT': { name: 'option_symmetry_failure', severity: 'repairable' as const, category: 'VAL' as const },
   'VAL-EXP': { name: 'explanation_quality_failure', severity: 'repairable' as const, category: 'VAL' as const },
   'VAL-TRANS': { name: 'exam_translation_recall', severity: 'kill' as const, category: 'VAL' as const },
+  'VAL-CCV': { name: 'contraindication_trigger', severity: 'repairable' as const, category: 'VAL' as const },
+  'VAL-COVERAGE': { name: 'qmatrix_coverage_gap', severity: 'repairable' as const, category: 'VAL' as const },
+  'VAL-MASTER-RUBRIC': { name: 'master_rubric_fail', severity: 'repairable' as const, category: 'VAL' as const },
 
   // Repair-stage failures
   'RPR-EXHAUSTED': { name: 'repair_cycles_exhausted', severity: 'kill' as const, category: 'RPR' as const },

@@ -275,7 +275,7 @@ export const PACK_ASN_HK_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention, Inner Circle, and Emma Holliday board review materials. Key clinical pearls converted to actionable recommendations and treatment protocols. ECG progression criteria extracted from multiple sources. Treatment sequence standardized based on emergency medicine protocols. Needs verification against actual ASN or other authoritative nephrology guidelines for dosing, contraindications, and specific criteria thresholds.",

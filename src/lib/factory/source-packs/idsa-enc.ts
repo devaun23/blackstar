@@ -300,7 +300,7 @@ export const PACK_IDSA_ENC_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Converted board review evidence into structured guidelines format. Key areas needing verification: 1) Specific dosing protocols for acyclovir, 2) Exact CSF thresholds and their clinical significance, 3) Complete diagnostic workup algorithms, 4) Duration of treatment protocols. Evidence primarily focused on HSV encephalitis with limited coverage of other etiologies. Requires validation against actual IDSA encephalitis guidelines.",

@@ -228,7 +228,7 @@ export const PACK_NCCN_PANC_2024: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Converted from Divine Intervention and Inner Circle board review evidence. Key areas needing verification: 1) Specific CA19-9/CEA threshold values and interpretation guidelines, 2) Complete surgical resectability criteria beyond SMA invasion, 3) Standardized genetic counseling recommendations, 4) Complete palliative care protocols. Evidence heavily weighted toward clinical presentation and diagnosis; treatment protocols need expansion from primary guidelines.",

@@ -197,7 +197,7 @@ export const PACK_ATS_BRONCH_2017: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention and Inner Circle board review materials. Key areas needing verification: (1) ATS guideline year and URL, (2) specific recommendation strength ratings, (3) evidence quality levels, (4) complete treatment algorithms including antibiotic protocols, (5) severity classification systems, (6) monitoring recommendations. Notable gaps: limited treatment steps, no specific antibiotic guidance, minimal severity stratification.",

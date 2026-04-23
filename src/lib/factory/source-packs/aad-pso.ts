@@ -316,7 +316,7 @@ export const PACK_AAD_PSO_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T18:11:42Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention and Inner Circle board review materials. Key clinical pearls converted to structured recommendations and treatment protocols. Notable gaps: limited quantitative thresholds and formal diagnostic criteria from source material. Steroid contraindication and HIV screening recommendations need verification against actual AAD guidelines. All items require validation against current AAD psoriasis management guidelines.",

@@ -46,6 +46,12 @@ export interface PipelineConfig {
   skipExplanation?: boolean; // Skip explanation writing + publish (harness mode)
   skipRubricEvaluator?: boolean; // v26: Skip Master Rubric evaluation (dev/harness mode)
   skipRubricScorer?: boolean; // v26: Skip HealthBench-style 8-dim rubric scoring (dev/harness/cost mode — adds ~4k tokens/item)
+  // Model override for the rubric scorer + rubric evaluator (steps 8 + 9).
+  // Separation-of-powers: running evaluators on a different model than the
+  // generator (e.g. generator=Opus, evaluator=Haiku) prevents pure self-grading.
+  // Falsy → agents use callClaude's default. Stored in item_rubric_score.scorer_model
+  // and rubric_score.grader_model for provenance.
+  evaluatorModel?: string;
   juryEnabled?: boolean;     // Enable multi-model jury on high-stakes validators
   validatorSampleCount?: number; // Self-consistency sampling: run medical validator N times (default 1)
   // v23: Elite-Tutor Rule 2 — batch-time difficulty hint; passed to case_planner v5

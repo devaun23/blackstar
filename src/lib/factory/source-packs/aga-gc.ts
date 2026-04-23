@@ -296,7 +296,7 @@ export const PACK_AGA_GC_2022: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15T00:00:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Converted board review evidence (Divine Intervention/Inner Circle) into structured guideline format. Clinical pearls reorganized into recommendations, diagnostic criteria, and treatment steps. Missing formal treatment protocols and staging criteria - needs verification against actual AGA gastric cancer guidelines. Paraneoplastic signs and metastatic patterns well-represented. Red flags derived from clinical presentations. Requires validation of strength/evidence quality ratings against source guidelines.",

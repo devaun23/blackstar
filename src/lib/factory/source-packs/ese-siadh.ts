@@ -246,7 +246,7 @@ export const PACK_ESE_SIADH_2024: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention, Inner Circle, and Emma Holliday board review materials. Key areas requiring verification against actual guidelines: 1) Specific fluid restriction protocols, 2) Vaptan dosing and selection criteria, 3) Hypertonic saline administration rates and monitoring, 4) Complete diagnostic workup requirements. Strong emphasis on paraneoplastic causes (especially SCLC) and drug-induced SIADH. Treatment hierarchy appears to be fluid restriction → demeclocycline/vaptans → hypertonic saline for severe cases.",

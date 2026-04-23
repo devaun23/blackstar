@@ -255,7 +255,7 @@ export const PACK_AUA_NEPHRO_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T21:39:40Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention, Inner Circle, Emma Holliday). Contains clinical pearls and associations but may need verification against actual AUA guidelines. Particular attention needed for: drug dosing details, specific stone size thresholds, complete treatment algorithms. Several items reference drug side effects (indinavir, topiramate) and contraindications that should be cross-referenced with FDA labeling.",

@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { updateAfterAttempt } from '@/lib/learner/model';
-import { diagnoseRepairAction, getErrorRepeatCount } from '@/lib/learner/repair-engine';
+import { getErrorRepeatCount } from '@/lib/learner/repair-engine';
+import { getActionPolicy } from '@/lib/learner/policy';
+import { getAssignment } from '@/lib/learner/experiment';
+import { logAttemptEvent } from '@/lib/learner/events';
 import { getTimingFeedback } from '@/lib/learner/timing-analysis';
+import { deriveErrorSignature } from '@/lib/learner/error-signature';
 import { incrementSession } from '@/lib/session';
 import type { DimensionType, SessionMode } from '@/lib/types/database';
 
@@ -216,6 +220,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: insertErr?.message ?? 'Insert failed' }, { status: 500 });
   }
 
+  // Baseline event — one attempt_submitted row per attempt. Phase B adds the
+  // client-emitted events (option_hover, section_expand, etc.) alongside this.
+  await logAttemptEvent({
+    attemptId: attempt.id,
+    eventType: 'attempt_submitted',
+    metadata: {
+      selected_answer,
+      is_correct: isCorrect,
+      time_spent_ms: time_spent_ms ?? null,
+      confidence_pre: confidence_pre ?? null,
+      is_contrast_question: isContrastQ ?? false,
+    },
+  });
+
   // Update learner model for each dimension
   for (const dim of dimensionUpdates) {
     await updateAfterAttempt(
@@ -254,8 +272,11 @@ export async function POST(req: NextRequest) {
     palmertonGapType = (gapRow?.palmerton_gap_type as typeof palmertonGapType) ?? null;
   }
 
-  const repairDecision = diagnoseRepairAction({
+  const experiment = await getAssignment(user_id);
+  const actionPolicy = getActionPolicy(experiment);
+  const repairDecision = await actionPolicy.choose({
     userId: user_id,
+    attemptId: attempt.id,
     isCorrect,
     timeSpentMs: time_spent_ms ?? null,
     confidencePre: confidence_pre ?? null,
@@ -300,6 +321,20 @@ export async function POST(req: NextRequest) {
       diagnosedErrorName = errorRow?.error_name ?? null;
     }
   }
+
+  // Error signature — pure derivation from the signals just computed.
+  // Drives "why YOU missed it" explanation lead in the study feedback UI.
+  const errorSignature = deriveErrorSignature({
+    is_correct: isCorrect,
+    selected_answer,
+    time_spent_ms: time_spent_ms ?? null,
+    confidence_pre: confidence_pre ?? null,
+    diagnosed_cognitive_error_name: diagnosedErrorName,
+    diagnosed_hinge_miss: diagnosedHingeMiss,
+    diagnosed_action_class_confusion: diagnosedActionClassConfusion,
+    confusion_set_id: confusionSetId,
+    option_error_name: diagnosedErrorName,
+  });
 
   // Timing feedback (Palmerton 2-minute rule)
   let timingFeedback: string | null = null;
@@ -382,5 +417,7 @@ export async function POST(req: NextRequest) {
     // v24 — drives adaptive explanation display depth (<0.4 novice / 0.4-0.7 targeted / >0.7 expert)
     dimensionMastery,
     topicDimensionId: topicDim?.id ?? null,
+    // "Why YOU missed it" — keys the explanation-lead UI in study-feedback.
+    errorSignature,
   });
 }

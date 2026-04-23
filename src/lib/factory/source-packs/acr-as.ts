@@ -218,7 +218,7 @@ export const PACK_ACR_AS_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Converted from Divine Intervention and Inner Circle board review materials. Contains 4 recommendations, 1 diagnostic criterion, 2 thresholds, 2 treatment steps, 1 red flag, and 1 severity definition. Key areas needing verification: specific diagnostic criteria details, complete treatment algorithms, dosing information for medications, and formal severity classification systems. HLA-B27 association and anterior uveitis as primary extra-articular manifestation are well-established. Requires validation against current ACR/ASAS guidelines.",

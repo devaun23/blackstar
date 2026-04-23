@@ -12,6 +12,7 @@ function resolveErrorName(
   return entry.error_name ?? null;
 }
 import { getLayerConfig, isLayerVisible } from './feedback/section-order';
+import type { ErrorSignature } from '@/lib/learner/error-signature';
 import ResultBanner from './feedback/result-banner';
 import WhyCorrectSection from './feedback/why-correct-section';
 import ReasoningPathway from './feedback/reasoning-pathway';
@@ -55,9 +56,26 @@ interface StudyFeedbackProps {
   onNext: (metacognitive?: { selfLabeledError?: string }) => void;
   repairInfo?: RepairInfo | null;
   errorRepeatCount?: number;
+  // Optional "why YOU missed it" signature. When present, getLayerConfig
+  // uses it to adjust emphasis flags and surface a primaryLead on the
+  // returned config. Callers that don't have the signature (e.g.
+  // assessment-review reading from stored attempts) pass undefined and
+  // fall back to repair-action-only layer config.
+  errorSignature?: ErrorSignature | null;
 }
 
-export default function StudyFeedback({ question, selectedAnswer, onNext, repairInfo, errorRepeatCount = 0 }: StudyFeedbackProps) {
+// Kept in sync with LEAD_MESSAGES in study-session.tsx — could be extracted
+// to a shared module if a third call site appears. For now, duplication is
+// cheaper than the indirection.
+const LEAD_MESSAGES: Record<string, string> = {
+  calibration_feedback: 'You were confident, but this one is a classic trap. Slow down the hinge next time.',
+  hinge_reveal: 'The decisive clue was buried — look for it later in the vignette.',
+  contrast_option: 'The attractive wrong answer is the differential pair. Draw the distinction.',
+  anchoring_clue: 'You locked on to an early finding. The reframe comes from a later clue.',
+  next_best_step: 'Wrong step in the sequence — the ordering principle is what this tests.',
+};
+
+export default function StudyFeedback({ question, selectedAnswer, onNext, repairInfo, errorRepeatCount = 0, errorSignature = null }: StudyFeedbackProps) {
   const [showOptions, setShowOptions] = useState(false);
   const [showMore, setShowMore] = useState(false);
 
@@ -67,7 +85,8 @@ export default function StudyFeedback({ question, selectedAnswer, onNext, repair
     : resolveErrorName(question.error_map[selectedAnswer]);
 
   const rich = question.richExplanation;
-  const config = getLayerConfig(repairInfo?.action ?? null, isCorrect);
+  const config = getLayerConfig(repairInfo?.action ?? null, isCorrect, errorSignature);
+  const leadMessage = !isCorrect && config.primaryLead ? LEAD_MESSAGES[config.primaryLead] : null;
 
   // ── Rich explanation: single-screen layout ──
   if (rich) {
@@ -78,6 +97,14 @@ export default function StudyFeedback({ question, selectedAnswer, onNext, repair
         <div className="mt-4 space-y-3 pb-40">
           {/* ═══ TOP: Always visible, never collapsed ═══ */}
           <ResultBanner isCorrect={isCorrect} correctAnswer={question.correct_answer} />
+
+          {/* "Why YOU missed it" lead — signature-driven, above the fix card */}
+          {leadMessage && (
+            <div className="rounded-md border border-amber-900/40 bg-amber-950/30 px-3 py-2">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-400">Why you missed it</p>
+              <p className="mt-0.5 text-xs leading-relaxed text-amber-100">{leadMessage}</p>
+            </div>
+          )}
 
           {/* Error badge + transfer rule: one card, always visible */}
           {isLayerVisible(config.fix) && !isCorrect && (errorType || layers.fix.transferRule) && (
@@ -218,6 +245,14 @@ export default function StudyFeedback({ question, selectedAnswer, onNext, repair
     <>
       <div className="mt-4 space-y-3 pb-40">
         <ResultBanner isCorrect={isCorrect} correctAnswer={question.correct_answer} />
+
+        {/* "Why YOU missed it" lead — signature-driven, above the error card */}
+        {leadMessage && (
+          <div className="rounded-md border border-amber-900/40 bg-amber-950/30 px-3 py-2">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-400">Why you missed it</p>
+            <p className="mt-0.5 text-xs leading-relaxed text-amber-100">{leadMessage}</p>
+          </div>
+        )}
 
         {/* Error + transfer rule merged */}
         {!isCorrect && (errorType || question.transfer_rule_text) && (

@@ -13,3 +13,18 @@ export type {
   SelectionStrategy,
   AttemptDiagnosis,
 } from './types';
+export {
+  getActionPolicy,
+  getSelectionPolicy,
+  RuleActionPolicy,
+  RuleSelectionPolicy,
+} from './policy';
+export type {
+  ActionPolicy,
+  ActionPolicyContext,
+  ActionPolicyDecision,
+  SelectionPolicy,
+  SelectionPolicyContext,
+  SelectionPolicyDecision,
+  ExperimentContext,
+} from './policy';

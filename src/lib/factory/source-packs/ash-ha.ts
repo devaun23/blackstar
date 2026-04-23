@@ -260,7 +260,7 @@ export const PACK_ASH_HA_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T12:00:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention, Inner Circle, and Emma Holliday board review sources. Strong evidence for laboratory diagnosis and folate supplementation recommendations. Treatment recommendations derived from clinical pearls and need verification against ASH guidelines. Red flags identified for TTP and aplastic crisis. Missing specific medication dosing and detailed treatment protocols that would be in formal guidelines.",

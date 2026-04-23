@@ -28,6 +28,8 @@ export interface HardGateResult {
   reasons: HardGateReason[];
   /** Per-gate detail for debugging and report storage. */
   detail: Record<HardGateReason, string | null>;
+  /** Full metadata-gate breakdown (CORE vs V23_STRICT vs OPTIONAL). */
+  metadataDetail: MetadataGateDetail;
 }
 
 // ─── Individual gate checks ─────────────────────────────────────────────────
@@ -133,37 +135,61 @@ function gateDistractorsImplausible(
   return null;
 }
 
-// The 15 required metadata fields from BLACKSTAR_MASTER_RUBRIC.md §Required metadata.
-// Missing any → this gate fires.
+// Metadata gate has two tiers (per Sprint 3 audit findings):
+//   CORE — present on every well-formed item. Missing any → hard gate.
+//   V23_STRICT — added by v23 Elite-Tutor case_planner. Historical items
+//                predate these fields; their absence docks production_readiness
+//                (see aggregation.ts) but does NOT auto-reject.
+//   OPTIONAL — not every item has (e.g., confusion_set is absent for items
+//              without a contrast pair). Absence is noted, never a gate.
+//
+// Rationale: 20/21 historical items are missing reasoning_steps and
+// difficulty_class. Gating on those would reject every legacy item regardless
+// of medical quality. The rubric still records their absence — human reviewers
+// can decide whether to backfill or deprecate.
+
+export interface MetadataGateDetail {
+  coreMissing: string[];       // → triggers hard gate
+  v23StrictMissing: string[];  // → docks production_readiness
+  optionalMissing: string[];   // → informational only
+}
+
+function checkMetadata(input: HardGateInput): MetadataGateDetail {
+  const { draft, casePlan, node } = input;
+  const core: string[] = [];
+  const v23: string[] = [];
+  const opt: string[] = [];
+
+  // CORE — every well-formed item must have these.
+  if (!draft.id) core.push('item_id');
+  if (!node?.shelf) core.push('shelf');
+  if (!node?.system) core.push('system');
+  if (!node?.topic) core.push('blueprint_node');
+  if (!casePlan?.cognitive_operation_type) core.push('cognitive_operation');
+  if (!casePlan?.transfer_rule_text) core.push('transfer_rule_text');
+  if (!casePlan?.hinge_depth_target) core.push('hinge_depth_target');
+  if (!casePlan?.target_cognitive_error_id) core.push('cognitive_error_targets');
+  if (!node?.yield_tier) core.push('intended_user_stage');
+
+  // V23_STRICT — added post-historical items; absence docks production_readiness.
+  const hasConcepts = casePlan?.reasoning_steps && casePlan.reasoning_steps.length > 0;
+  if (!hasConcepts) v23.push('reasoning_steps');
+  if (!casePlan?.difficulty_class) v23.push('difficulty_class');
+  if (!casePlan?.final_decisive_clue) v23.push('final_decisive_clue_hinge');
+  if (!casePlan?.explanation_teaching_goal) v23.push('explanation_teaching_goal');
+
+  // OPTIONAL — not every item has these (legitimate absences).
+  if (!casePlan?.target_confusion_set_id) opt.push('confusion_set');
+
+  return { coreMissing: core, v23StrictMissing: v23, optionalMissing: opt };
+}
+
 function gateMissingMetadata(
   input: HardGateInput,
 ): string | null {
-  const { draft, casePlan, node } = input;
-  const missing: string[] = [];
-
-  if (!draft.id) missing.push('item_id');
-  if (!node?.shelf) missing.push('shelf');
-  if (!node?.system) missing.push('system');
-  if (!node?.topic) missing.push('blueprint_node');
-
-  // concepts_tested — fallback to reasoning_steps[].what_student_must_recognize
-  const hasConcepts = casePlan?.reasoning_steps && casePlan.reasoning_steps.length > 0;
-  if (!hasConcepts) missing.push('concepts_tested');
-
-  if (!casePlan?.cognitive_operation_type) missing.push('cognitive_operation');
-  if (!casePlan?.transfer_rule_text) missing.push('transfer_rule_text');
-  if (!casePlan?.final_decisive_clue) missing.push('hinge_clue');
-  if (!casePlan?.hinge_depth_target) missing.push('hinge_depth_target');
-  if (!casePlan?.target_confusion_set_id) missing.push('confusion_set');
-  if (!casePlan?.target_cognitive_error_id) missing.push('cognitive_error_targets');
-  if (!casePlan?.difficulty_class) missing.push('difficulty_target');
-  if (!node?.yield_tier) missing.push('intended_user_stage');
-  if (!casePlan?.explanation_teaching_goal) missing.push('explanation_goal');
-
-  if (missing.length > 0) {
-    return `missing required metadata: ${missing.join(', ')}`;
-  }
-  return null;
+  const detail = checkMetadata(input);
+  if (detail.coreMissing.length === 0) return null;
+  return `missing CORE metadata: ${detail.coreMissing.join(', ')}`;
 }
 
 // ─── Utilities ──────────────────────────────────────────────────────────────
@@ -201,5 +227,6 @@ export function detectHardGates(input: HardGateInput): HardGateResult {
     pass: reasons.length === 0,
     reasons,
     detail,
+    metadataDetail: checkMetadata(input),
   };
 }

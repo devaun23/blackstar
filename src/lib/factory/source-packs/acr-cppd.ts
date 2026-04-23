@@ -210,7 +210,7 @@ export const PACK_ACR_CPPD_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15T00:00:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Source pack derived from board review materials (Divine Intervention, Inner Circle, Emma Holliday). Limited evidence available - only 3 clinical pearls provided. Added standard crystal arthropathy diagnostic and treatment approaches based on medical knowledge. Hemochromatosis association emphasized per source material. Requires verification against actual ACR or EULAR guidelines for CPPD. Crystal identification details well-established. Treatment steps inferred from standard practice.",

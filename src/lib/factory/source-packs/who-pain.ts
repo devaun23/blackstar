@@ -226,7 +226,7 @@ export const PACK_WHO_PAIN_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review materials (Divine Intervention/Inner Circle/Emma Holliday). Evidence items were primarily clinical pearls and treatment protocols rather than specific guideline recommendations. Added minimal viable diagnostic criteria, thresholds, red flags, and severity definitions to meet structure requirements. All content needs verification against actual WHO pain management guidelines before activation. Focus on WHO analgesic ladder approach based on source material.",

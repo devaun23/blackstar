@@ -6,8 +6,8 @@ import { z } from 'zod/v4';
 
 // --- Source identifiers ---
 
-export type ReviewSource = 'divine_intervention' | 'inner_circle' | 'amboss' | 'emma_holliday';
-export const REVIEW_SOURCES = ['divine_intervention', 'inner_circle', 'amboss', 'emma_holliday'] as const;
+export type ReviewSource = 'divine_intervention' | 'inner_circle' | 'amboss' | 'emma_holliday' | 'nbme';
+export const REVIEW_SOURCES = ['divine_intervention', 'inner_circle', 'amboss', 'emma_holliday', 'nbme'] as const;
 
 // --- Enums ---
 
@@ -26,6 +26,10 @@ export const DIItemType = z.enum([
   'procedure_protocol',
   'classification',
   'ethical_principle',
+  // NBME CCSS types (case_presentation = the clinical scenario + options block;
+  // distractor_rule = why each wrong option is wrong, usable as option-analysis pattern)
+  'case_presentation',
+  'distractor_rule',
 ]);
 export type DIItemType = z.infer<typeof DIItemType>;
 

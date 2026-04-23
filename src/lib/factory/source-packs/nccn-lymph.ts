@@ -239,7 +239,7 @@ export const PACK_NCCN_LYMPH_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Converted from Divine Intervention/Inner Circle/Emma Holliday board review evidence. Contains 62 recommendations, 4 diagnostic criteria, 1 treatment step, 22 thresholds, and 1 red flag from source material. All clinical claims need verification against actual NCCN guidelines. Focused primarily on Hodgkin and Non-Hodgkin lymphoma diagnosis, staging, and treatment. Some items may need updating to reflect current guideline recommendations.",

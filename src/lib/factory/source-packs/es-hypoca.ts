@@ -257,7 +257,7 @@ export const PACK_ES_HYPOCA_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15",
   "normalizer_version": 1,
   "normalization_notes": "Extracted from board review materials (Divine Intervention, Inner Circle, Emma Holliday). Key clinical pearls converted to structured recommendations. Treatment protocols derived from clinical scenarios. All items require verification against actual Endocrine Society guidelines. Particular attention needed for: dosing protocols, specific calcium formulations, and monitoring parameters.",

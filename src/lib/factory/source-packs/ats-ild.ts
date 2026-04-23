@@ -254,7 +254,7 @@ export const PACK_ATS_ILD_2022: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention/Inner Circle). Key areas needing verification: (1) Specific antifibrotic dosing and contraindications, (2) Complete diagnostic criteria for various ILD subtypes, (3) Staging and severity classification systems, (4) Complete treatment algorithms beyond IPF, (5) Monitoring parameters and follow-up intervals. Evidence covers broad spectrum of ILD but lacks specific guideline thresholds and detailed treatment protocols.",

@@ -55,6 +55,8 @@ export default function AssessmentReview({ attempts, totalTime, onStudyAgain }: 
             <StudyFeedback
               question={attempt.question}
               selectedAnswer={attempt.selected}
+              errorRepeatCount={attempt.errorRepeatCount}
+              errorSignature={attempt.errorSignature ?? null}
               onNext={() => {
                 if (reviewingIndex < missed.length - 1) {
                   setReviewingIndex(reviewingIndex + 1);

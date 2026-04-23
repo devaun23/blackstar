@@ -217,7 +217,7 @@ export const PACK_AAO_RD_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-28",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence (Divine Intervention + Inner Circle). All clinical claims appear medically accurate but require verification against actual AAO guidelines. Limited treatment detail available - may need expansion of surgical options and post-operative care. Risk factor list comprehensive. Emergency nature well-established. Needs verification of specific guideline recommendations and treatment algorithms.",

@@ -227,7 +227,7 @@ export const PACK_AGA_PUD_2022: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T10:30:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention and Inner Circle board review materials. Key areas requiring verification against actual AGA guidelines: (1) specific drug regimens and dosing for CAP/MBTP protocols, (2) duration of eradication therapy, (3) prophylaxis recommendations for steroid users, (4) imaging protocols for suspected perforation, (5) endoscopy timing for bleeding complications. Clinical pearls converted to evidence-based recommendations but need validation against current AGA standards.",

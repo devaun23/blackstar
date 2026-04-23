@@ -21,6 +21,9 @@ const VALIDATOR_TO_FAILURE: Record<ValidatorType, FailureCode> = {
   option_symmetry: 'VAL-OPT',
   explanation_quality: 'VAL-EXP',
   exam_translation: 'VAL-TRANS',
+  contraindication: 'VAL-CCV',
+  coverage: 'VAL-COVERAGE',
+  master_rubric: 'VAL-MASTER-RUBRIC',
 };
 
 /**

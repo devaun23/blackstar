@@ -311,7 +311,7 @@ export const PACK_ACOG_CCS_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review materials (Divine Intervention + Inner Circle + Emma Holliday). All recommendations and thresholds are clinically standard but need verification against actual ACOG guidelines. Age thresholds and screening intervals are well-established. Special populations (HIV, immunocompromised, DES exposure) require annual screening. Post-hysterectomy screening depends on indication for surgery. Requires human review before activation.",

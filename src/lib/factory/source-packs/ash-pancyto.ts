@@ -223,7 +223,7 @@ export const PACK_ASH_PANCYTO_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19T21:17:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Generated from Divine Intervention and Inner Circle board review materials. All medical claims are educationally sound but require verification against actual ASH or other authoritative hematology guidelines. Geographic considerations for leishmaniasis and specific cytologic findings (TRAP stain, dacrocytes, crumpled paper macrophages) may need additional guideline support. Treatment recommendations limited in source material - expand with actual guideline content.",

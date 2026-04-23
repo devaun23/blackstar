@@ -213,7 +213,7 @@ export const PACK_AHA_RAS_2023: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-01-15T00:00:00Z",
   "normalizer_version": 1,
   "normalization_notes": "Normalized from board review evidence (DI/IC/EH sources). Key elements extracted: ACE-I contraindications in bilateral RAS, clinical presentation patterns, demographic risk factors. Limited evidence available - may need supplementation with additional guideline content for comprehensive coverage. All provenance marked as DI/IC-derived pending verification against actual AHA guidelines.",

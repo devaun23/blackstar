@@ -3,6 +3,17 @@
 
 import type { SourcePack, PackStatus } from './types';
 
+/**
+ * Pack statuses that count as usable at generation time.
+ * - 'active' = guideline-verified, fully promoted
+ * - 'validated' = sufficiency-passing, extracted from board-review sources (DI/IC/AMBOSS/EH),
+ *   usable for generation but not yet verified against the authoritative guideline
+ */
+const USABLE_STATUSES: readonly PackStatus[] = ['active', 'validated'];
+function isUsable(status: PackStatus): boolean {
+  return USABLE_STATUSES.includes(status);
+}
+
 const PACK_REGISTRY: Record<string, () => Promise<SourcePack>> = {
   // ── Original packs ──
   'PACK.ACG.AP.2024': () =>
@@ -414,14 +425,14 @@ const PACK_REGISTRY: Record<string, () => Promise<SourcePack>> = {
   'PACK.WHO.PAIN.2019': () => import('./who-pain').then((m) => m.PACK_WHO_PAIN_2019),
 };
 
-/** Load a pack by ID. Returns null if not registered or not active. */
+/** Load a pack by ID. Returns null if not registered or not in a usable status (active|validated). */
 export async function loadPack(sourcePackId: string): Promise<SourcePack | null> {
   const loader = PACK_REGISTRY[sourcePackId];
   if (!loader) return null;
 
   try {
     const pack = await loader();
-    if (pack.status !== 'active') return null;
+    if (!isUsable(pack.status)) return null;
     return pack;
   } catch {
     // Pack file doesn't exist yet (Phase D stubs)
@@ -444,13 +455,13 @@ export async function getPackStatus(
   }
 }
 
-/** List all pack IDs that are currently active. */
+/** List all pack IDs that are currently usable (active or validated). */
 export async function listActivePacks(): Promise<string[]> {
   const results: string[] = [];
   for (const [id, loader] of Object.entries(PACK_REGISTRY)) {
     try {
       const pack = await loader();
-      if (pack.status === 'active') results.push(id);
+      if (isUsable(pack.status)) results.push(id);
     } catch {
       // Skip packs that can't be loaded
     }
@@ -458,14 +469,14 @@ export async function listActivePacks(): Promise<string[]> {
   return results;
 }
 
-/** Find a pack by its source_name field. */
+/** Find a pack by its source_name field. Returns the pack if active or validated. */
 export async function getPackBySourceName(
   name: string
 ): Promise<SourcePack | null> {
   for (const loader of Object.values(PACK_REGISTRY)) {
     try {
       const pack = await loader();
-      if (pack.source_name === name && pack.status === 'active') return pack;
+      if (pack.source_name === name && isUsable(pack.status)) return pack;
     } catch {
       // Skip
     }

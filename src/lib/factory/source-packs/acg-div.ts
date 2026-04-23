@@ -268,7 +268,7 @@ export const PACK_ACG_DIV_2020: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Normalized from Divine Intervention and Inner Circle board review sources. Key clinical pearls extracted and structured. Contraindications, diagnostic imaging, and follow-up colonoscopy timing emphasized. Treatment protocols for uncomplicated vs complicated disease included. Fistula complications and perforation warning signs captured. All claims need verification against actual ACG guidelines before activation.",

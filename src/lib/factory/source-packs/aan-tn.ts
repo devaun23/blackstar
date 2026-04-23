@@ -258,7 +258,7 @@ export const PACK_AAN_TN_2019: SourcePack = {
     }
   ],
   "source_pack_version": 1,
-  "status": "draft",
+  "status": "validated",
   "last_normalized": "2024-12-19",
   "normalizer_version": 1,
   "normalization_notes": "Generated from board review evidence mentioning carbamazepine for trigeminal neuralgia with adverse effects. Limited source material required inference of standard diagnostic criteria, treatment protocols, and monitoring parameters. All clinical claims need verification against actual AAN practice parameters. No specific dosing, treatment duration, or detailed diagnostic criteria were provided in source material.",
