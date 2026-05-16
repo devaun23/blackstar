@@ -216,9 +216,18 @@ async function callOpenAI(
     );
   }
 
+  // Reasoning models (o1/o3/o4) and GPT-5 family require max_completion_tokens
+  // instead of max_tokens. Older chat-completion models still accept max_tokens.
+  const isReasoningModel =
+    model.startsWith('o1') || model.startsWith('o3') || model.startsWith('o4') ||
+    model.startsWith('gpt-5');
+  const tokenParam = isReasoningModel
+    ? { max_completion_tokens: maxTokens }
+    : { max_tokens: maxTokens };
+
   const response = await client.chat.completions.create({
     model,
-    max_tokens: maxTokens,
+    ...tokenParam,
     messages,
     response_format: { type: 'json_object' },
   });
