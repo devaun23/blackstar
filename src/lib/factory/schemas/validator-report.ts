@@ -2,6 +2,9 @@ import { z } from 'zod';
 
 export const validatorTypeEnum = z.enum([
   'medical', 'blueprint', 'nbme_quality', 'option_symmetry', 'explanation_quality', 'exam_translation',
+  // v27 — adversarial validators (B1 / B2). DB enum extended by
+  // supabase-migration-v30-adversarial-validators.sql.
+  'adversarial_student', 'jury',
 ]);
 
 /**

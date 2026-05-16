@@ -52,8 +52,19 @@ export interface PipelineConfig {
   // Falsy → agents use callClaude's default. Stored in item_rubric_score.scorer_model
   // and rubric_score.grader_model for provenance.
   evaluatorModel?: string;
-  juryEnabled?: boolean;     // Enable multi-model jury on high-stakes validators
+  juryEnabled?: boolean;     // Enable multi-model jury on high-stakes validators (legacy flag)
   validatorSampleCount?: number; // Self-consistency sampling: run medical validator N times (default 1)
+  // v27 — Adversarial validation (B4). Both default off. Flip on after
+  // re-validate-draft.ts confirms the prompts are dialed in. Requires
+  // supabase-migration-v30-adversarial-validators.sql to be applied.
+  runAdversarialStudentValidator?: boolean;
+  runJuryValidator?: boolean;
+  juryModel?: string;          // e.g. 'gpt-5', 'gemini-2.5-pro' — passed to jury-validator
+  // v27 — A4 cell-existence gate. Defaults to 'warn' (logs but allows) because
+  // current blueprint_node data contains duplicate system names (Cardiology vs
+  // Cardiovascular, Endocrine vs Endocrinology, Renal vs Nephrology, etc.).
+  // Flip to 'strict' AFTER deduping the seed.
+  cellExistenceGate?: 'warn' | 'strict' | 'off';
   // v23: Elite-Tutor Rule 2 — batch-time difficulty hint; passed to case_planner v5
   difficultyClassHint?: 'easy_recognition' | 'decision_fork' | 'hard_discrimination';
 }

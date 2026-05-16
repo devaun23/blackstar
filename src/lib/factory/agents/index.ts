@@ -25,3 +25,9 @@ export * as rubricScorer from './rubric-scorer';
 
 // v26 Master Rubric — publish-decision authority
 export * as rubricEvaluator from './rubric-evaluator';
+
+// v27 adversarial validation (B1) — smart-student surface-cue eliminability
+export * as adversarialStudentValidator from './adversarial-student-validator';
+
+// v27 jury battle-test (B2) — second-model attempt + classifier
+export * as juryValidator from './jury-validator';

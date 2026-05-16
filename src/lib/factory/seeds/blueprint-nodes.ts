@@ -1,5 +1,6 @@
 import type { BlueprintNodeInput } from '@/lib/factory/schemas';
 import { MEDICINE_NODES } from './exam-content-specs';
+import { CROSS_CUTTING_BLUEPRINT_NODES } from './cross-cutting-nodes';
 
 /**
  * Extract DB-layer fields from MedicineNodeSpec for blueprint_nodes seeding.
@@ -20,4 +21,7 @@ function extractBlueprintNode(spec: (typeof MEDICINE_NODES)[number]): BlueprintN
   };
 }
 
-export const blueprintNodes: BlueprintNodeInput[] = MEDICINE_NODES.map(extractBlueprintNode);
+export const blueprintNodes: BlueprintNodeInput[] = [
+  ...MEDICINE_NODES.map(extractBlueprintNode),
+  ...CROSS_CUTTING_BLUEPRINT_NODES,
+];

@@ -183,6 +183,7 @@ export async function runPipeline(config: PipelineConfig): Promise<PipelineResul
         card: card as AlgorithmCardRow,
         facts: facts as FactRowRow[],
         errors: (errors ?? []) as ErrorTaxonomyRow[],
+        ...(config.cellExistenceGate ? { cellExistenceGate: config.cellExistenceGate } : {}),
       })
     );
 
@@ -315,6 +316,84 @@ export async function runPipeline(config: PipelineConfig): Promise<PipelineResul
           facts: facts as FactRowRow[],
         })
       );
+    }
+
+    // ─── STEP 5.5: Adversarial validation (B1, B2) — advisory only ───
+    //
+    // Runs AFTER the main 6-validator loop has settled. Persists reports to
+    // validator_report for later analysis but does NOT block publish. Use the
+    // re-audit script (scripts/re-validate-draft.ts) and B7 to decide when
+    // these should escalate to hard gates (R-OPT-06 / R-NBME-05). Off by
+    // default; flip on via PipelineConfig.runAdversarialStudentValidator /
+    // runJuryValidator AFTER applying migration v30.
+    if (passed && (config.runAdversarialStudentValidator || config.runJuryValidator)) {
+      const { data: passedDraft } = await supabase
+        .from('item_draft')
+        .select('*')
+        .eq('id', draftId)
+        .single();
+
+      if (passedDraft) {
+        const { data: casePlanRow } = passedDraft.case_plan_id
+          ? await supabase.from('case_plan').select('*').eq('id', passedDraft.case_plan_id).single()
+          : { data: null };
+
+        const adversarialJobs: Promise<unknown>[] = [];
+        if (config.runAdversarialStudentValidator) {
+          adversarialJobs.push(
+            (async () => {
+              const res = await agents.adversarialStudentValidator.run(context, {
+                draft: passedDraft as ItemDraftRow,
+                plan: plan as ItemPlanRow,
+                casePlan: casePlanRow as never,
+              });
+              totalTokens += res.tokensUsed;
+              if (res.success) {
+                await supabase.from('validator_report').insert({
+                  item_draft_id: draftId,
+                  validator_type: 'adversarial_student',
+                  passed: res.data.passed,
+                  score: res.data.score,
+                  issues_found: res.data.issues_found,
+                  repair_instructions: res.data.repair_instructions ?? null,
+                  raw_output: res.data as unknown as Record<string, unknown>,
+                });
+              }
+            })().catch((err: unknown) => {
+              const msg = err instanceof Error ? err.message : String(err);
+              console.warn(`[pipeline] adversarial-student validator failed (non-blocking): ${msg}`);
+            })
+          );
+        }
+        if (config.runJuryValidator) {
+          adversarialJobs.push(
+            (async () => {
+              const res = await agents.juryValidator.run(context, {
+                draft: passedDraft as ItemDraftRow,
+                card: card as AlgorithmCardRow,
+                casePlan: casePlanRow as never,
+                ...(config.juryModel ? { juryModel: config.juryModel } : {}),
+              });
+              totalTokens += res.tokensUsed;
+              if (res.success) {
+                await supabase.from('validator_report').insert({
+                  item_draft_id: draftId,
+                  validator_type: 'jury',
+                  passed: res.data.passed,
+                  score: res.data.score,
+                  issues_found: res.data.issues_found,
+                  repair_instructions: res.data.repair_instructions ?? null,
+                  raw_output: res.data as unknown as Record<string, unknown>,
+                });
+              }
+            })().catch((err: unknown) => {
+              const msg = err instanceof Error ? err.message : String(err);
+              console.warn(`[pipeline] jury validator failed (non-blocking): ${msg}`);
+            })
+          );
+        }
+        await Promise.all(adversarialJobs);
+      }
     }
 
     // ─── STEP 6: Explanation Writer (only if passed) ───

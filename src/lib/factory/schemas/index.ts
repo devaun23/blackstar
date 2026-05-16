@@ -43,6 +43,22 @@ export type {
 export { casePlanSchema, optionFrameSchema, cognitiveOperationEnum, hingeDepthEnum, decisionForkTypeEnum } from './case-plan';
 export type { CasePlanInput, OptionFrame } from './case-plan';
 
+// v27 adversarial validation (B1/B2)
+export {
+  adversarialStudentReportSchema,
+  distractorEliminabilitySchema,
+  eliminationCueEnum,
+  juryReportSchema,
+  juryVerdictEnum,
+} from './adversarial-report';
+export type {
+  AdversarialStudentReport,
+  DistractorEliminability,
+  EliminationCue,
+  JuryReport,
+  JuryVerdict,
+} from './adversarial-report';
+
 export { questionSkeletonSchema, skeletonValidatorOutputSchema } from './question-skeleton';
 export type { QuestionSkeletonInput, SkeletonValidatorOutput } from './question-skeleton';
 

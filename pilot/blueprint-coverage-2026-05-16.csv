@@ -1,0 +1,118 @@
+shelf,system,task_type,age_group,yield_tier,nodes_seeded,items_published,target,gap,status
+medicine,Cardiology,diagnosis,elderly,tier_1,18,0,3,3,critical
+medicine,Cardiology,diagnosis,middle_aged,tier_1,18,0,3,3,critical
+medicine,Cardiology,diagnosis,young_adult,tier_1,1,0,3,3,critical
+medicine,Cardiology,diagnostic_test,elderly,tier_1,10,0,3,3,critical
+medicine,Cardiology,diagnostic_test,young_adult,tier_1,10,0,3,3,critical
+medicine,Cardiology,next_step,elderly,tier_1,13,0,3,3,critical
+medicine,Cardiology,next_step,middle_aged,tier_1,2,0,3,3,critical
+medicine,Cardiovascular,diagnostic_test,elderly,tier_1,1,0,3,3,critical
+medicine,Cardiovascular,diagnostic_test,young_adult,tier_1,1,0,3,3,critical
+medicine,Cardiovascular,next_step,elderly,tier_1,1,0,3,3,critical
+medicine,Cardiovascular,next_step,middle_aged,tier_1,1,0,3,3,critical
+medicine,Critical Care/Shock,diagnostic_test,elderly,tier_1,7,0,3,3,critical
+medicine,Critical Care/Shock,diagnostic_test,middle_aged,tier_1,1,0,3,3,critical
+medicine,Critical Care/Shock,next_step,middle_aged,tier_1,9,0,3,3,critical
+medicine,Critical Care/Shock,stabilization,elderly,tier_1,7,0,3,3,critical
+medicine,Critical Care/Shock,stabilization,young_adult,tier_1,9,0,3,3,critical
+medicine,Dermatology-within-IM,stabilization,young_adult,tier_1,8,0,3,3,critical
+medicine,Electrolytes/Acid-Base,diagnostic_test,elderly,tier_1,9,0,3,3,critical
+medicine,Electrolytes/Acid-Base,diagnostic_test,middle_aged,tier_1,19,0,3,3,critical
+medicine,Electrolytes/Acid-Base,stabilization,elderly,tier_1,10,0,3,3,critical
+medicine,Endocrine,diagnostic_test,elderly,tier_1,1,0,3,3,critical
+medicine,Endocrinology,diagnosis,middle_aged,tier_1,10,0,3,3,critical
+medicine,Endocrinology,diagnostic_test,elderly,tier_1,10,0,3,3,critical
+medicine,Endocrinology,diagnostic_test,middle_aged,tier_1,8,0,3,3,critical
+medicine,Endocrinology,next_step,elderly,tier_1,10,0,3,3,critical
+medicine,Endocrinology,next_step,middle_aged,tier_1,1,0,3,3,critical
+medicine,Endocrinology,risk_identification,elderly,tier_1,1,0,3,3,critical
+medicine,Endocrinology,stabilization,elderly,tier_1,10,0,3,3,critical
+medicine,Endocrinology,stabilization,middle_aged,tier_1,7,0,3,3,critical
+medicine,Gastroenterology,complication_recognition,middle_aged,tier_1,1,0,3,3,critical
+medicine,Gastroenterology,diagnosis,young_adult,tier_1,20,0,3,3,critical
+medicine,Gastroenterology,diagnostic_test,middle_aged,tier_1,10,0,3,3,critical
+medicine,Gastroenterology,next_step,elderly,tier_1,18,0,3,3,critical
+medicine,Gastroenterology,next_step,middle_aged,tier_1,1,0,3,3,critical
+medicine,Gastroenterology,stabilization,elderly,tier_1,1,0,3,3,critical
+medicine,Gastrointestinal,diagnostic_test,middle_aged,tier_1,1,0,3,3,critical
+medicine,Gastrointestinal,next_step,middle_aged,tier_1,1,0,3,3,critical
+medicine,Gastrointestinal,stabilization,elderly,tier_1,1,0,3,3,critical
+medicine,Hematology/Oncology,complication_recognition,young_adult,tier_1,1,0,3,3,critical
+medicine,Hematology/Oncology,diagnosis,elderly,tier_1,18,0,3,3,critical
+medicine,Hematology/Oncology,diagnosis,middle_aged,tier_1,10,0,3,3,critical
+medicine,Hematology/Oncology,diagnostic_test,middle_aged,tier_1,19,0,3,3,critical
+medicine,Hematology/Oncology,diagnostic_test,young_adult,tier_1,11,0,3,3,critical
+medicine,Hematology/Oncology,next_step,middle_aged,tier_1,11,0,3,3,critical
+medicine,Hepatology,diagnosis,middle_aged,tier_1,21,0,3,3,critical
+medicine,Hepatology,diagnosis,young_adult,tier_1,7,0,3,3,critical
+medicine,Hepatology,next_step,elderly,tier_1,1,0,3,3,critical
+medicine,Hepatology,next_step,middle_aged,tier_1,2,0,3,3,critical
+medicine,Infectious Disease,diagnostic_test,young_adult,tier_1,1,0,3,3,critical
+medicine,Infectious Disease,next_step,elderly,tier_1,21,0,3,3,critical
+medicine,Infectious Disease,next_step,young_adult,tier_1,11,0,3,3,critical
+medicine,Infectious Disease,stabilization,elderly,tier_1,10,0,3,3,critical
+medicine,Infectious Disease,stabilization,young_adult,tier_1,10,0,3,3,critical
+medicine,Nephrology,diagnostic_test,elderly,tier_1,10,0,3,3,critical
+medicine,Nephrology,diagnostic_test,middle_aged,tier_1,10,0,3,3,critical
+medicine,Nephrology,diagnostic_test,young_adult,tier_1,8,0,3,3,critical
+medicine,Nephrology,next_step,elderly,tier_1,10,0,3,3,critical
+medicine,Nephrology,next_step,middle_aged,tier_1,10,0,3,3,critical
+medicine,Neurology,next_step,elderly,tier_1,1,0,3,3,critical
+medicine,Neurology,risk_identification,elderly,tier_1,1,0,3,3,critical
+medicine,Neurology-within-IM,complication_recognition,middle_aged,tier_1,9,0,3,3,critical
+medicine,Neurology-within-IM,diagnosis,young_adult,tier_1,9,0,3,3,critical
+medicine,Neurology-within-IM,diagnostic_test,elderly,tier_1,10,0,3,3,critical
+medicine,Neurology-within-IM,diagnostic_test,middle_aged,tier_1,9,0,3,3,critical
+medicine,Neurology-within-IM,next_step,middle_aged,tier_1,8,0,3,3,critical
+medicine,Neurology-within-IM,next_step,young_adult,tier_1,2,0,3,3,critical
+medicine,Preventive/Screening,next_step,middle_aged,tier_1,8,0,3,3,critical
+medicine,Preventive/Screening,risk_identification,middle_aged,tier_1,8,0,3,3,critical
+medicine,Pulmonary,diagnostic_test,elderly,tier_1,9,0,3,3,critical
+medicine,Pulmonary,diagnostic_test,middle_aged,tier_1,1,0,3,3,critical
+medicine,Pulmonary,diagnostic_test,young_adult,tier_1,19,0,3,3,critical
+medicine,Pulmonary,next_step,elderly,tier_1,21,0,3,3,critical
+medicine,Pulmonary,next_step,middle_aged,tier_1,1,0,3,3,critical
+medicine,Pulmonary,next_step,young_adult,tier_1,9,0,3,3,critical
+medicine,Pulmonary,stabilization,young_adult,tier_1,2,0,3,3,critical
+medicine,Renal,diagnostic_test,elderly,tier_1,1,0,3,3,critical
+medicine,Rheumatology,diagnosis,middle_aged,tier_1,10,0,3,3,critical
+medicine,Rheumatology,diagnosis,young_adult,tier_1,10,0,3,3,critical
+medicine,Rheumatology,diagnostic_test,elderly,tier_1,8,0,3,3,critical
+medicine,Rheumatology,diagnostic_test,middle_aged,tier_1,1,0,3,3,critical
+medicine,Rheumatology,next_step,middle_aged,tier_1,1,0,3,3,critical
+medicine,Toxicology-within-IM,diagnosis,middle_aged,tier_1,9,0,3,3,critical
+medicine,Toxicology-within-IM,diagnostic_test,middle_aged,tier_1,7,0,3,3,critical
+medicine,Toxicology-within-IM,next_step,middle_aged,tier_1,9,0,3,3,critical
+medicine,Toxicology-within-IM,stabilization,young_adult,tier_1,19,0,3,3,critical
+medicine,Vascular,next_step,middle_aged,tier_1,1,0,3,3,critical
+medicine,Cardiology,next_step,middle_aged,tier_2,1,0,2,2,critical
+medicine,Dermatology-within-IM,diagnosis,elderly,tier_2,9,0,2,2,critical
+medicine,Dermatology-within-IM,diagnostic_test,young_adult,tier_2,8,0,2,2,critical
+medicine,Dermatology-within-IM,next_step,middle_aged,tier_2,9,0,2,2,critical
+medicine,Dermatology-within-IM,risk_identification,middle_aged,tier_2,10,0,2,2,critical
+medicine,Electrolytes/Acid-Base,diagnostic_test,elderly,tier_2,9,0,2,2,critical
+medicine,Electrolytes/Acid-Base,next_step,middle_aged,tier_2,9,0,2,2,critical
+medicine,Endocrine,stabilization,elderly,tier_1,1,1,3,2,under
+medicine,Endocrinology,diagnostic_test,middle_aged,tier_2,21,0,2,2,critical
+medicine,Endocrinology,stabilization,young_adult,tier_1,9,1,3,2,under
+medicine,Gastroenterology,next_step,middle_aged,tier_2,9,0,2,2,critical
+medicine,Hematology/Oncology,stabilization,middle_aged,tier_1,9,1,3,2,under
+medicine,Hepatology,risk_identification,middle_aged,tier_2,9,0,2,2,critical
+medicine,Infectious Disease,diagnostic_test,middle_aged,tier_2,19,0,2,2,critical
+medicine,Infectious Disease,next_step,middle_aged,tier_2,9,0,2,2,critical
+medicine,Nephrology,complication_recognition,middle_aged,tier_2,10,0,2,2,critical
+medicine,Nephrology,diagnosis,middle_aged,tier_2,8,0,2,2,critical
+medicine,Nephrology,diagnostic_test,elderly,tier_2,9,0,2,2,critical
+medicine,Nephrology,diagnostic_test,middle_aged,tier_2,8,0,2,2,critical
+medicine,Neurology-within-IM,next_step,elderly,tier_2,7,0,2,2,critical
+medicine,Neurology-within-IM,next_step,elderly,tier_1,11,1,3,2,under
+medicine,Neurology-within-IM,stabilization,middle_aged,tier_1,18,1,3,2,under
+medicine,Preventive/Screening,next_step,elderly,tier_2,10,0,2,2,critical
+medicine,Preventive/Screening,risk_identification,elderly,tier_2,8,0,2,2,critical
+medicine,Preventive/Screening,risk_identification,middle_aged,tier_2,9,0,2,2,critical
+medicine,Preventive/Screening,risk_identification,young_adult,tier_2,8,0,2,2,critical
+medicine,Pulmonary,diagnostic_test,middle_aged,tier_2,27,0,2,2,critical
+medicine,Pulmonary,risk_identification,elderly,tier_2,9,0,2,2,critical
+medicine,Rheumatology,diagnosis,elderly,tier_2,10,0,2,2,critical
+medicine,Rheumatology,diagnosis,young_adult,tier_2,11,0,2,2,critical
+medicine,Critical Care/Shock,stabilization,middle_aged,tier_1,24,2,3,1,under
