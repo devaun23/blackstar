@@ -31,6 +31,7 @@ Auto-kill criteria that immediately disqualify a generated question. These are e
 | R-NBME-02 | Vignette uses teaching voice, hints, or leading language | nbme_quality_validator |
 | R-NBME-03 | Only 1 option is plausible (others are absurd or nonsensical) | nbme_quality_validator |
 | R-NBME-04 | Classic buzzword makes answer trivially obvious (e.g., "butterfly rash" → lupus) | nbme_quality_validator |
+| R-NBME-05 | Jury battle-test picked the keyed answer for a non-keyed reason (item passes by coincidence, not by craft) — advisory in v27, promotable to hard-gate after pilot re-audit | jury_validator |
 
 ## Category 3b: Reasoning Depth Kills (Rule 1)
 
@@ -48,6 +49,7 @@ Auto-kill criteria that immediately disqualify a generated question. These are e
 | R-OPT-03 | One option is significantly longer/more detailed than others (longest-answer pattern) | option_symmetry_validator |
 | R-OPT-04 | No `archetype='primary_competitor'` designated in `case_plan.option_frames` (Rule 3) | option_symmetry_validator |
 | R-OPT-05 | More than one `archetype='zebra'`, or zebra designated without a genuinely exotic clinical identity (Rule 3) | option_symmetry_validator |
+| R-OPT-06 | ≥2 distractors eliminable by surface cues alone (length, register, specificity, syntactic shape, vocabulary, implausibility, category mismatch, absolute language) per the adversarial-student validator. Advisory in v27 (Track B pilot); promotable to hard-gate after re-audit (B7) shows the signal is reliable. | adversarial_student_validator |
 
 ## Category 5: Explanation Quality Kills
 
@@ -74,11 +76,22 @@ Auto-kill criteria that immediately disqualify a generated question. These are e
 | R-PIPE-01 | Item fails validation 3 times (max repair cycles exceeded) | pipeline orchestrator |
 | R-PIPE-02 | Repair agent produces identical output to failed draft | pipeline orchestrator |
 
+## Category 8: IP / Originality Kills
+
+Enforced by the `source-firewall` skill and the per-item provenance stamp on `item_draft`. These are auto-kill — no repair attempt.
+
+| Rule | Description | Enforcer |
+|------|-------------|----------|
+| R-IP-01 | Item stem, distractor, or explanation matches >12 consecutive words of any known competitor qbank passage (UWorld / AMBOSS / Bootcamp / Divine) or NBME release item | source-firewall (post-gen, Q1/Q3/Q4) |
+| R-IP-02 | Vignette construct (patient demographics + presentation + key clinical twist) is traceable to a specific UWorld / AMBOSS / NBME release item | source-firewall (post-gen, Q2/Q5) |
+| R-IP-03 | Source pack is not on the Tier-A open-access allowlist, OR `item_draft` is missing any of `source_pack_id`, `source_name`, `source_tier`, `source_citations[]` | source-firewall (pre-gen + provenance stamp) |
+
 ## Scoring Thresholds
 
 Items are auto-killed (no repair attempt) when:
 - Medical accuracy score < 3.0
 - Any Category 1 rule triggered (R-MED-01 through R-MED-05)
+- Any Category 8 rule triggered (R-IP-01 through R-IP-03)
 
 Items are sent to repair (up to 3 cycles) when:
 - Any validator fails with score ≥ 3.0

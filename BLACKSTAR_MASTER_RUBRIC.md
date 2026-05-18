@@ -21,6 +21,8 @@ Use hard gates first. If a hard gate fails, the item fails regardless of total s
 - Item is materially out of shelf or NBME scope
 - Distractors are implausible or obviously weaker than the key
 - Metadata required for learner modeling is missing
+- Source provenance missing or competitor-qbank derivation suspected (enforced by `source-firewall` skill; see REJECTION_RULES.md Category 8)
+- **Adversarial gameability** — ≥2 distractors eliminable by surface cues alone per the adversarial-student validator (R-OPT-06). Advisory during the v27 pilot; promoted to hard-gate once the B7 re-audit confirms the signal is reliable. Cross-references the question-qa skill's 7-point audit.
 
 ## Required metadata
 - item_id
