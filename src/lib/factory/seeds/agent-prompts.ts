@@ -237,6 +237,47 @@ Answer options must be clean clinical actions. They must NOT contain:
 - Doses, rates, or specific drug names UNLESS all options include equivalent specificity (wrong: "Systemic thrombolysis with alteplase 100 mg IV" when other options don't specify doses — right: "Systemic thrombolysis" or "Tissue plasminogen activator infusion")
 Each option should be a standalone clinical action that could appear in a medical order.
 
+═══ OPTION SPECIFICITY SYMMETRY (R-OPT-06 — HARD REQUIREMENT) ═══
+
+The 5 options MUST match in clinical specificity, dosing precision, procedural detail, and register. A naive student who has not studied the underlying transfer rule must NOT be able to eliminate any distractor by surface-cue inspection alone — only by applying the clinical rule.
+
+ENFORCED BY: adversarial-student validator (R-OPT-06). Items where ≥2 distractors are eliminable by surface cues fail this rule and are auto-killed.
+
+Concrete pilot failures (regenerate distractors when you see these patterns):
+
+  BAD — distractor over-specificity vs concise correct answer:
+    Correct:     A. Begin IV insulin infusion
+    Distractor:  C. Initiate continuous norepinephrine infusion titrated to MAP 65 mmHg with central line placement
+    Why bad: C carries dosing target + procedural detail; A is bare. Naive student infers "the verbose ones are wrong." Eliminable by specificity cue.
+
+  BAD — distractor with absolute-language tell:
+    Correct:     A. Check serum potassium before insulin
+    Distractor:  B. Administer insulin immediately and first
+    Why bad: "immediately and first" is an absolute-language flag. Eliminable by absolute_language cue.
+
+  BAD — distractor with category mismatch:
+    Correct:     A. Plasma exchange
+    Distractor:  C. Hemodialysis with serial coagulation monitoring
+    Why bad: C is a renal intervention in a hematologic option set + has a monitoring qualifier the others lack. Eliminable by category_mismatch + specificity.
+
+  GOOD — matched specificity:
+    A. Heparin infusion
+    B. Systemic thrombolysis
+    C. Surgical embolectomy
+    D. Inferior vena cava filter placement
+    E. Observation with serial imaging
+    Why good: each option is a 2-5 word clinical action. Mix of verb-first and noun-first phrasing for natural variation (per OPTION CONSTRUCTION VARIATION). No single option carries dosing, monitoring, or target details the others lack.
+
+WRITER SELF-TEST (run before output): For each non-correct option, ask "Could I eliminate this option without knowing the clinical rule, using only how it's written?" If you can eliminate ≥2 distractors this way, REWRITE them. Specifically:
+  - If the correct answer has no dose, no distractor has a dose.
+  - If the correct answer has no monitoring target, no distractor has a monitoring target.
+  - If the correct answer has no qualifying clause (e.g., "with central line placement"), no distractor has one.
+  - If the correct answer is 3 words, no distractor exceeds 5 words.
+  - If the correct answer uses "Administer X," at least 2 distractors also use "Administer Y."
+  - Avoid "immediately," "always," "never," "first-line," "the only" — these are absolute-language tells.
+
+This rule is upstream of the option-symmetry-validator and the adversarial-student-validator. If you find yourself writing detailed distractors and bare correct answers, you are producing a known failure pattern — stop and either elaborate the correct answer to match OR strip the distractor detail.
+
 NBME FORMATTING STANDARDS (mandatory for every vignette):
 - Temperature: always Celsius-first dual units — "38.9°C (102.0°F)" NEVER "102°F (38.9°C)"
 - Pulse/respirations: always include "/min" — "pulse is 115/min"
@@ -386,6 +427,47 @@ Answer options must be clean clinical actions. They must NOT contain:
 - Doses, rates, or specific drug names UNLESS all options include equivalent specificity (wrong: "Systemic thrombolysis with alteplase 100 mg IV" when other options don't specify doses — right: "Systemic thrombolysis" or "Tissue plasminogen activator infusion")
 Each option should be a standalone clinical action that could appear in a medical order.
 
+═══ OPTION SPECIFICITY SYMMETRY (R-OPT-06 — HARD REQUIREMENT) ═══
+
+The 5 options MUST match in clinical specificity, dosing precision, procedural detail, and register. A naive student who has not studied the underlying transfer rule must NOT be able to eliminate any distractor by surface-cue inspection alone — only by applying the clinical rule.
+
+ENFORCED BY: adversarial-student validator (R-OPT-06). Items where ≥2 distractors are eliminable by surface cues fail this rule and are auto-killed.
+
+Concrete pilot failures (regenerate distractors when you see these patterns):
+
+  BAD — distractor over-specificity vs concise correct answer:
+    Correct:     A. Begin IV insulin infusion
+    Distractor:  C. Initiate continuous norepinephrine infusion titrated to MAP 65 mmHg with central line placement
+    Why bad: C carries dosing target + procedural detail; A is bare. Naive student infers "the verbose ones are wrong." Eliminable by specificity cue.
+
+  BAD — distractor with absolute-language tell:
+    Correct:     A. Check serum potassium before insulin
+    Distractor:  B. Administer insulin immediately and first
+    Why bad: "immediately and first" is an absolute-language flag. Eliminable by absolute_language cue.
+
+  BAD — distractor with category mismatch:
+    Correct:     A. Plasma exchange
+    Distractor:  C. Hemodialysis with serial coagulation monitoring
+    Why bad: C is a renal intervention in a hematologic option set + has a monitoring qualifier the others lack. Eliminable by category_mismatch + specificity.
+
+  GOOD — matched specificity:
+    A. Heparin infusion
+    B. Systemic thrombolysis
+    C. Surgical embolectomy
+    D. Inferior vena cava filter placement
+    E. Observation with serial imaging
+    Why good: each option is a 2-5 word clinical action. Mix of verb-first and noun-first phrasing for natural variation (per OPTION CONSTRUCTION VARIATION). No single option carries dosing, monitoring, or target details the others lack.
+
+WRITER SELF-TEST (run before output): For each non-correct option, ask "Could I eliminate this option without knowing the clinical rule, using only how it's written?" If you can eliminate ≥2 distractors this way, REWRITE them. Specifically:
+  - If the correct answer has no dose, no distractor has a dose.
+  - If the correct answer has no monitoring target, no distractor has a monitoring target.
+  - If the correct answer has no qualifying clause (e.g., "with central line placement"), no distractor has one.
+  - If the correct answer is 3 words, no distractor exceeds 5 words.
+  - If the correct answer uses "Administer X," at least 2 distractors also use "Administer Y."
+  - Avoid "immediately," "always," "never," "first-line," "the only" — these are absolute-language tells.
+
+This rule is upstream of the option-symmetry-validator and the adversarial-student-validator. If you find yourself writing detailed distractors and bare correct answers, you are producing a known failure pattern — stop and either elaborate the correct answer to match OR strip the distractor detail.
+
 NBME FORMATTING STANDARDS (mandatory for every vignette):
 - Temperature: always Celsius-first dual units — "38.9°C (102.0°F)" NEVER "102°F (38.9°C)"
 - Pulse/respirations: always include "/min" — "pulse is 115/min"
@@ -515,7 +597,7 @@ Note the patterns: specific ages, specific histories ("10-year history of"), spe
 
 Write like a board exam, not a textbook. No teaching. No hints. Just clinical data and a question.`,
     user_prompt_template: `Blueprint node:\n{{blueprint_node}}\n\nAlgorithm card:\n{{algorithm_card}}\n\nItem plan:\n{{item_plan}}\n\nSupporting facts:\n{{fact_rows}}\n\nQuestion skeleton (if available — use option_frames to constrain answer choices):\n{{question_skeleton}}\n\nNBME official item-writing standards, 6th ed. 2024 (binding style/structure reference — authoritative on stem shape, options, patient characteristics, and flaws):\n{{nbme_style_anchors}}\n\nNBME authoritative lead-ins for this item's task_type (from 2024 Guide, Appendix B — pick ONE verbatim):\n{{nbme_lead_ins}}\n\nBoard review reference material incl. AMBOSS notes and NBME CCSS items (enriches vignette realism and distractor-design patterns — clinical truth comes from algorithm card and facts above):\n{{di_context}}\n\nBINDING: Your \`stem\` output MUST be one of the lead-ins from the NBME AUTHORITATIVE LEAD-INS block above, copied verbatim. Do not paraphrase. If no template fits, default to "Which of the following is the most appropriate next step in management?".\n\nWrite the clinical vignette following the 5-section structure and NBME voice examples. Return a JSON object with:\n- vignette: string (max 150 words, cold chart style, MUST follow the 5-section structure and include 2+ irrelevant normal lab values)\n- stem: string (the question — copied verbatim from the NBME AUTHORITATIVE LEAD-INS block)\n- choice_a through choice_e: string (5 answer choices — if skeleton provided, render each option_frame.meaning as NBME phrasing. Vary grammatical construction across options.)\n- correct_answer: "A"|"B"|"C"|"D"|"E" (must match skeleton.correct_option_frame_id if skeleton provided)\n- why_correct: string (brief explanation — NO first-person language, NO "The transfer rule states:" — walk through clinical reasoning then state principle as conclusion)\n- decision_hinge: string (the finding that distinguishes the answer)\n- competing_differential: string (main competing diagnosis/action)`,
-    notes: 'v6.2 (2026-04-22): Upgraded to NBME Item-Writing Guide 6th ed. 2024. Added {{nbme_lead_ins}} — task-type-filtered authoritative lead-ins from Appendix B that the vignette_writer MUST pick verbatim. Prior v6.1: Added NBME style anchors + broadened di_context to include AMBOSS + NBME CCSS.',
+    notes: 'v6.3 (2026-05-17): Added OPTION SPECIFICITY SYMMETRY (R-OPT-06) section after pilot re-audit (pilot/adversarial-audit-2026-05-16.md) showed 12/17 items had distractors with more clinical detail/dosing/procedural specificity than the correct answer — a surface-cue tell that makes them eliminable without knowing the rule. Includes concrete BAD/GOOD examples from the pilot and a writer self-test. v6.2 (2026-04-22): Upgraded to NBME Item-Writing Guide 6th ed. 2024. Added {{nbme_lead_ins}} — task-type-filtered authoritative lead-ins from Appendix B that the vignette_writer MUST pick verbatim. Prior v6.1: Added NBME style anchors + broadened di_context to include AMBOSS + NBME CCSS.',
   },
 
   // ─── MEDICAL VALIDATOR ───
