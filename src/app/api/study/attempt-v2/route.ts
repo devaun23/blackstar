@@ -212,6 +212,9 @@ export async function POST(req: NextRequest) {
       // v23 Rule 6 — metacognitive capture (null when client omits or answer correct)
       self_labeled_error: self_labeled_error ?? null,
       what_were_you_thinking: what_were_you_thinking ?? null,
+      // v29 item-analysis: per-distractor capture for psychometric aggregation
+      distractor_chosen: isCorrect ? null : selected_answer,
+      distractor_label: isCorrect ? null : (errorName ?? null),
     })
     .select('id')
     .single();

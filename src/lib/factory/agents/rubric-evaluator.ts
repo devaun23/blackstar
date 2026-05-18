@@ -24,6 +24,7 @@ import {
   type MasterDomainScores,
   type MasterRubricScore,
 } from '../schemas/master-rubric';
+import type { AdversarialStudentReport } from '../schemas/adversarial-report';
 import type { AgentContext, AgentOutput } from '@/lib/types/factory';
 import type {
   ItemDraftRow,
@@ -44,6 +45,13 @@ export interface RubricEvaluatorInput {
   validatorReports: Partial<Record<string, ValidatorReportRow>>;
   /** Optional: existing 1-5 rubric_scorer overall score for explanation-quality nudge. */
   rubricScorerOverall?: number | null;
+  /**
+   * v27 B1: Adversarial-student-validator report. Advisory in v27 per REJECTION_RULES
+   * R-OPT-06 — surfaced in notes so reviewers can see the eliminability signal, but
+   * does NOT yet impact scoring or hard gates. Promotion to hard-gate happens after
+   * B7 re-audit shows the signal is reliable.
+   */
+  adversarialReport?: AdversarialStudentReport | null;
   model?: string;
 }
 
@@ -93,7 +101,7 @@ export async function run(
   context: AgentContext,
   input: RubricEvaluatorInput,
 ): Promise<AgentOutput<MasterRubricScore & { rubricScoreId: string | null }>> {
-  const { draft, casePlan, node, confusionSet, cognitiveErrorNames, validatorReports, rubricScorerOverall = null, model } = input;
+  const { draft, casePlan, node, confusionSet, cognitiveErrorNames, validatorReports, rubricScorerOverall = null, adversarialReport = null, model } = input;
 
   // ── Step 1: Deterministic hard-gate pre-check ─────────────────────────────
   const hardGateInput: HardGateInput = {
@@ -229,7 +237,12 @@ export async function run(
   const v23Note = v23Gaps.length > 0
     ? `v23_strict_missing: ${v23Gaps.join(', ')}. `
     : '';
-  const composedNotes = (v23Note + (llm.notes ?? '')).trim() || null;
+  // v27 B1 advisory: surface adversarial-student eliminability in notes when the
+  // item failed surface-cue scrutiny. Does not impact score in v27.
+  const advNote = adversarialReport && !adversarialReport.passed
+    ? `adversarial_student[advisory]: ${adversarialReport.surviving_distractor_count}/4 distractors survived. ${adversarialReport.issues_found.join(' | ')}. `
+    : '';
+  const composedNotes = (v23Note + advNote + (llm.notes ?? '')).trim() || null;
 
   const finalScore: MasterRubricScore = {
     item_id: draft.id,

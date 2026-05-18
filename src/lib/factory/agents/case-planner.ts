@@ -53,12 +53,55 @@ export async function run(
     return null;
   }
 
+  // The LLM consistently emits diagnostic-workup synonyms that aren't in the
+  // cognitive_operation enum. Wells ≥5 → CTPA is a threshold trigger, so these
+  // all map to threshold_recognition. Explicit aliases are tried first; if the
+  // input still doesn't validate, a fuzzy fallback below catches anything
+  // containing "diagnostic", "test", or "workup".
+  const COGNITIVE_OP_ALIASES: Record<string, string> = {
+    'diagnostic_test': 'threshold_recognition',
+    'diagnostic_test_selection': 'threshold_recognition',
+    'diagnostic_sequencing': 'threshold_recognition',
+    'test_selection': 'threshold_recognition',
+    'test_ordering': 'threshold_recognition',
+    'diagnostic_workup': 'threshold_recognition',
+    'workup_selection': 'threshold_recognition',
+    'treatment_selection': 'management_sequencing',
+    'treatment_choice': 'management_sequencing',
+    'diagnosis': 'diagnosis_disambiguation',
+  };
+  const VALID_COGNITIVE_OPS = new Set([
+    'rule_application', 'threshold_recognition', 'diagnosis_disambiguation',
+    'management_sequencing', 'risk_stratification',
+  ]);
+
+  function remapCognitiveOp(val: unknown): unknown {
+    if (typeof val !== 'string') return val;
+    if (VALID_COGNITIVE_OPS.has(val)) return val;
+    if (COGNITIVE_OP_ALIASES[val]) return COGNITIVE_OP_ALIASES[val];
+    const lower = val.toLowerCase();
+    if (lower.includes('diagnos') || lower.includes('test') || lower.includes('workup')) {
+      console.warn(`[case-planner] Fuzzy-remapping cognitive_operation_type="${val}" → "threshold_recognition"`);
+      return 'threshold_recognition';
+    }
+    if (lower.includes('treat') || lower.includes('manag') || lower.includes('sequenc')) {
+      console.warn(`[case-planner] Fuzzy-remapping cognitive_operation_type="${val}" → "management_sequencing"`);
+      return 'management_sequencing';
+    }
+    if (lower.includes('risk') || lower.includes('stratif')) {
+      console.warn(`[case-planner] Fuzzy-remapping cognitive_operation_type="${val}" → "risk_stratification"`);
+      return 'risk_stratification';
+    }
+    return val;
+  }
+
   // Schema that preprocesses the entire object to resolve names→UUIDs before validation
   const resolvedSchema = z.preprocess((raw) => {
     if (!raw || typeof raw !== 'object') return raw;
     const obj = raw as Record<string, unknown>;
     return {
       ...obj,
+      cognitive_operation_type: remapCognitiveOp(obj.cognitive_operation_type),
       target_cognitive_error_id: resolveId(obj.target_cognitive_error_id, [errorNameToId]),
       target_confusion_set_id: resolveId(obj.target_confusion_set_id, [confusionNameToId]),
       target_transfer_rule_id: resolveId(obj.target_transfer_rule_id, [transferTextToId]),

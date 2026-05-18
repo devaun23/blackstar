@@ -31,3 +31,6 @@ export * as adversarialStudentValidator from './adversarial-student-validator';
 
 // v27 jury battle-test (B2) — second-model attempt + classifier
 export * as juryValidator from './jury-validator';
+
+// v27 B2 refine loop — post-rubric-decision field-level repair instructions
+export * as refineAgent from './refine-agent';

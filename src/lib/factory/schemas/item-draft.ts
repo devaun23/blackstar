@@ -3,6 +3,12 @@ import { visualSpecSchema } from './visual-specs';
 
 export const correctAnswerEnum = z.enum(['A', 'B', 'C', 'D', 'E']);
 
+// Source provenance — populated by vignette-writer from the algorithm card.
+// Enforced by the source-firewall skill (R-IP-03). Nullable on the schema so
+// existing items predating the firewall remain valid; new items written by the
+// post-firewall pipeline always populate these.
+export const sourceTierEnum = z.enum(['A', 'B']);
+
 export const itemDraftSchema = z.object({
   vignette: z.string().min(50),
   stem: z.string().min(10),
@@ -23,6 +29,10 @@ export const itemDraftSchema = z.object({
   decision_hinge: z.string().nullable().optional(),
   competing_differential: z.string().nullable().optional(),
   visual_specs: z.array(visualSpecSchema).nullable().optional(),
+  source_pack_id: z.string().min(1).nullable().optional(),
+  source_name: z.string().min(1).nullable().optional(),
+  source_tier: sourceTierEnum.nullable().optional(),
+  source_citations: z.array(z.string().min(1)).nullable().optional(),
 });
 
 // Rule 4 — Down-to-two discrimination block, always emitted by explanation_writer

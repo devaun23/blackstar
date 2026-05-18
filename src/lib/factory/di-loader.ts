@@ -3,8 +3,23 @@
 // for agent consumption. Queries the di_evidence_item table across all sources.
 // Agents receive review items as a supplemental context block alongside guideline source packs.
 
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+
 import { createAdminClient } from '@/lib/supabase/admin';
 import type { DIEvidenceItemRow, DIItemType, ReviewSource } from '@/lib/di/types';
+
+// ╔══════════════════════════════════════════════════════════════════════════╗
+// ║  DO NOT COMMIT — n=1 experiment override (Phase A of plan                ║
+// ║  ~/.claude/plans/is-this-solvable-toasty-lerdorf.md).                    ║
+// ║                                                                          ║
+// ║  When BLACKSTAR_N1_OVERRIDE=1, resolveDIContext returns the Tier-A       ║
+// ║  reference text in pilot/n1-experiment/refs.md instead of querying       ║
+// ║  the di_evidence_item table (which sources are now firewall-forbidden).  ║
+// ║                                                                          ║
+// ║  Revert: delete this constant + the early-return block in resolveDIContext.║
+// ╚══════════════════════════════════════════════════════════════════════════╝
+const N1_OVERRIDE_FILE = 'pilot/n1-experiment/refs.md';
 
 interface DILoaderOptions {
   /** Filter by item type(s). If omitted, returns all types. */
@@ -31,6 +46,13 @@ export async function resolveDIContext(
   topic: string,
   options?: DILoaderOptions,
 ): Promise<string> {
+  // DO NOT COMMIT — n=1 experiment override (see top-of-file banner).
+  if (process.env.BLACKSTAR_N1_OVERRIDE === '1') {
+    const path = resolve(process.cwd(), N1_OVERRIDE_FILE);
+    const raw = await readFile(path, 'utf8');
+    return `═══ TIER-A REFERENCE (n=1 OVERRIDE) ═══\n[topic requested: ${topic}]\n\n${raw}`;
+  }
+
   const maxItems = options?.maxItems ?? 50;
   const supabase = createAdminClient();
 

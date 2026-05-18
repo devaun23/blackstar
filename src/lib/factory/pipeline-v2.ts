@@ -26,6 +26,7 @@ import { loadPack } from './source-packs/index';
 import { getSourcePackIds } from './source-loader';
 import type { SourcePack } from './source-packs/types';
 import type { DrugOption } from './agents/explanation-writer';
+import type { AdversarialStudentReport } from './schemas/adversarial-report';
 import { validateVisualSpecs } from './validators/visual-spec-validator';
 import { runJuryValidation, DEFAULT_JURY_CONFIG, type JuryConfig, type JuryVerdict } from './jury';
 
@@ -558,6 +559,13 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
     const medicalSampleCount = config.validatorSampleCount ?? 3;
     const juryVerdicts: JuryVerdict[] = [];
     let passed = false;
+    // Tracks the actual DB-written status after rubric routing. Set when
+    // publishStatus is computed below. The returned finalStatus is derived
+    // from this so callers see what the DB holds, not just what validators
+    // passed. Defaults to null when the pipeline never reached the rubric
+    // step (early kill); the return logic falls back to passed-derived
+    // status in that case.
+    let finalDbStatus: 'published' | 'needs_human_review' | 'killed' | null = null;
     // Track scores across cycles for flat-line early kill
     const cycleScores: Array<{ failCount: number; totalScore: number }> = [];
     // v25 CCV circuit breaker: count absolute-contraindication auto-rejects on this
@@ -961,6 +969,34 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
         }
         const drugOptions = await resolveDrugOptions(node.topic, passedDraft as ItemDraftRow);
 
+        // ─── STEP 7.5: Adversarial Student Validator (v27 B1) ───
+        // Smart-student surface-cue eliminability check. Advisory in v27 per
+        // REJECTION_RULES R-OPT-06 — surfaced in rubric notes for reviewers,
+        // does not yet impact scoring or hard gates. Runs here because it needs
+        // the final rendered draft (post-shuffle) but not the explanation.
+        let adversarialReport: AdversarialStudentReport | null = null;
+        try {
+          adversarialReport = await trackStep('adversarial_student_validator' as AgentType, () =>
+            agents.adversarialStudentValidator.run(context, {
+              draft: passedDraft as ItemDraftRow,
+              plan: plan as ItemPlanRow | null,
+              casePlan: casePlan as CasePlanRow | null,
+            })
+          );
+          if (adversarialReport && !adversarialReport.passed) {
+            console.warn(
+              `[pipeline-v2] Adversarial-student flagged ${draftId.slice(0, 8)}: ` +
+              `${adversarialReport.surviving_distractor_count}/4 distractors survived. ` +
+              `Cues: ${adversarialReport.eliminability_cues_flagged.join(', ')}. ` +
+              `Advisory only (R-OPT-06 advisory in v27).`
+            );
+          }
+        } catch (advErr) {
+          // Advisory validator: never block the pipeline on its failure.
+          const msg = advErr instanceof Error ? advErr.message : String(advErr);
+          console.warn(`[pipeline-v2] Adversarial-student validator threw; continuing without it. Error: ${msg}`);
+        }
+
         await trackStep('explanation_writer', () =>
           agents.explanationWriter.run(context, {
             draft: passedDraft as ItemDraftRow,
@@ -1163,6 +1199,7 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
               cognitiveErrorNames,
               validatorReports: reportsByType,
               rubricScorerOverall,
+              adversarialReport,
               ...(config.evaluatorModel ? { model: config.evaluatorModel } : {}),
             })
           );
@@ -1173,22 +1210,145 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
             console.warn('[pipeline-v2] rubric_evaluator returned no decision; routing to major_revision');
             rubricDecision = 'major_revision';
           }
+
+          // ─── STEP 9.5: Refine Loop (v27 B2) ───
+          // If the rubric routes the item to revise/major_revision and we have
+          // refine budget left, ask refine-agent for structured RevisionInstructions,
+          // re-render via vignette-writer, and re-evaluate. Capped at MAX_REPAIR_CYCLES
+          // per R-PIPE-01 (shared budget with validator-loop's repair-agent).
+          //
+          // Why we DON'T re-run validators on refine cycles: refine-agent's system
+          // prompt explicitly forbids medical content changes (see refine-agent.ts
+          // SYSTEM_PROMPT rule 4 — "Medical correctness is upstream"). It critiques
+          // structure, hinge depth, distractor plausibility, explanation alignment,
+          // NBME stem fidelity only. Hard gates inside rubric-evaluator's
+          // deterministic pre-check still fire if a regression slips through.
+          let currentRubricResult = rubricResult;
+          while (
+            (rubricDecision === 'revise' || rubricDecision === 'major_revision') &&
+            currentRubricResult &&
+            'publish_decision' in currentRubricResult
+          ) {
+            const { data: cycleDraft } = await supabase
+              .from('item_draft')
+              .select('refine_cycle')
+              .eq('id', draftId)
+              .single();
+            const currentCycle = (cycleDraft?.refine_cycle as number | null) ?? 0;
+            if (currentCycle >= MAX_REPAIR_CYCLES) break;
+
+            // 1. Refine-agent emits structured instructions
+            const { data: refineInputDraft } = await supabase
+              .from('item_draft')
+              .select('*')
+              .eq('id', draftId)
+              .single();
+            if (!refineInputDraft) break;
+
+            let refineInstructions;
+            try {
+              refineInstructions = await trackStep('refine_agent' as AgentType, () =>
+                agents.refineAgent.run(context, {
+                  draft: refineInputDraft as ItemDraftRow,
+                  rubricScore: currentRubricResult,
+                  cycle: (currentCycle + 1) as 1 | 2 | 3,
+                })
+              );
+            } catch (refineErr) {
+              const msg = refineErr instanceof Error ? refineErr.message : String(refineErr);
+              console.warn(`[pipeline-v2] Refine cycle ${currentCycle + 1}: refine-agent threw; exiting loop. Error: ${msg}`);
+              break;
+            }
+
+            if (!refineInstructions || refineInstructions.instructions.length === 0) {
+              console.warn(`[pipeline-v2] Refine cycle ${currentCycle + 1}: agent returned no instructions; exiting refine loop`);
+              break;
+            }
+
+            // 2. Increment cycle counter (durable so a mid-loop crash doesn't restart at 0)
+            await supabase
+              .from('item_draft')
+              .update({ refine_cycle: currentCycle + 1 })
+              .eq('id', draftId);
+
+            // 3. Re-render via vignette-writer with the field-level fixes
+            try {
+              await trackStep('vignette_writer', () =>
+                agents.vignetteWriter.run(context, {
+                  node,
+                  card: card as AlgorithmCardRow,
+                  plan: plan as ItemPlanRow,
+                  facts: facts as FactRowRow[],
+                  pipelineRunId,
+                  skeleton: skeleton as QuestionSkeletonRow,
+                  revisionInstructions: refineInstructions,
+                })
+              );
+            } catch (renderErr) {
+              const msg = renderErr instanceof Error ? renderErr.message : String(renderErr);
+              console.warn(`[pipeline-v2] Refine cycle ${currentCycle + 1}: vignette-writer re-render failed; exiting loop. Error: ${msg}`);
+              break;
+            }
+
+            // 4. Re-fetch the refined draft and re-evaluate the rubric
+            const { data: refinedDraft } = await supabase
+              .from('item_draft')
+              .select('*')
+              .eq('id', draftId)
+              .single();
+            if (!refinedDraft) {
+              console.warn(`[pipeline-v2] Refine cycle ${currentCycle + 1}: refined draft fetch returned null; exiting`);
+              break;
+            }
+
+            currentRubricResult = await trackStep('rubric_evaluator' as AgentType, () =>
+              agents.rubricEvaluator.run(context, {
+                draft: refinedDraft as ItemDraftRow,
+                casePlan: casePlan as CasePlanRow | null,
+                node: node ?? null,
+                confusionSet,
+                cognitiveErrorNames,
+                validatorReports: reportsByType,
+                rubricScorerOverall,
+                adversarialReport,
+                ...(config.evaluatorModel ? { model: config.evaluatorModel } : {}),
+              })
+            );
+
+            if (currentRubricResult && 'publish_decision' in currentRubricResult) {
+              rubricDecision = currentRubricResult.publish_decision;
+            } else {
+              console.warn(`[pipeline-v2] Refine cycle ${currentCycle + 1}: rubric_evaluator returned no decision; routing to major_revision`);
+              rubricDecision = 'major_revision';
+              break;
+            }
+          }
         }
 
         // Publish status driven by Master Rubric decision.
         //   publish        → status='published', review_status='pending_review' or flagged
-        //   revise         → status='published', review_status='needs_revision'
+        //   revise         → status='needs_human_review', review_status='needs_revision'
         //   major_revision → status='needs_human_review'
         //   reject         → status='killed'
+        //
+        // 'revise' previously routed to status='published' + review_status='needs_revision'.
+        // src/lib/learner/selector.ts queries item_draft by .eq('status','published') with no
+        // review_status filter, so revision-flagged items were reaching learners. Demoted to
+        // 'needs_human_review' to close that gap.
+        // Backfill (run once in Supabase Studio):
+        //   UPDATE item_draft SET status='needs_human_review'
+        //     WHERE status='published' AND review_status='needs_revision';
         let publishStatus: 'published' | 'needs_human_review' | 'killed' = 'published';
         let publishReviewStatus: 'pending_review' | 'flagged_uncertain' | 'needs_revision' = reviewStatus;
         if (rubricDecision === 'revise') {
+          publishStatus = 'needs_human_review';
           publishReviewStatus = 'needs_revision';
         } else if (rubricDecision === 'major_revision') {
           publishStatus = 'needs_human_review';
         } else if (rubricDecision === 'reject') {
           publishStatus = 'killed';
         }
+        finalDbStatus = publishStatus;
 
         // Publish — try with review_status, fall back to just status if column missing
         const publishResult = await supabase
@@ -1224,9 +1384,14 @@ export async function runPipelineV2(config: PipelineConfig): Promise<PipelineRes
     }
 
     // ─── Finalize pipeline run ───
-    const finalStatus = passed
-      ? (config.skipExplanation ? 'passed' : 'published')
-      : 'killed';
+    // Prefer the DB-written status set by the rubric step. Falls back to
+    // passed-derived status only when the rubric never ran (skipRubricEvaluator,
+    // skipExplanation, or an early kill). This makes the returned finalStatus
+    // match item_draft.status; without this, callers see 'published' for items
+    // the rubric demoted to 'needs_human_review' or 'killed'.
+    const finalStatus =
+      finalDbStatus
+        ?? (passed ? (config.skipExplanation ? 'passed' : 'published') : 'killed');
 
     // Build jury summary if jury was used
     const jurySummary = juryVerdicts.length > 0
