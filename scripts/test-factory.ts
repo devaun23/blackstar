@@ -209,13 +209,13 @@ const explanationOutputSchema = z.object({
 const BLUEPRINT_NODES: Record<string, Record<string, string>> = {
   'Acute Coronary Syndrome': { shelf: 'medicine', system: 'Cardiology', topic: 'Acute Coronary Syndrome', subtopic: 'STEMI', task_type: 'next_step', clinical_setting: 'ed', age_group: 'middle_aged', time_horizon: 'immediate', yield_tier: 'tier_1' },
   'Heart Failure': { shelf: 'medicine', system: 'Cardiology', topic: 'Heart Failure', subtopic: 'Acute Decompensated', task_type: 'next_step', clinical_setting: 'inpatient', age_group: 'elderly', time_horizon: 'hours', yield_tier: 'tier_1' },
-  'Pneumonia': { shelf: 'medicine', system: 'Pulmonology', topic: 'Pneumonia', subtopic: 'Community-Acquired', task_type: 'management', clinical_setting: 'ed', age_group: 'elderly', time_horizon: 'hours', yield_tier: 'tier_1' },
-  'Diabetic Ketoacidosis': { shelf: 'medicine', system: 'Endocrine', topic: 'Diabetic Ketoacidosis', subtopic: 'Initial Management', task_type: 'next_step', clinical_setting: 'ed', age_group: 'young_adult', time_horizon: 'immediate', yield_tier: 'tier_1' },
-  'Pulmonary Embolism': { shelf: 'medicine', system: 'Pulmonology', topic: 'Pulmonary Embolism', subtopic: 'Diagnosis and Management', task_type: 'diagnosis', clinical_setting: 'ed', age_group: 'middle_aged', time_horizon: 'immediate', yield_tier: 'tier_1' },
+  'Pneumonia': { shelf: 'medicine', system: 'Pulmonary', topic: 'Pneumonia', subtopic: 'Community-Acquired', task_type: 'management', clinical_setting: 'ed', age_group: 'elderly', time_horizon: 'hours', yield_tier: 'tier_1' },
+  'Diabetic Ketoacidosis': { shelf: 'medicine', system: 'Endocrinology', topic: 'Diabetic Ketoacidosis', subtopic: 'Initial Management', task_type: 'next_step', clinical_setting: 'ed', age_group: 'young_adult', time_horizon: 'immediate', yield_tier: 'tier_1' },
+  'Pulmonary Embolism': { shelf: 'medicine', system: 'Pulmonary', topic: 'Pulmonary Embolism', subtopic: 'Diagnosis and Management', task_type: 'diagnosis', clinical_setting: 'ed', age_group: 'middle_aged', time_horizon: 'immediate', yield_tier: 'tier_1' },
   'GI Bleed': { shelf: 'medicine', system: 'Gastroenterology', topic: 'Gastrointestinal Bleeding', subtopic: 'Upper GI Bleed', task_type: 'next_step', clinical_setting: 'ed', age_group: 'elderly', time_horizon: 'immediate', yield_tier: 'tier_1' },
   'Acute Pancreatitis': { shelf: 'medicine', system: 'Gastroenterology', topic: 'Acute Pancreatitis', subtopic: 'Severity Assessment', task_type: 'management', clinical_setting: 'ed', age_group: 'middle_aged', time_horizon: 'hours', yield_tier: 'tier_1' },
   'Sepsis': { shelf: 'medicine', system: 'Infectious Disease', topic: 'Sepsis', subtopic: 'Initial Resuscitation', task_type: 'next_step', clinical_setting: 'ed', age_group: 'elderly', time_horizon: 'immediate', yield_tier: 'tier_1' },
-  'Stroke': { shelf: 'medicine', system: 'Neurology', topic: 'Stroke', subtopic: 'Acute Ischemic', task_type: 'next_step', clinical_setting: 'ed', age_group: 'elderly', time_horizon: 'immediate', yield_tier: 'tier_1' },
+  'Stroke': { shelf: 'medicine', system: 'Neurology-within-IM', topic: 'Stroke', subtopic: 'Acute Ischemic', task_type: 'next_step', clinical_setting: 'ed', age_group: 'elderly', time_horizon: 'immediate', yield_tier: 'tier_1' },
   'Atrial Fibrillation': { shelf: 'medicine', system: 'Cardiology', topic: 'Atrial Fibrillation', subtopic: 'Rate vs Rhythm Control', task_type: 'management', clinical_setting: 'ed', age_group: 'elderly', time_horizon: 'hours', yield_tier: 'tier_1' },
 };
 
