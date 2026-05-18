@@ -123,6 +123,25 @@ export const explanationOutputSchema = z.object({
     license_tag: z.string(),
     alt_text: z.string(),
   }).nullable().optional(),
+}).superRefine((data, ctx) => {
+  // Each of the 4 distractors needs its own why_wrong explanation; only the
+  // correct option is allowed to be null. Audit on 2026-05-16 caught two items
+  // (1 and 6) that shipped with 4 of 5 why_wrong fields null because the per-
+  // field `nullable().optional()` let partial agent output through. ≥4 of 5
+  // populated with ≥20 chars catches the regression without forcing the model
+  // to invent a why_wrong for the correct option.
+  const wrongFields = ['why_wrong_a', 'why_wrong_b', 'why_wrong_c', 'why_wrong_d', 'why_wrong_e'] as const;
+  const populated = wrongFields.filter((k) => {
+    const v = (data as Record<string, unknown>)[k];
+    return typeof v === 'string' && v.trim().length >= 20;
+  });
+  if (populated.length < 4) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `explanation_writer must populate ≥4 why_wrong_* fields (each ≥20 chars). Got ${populated.length}: ${populated.join(', ') || 'none'}. Each distractor needs an explanation of why a student would be tempted to pick it.`,
+      path: ['why_wrong_*'],
+    });
+  }
 });
 
 export type ItemDraftInput = z.infer<typeof itemDraftSchema>;
